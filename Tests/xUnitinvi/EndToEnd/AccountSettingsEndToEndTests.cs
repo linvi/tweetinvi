@@ -18,21 +18,21 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task ChangeImagesTests()
+        public async Task ChangeImagesTestsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             // act
-            var authenticatedUser = await _protectedClient.Users.GetAuthenticatedUser();
+            var authenticatedUser = await _protectedClient.Users.GetAuthenticatedUserAsync();
             var profile = File.ReadAllBytes("./tweetinvi-logo-purple.png");
             var banner = File.ReadAllBytes("./banner.jpg");
-            await _protectedClient.AccountSettings.UpdateProfileImage(profile);
-            await _protectedClient.AccountSettings.UpdateProfileBanner(banner);
-            var userAfterAddingBanner = await _protectedClient.Users.GetUser(authenticatedUser);
+            await _protectedClient.AccountSettings.UpdateProfileImageAsync(profile);
+            await _protectedClient.AccountSettings.UpdateProfileBannerAsync(banner);
+            var userAfterAddingBanner = await _protectedClient.Users.GetUserAsync(authenticatedUser);
 
-            await _protectedClient.AccountSettings.RemoveProfileBanner();
-            var userAfterRemovingBanner = await _protectedClient.Users.GetUser(authenticatedUser);
+            await _protectedClient.AccountSettings.RemoveProfileBannerAsync();
+            var userAfterRemovingBanner = await _protectedClient.Users.GetUserAsync(authenticatedUser);
 
             // assert
             Assert.NotEqual(authenticatedUser.ProfileImageUrl, userAfterAddingBanner.ProfileImageUrl);
@@ -41,12 +41,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task AccountProfileTests()
+        public async Task AccountProfileTestsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var initialProfile = await _protectedClient.Users.GetAuthenticatedUser();
+            var initialProfile = await _protectedClient.Users.GetAuthenticatedUserAsync();
 
             // act
             var updatedProfileParameters = new UpdateProfileParameters
@@ -58,7 +58,7 @@ namespace xUnitinvi.EndToEnd
                 ProfileLinkColor = "F542B9"
             };
 
-            var newProfile = await _protectedClient.AccountSettings.UpdateProfile(updatedProfileParameters);
+            var newProfile = await _protectedClient.AccountSettings.UpdateProfileAsync(updatedProfileParameters);
 
             var restoredProfileParameters = new UpdateProfileParameters
             {
@@ -69,7 +69,7 @@ namespace xUnitinvi.EndToEnd
                 ProfileLinkColor = initialProfile.ProfileLinkColor
             };
 
-            var restoredProfile = await _protectedClient.AccountSettings.UpdateProfile(restoredProfileParameters);
+            var restoredProfile = await _protectedClient.AccountSettings.UpdateProfileAsync(restoredProfileParameters);
 
             // assert
             Assert.Equal($"{initialProfile.Name}_42", newProfile.Name);
@@ -94,12 +94,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task AccountSettingsTests()
+        public async Task AccountSettingsTestsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var initialSettings = await _protectedClient.AccountSettings.GetAccountSettings();
+            var initialSettings = await _protectedClient.AccountSettings.GetAccountSettingsAsync();
 
             var newSettings = new UpdateAccountSettingsParameters
             {
@@ -111,9 +111,9 @@ namespace xUnitinvi.EndToEnd
                 TrendLocationWoeid = 580778
             };
 
-            var updatedSettings = await _protectedClient.AccountSettings.UpdateAccountSettings(newSettings);
+            var updatedSettings = await _protectedClient.AccountSettings.UpdateAccountSettingsAsync(newSettings);
 
-            var recoveredSettings = await _protectedClient.AccountSettings.UpdateAccountSettings(new UpdateAccountSettingsParameters
+            var recoveredSettings = await _protectedClient.AccountSettings.UpdateAccountSettingsAsync(new UpdateAccountSettingsParameters
             {
                 DisplayLanguage = initialSettings.Language,
                 TimeZone = initialSettings.TimeZone.TzinfoName,

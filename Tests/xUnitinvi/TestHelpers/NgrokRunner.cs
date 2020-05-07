@@ -30,7 +30,7 @@ namespace xUnitinvi.TestHelpers
             _process.Start();
         }
 
-        public async Task<string> GetUrl()
+        public async Task<string> GetUrlAsync()
         {
             if (_url == null)
             {

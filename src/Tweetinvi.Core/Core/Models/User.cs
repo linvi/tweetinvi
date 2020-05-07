@@ -180,68 +180,68 @@ namespace Tweetinvi.Core.Models
         }
 
         // Relationship
-        public Task<IRelationshipDetails> GetRelationshipWith(IUserIdentifier user)
+        public Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
         {
-            return Client.Users.GetRelationshipBetween(this, user);
+            return Client.Users.GetRelationshipBetweenAsync(this, user);
         }
 
-        public Task<IRelationshipDetails> GetRelationshipWith(long userId)
+        public Task<IRelationshipDetails> GetRelationshipWithAsync(long userId)
         {
-            return Client.Users.GetRelationshipBetween(this, userId);
+            return Client.Users.GetRelationshipBetweenAsync(this, userId);
         }
 
-        public Task<IRelationshipDetails> GetRelationshipWith(string username)
+        public Task<IRelationshipDetails> GetRelationshipWithAsync(string username)
         {
-            return Client.Users.GetRelationshipBetween(this, username);
+            return Client.Users.GetRelationshipBetweenAsync(this, username);
         }
 
         // Timeline
-        public Task<ITweet[]> GetUserTimeline()
+        public Task<ITweet[]> GetUserTimelineAsync()
         {
-            return Client.Timelines.GetUserTimeline(this);
+            return Client.Timelines.GetUserTimelineAsync(this);
         }
 
         // Favorites
-        public virtual Task<ITweet[]> GetFavoriteTweets()
+        public virtual Task<ITweet[]> GetFavoriteTweetsAsync()
         {
-            return Client.Tweets.GetUserFavoriteTweets(this);
+            return Client.Tweets.GetUserFavoriteTweetsAsync(this);
         }
 
         // Lists
-        public Task<ITwitterList[]> GetListSubscriptions()
+        public Task<ITwitterList[]> GetListSubscriptionsAsync()
         {
-            return Client.Lists.GetUserListSubscriptions(this);
+            return Client.Lists.GetUserListSubscriptionsAsync(this);
         }
 
-        public Task<ITwitterList[]> GetOwnedLists()
+        public Task<ITwitterList[]> GetOwnedListsAsync()
         {
-            return Client.Lists.GetListsOwnedByUser(new GetListsOwnedByAccountByUserParameters(this));
+            return Client.Lists.GetListsOwnedByUserAsync(new GetListsOwnedByAccountByUserParameters(this));
         }
 
         // Block User
-        public virtual Task BlockUser()
+        public virtual Task BlockUserAsync()
         {
-            return Client.Users.BlockUser(this);
+            return Client.Users.BlockUserAsync(this);
         }
 
-        public virtual Task UnblockUser()
+        public virtual Task UnblockUserAsync()
         {
-            return Client.Users.UnblockUser(this);
+            return Client.Users.UnblockUserAsync(this);
         }
 
         // Spam
-        public virtual Task ReportUserForSpam()
+        public virtual Task ReportUserForSpamAsync()
         {
-            return Client.Users.ReportUserForSpam(this);
+            return Client.Users.ReportUserForSpamAsync(this);
         }
 
         // Stream Profile Image
-        public Task<Stream> GetProfileImageStream()
+        public Task<Stream> GetProfileImageStreamAsync()
         {
-            return GetProfileImageStream(ImageSize.Normal);
+            return GetProfileImageStreamAsync(ImageSize.Normal);
         }
 
-        public Task<Stream> GetProfileImageStream(ImageSize imageSize)
+        public Task<Stream> GetProfileImageStreamAsync(ImageSize imageSize)
         {
             return Client.Users.GetProfileImageStream(new GetProfileImageParameters(this)
             {

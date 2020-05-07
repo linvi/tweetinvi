@@ -19,58 +19,58 @@ namespace Tweetinvi.Client
 
         public IAccountSettingsClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
-        public Task<IAccountSettings> GetAccountSettings()
+        public Task<IAccountSettings> GetAccountSettingsAsync()
         {
-            return GetAccountSettings(new GetAccountSettingsParameters());
+            return GetAccountSettingsAsync(new GetAccountSettingsParameters());
         }
 
-        public async Task<IAccountSettings> GetAccountSettings(IGetAccountSettingsParameters parameters)
+        public async Task<IAccountSettings> GetAccountSettingsAsync(IGetAccountSettingsParameters parameters)
         {
-            var twitterResult = await _accountRequester.GetAccountSettings(parameters).ConfigureAwait(false);
+            var twitterResult = await _accountRequester.GetAccountSettingsAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateAccountSettings(twitterResult?.DataTransferObject);
         }
 
-        public async Task<IAccountSettings> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters)
+        public async Task<IAccountSettings> UpdateAccountSettingsAsync(IUpdateAccountSettingsParameters parameters)
         {
-            var twitterResult = await _accountRequester.UpdateAccountSettings(parameters).ConfigureAwait(false);
+            var twitterResult = await _accountRequester.UpdateAccountSettingsAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateAccountSettings(twitterResult?.DataTransferObject);
         }
 
-        public async Task<IAuthenticatedUser> UpdateProfile(IUpdateProfileParameters parameters)
+        public async Task<IAuthenticatedUser> UpdateProfileAsync(IUpdateProfileParameters parameters)
         {
-            var twitterResult = await _accountRequester.UpdateProfile(parameters).ConfigureAwait(false);
+            var twitterResult = await _accountRequester.UpdateProfileAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateAuthenticatedUser(twitterResult?.DataTransferObject);
         }
 
-        public Task<IUser> UpdateProfileImage(byte[] binary)
+        public Task<IUser> UpdateProfileImageAsync(byte[] binary)
         {
-            return UpdateProfileImage(new UpdateProfileImageParameters(binary));
+            return UpdateProfileImageAsync(new UpdateProfileImageParameters(binary));
         }
 
-        public async Task<IUser> UpdateProfileImage(IUpdateProfileImageParameters parameters)
+        public async Task<IUser> UpdateProfileImageAsync(IUpdateProfileImageParameters parameters)
         {
-            var twitterResult = await _accountRequester.UpdateProfileImage(parameters).ConfigureAwait(false);
+            var twitterResult = await _accountRequester.UpdateProfileImageAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateUser(twitterResult?.DataTransferObject);
         }
 
-        public Task UpdateProfileBanner(byte[] binary)
+        public Task UpdateProfileBannerAsync(byte[] binary)
         {
-            return UpdateProfileBanner(new UpdateProfileBannerParameters(binary));
+            return UpdateProfileBannerAsync(new UpdateProfileBannerParameters(binary));
         }
 
-        public Task UpdateProfileBanner(IUpdateProfileBannerParameters parameters)
+        public Task UpdateProfileBannerAsync(IUpdateProfileBannerParameters parameters)
         {
-            return _accountRequester.UpdateProfileBanner(parameters);
+            return _accountRequester.UpdateProfileBannerAsync(parameters);
         }
 
-        public Task RemoveProfileBanner()
+        public Task RemoveProfileBannerAsync()
         {
-            return RemoveProfileBanner(new RemoveProfileBannerParameters());
+            return RemoveProfileBannerAsync(new RemoveProfileBannerParameters());
         }
 
-        public Task RemoveProfileBanner(IRemoveProfileBannerParameters parameters)
+        public Task RemoveProfileBannerAsync(IRemoveProfileBannerParameters parameters)
         {
-            return _accountRequester.RemoveProfileBanner(parameters);
+            return _accountRequester.RemoveProfileBannerAsync(parameters);
         }
     }
 }

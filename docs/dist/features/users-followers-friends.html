@@ -190,10 +190,10 @@
 <div class="section" id="add-friend">
 <h2>Add Friend<a class="headerlink" href="#add-friend" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// follow a user</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">FollowUser</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">FollowUserAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 
 <span class="c1">// stop following a user</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnfollowUser</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnfollowUserAsync</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -202,13 +202,13 @@
 <blockquote>
 <div><p>List the users followed by a specific user.</p>
 </div></blockquote>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">friendIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriendIds</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">friendIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriendIdsAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">friendIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriendIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFriendIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
 </pre></div>
 </div>
 </div><p>Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.</p>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">friends</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriends</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">friends</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriendsAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">friendsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriendsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFriendsParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
 </pre></div>
@@ -216,13 +216,13 @@
 </div></div>
 <div class="section" id="list-followers">
 <h2>List Followers<a class="headerlink" href="#list-followers" title="Permalink to this headline">¶</a></h2>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">followerIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowerIds</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">followerIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowerIdsAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">followerIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowerIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowerIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
 </pre></div>
 </div>
 </div><p>Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.</p>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">followers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowers</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">followers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowersAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">followersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowersIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowersParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
 </pre></div>
@@ -233,13 +233,13 @@
 <blockquote>
 <div><p>As an authenticated user following a private user, an outgoing follower request is sent to this private user.</p>
 </div></blockquote>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userIdsYouRequestedToFollow</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserIdsYouRequestedToFollow</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userIdsYouRequestedToFollow</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserIdsYouRequestedToFollowAsync</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">userIdsYouRequestedToFollowIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserIdsYouRequestedToFollowIterator</span><span class="p">();</span>
 </pre></div>
 </div>
 </div><p>Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.</p>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">usersYouRequestedToFollow</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUsersYouRequestedToFollow</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">usersYouRequestedToFollow</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUsersYouRequestedToFollowAsync</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">usersYouRequestedToFollowIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUsersYouRequestedToFollowIterator</span><span class="p">();</span>
 </pre></div>
@@ -250,13 +250,13 @@
 <blockquote>
 <div><p>As a private user, any other user attempting to follow you will create an incoming request.</p>
 </div></blockquote>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userIdsRequestingFriendship</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserIdsRequestingFriendship</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userIdsRequestingFriendship</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserIdsRequestingFriendshipAsync</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">userIdsRequestingFriendshipIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserIdsRequestingFriendshipIterator</span><span class="p">();</span>
 </pre></div>
 </div>
 </div><p>Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.</p>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userRequestingFriendship</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUsersRequestingFriendship</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userRequestingFriendship</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUsersRequestingFriendshipAsync</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">usersRequestingFriendshipIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUsersRequestingFriendshipIterator</span><span class="p">();</span>
 </pre></div>
@@ -267,18 +267,18 @@
 <blockquote>
 <div><p>Details of relationships between 2 users.</p>
 </div></blockquote>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">relationship</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetRelationshipBetween</span><span class="p">(</span><span class="s">&quot;source_user&quot;</span><span class="p">,</span> <span class="s">&quot;target_user&quot;</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">relationship</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetRelationshipBetweenAsync</span><span class="p">(</span><span class="s">&quot;source_user&quot;</span><span class="p">,</span> <span class="s">&quot;target_user&quot;</span><span class="p">);</span>
 <span class="c1">// You can for example check if you</span>
 <span class="kt">var</span> <span class="n">canSourceSendDirectMessagesToTarget</span> <span class="p">=</span> <span class="n">relationship</span><span class="p">.</span><span class="n">CanSendDirectMessage</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>List the relationships between the client’s authenticated user and a list of users.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">relationships</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetRelationshipsWith</span><span class="p">(</span><span class="k">new</span> <span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;target_user&quot;</span> <span class="p">});</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">relationships</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetRelationshipsWithAsync</span><span class="p">(</span><span class="k">new</span> <span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;target_user&quot;</span> <span class="p">});</span>
 <span class="kt">var</span> <span class="n">userSentAFollowingRequest</span> <span class="p">=</span> <span class="n">relationships</span><span class="p">[</span><span class="m">0</span><span class="p">].</span><span class="n">FollowingRequested</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Updated relationship state between the authenticated user and a target user.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UpdateRelationship</span><span class="p">(</span><span class="k">new</span> <span class="n">UpdateRelationshipParameters</span><span class="p">(</span><span class="s">&quot;target_user&quot;</span><span class="p">)</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UpdateRelationshipAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">UpdateRelationshipParameters</span><span class="p">(</span><span class="s">&quot;target_user&quot;</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">EnableRetweets</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
     <span class="n">EnableDeviceNotifications</span> <span class="p">=</span> <span class="k">true</span>

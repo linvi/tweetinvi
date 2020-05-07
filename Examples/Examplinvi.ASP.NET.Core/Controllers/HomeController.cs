@@ -39,8 +39,8 @@ namespace Examplinvi.ASP.NET.Core.Controllers
             var authRequestId = Guid.NewGuid().ToString();
             var redirectPath = $"{Request.Scheme}://{Request.Host.Value}/Home/ValidateTwitterAuth";
             var redirectURL = _myAuthRequestStore.AppendAuthenticationRequestIdToCallbackUrl(redirectPath, authRequestId);
-            var authenticationRequestToken = await appClient.Auth.RequestAuthenticationUrl(redirectURL);
-            await _myAuthRequestStore.AddAuthenticationToken(authRequestId, authenticationRequestToken);
+            var authenticationRequestToken = await appClient.Auth.RequestAuthenticationUrlAsync(redirectURL);
+            await _myAuthRequestStore.AddAuthenticationTokenAsync(authRequestId, authenticationRequestToken);
 
             return new RedirectResult(authenticationRequestToken.AuthorizationURL);
         }
@@ -54,11 +54,11 @@ namespace Examplinvi.ASP.NET.Core.Controllers
             // * Get the AuthenticationRequest from the store
             // * Remove the request from the store as it will no longer need it
             // This logic can be implemented manually if you wish change the behaviour
-            var requestParameters = await RequestCredentialsParameters.FromCallbackUrl(Request.QueryString.Value, _myAuthRequestStore);
-            var userCreds = await appClient.Auth.RequestCredentials(requestParameters);
+            var requestParameters = await RequestCredentialsParameters.FromCallbackUrlAsync(Request.QueryString.Value, _myAuthRequestStore);
+            var userCreds = await appClient.Auth.RequestCredentialsAsync(requestParameters);
 
             var userClient = new TwitterClient(userCreds);
-            var user = await userClient.Users.GetAuthenticatedUser();
+            var user = await userClient.Users.GetAuthenticatedUserAsync();
 
             ViewBag.User = user;
 

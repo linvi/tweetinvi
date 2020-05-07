@@ -28,7 +28,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task GetUser_ReturnsFromUserQueryExecutor()
+        public async Task GetUser_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -36,17 +36,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var parameters = new GetUserParameters("username");
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.GetUser(parameters, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.GetUserAsync(parameters, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
 
             // Act
-            var twitterResultUser = await controller.GetUser(parameters, A.Fake<ITwitterRequest>());
+            var twitterResultUser = await controller.GetUserAsync(parameters, A.Fake<ITwitterRequest>());
 
             // Assert
             Assert.Same(twitterResultUser, expectedResult);
         }
 
         [Fact]
-        public async Task GetUsers_ReturnsFromUserQueryExecutor()
+        public async Task GetUsers_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -54,17 +54,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var parameters = new GetUsersParameters(new[] { "username" });
             var expectedResult = A.Fake<ITwitterResult<IUserDTO[]>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.GetUsers(parameters, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.GetUsersAsync(parameters, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
 
             // Act
-            var twitterResultUser = await controller.GetUsers(parameters, A.Fake<ITwitterRequest>());
+            var twitterResultUser = await controller.GetUsersAsync(parameters, A.Fake<ITwitterRequest>());
 
             // Assert
             Assert.Same(twitterResultUser, expectedResult);
         }
 
         [Fact]
-        public async Task GetFollowerIds_ReturnsFromUserQueryExecutor()
+        public async Task GetFollowerIds_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -73,13 +73,13 @@ namespace xUnitinvi.ClientActions.UsersClient
             var iterator = controller.GetFollowerIdsIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
-            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetFollowerIds(A<IGetFollowerIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)));
-            await iteratorTestRunner.Act();
-            await iteratorTestRunner.Assert();
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetFollowerIdsAsync(A<IGetFollowerIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)));
+            await iteratorTestRunner.ActAsync();
+            await iteratorTestRunner.AssertAsync();
         }
 
         [Fact]
-        public async Task GetFriendIds_ReturnsFromUserQueryExecutor()
+        public async Task GetFriendIds_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -89,13 +89,13 @@ namespace xUnitinvi.ClientActions.UsersClient
             var iterator = controller.GetFriendIdsIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
-            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetFriendIds(A<IGetFriendIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)));
-            await iteratorTestRunner.Act();
-            await iteratorTestRunner.Assert();
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetFriendIdsAsync(A<IGetFriendIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)));
+            await iteratorTestRunner.ActAsync();
+            await iteratorTestRunner.AssertAsync();
         }
 
         [Fact]
-        public async Task GetRelationshipBetween_ReturnsFromUserQueryExecutor()
+        public async Task GetRelationshipBetween_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -103,17 +103,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IRelationshipDetailsDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.GetRelationshipBetween(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.GetRelationshipBetweenAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.GetRelationshipBetween(parameters, request);
+            var result = await controller.GetRelationshipBetweenAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task GetProfileImageStream_ReturnsFromUserQueryExecutor()
+        public async Task GetProfileImageStream_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -121,17 +121,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var parameters = A.Fake<IGetProfileImageParameters>();
             var request = A.Fake<ITwitterRequest>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.GetProfileImageStream(parameters, It.IsAny<ITwitterRequest>())).Returns(stream);
+            A.CallTo(() => _fakeUserQueryExecutor.GetProfileImageStreamAsync(parameters, It.IsAny<ITwitterRequest>())).Returns(stream);
 
             // Act
-            var result = await controller.GetProfileImageStream(parameters, request);
+            var result = await controller.GetProfileImageStreamAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, stream);
         }
 
         [Fact]
-        public async Task GetAuthenticatedUser_ReturnsFromUserQueryExecutor()
+        public async Task GetAuthenticatedUser_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -139,10 +139,10 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var twitterResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.GetAuthenticatedUser(parameters, request)).Returns(twitterResult);
+            A.CallTo(() => _fakeUserQueryExecutor.GetAuthenticatedUserAsync(parameters, request)).Returns(twitterResult);
 
             // Act
-            var result = await controller.GetAuthenticatedUser(parameters, request);
+            var result = await controller.GetAuthenticatedUserAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, twitterResult);
@@ -150,7 +150,7 @@ namespace xUnitinvi.ClientActions.UsersClient
 
         // BLOCK
         [Fact]
-        public async Task GetBlockedUserIds_ReturnsAllPages()
+        public async Task GetBlockedUserIds_ReturnsAllPagesAsync()
         {
             // arrange
             var accountController = CreateUserController();
@@ -159,17 +159,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var iterator = accountController.GetBlockedUserIdsIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
-            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetBlockedUserIds(It.IsAny<IGetBlockedUserIdsParameters>(), It.IsAny<ITwitterRequest>())));
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetBlockedUserIdsAsync(It.IsAny<IGetBlockedUserIdsParameters>(), It.IsAny<ITwitterRequest>())));
 
             // act
-            await iteratorTestRunner.Act();
+            await iteratorTestRunner.ActAsync();
 
             // assert
-            await iteratorTestRunner.Assert();
+            await iteratorTestRunner.AssertAsync();
         }
 
         [Fact]
-        public async Task GetBlockedUsers_ReturnsAllPages()
+        public async Task GetBlockedUsers_ReturnsAllPagesAsync()
         {
             // arrange
             var accountController = CreateUserController();
@@ -178,17 +178,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var iterator = accountController.GetBlockedUsersIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterUsersIteratorTestRunner(iterator);
 
-            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetBlockedUsers(It.IsAny<IGetBlockedUsersParameters>(), It.IsAny<ITwitterRequest>())));
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetBlockedUsersAsync(It.IsAny<IGetBlockedUsersParameters>(), It.IsAny<ITwitterRequest>())));
 
             // act
-            await iteratorTestRunner.Act();
+            await iteratorTestRunner.ActAsync();
 
             // assert
-            await iteratorTestRunner.Assert();
+            await iteratorTestRunner.AssertAsync();
         }
 
         [Fact]
-        public async Task BlockUser_ReturnsFromUserQueryExecutor()
+        public async Task BlockUser_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -198,17 +198,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.BlockUser(blockUserParameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.BlockUserAsync(blockUserParameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.BlockUser(blockUserParameters, request);
+            var result = await controller.BlockUserAsync(blockUserParameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task UnblockUser_ReturnsFromUserQueryExecutor()
+        public async Task UnblockUser_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -218,17 +218,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.UnblockUser(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.UnblockUserAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.UnblockUser(parameters, request);
+            var result = await controller.UnblockUserAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task ReportUserFromSpam_ReturnsFromUserQueryExecutor()
+        public async Task ReportUserFromSpam_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -238,10 +238,10 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.ReportUserForSpam(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.ReportUserForSpamAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.ReportUserForSpam(parameters, request);
+            var result = await controller.ReportUserForSpamAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -250,7 +250,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         // FOLLOWERS
 
         [Fact]
-        public async Task FollowUser_ReturnsFromUserQueryExecutor()
+        public async Task FollowUser_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -260,17 +260,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.FollowUser(followUserParameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.FollowUserAsync(followUserParameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.FollowUser(followUserParameters, request);
+            var result = await controller.FollowUserAsync(followUserParameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task UnfollowUser_ReturnsFromUserQueryExecutor()
+        public async Task UnfollowUser_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -280,10 +280,10 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.UnfollowUser(followUserParameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.UnfollowUserAsync(followUserParameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.UnfollowUser(followUserParameters, request);
+            var result = await controller.UnfollowUserAsync(followUserParameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -292,7 +292,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         // ONGOING REQUESTS
 
         [Fact]
-        public async Task GetUserIdsRequestingFriendship_NextPage_ReturnsAllPages()
+        public async Task GetUserIdsRequestingFriendship_NextPage_ReturnsAllPagesAsync()
         {
             // arrange
             var accountController = CreateUserController();
@@ -301,17 +301,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var iterator = accountController.GetUserIdsRequestingFriendshipIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
-            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetUserIdsRequestingFriendship(It.IsAny<IGetUserIdsRequestingFriendshipParameters>(), It.IsAny<ITwitterRequest>())));
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetUserIdsRequestingFriendshipAsync(It.IsAny<IGetUserIdsRequestingFriendshipParameters>(), It.IsAny<ITwitterRequest>())));
 
             // act
-            await iteratorTestRunner.Act();
+            await iteratorTestRunner.ActAsync();
 
             // assert
-            await iteratorTestRunner.Assert();
+            await iteratorTestRunner.AssertAsync();
         }
 
         [Fact]
-        public async Task GetUserIdsYouRequestedToFollow_NextPage_ReturnsAllPages()
+        public async Task GetUserIdsYouRequestedToFollow_NextPage_ReturnsAllPagesAsync()
         {
             // arrange
             var accountController = CreateUserController();
@@ -320,19 +320,19 @@ namespace xUnitinvi.ClientActions.UsersClient
             var iterator = accountController.GetUserIdsYouRequestedToFollowIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
-            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetUserIdsYouRequestedToFollow(It.IsAny<IGetUserIdsYouRequestedToFollowParameters>(), It.IsAny<ITwitterRequest>())));
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetUserIdsYouRequestedToFollowAsync(It.IsAny<IGetUserIdsYouRequestedToFollowParameters>(), It.IsAny<ITwitterRequest>())));
 
             // act
-            await iteratorTestRunner.Act();
+            await iteratorTestRunner.ActAsync();
 
             // assert
-            await iteratorTestRunner.Assert();
+            await iteratorTestRunner.AssertAsync();
         }
 
         // FRIENDSHIPS
 
         [Fact]
-        public async Task UpdateRelationship_ReturnsFromUserQueryExecutor()
+        public async Task UpdateRelationship_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -341,17 +341,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IRelationshipDetailsDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.UpdateRelationship(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.UpdateRelationshipAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.UpdateRelationship(parameters, request);
+            var result = await controller.UpdateRelationshipAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task GetRelationshipsWith_ReturnsFromUserQueryExecutor()
+        public async Task GetRelationshipsWith_ReturnsFromUserQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateUserController();
@@ -360,10 +360,10 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IRelationshipStateDTO[]>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.GetRelationshipsWith(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.GetRelationshipsWithAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.GetRelationshipsWith(parameters, request);
+            var result = await controller.GetRelationshipsWithAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -372,7 +372,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         // MUTE
 
         [Fact]
-        public async Task GetUserIdsWhoseRetweetsAreMuted_ReturnsFromUserQueryExecutor()
+        public async Task GetUserIdsWhoseRetweetsAreMuted_ReturnsFromUserQueryExecutorAsync()
         {
             // arrange
             var accountController = CreateUserController();
@@ -380,17 +380,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<long[]>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.GetUserIdsWhoseRetweetsAreMuted(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.GetUserIdsWhoseRetweetsAreMutedAsync(parameters, request)).Returns(expectedResult);
 
             // act
-            var result = await accountController.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
+            var result = await accountController.GetUserIdsWhoseRetweetsAreMutedAsync(parameters, request);
 
             // assert
             Assert.Same(result, expectedResult);
         }
 
         [Fact]
-        public async Task GetMutedUserIds_ReturnsAllPages()
+        public async Task GetMutedUserIds_ReturnsAllPagesAsync()
         {
             // arrange
             var accountController = CreateUserController();
@@ -399,17 +399,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var iterator = accountController.GetMutedUserIdsIterator(parameters, A.Fake<ITwitterRequest>());
             var testRunner = new TwitterIdsIteratorTestRunner(iterator);
 
-            testRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetMutedUserIds(It.IsAny<IGetMutedUserIdsParameters>(), It.IsAny<ITwitterRequest>())));
+            testRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetMutedUserIdsAsync(It.IsAny<IGetMutedUserIdsParameters>(), It.IsAny<ITwitterRequest>())));
 
             // act
-            await testRunner.Act();
+            await testRunner.ActAsync();
 
             // assert
-            await testRunner.Assert();
+            await testRunner.AssertAsync();
         }
 
         [Fact]
-        public async Task GetMutedUsers_ReturnsAllPages()
+        public async Task GetMutedUsers_ReturnsAllPagesAsync()
         {
             // arrange
             var accountController = CreateUserController();
@@ -418,17 +418,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var iterator = accountController.GetMutedUsersIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterUsersIteratorTestRunner(iterator);
 
-            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetMutedUsers(It.IsAny<IGetMutedUsersParameters>(), It.IsAny<ITwitterRequest>())));
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetMutedUsersAsync(It.IsAny<IGetMutedUsersParameters>(), It.IsAny<ITwitterRequest>())));
 
             // act
-            await iteratorTestRunner.Act();
+            await iteratorTestRunner.ActAsync();
 
             // assert
-            await iteratorTestRunner.Assert();
+            await iteratorTestRunner.AssertAsync();
         }
 
         [Fact]
-        public async Task MuteUser_ReturnsFromUserQueryExecutor()
+        public async Task MuteUser_ReturnsFromUserQueryExecutorAsync()
         {
             // arrange
             var accountController = CreateUserController();
@@ -436,17 +436,17 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.MuteUser(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.MuteUserAsync(parameters, request)).Returns(expectedResult);
 
             // act
-            var result = await accountController.MuteUser(parameters, request);
+            var result = await accountController.MuteUserAsync(parameters, request);
 
             // assert
             Assert.Same(result, expectedResult);
         }
 
         [Fact]
-        public async Task UnmuteUser_ReturnsFromUserQueryExecutor()
+        public async Task UnmuteUser_ReturnsFromUserQueryExecutorAsync()
         {
             // arrange
             var accountController = CreateUserController();
@@ -454,10 +454,10 @@ namespace xUnitinvi.ClientActions.UsersClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.UnmuteUser(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.UnmuteUserAsync(parameters, request)).Returns(expectedResult);
 
             // act
-            var result = await accountController.UnmuteUser(parameters, request);
+            var result = await accountController.UnmuteUserAsync(parameters, request);
 
             // assert
             Assert.Same(result, expectedResult);

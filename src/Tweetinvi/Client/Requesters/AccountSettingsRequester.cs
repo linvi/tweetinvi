@@ -24,40 +24,40 @@ namespace Tweetinvi.Client.Requesters
             _validator = validator;
         }
 
-        public Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettings(IGetAccountSettingsParameters parameters)
+        public Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettingsAsync(IGetAccountSettingsParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountSettingsController.GetAccountSettings(parameters, request));
+            return ExecuteRequestAsync(request => _accountSettingsController.GetAccountSettingsAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters)
+        public Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettingsAsync(IUpdateAccountSettingsParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountSettingsController.UpdateAccountSettings(parameters, request));
+            return ExecuteRequestAsync(request => _accountSettingsController.UpdateAccountSettingsAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IUserDTO>> UpdateProfile(IUpdateProfileParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> UpdateProfileAsync(IUpdateProfileParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountSettingsController.UpdateProfile(parameters, request));
+            return ExecuteRequestAsync(request => _accountSettingsController.UpdateProfileAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> UpdateProfileImageAsync(IUpdateProfileImageParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountSettingsController.UpdateProfileImage(parameters, request));
+            return ExecuteRequestAsync(request => _accountSettingsController.UpdateProfileImageAsync(parameters, request));
         }
 
-        public Task<ITwitterResult> UpdateProfileBanner(IUpdateProfileBannerParameters parameters)
+        public Task<ITwitterResult> UpdateProfileBannerAsync(IUpdateProfileBannerParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountSettingsController.UpdateProfileBanner(parameters, request));
+            return ExecuteRequestAsync(request => _accountSettingsController.UpdateProfileBannerAsync(parameters, request));
         }
 
-        public Task<ITwitterResult> RemoveProfileBanner(IRemoveProfileBannerParameters parameters)
+        public Task<ITwitterResult> RemoveProfileBannerAsync(IRemoveProfileBannerParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountSettingsController.RemoveProfileBanner(parameters, request));
+            return ExecuteRequestAsync(request => _accountSettingsController.RemoveProfileBannerAsync(parameters, request));
         }
     }
 }

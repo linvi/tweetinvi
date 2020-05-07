@@ -27,24 +27,24 @@ namespace Tweetinvi.Client.Requesters
             _validator = validator;
         }
 
-        public Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> GetAuthenticatedUserAsync(IGetAuthenticatedUserParameters parameters)
         {
             _validator.Validate(parameters);
 
             var request = TwitterClient.CreateRequest();
-            return ExecuteRequest(() => _userController.GetAuthenticatedUser(parameters, request), request);
+            return ExecuteRequestAsync(() => _userController.GetAuthenticatedUserAsync(parameters, request), request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> GetUserAsync(IGetUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.GetUser(parameters, request));
+            return ExecuteRequestAsync(request => _userController.GetUserAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters)
+        public Task<ITwitterResult<IUserDTO[]>> GetUsersAsync(IGetUsersParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.GetUsers(parameters, request));
+            return ExecuteRequestAsync(request => _userController.GetUsersAsync(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIdsIterator(IGetFriendIdsParameters parameters)
@@ -65,29 +65,29 @@ namespace Tweetinvi.Client.Requesters
             return _userController.GetFollowerIdsIterator(parameters, request);
         }
 
-        public Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters)
+        public Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.GetRelationshipBetween(parameters, request));
+            return ExecuteRequestAsync(request => _userController.GetRelationshipBetweenAsync(parameters, request));
         }
 
         // FOLLOWERS
-        public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> FollowUserAsync(IFollowUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.FollowUser(parameters, request));
+            return ExecuteRequestAsync(request => _userController.FollowUserAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters)
+        public Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationshipAsync(IUpdateRelationshipParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.UpdateRelationship(parameters, request));
+            return ExecuteRequestAsync(request => _userController.UpdateRelationshipAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnfollowUser(IUnfollowUserParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> UnfollowUserAsync(IUnfollowUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.UnfollowUser(parameters, request));
+            return ExecuteRequestAsync(request => _userController.UnfollowUserAsync(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendshipIterator(IGetUserIdsRequestingFriendshipParameters parameters)
@@ -109,22 +109,22 @@ namespace Tweetinvi.Client.Requesters
         }
 
         // BLOCK
-        public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> BlockUserAsync(IBlockUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.BlockUser(parameters, request));
+            return ExecuteRequestAsync(request => _userController.BlockUserAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> UnblockUserAsync(IUnblockUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.UnblockUser(parameters, request));
+            return ExecuteRequestAsync(request => _userController.UnblockUserAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> ReportUserForSpamAsync(IReportUserForSpamParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.ReportUserForSpam(parameters, request));
+            return ExecuteRequestAsync(request => _userController.ReportUserForSpamAsync(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIdsIterator(IGetBlockedUserIdsParameters parameters)
@@ -146,17 +146,17 @@ namespace Tweetinvi.Client.Requesters
         }
 
         // FRIENDSHIPS
-        public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters)
+        public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWithAsync(IGetRelationshipsWithParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.GetRelationshipsWith(parameters, request));
+            return ExecuteRequestAsync(request => _userController.GetRelationshipsWithAsync(parameters, request));
         }
 
         // MUTE
-        public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
+        public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMutedAsync(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.GetUserIdsWhoseRetweetsAreMuted(parameters, request));
+            return ExecuteRequestAsync(request => _userController.GetUserIdsWhoseRetweetsAreMutedAsync(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIdsIterator(IGetMutedUserIdsParameters parameters)
@@ -177,22 +177,22 @@ namespace Tweetinvi.Client.Requesters
             return _userController.GetMutedUsersIterator(parameters, request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> MuteUserAsync(IMuteUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.MuteUser(parameters, request));
+            return ExecuteRequestAsync(request => _userController.MuteUserAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnmuteUser(IUnmuteUserParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> UnmuteUserAsync(IUnmuteUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.UnmuteUser(parameters, request));
+            return ExecuteRequestAsync(request => _userController.UnmuteUserAsync(parameters, request));
         }
 
         public Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.GetProfileImageStream(parameters, request));
+            return ExecuteRequestAsync(request => _userController.GetProfileImageStreamAsync(parameters, request));
         }
     }
 }

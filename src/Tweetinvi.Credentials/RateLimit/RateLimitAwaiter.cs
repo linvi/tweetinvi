@@ -32,14 +32,14 @@ namespace Tweetinvi.Credentials.RateLimit
             remove => _queryAwaitingForRateLimitWeakEvent.RemoveHandler(value);
         }
 
-        public Task WaitForCredentialsRateLimit(ITwitterRequest request)
+        public Task WaitForCredentialsRateLimitAsync(ITwitterRequest request)
         {
-            return WaitForCredentialsRateLimit(request.Query.Url, request.Query.TwitterCredentials, request.ExecutionContext);
+            return WaitForCredentialsRateLimitAsync(request.Query.Url, request.Query.TwitterCredentials, request.ExecutionContext);
         }
 
-        public async Task WaitForCredentialsRateLimit(string query, IReadOnlyTwitterCredentials credentials, ITwitterExecutionContext executionContext)
+        public async Task WaitForCredentialsRateLimitAsync(string query, IReadOnlyTwitterCredentials credentials, ITwitterExecutionContext executionContext)
         {
-            var queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query, RateLimitsSource.CacheOnly), credentials).ConfigureAwait(false);
+            var queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimitAsync(new GetEndpointRateLimitsParameters(query, RateLimitsSource.CacheOnly), credentials).ConfigureAwait(false);
             if (queryRateLimit == null)
             {
                 return;
@@ -53,7 +53,7 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public async Task WaitForCredentialsRateLimit(IEndpointRateLimit queryRateLimit, IReadOnlyTwitterCredentials credentials, ITwitterExecutionContext executionContext)
+        public async Task WaitForCredentialsRateLimitAsync(IEndpointRateLimit queryRateLimit, IReadOnlyTwitterCredentials credentials, ITwitterExecutionContext executionContext)
         {
             var timeToWait = GetTimeToWaitFromQueryRateLimit(queryRateLimit, executionContext);
             if (timeToWait > TimeSpan.Zero)
@@ -63,9 +63,9 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public async Task<TimeSpan> TimeToWaitBeforeTwitterRequest(string query, IReadOnlyTwitterCredentials credentials, ITwitterExecutionContext twitterExecutionContext)
+        public async Task<TimeSpan> TimeToWaitBeforeTwitterRequestAsync(string query, IReadOnlyTwitterCredentials credentials, ITwitterExecutionContext twitterExecutionContext)
         {
-            var queryRateLimits = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query), credentials).ConfigureAwait(false);
+            var queryRateLimits = await _rateLimitCacheManager.GetQueryRateLimitAsync(new GetEndpointRateLimitsParameters(query), credentials).ConfigureAwait(false);
             return GetTimeToWaitFromQueryRateLimit(queryRateLimits, twitterExecutionContext);
         }
 

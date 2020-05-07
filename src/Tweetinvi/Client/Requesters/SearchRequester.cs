@@ -42,28 +42,28 @@ namespace Tweetinvi.Client.Requesters
             return _searchController.GetSearchUsersIterator(parameters, request);
         }
 
-        public Task<ITwitterResult<SavedSearchDTO>> CreateSavedSearch(ICreateSavedSearchParameters parameters)
+        public Task<ITwitterResult<SavedSearchDTO>> CreateSavedSearchAsync(ICreateSavedSearchParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _searchController.CreateSavedSearch(parameters, request));
+            return ExecuteRequestAsync(request => _searchController.CreateSavedSearchAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<SavedSearchDTO>> GetSavedSearch(IGetSavedSearchParameters parameters)
+        public Task<ITwitterResult<SavedSearchDTO>> GetSavedSearchAsync(IGetSavedSearchParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _searchController.GetSavedSearch(parameters, request));
+            return ExecuteRequestAsync(request => _searchController.GetSavedSearchAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<SavedSearchDTO[]>> ListSavedSearches(IListSavedSearchesParameters parameters)
+        public Task<ITwitterResult<SavedSearchDTO[]>> ListSavedSearchesAsync(IListSavedSearchesParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _searchController.ListSavedSearches(parameters, request));
+            return ExecuteRequestAsync(request => _searchController.ListSavedSearchesAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<SavedSearchDTO>> DestroySavedSearch(IDestroySavedSearchParameters parameters)
+        public Task<ITwitterResult<SavedSearchDTO>> DestroySavedSearchAsync(IDestroySavedSearchParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _searchController.DestroySavedSearch(parameters, request));
+            return ExecuteRequestAsync(request => _searchController.DestroySavedSearchAsync(parameters, request));
         }
     }
 }

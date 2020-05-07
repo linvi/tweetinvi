@@ -44,9 +44,9 @@ public async Task<ActionResult> TwitterAuth()
     // Add the user identifier as a query parameters that will be received by `ValidateTwitterAuth`
     var redirectURL = _myAuthRequestStore.AppendAuthenticationRequestIdToCallbackUrl(redirectPath, authenticationRequestId);
     // Initialize the authentication process
-    var authenticationRequestToken = await appClient.Auth.RequestAuthenticationUrl(redirectURL);
+    var authenticationRequestToken = await appClient.Auth.RequestAuthenticationUrlAsync(redirectURL);
     // Store the token information in the store
-    await _myAuthRequestStore.AddAuthenticationToken(authenticationRequestId, authenticationRequestToken);
+    await _myAuthRequestStore.AddAuthenticationTokenAsync(authenticationRequestId, authenticationRequestToken);
 
     // Redirect the user to Twitter
     return new RedirectResult(authenticationRequestToken.AuthorizationURL);
@@ -57,13 +57,13 @@ public async Task<ActionResult> TwitterAuth()
     var appClient = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET");
     
     // Extract the information from the redirection url
-    var requestParameters = await RequestCredentialsParameters.FromCallbackUrl(Request.QueryString.Value, _myAuthRequestStore);
+    var requestParameters = await RequestCredentialsParameters.FromCallbackUrlAsync(Request.QueryString.Value, _myAuthRequestStore);
     // Request Twitter to generate the credentials.
-    var userCreds = await appClient.Auth.RequestCredentials(requestParameters);
+    var userCreds = await appClient.Auth.RequestCredentialsAsync(requestParameters);
 
     // Congratulations the user is now authenticated!
     var userClient = new TwitterClient(userCreds);
-    var user = await userClient.Users.GetAuthenticatedUser();
+    var user = await userClient.Users.GetAuthenticatedUserAsync();
 
     ViewBag.User = user;
 

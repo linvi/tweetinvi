@@ -20,21 +20,21 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task SearchTweets()
+        public async Task SearchTweetsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var tweets = await _tweetinviClient.Search.SearchTweets("hello");
+            var tweets = await _tweetinviClient.Search.SearchTweetsAsync("hello");
             var searchTweetsIterator = _tweetinviClient.Search.GetSearchTweetsIterator(new SearchTweetsParameters("hello")
             {
                 PageSize = 50,
             });
 
-            await searchTweetsIterator.NextPage();
-            var result2 = (await searchTweetsIterator.NextPage()).ToArray();
+            await searchTweetsIterator.NextPageAsync();
+            var result2 = (await searchTweetsIterator.NextPageAsync()).ToArray();
 
-            var geoSearchTweets = await _tweetinviClient.Search.SearchTweets(new GeoCode
+            var geoSearchTweets = await _tweetinviClient.Search.SearchTweetsAsync(new GeoCode
             {
                 Coordinates = new Coordinates(37.781157, -122.398720),
                 Radius = 100,
@@ -48,7 +48,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact(Skip = "Twitter search indexing duration is fluctuating too much for supporting this test")]
-        public async Task SearchTweetIterators()
+        public async Task SearchTweetIteratorsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -57,7 +57,7 @@ namespace xUnitinvi.EndToEnd
             var tweetUniqueMessage = "tweetinvitester";
             for (var i = 0; i < 5; ++i)
             {
-                var tweet = await _tweetinviTestClient.Tweets.PublishTweet($"{tweetUniqueMessage} {i}");
+                var tweet = await _tweetinviTestClient.Tweets.PublishTweetAsync($"{tweetUniqueMessage} {i}");
                 await Task.Delay(10000);
                 publishedTweets.Add(tweet);
             }
@@ -65,7 +65,7 @@ namespace xUnitinvi.EndToEnd
             // For twitter to index the results
             await Task.Delay(TimeSpan.FromMinutes(45));
 
-            var tweets = await _tweetinviClient.Search.SearchTweets($"{tweetUniqueMessage}");
+            var tweets = await _tweetinviClient.Search.SearchTweetsAsync($"{tweetUniqueMessage}");
             var searchTweetsIterator = _tweetinviClient.Search.GetSearchTweetsIterator(new SearchTweetsParameters($"{tweetUniqueMessage}")
             {
                 PageSize = 3
@@ -76,13 +76,13 @@ namespace xUnitinvi.EndToEnd
             while (!searchTweetsIterator.Completed)
             {
                 ++requestsCount;
-                var page = await searchTweetsIterator.NextPage();
+                var page = await searchTweetsIterator.NextPageAsync();
                 tweetsFromIterator.AddRange(page);
             }
 
             foreach (var publishedTweet in publishedTweets)
             {
-                await publishedTweet.Destroy();
+                await publishedTweet.DestroyAsync();
             }
 
             // assert
@@ -95,12 +95,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task SearchWithFilters()
+        public async Task SearchWithFiltersAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var searchWithMetadata = await _tweetinviClient.Search.SearchTweetsWithMetadata(new SearchTweetsParameters("hello")
+            var searchWithMetadata = await _tweetinviClient.Search.SearchTweetsWithMetadataAsync(new SearchTweetsParameters("hello")
             {
                 Filters = TweetSearchFilters.Safe
             });
@@ -110,31 +110,31 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task SearchTweetsWithMetadata()
+        public async Task SearchTweetsWithMetadataAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var searchWithMetadata = await _tweetinviClient.Search.SearchTweetsWithMetadata("hello");
+            var searchWithMetadata = await _tweetinviClient.Search.SearchTweetsWithMetadataAsync("hello");
 
             // assert
             Assert.True(searchWithMetadata.Tweets.Length > 0);
         }
 
         [Fact]
-        public async Task SearchUsers()
+        public async Task SearchUsersAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var users = await _tweetinviClient.Search.SearchUsers("bob");
+            var users = await _tweetinviClient.Search.SearchUsersAsync("bob");
             var searchUsersIterator = _tweetinviClient.Search.GetSearchUsersIterator(new SearchUsersParameters("bob")
             {
                 PageSize = 10
             });
 
-            var result1 = (await searchUsersIterator.NextPage()).ToArray();
-            var result2 = (await searchUsersIterator.NextPage()).ToArray();
+            var result1 = (await searchUsersIterator.NextPageAsync()).ToArray();
+            var result2 = (await searchUsersIterator.NextPageAsync()).ToArray();
 
             // assert
             Assert.True(users.Length > 0);
@@ -144,18 +144,18 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task SavedSearch()
+        public async Task SavedSearchAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var savedSearchesBefore = await _tweetinviTestClient.Search.ListSavedSearches();
-            var createdSavedSearch = await _tweetinviTestClient.Search.CreateSavedSearch("tweetinvi");
-            var savedSearch = await _tweetinviTestClient.Search.GetSavedSearch(createdSavedSearch.Id);
-            var savedSearchesDuring = await _tweetinviTestClient.Search.ListSavedSearches();
-            var deletedSavedSearch = await _tweetinviTestClient.Search.DestroySavedSearch(savedSearch);
+            var savedSearchesBefore = await _tweetinviTestClient.Search.ListSavedSearchesAsync();
+            var createdSavedSearch = await _tweetinviTestClient.Search.CreateSavedSearchAsync("tweetinvi");
+            var savedSearch = await _tweetinviTestClient.Search.GetSavedSearchAsync(createdSavedSearch.Id);
+            var savedSearchesDuring = await _tweetinviTestClient.Search.ListSavedSearchesAsync();
+            var deletedSavedSearch = await _tweetinviTestClient.Search.DestroySavedSearchAsync(savedSearch);
             await Task.Delay(1000);
-            var savedSearchesAfter = await _tweetinviTestClient.Search.ListSavedSearches();
+            var savedSearchesAfter = await _tweetinviTestClient.Search.ListSavedSearchesAsync();
 
             // assert
             Assert.Equal(savedSearchesDuring.Length, savedSearchesBefore.Length + 1);

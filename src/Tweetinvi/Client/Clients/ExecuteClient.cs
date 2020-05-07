@@ -15,34 +15,34 @@ namespace Tweetinvi.Client
             _executeRequester = executeRequester;
         }
 
-        public Task<ITwitterResult<T>> AdvanceRequest<T>(Action<ITwitterRequest> configureRequest) where T : class
+        public Task<ITwitterResult<T>> AdvanceRequestAsync<T>(Action<ITwitterRequest> configureRequest) where T : class
         {
-            return _executeRequester.Request<T>(configureRequest);
+            return _executeRequester.RequestAsync<T>(configureRequest);
         }
 
-        public Task<ITwitterResult> AdvanceRequest(Action<ITwitterRequest> configureRequest)
+        public Task<ITwitterResult> AdvanceRequestAsync(Action<ITwitterRequest> configureRequest)
         {
-            return _executeRequester.Request(configureRequest);
+            return _executeRequester.RequestAsync(configureRequest);
         }
 
-        public Task<ITwitterResult<T>> Request<T>(Action<ITwitterQuery> configureQuery) where T : class
+        public Task<ITwitterResult<T>> RequestAsync<T>(Action<ITwitterQuery> configureQuery) where T : class
         {
-            return _executeRequester.Request<T>(configureQuery);
+            return _executeRequester.RequestAsync<T>(configureQuery);
         }
 
-        public Task<ITwitterResult> Request(Action<ITwitterQuery> configureQuery)
+        public Task<ITwitterResult> RequestAsync(Action<ITwitterQuery> configureQuery)
         {
-            return _executeRequester.Request(configureQuery);
+            return _executeRequester.RequestAsync(configureQuery);
         }
 
-        public Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterQuery> configureQuery)
+        public Task<ITwitterRequest> PrepareTwitterRequestAsync(Action<ITwitterQuery> configureQuery)
         {
-            return _executeRequester.PrepareTwitterRequest(configureQuery);
+            return _executeRequester.PrepareTwitterRequestAsync(configureQuery);
         }
 
-        public Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterRequest> configureRequest)
+        public Task<ITwitterRequest> PrepareTwitterRequestAsync(Action<ITwitterRequest> configureRequest)
         {
-            return _executeRequester.PrepareTwitterRequest(configureRequest);
+            return _executeRequester.PrepareTwitterRequestAsync(configureRequest);
         }
     }
 }

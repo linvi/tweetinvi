@@ -6,8 +6,8 @@ namespace Tweetinvi.AspNet.Core.Logic
 {
     public interface IWebhookRouter
     {
-        Task<bool> IsRequestManagedByTweetinvi(IWebhooksRequest request);
-        Task<bool> TryRouteRequest(IWebhooksRequest request, IConsumerOnlyCredentials credentials);
+        Task<bool> IsRequestManagedByTweetinviAsync(IWebhooksRequest request);
+        Task<bool> TryRouteRequestAsync(IWebhooksRequest request, IConsumerOnlyCredentials credentials);
     }
 
     public class WebhookRouter : IWebhookRouter
@@ -26,20 +26,20 @@ namespace Tweetinvi.AspNet.Core.Logic
             _webhooksHelper = webhooksHelper;
         }
 
-        public Task<bool> IsRequestManagedByTweetinvi(IWebhooksRequest request)
+        public Task<bool> IsRequestManagedByTweetinviAsync(IWebhooksRequest request)
         {
-            return _webhooksHelper.IsRequestManagedByTweetinvi(request);
+            return _webhooksHelper.IsRequestManagedByTweetinviAsync(request);
         }
 
-        public async Task<bool> TryRouteRequest(IWebhooksRequest request, IConsumerOnlyCredentials credentials)
+        public async Task<bool> TryRouteRequestAsync(IWebhooksRequest request, IConsumerOnlyCredentials credentials)
         {
             var isCrcChallenge = _webhooksHelper.IsCrcChallenge(request);
             if (isCrcChallenge)
             {
-                return await _webhooksRoutes.TryToReplyToCrcChallenge(request, credentials).ConfigureAwait(false);
+                return await _webhooksRoutes.TryToReplyToCrcChallengeAsync(request, credentials).ConfigureAwait(false);
             }
 
-            var jsonBody = await request.GetJsonFromBody().ConfigureAwait(false);
+            var jsonBody = await request.GetJsonFromBodyAsync().ConfigureAwait(false);
 
             _webhookDispatcher.WebhookMessageReceived(new WebhookMessage(jsonBody));
 

@@ -9,55 +9,55 @@ namespace Tweetinvi.Client
         /// <summary>
         /// Load the client's rate limits in the cache
         /// </summary>
-        Task InitializeRateLimitsManager();
+        Task InitializeRateLimitsManagerAsync();
 
         /// <inheritdoc cref="GetRateLimits(IGetRateLimitsParameters)" />
-        Task<ICredentialsRateLimits> GetRateLimits();
+        Task<ICredentialsRateLimits> GetRateLimitsAsync();
 
         /// <inheritdoc cref="GetRateLimits(IGetRateLimitsParameters)" />
-        Task<ICredentialsRateLimits> GetRateLimits(RateLimitsSource from);
+        Task<ICredentialsRateLimits> GetRateLimitsAsync(RateLimitsSource from);
 
         /// <summary>
         /// Get the rate limits of the current client
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status </para>
         /// <returns>The client's rate limits</returns>
-        Task<ICredentialsRateLimits> GetRateLimits(IGetRateLimitsParameters parameters);
+        Task<ICredentialsRateLimits> GetRateLimitsAsync(IGetRateLimitsParameters parameters);
 
         /// <inheritdoc cref="GetEndpointRateLimit(IGetEndpointRateLimitsParameters)"/>
-        Task<IEndpointRateLimit> GetEndpointRateLimit(string url);
+        Task<IEndpointRateLimit> GetEndpointRateLimitAsync(string url);
 
         /// <inheritdoc cref="GetEndpointRateLimit(IGetEndpointRateLimitsParameters)"/>
-        Task<IEndpointRateLimit> GetEndpointRateLimit(string url, RateLimitsSource from);
+        Task<IEndpointRateLimit> GetEndpointRateLimitAsync(string url, RateLimitsSource from);
 
         /// <summary>
         /// Get a specific endpoint's rate limits of the current client
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status </para>
         /// <returns>The endpoint's rate limits, or null if the endpoint is not support by Tweetinvi</returns>
-        Task<IEndpointRateLimit> GetEndpointRateLimit(IGetEndpointRateLimitsParameters parameters);
+        Task<IEndpointRateLimit> GetEndpointRateLimitAsync(IGetEndpointRateLimitsParameters parameters);
 
         /// <inheritdoc cref="WaitForQueryRateLimit(IEndpointRateLimit)" />
-        Task WaitForQueryRateLimit(string url);
+        Task WaitForQueryRateLimitAsync(string url);
 
         /// <summary>
         /// Wait for new requests to a specific endpoint become available
         /// </summary>
-        Task WaitForQueryRateLimit(IEndpointRateLimit endpointRateLimit);
+        Task WaitForQueryRateLimitAsync(IEndpointRateLimit endpointRateLimit);
 
         /// <summary>
         /// Clear the rate limits cached for a specific set of credentials
         /// </summary>
-        Task ClearRateLimitCache(IReadOnlyTwitterCredentials credentials);
+        Task ClearRateLimitCacheAsync(IReadOnlyTwitterCredentials credentials);
 
         /// <summary>
         /// Clear the rate limits cached for the client's credentials
         /// </summary>
-        Task ClearRateLimitCache();
+        Task ClearRateLimitCacheAsync();
 
         /// <summary>
         /// Clear the rate limits of all the credentials
         /// </summary>
-        Task ClearAllRateLimitCache();
+        Task ClearAllRateLimitCacheAsync();
     }
 }

@@ -29,7 +29,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task CreateBearerToken_ReturnsQueryExecutorResult()
+        public async Task CreateBearerToken_ReturnsQueryExecutorResultAsync()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -37,17 +37,17 @@ namespace xUnitinvi.ClientActions.AuthClient
             var expectedResult = A.Fake<ITwitterResult<CreateTokenResponseDTO>>();
             var parameters = A.Fake<ICreateBearerTokenParameters>();
 
-            A.CallTo(() => _fakeAuthQueryExecutor.CreateBearerToken(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeAuthQueryExecutor.CreateBearerTokenAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.CreateBearerToken(parameters, request);
+            var result = await controller.CreateBearerTokenAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task RequestAuthUrl_PinCode_ReturnsFromRequestExecutor()
+        public async Task RequestAuthUrl_PinCode_ReturnsFromRequestExecutorAsync()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -56,11 +56,11 @@ namespace xUnitinvi.ClientActions.AuthClient
             var parameters = A.Fake<IRequestAuthUrlParameters>();
             var response = "oauth_token=MY_TOKEN&oauth_token_secret=MY_SECRET&oauth_callback_confirmed=true";
 
-            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(It.IsAny<RequestAuthUrlInternalParameters>(), request)).Returns(expectedResult);
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrlAsync(It.IsAny<RequestAuthUrlInternalParameters>(), request)).Returns(expectedResult);
             A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
-            var result = await controller.RequestAuthUrl(parameters, request);
+            var result = await controller.RequestAuthUrlAsync(parameters, request);
 
             // Assert
             Assert.Equal("MY_TOKEN", result.DataTransferObject.AuthorizationKey);
@@ -68,7 +68,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task RequestAuthUrl_WithRedirectUrl_ReturnsFromRequestExecutor()
+        public async Task RequestAuthUrl_WithRedirectUrl_ReturnsFromRequestExecutorAsync()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -77,12 +77,12 @@ namespace xUnitinvi.ClientActions.AuthClient
             var parameters = new RequestUrlAuthUrlParameters("my_url");
             var response = "oauth_token=MY_TOKEN&oauth_token_secret=MY_SECRET&oauth_callback_confirmed=true";
 
-            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrlAsync(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
                 .Returns(expectedResult);
             A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
-            var result = await controller.RequestAuthUrl(parameters, request);
+            var result = await controller.RequestAuthUrlAsync(parameters, request);
 
             // Assert
             Assert.Equal("MY_TOKEN", result.DataTransferObject.AuthorizationKey);
@@ -90,7 +90,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task RequestAuthUrl_WithNonConfirmedCallback_ShouldThrowAsAborted()
+        public async Task RequestAuthUrl_WithNonConfirmedCallback_ShouldThrowAsAbortedAsync()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -99,16 +99,16 @@ namespace xUnitinvi.ClientActions.AuthClient
             var parameters = new RequestUrlAuthUrlParameters("my_url");
             var response = "oauth_token=MY_TOKEN&oauth_token_secret=MY_SECRET&oauth_callback_confirmed=false";
 
-            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrlAsync(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
                 .Returns(expectedResult);
             A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
-            await Assert.ThrowsAsync<TwitterAuthAbortedException>(() => controller.RequestAuthUrl(parameters, request));
+            await Assert.ThrowsAsync<TwitterAuthAbortedException>(() => controller.RequestAuthUrlAsync(parameters, request));
         }
 
         [Fact]
-        public async Task RequestAuthUrl_WithoutResponse_ShouldThrowAuthException()
+        public async Task RequestAuthUrl_WithoutResponse_ShouldThrowAuthExceptionAsync()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -118,16 +118,16 @@ namespace xUnitinvi.ClientActions.AuthClient
 
             var response = "";
 
-            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrlAsync(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
                 .Returns(expectedResult);
             A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
-            await Assert.ThrowsAsync<TwitterAuthException>(() => controller.RequestAuthUrl(parameters, request));
+            await Assert.ThrowsAsync<TwitterAuthException>(() => controller.RequestAuthUrlAsync(parameters, request));
         }
 
         [Fact]
-        public async Task RequestCredentials_ParsesTheTwitterResultAndReturnsCredentials()
+        public async Task RequestCredentials_ParsesTheTwitterResultAndReturnsCredentialsAsync()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -141,11 +141,11 @@ namespace xUnitinvi.ClientActions.AuthClient
 
             var response = "oauth_token=access_token&oauth_token_secret=access_secret";
 
-            A.CallTo(() => _fakeAuthQueryExecutor.RequestCredentials(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestCredentialsAsync(parameters, request)).Returns(expectedResult);
             A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
-            var result = await controller.RequestCredentials(parameters, request);
+            var result = await controller.RequestCredentialsAsync(parameters, request);
 
             // Assert
             Assert.Equal(result.DataTransferObject.AccessToken, $"access_token");
@@ -155,7 +155,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task RequestCredentials_ThrowsWhenCredentialsAreMissingInResult()
+        public async Task RequestCredentials_ThrowsWhenCredentialsAreMissingInResultAsync()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -169,15 +169,15 @@ namespace xUnitinvi.ClientActions.AuthClient
 
             var response = "oauth_token=access_token"; // missing secret
 
-            A.CallTo(() => _fakeAuthQueryExecutor.RequestCredentials(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestCredentialsAsync(parameters, request)).Returns(expectedResult);
             A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
-            await Assert.ThrowsAsync<TwitterAuthException>(() => controller.RequestCredentials(parameters, request));
+            await Assert.ThrowsAsync<TwitterAuthException>(() => controller.RequestCredentialsAsync(parameters, request));
         }
 
         [Fact]
-        public async Task InvalidateBearerToken_ReturnsFromQueryExecutor()
+        public async Task InvalidateBearerToken_ReturnsFromQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -185,17 +185,17 @@ namespace xUnitinvi.ClientActions.AuthClient
             var expectedResult = A.Fake<ITwitterResult<InvalidateTokenResponse>>();
             var parameters = new InvalidateBearerTokenParameters();
 
-            A.CallTo(() => _fakeAuthQueryExecutor.InvalidateBearerToken(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeAuthQueryExecutor.InvalidateBearerTokenAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.InvalidateBearerToken(parameters, request);
+            var result = await controller.InvalidateBearerTokenAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task InvalidateAccessToken_ReturnsFromQueryExecutor()
+        public async Task InvalidateAccessToken_ReturnsFromQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -203,10 +203,10 @@ namespace xUnitinvi.ClientActions.AuthClient
             var expectedResult = A.Fake<ITwitterResult<InvalidateTokenResponse>>();
             var parameters = new InvalidateAccessTokenParameters();
 
-            A.CallTo(() => _fakeAuthQueryExecutor.InvalidateAccessToken(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeAuthQueryExecutor.InvalidateAccessTokenAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.InvalidateAccessToken(parameters, request);
+            var result = await controller.InvalidateAccessTokenAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

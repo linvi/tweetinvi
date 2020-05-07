@@ -14,20 +14,20 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/new-event </para>
         /// <returns>Twitter result containing the published message</returns>
-        Task<ITwitterResult<ICreateMessageDTO>> PublishMessage(IPublishMessageParameters parameters);
+        Task<ITwitterResult<ICreateMessageDTO>> PublishMessageAsync(IPublishMessageParameters parameters);
 
         /// <summary>
         /// Destroy a specific message
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/guides/direct-message-migration </para>
-        Task<ITwitterResult> DestroyMessage(IDeleteMessageParameters parameters);
+        Task<ITwitterResult> DestroyMessageAsync(IDeleteMessageParameters parameters);
 
         /// <summary>
         /// Gets a specific message
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/get-event </para>
         /// <returns>Twitter result containing the requested message</returns>
-        Task<ITwitterResult<IGetMessageDTO>> GetMessage(IGetMessageParameters parameters);
+        Task<ITwitterResult<IGetMessageDTO>> GetMessageAsync(IGetMessageParameters parameters);
 
         /// <summary>
         /// Gets latest messages

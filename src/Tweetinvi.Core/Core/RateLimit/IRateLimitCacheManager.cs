@@ -18,21 +18,21 @@ namespace Tweetinvi.Core.RateLimit
         /// If the query url cannot be mapped, a new one is created in the OtherQueryRateLimits.
         /// If the credentials rate limits are not located in the cache, they will be retrieved from Twitter.
         /// </summary>
-        Task<IEndpointRateLimit> GetQueryRateLimit(IGetEndpointRateLimitsParameters parameters, IReadOnlyTwitterCredentials credentials);
+        Task<IEndpointRateLimit> GetQueryRateLimitAsync(IGetEndpointRateLimitsParameters parameters, IReadOnlyTwitterCredentials credentials);
 
 
         /// <summary>
         /// Return the all the rate limits for a specific set of credentials.
         /// If the rate limits are not located in the cache, they will be retrieved from Twitter.
         /// </summary>
-        Task<ICredentialsRateLimits> GetCredentialsRateLimits(IReadOnlyTwitterCredentials credentials);
+        Task<ICredentialsRateLimits> GetCredentialsRateLimitsAsync(IReadOnlyTwitterCredentials credentials);
 
         /// <summary>
         /// Update the rate limit cache with a specific set of rate limits.
         /// </summary>
-        Task UpdateCredentialsRateLimits(IReadOnlyTwitterCredentials credentials, ICredentialsRateLimits credentialsRateLimits);
+        Task UpdateCredentialsRateLimitsAsync(IReadOnlyTwitterCredentials credentials, ICredentialsRateLimits credentialsRateLimits);
 
-        Task<ICredentialsRateLimits> RefreshCredentialsRateLimits(IReadOnlyTwitterCredentials credentials);
+        Task<ICredentialsRateLimits> RefreshCredentialsRateLimitsAsync(IReadOnlyTwitterCredentials credentials);
 
         /// <summary>
         /// Returns whether the rate limits should be refreshed to retrieve

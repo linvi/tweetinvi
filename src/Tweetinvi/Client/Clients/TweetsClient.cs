@@ -28,141 +28,141 @@ namespace Tweetinvi.Client
 
         // Tweets
 
-        public Task<ITweet> GetTweet(long tweetId)
+        public Task<ITweet> GetTweetAsync(long tweetId)
         {
-            return GetTweet(new GetTweetParameters(tweetId));
+            return GetTweetAsync(new GetTweetParameters(tweetId));
         }
 
-        public async Task<ITweet> GetTweet(IGetTweetParameters parameters)
+        public async Task<ITweet> GetTweetAsync(IGetTweetParameters parameters)
         {
-            var twitterResult = await _tweetsRequester.GetTweet(parameters).ConfigureAwait(false);
+            var twitterResult = await _tweetsRequester.GetTweetAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTweet(twitterResult?.DataTransferObject);
         }
 
-        public Task<ITweet[]> GetTweets(long[] tweetIds)
+        public Task<ITweet[]> GetTweetsAsync(long[] tweetIds)
         {
-            return GetTweets(new GetTweetsParameters(tweetIds));
+            return GetTweetsAsync(new GetTweetsParameters(tweetIds));
         }
 
-        public Task<ITweet[]> GetTweets(ITweetIdentifier[] tweets)
+        public Task<ITweet[]> GetTweetsAsync(ITweetIdentifier[] tweets)
         {
-            return GetTweets(new GetTweetsParameters(tweets));
+            return GetTweetsAsync(new GetTweetsParameters(tweets));
         }
 
-        public async Task<ITweet[]> GetTweets(IGetTweetsParameters parameters)
+        public async Task<ITweet[]> GetTweetsAsync(IGetTweetsParameters parameters)
         {
             if (parameters.Tweets == null || parameters.Tweets.Length == 0)
             {
                 return new ITweet[0];
             }
 
-            var requestResult = await _tweetsRequester.GetTweets(parameters).ConfigureAwait(false);
+            var requestResult = await _tweetsRequester.GetTweetsAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTweets(requestResult?.DataTransferObject);
         }
 
         // Tweets - Publish
 
-        public Task<ITweet> PublishTweet(string text)
+        public Task<ITweet> PublishTweetAsync(string text)
         {
-            return PublishTweet(new PublishTweetParameters(text));
+            return PublishTweetAsync(new PublishTweetParameters(text));
         }
 
-        public async Task<ITweet> PublishTweet(IPublishTweetParameters parameters)
+        public async Task<ITweet> PublishTweetAsync(IPublishTweetParameters parameters)
         {
-            var requestResult = await _tweetsRequester.PublishTweet(parameters).ConfigureAwait(false);
+            var requestResult = await _tweetsRequester.PublishTweetAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTweet(requestResult?.DataTransferObject);
         }
 
         // Tweets - Destroy
 
-        public Task DestroyTweet(long tweetId)
+        public Task DestroyTweetAsync(long tweetId)
         {
-            return DestroyTweet(new DestroyTweetParameters(tweetId));
+            return DestroyTweetAsync(new DestroyTweetParameters(tweetId));
         }
 
-        public Task DestroyTweet(ITweetIdentifier tweet)
+        public Task DestroyTweetAsync(ITweetIdentifier tweet)
         {
-            return DestroyTweet(new DestroyTweetParameters(tweet));
+            return DestroyTweetAsync(new DestroyTweetParameters(tweet));
         }
 
-        public Task DestroyTweet(ITweet tweet)
+        public Task DestroyTweetAsync(ITweet tweet)
         {
-            return DestroyTweet(tweet.TweetDTO);
+            return DestroyTweetAsync(tweet.TweetDTO);
         }
 
-        public async Task DestroyTweet(ITweetDTO tweet)
+        public async Task DestroyTweetAsync(ITweetDTO tweet)
         {
-            await DestroyTweet(new DestroyTweetParameters(tweet)).ConfigureAwait(false);
+            await DestroyTweetAsync(new DestroyTweetParameters(tweet)).ConfigureAwait(false);
         }
 
-        public async Task DestroyTweet(IDestroyTweetParameters parameters)
+        public async Task DestroyTweetAsync(IDestroyTweetParameters parameters)
         {
-            await _tweetsRequester.DestroyTweet(parameters).ConfigureAwait(false);
+            await _tweetsRequester.DestroyTweetAsync(parameters).ConfigureAwait(false);
         }
 
         // Retweets
 
-        public Task<ITweet[]> GetRetweets(long tweetId)
+        public Task<ITweet[]> GetRetweetsAsync(long tweetId)
         {
-            return GetRetweets(new GetRetweetsParameters(tweetId));
+            return GetRetweetsAsync(new GetRetweetsParameters(tweetId));
         }
 
-        public Task<ITweet[]> GetRetweets(ITweetIdentifier tweet)
+        public Task<ITweet[]> GetRetweetsAsync(ITweetIdentifier tweet)
         {
-            return GetRetweets(new GetRetweetsParameters(tweet));
+            return GetRetweetsAsync(new GetRetweetsParameters(tweet));
         }
 
-        public async Task<ITweet[]> GetRetweets(IGetRetweetsParameters parameters)
+        public async Task<ITweet[]> GetRetweetsAsync(IGetRetweetsParameters parameters)
         {
-            var requestResult = await _tweetsRequester.GetRetweets(parameters).ConfigureAwait(false);
+            var requestResult = await _tweetsRequester.GetRetweetsAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTweets(requestResult?.DataTransferObject);
         }
 
-        public Task<ITweet> PublishRetweet(long tweetId)
+        public Task<ITweet> PublishRetweetAsync(long tweetId)
         {
-            return PublishRetweet(new PublishRetweetParameters(tweetId));
+            return PublishRetweetAsync(new PublishRetweetParameters(tweetId));
         }
 
-        public Task<ITweet> PublishRetweet(ITweetIdentifier tweet)
+        public Task<ITweet> PublishRetweetAsync(ITweetIdentifier tweet)
         {
-            return PublishRetweet(new PublishRetweetParameters(tweet));
+            return PublishRetweetAsync(new PublishRetweetParameters(tweet));
         }
 
-        public async Task<ITweet> PublishRetweet(IPublishRetweetParameters parameters)
+        public async Task<ITweet> PublishRetweetAsync(IPublishRetweetParameters parameters)
         {
-            var requestResult = await _tweetsRequester.PublishRetweet(parameters).ConfigureAwait(false);
+            var requestResult = await _tweetsRequester.PublishRetweetAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTweet(requestResult?.DataTransferObject);
         }
 
-        public Task DestroyRetweet(long retweetId)
+        public Task DestroyRetweetAsync(long retweetId)
         {
-            return DestroyRetweet(new DestroyRetweetParameters(retweetId));
+            return DestroyRetweetAsync(new DestroyRetweetParameters(retweetId));
         }
 
-        public Task DestroyRetweet(ITweetIdentifier retweet)
+        public Task DestroyRetweetAsync(ITweetIdentifier retweet)
         {
-            return DestroyRetweet(new DestroyRetweetParameters(retweet));
+            return DestroyRetweetAsync(new DestroyRetweetParameters(retweet));
         }
 
-        public async Task DestroyRetweet(IDestroyRetweetParameters parameters)
+        public async Task DestroyRetweetAsync(IDestroyRetweetParameters parameters)
         {
-            await _tweetsRequester.DestroyRetweet(parameters).ConfigureAwait(false);
+            await _tweetsRequester.DestroyRetweetAsync(parameters).ConfigureAwait(false);
         }
 
-        public Task<long[]> GetRetweeterIds(long tweetId)
+        public Task<long[]> GetRetweeterIdsAsync(long tweetId)
         {
-            return GetRetweeterIds(new GetRetweeterIdsParameters(tweetId));
+            return GetRetweeterIdsAsync(new GetRetweeterIdsParameters(tweetId));
         }
 
-        public Task<long[]> GetRetweeterIds(ITweetIdentifier tweet)
+        public Task<long[]> GetRetweeterIdsAsync(ITweetIdentifier tweet)
         {
-            return GetRetweeterIds(new GetRetweeterIdsParameters(tweet));
+            return GetRetweeterIdsAsync(new GetRetweeterIdsParameters(tweet));
         }
 
-        public async Task<long[]> GetRetweeterIds(IGetRetweeterIdsParameters parameters)
+        public async Task<long[]> GetRetweeterIdsAsync(IGetRetweeterIdsParameters parameters)
         {
             var iterator = GetRetweeterIdsIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<long> GetRetweeterIdsIterator(long tweetId)
@@ -181,25 +181,25 @@ namespace Tweetinvi.Client
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterResultIterator, dto => dto.DataTransferObject.Ids);
         }
 
-        public Task<ITweet[]> GetUserFavoriteTweets(long userId)
+        public Task<ITweet[]> GetUserFavoriteTweetsAsync(long userId)
         {
-            return GetUserFavoriteTweets(new GetUserFavoriteTweetsParameters(userId));
+            return GetUserFavoriteTweetsAsync(new GetUserFavoriteTweetsParameters(userId));
         }
 
-        public Task<ITweet[]> GetUserFavoriteTweets(string username)
+        public Task<ITweet[]> GetUserFavoriteTweetsAsync(string username)
         {
-            return GetUserFavoriteTweets(new GetUserFavoriteTweetsParameters(username));
+            return GetUserFavoriteTweetsAsync(new GetUserFavoriteTweetsParameters(username));
         }
 
-        public Task<ITweet[]> GetUserFavoriteTweets(IUserIdentifier user)
+        public Task<ITweet[]> GetUserFavoriteTweetsAsync(IUserIdentifier user)
         {
-            return GetUserFavoriteTweets(new GetUserFavoriteTweetsParameters(user));
+            return GetUserFavoriteTweetsAsync(new GetUserFavoriteTweetsParameters(user));
         }
 
-        public async Task<ITweet[]> GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters parameters)
+        public async Task<ITweet[]> GetUserFavoriteTweetsAsync(IGetUserFavoriteTweetsParameters parameters)
         {
             var iterator = GetUserFavoriteTweetsIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         #region Favourite Tweets
@@ -229,26 +229,26 @@ namespace Tweetinvi.Client
                 });
         }
 
-        public Task FavoriteTweet(long tweetId)
+        public Task FavoriteTweetAsync(long tweetId)
         {
-            return FavoriteTweet(new FavoriteTweetParameters(tweetId));
+            return FavoriteTweetAsync(new FavoriteTweetParameters(tweetId));
         }
 
-        public Task FavoriteTweet(ITweetIdentifier tweet)
+        public Task FavoriteTweetAsync(ITweetIdentifier tweet)
         {
-            return FavoriteTweet(new FavoriteTweetParameters(tweet));
+            return FavoriteTweetAsync(new FavoriteTweetParameters(tweet));
         }
 
-        public Task FavoriteTweet(ITweet tweet)
+        public Task FavoriteTweetAsync(ITweet tweet)
         {
-            return FavoriteTweet(tweet.TweetDTO);
+            return FavoriteTweetAsync(tweet.TweetDTO);
         }
 
-        public async Task FavoriteTweet(ITweetDTO tweet)
+        public async Task FavoriteTweetAsync(ITweetDTO tweet)
         {
             try
             {
-                await FavoriteTweet(new FavoriteTweetParameters(tweet)).ConfigureAwait(false);
+                await FavoriteTweetAsync(new FavoriteTweetParameters(tweet)).ConfigureAwait(false);
                 tweet.Favorited = true;
             }
             catch (TwitterException ex)
@@ -264,50 +264,50 @@ namespace Tweetinvi.Client
             }
         }
 
-        public async Task FavoriteTweet(IFavoriteTweetParameters parameters)
+        public async Task FavoriteTweetAsync(IFavoriteTweetParameters parameters)
         {
-            await _tweetsRequester.FavoriteTweet(parameters).ConfigureAwait(false);
+            await _tweetsRequester.FavoriteTweetAsync(parameters).ConfigureAwait(false);
         }
 
-        public Task UnfavoriteTweet(long tweetId)
+        public Task UnfavoriteTweetAsync(long tweetId)
         {
-            return UnfavoriteTweet(new UnfavoriteTweetParameters(tweetId));
+            return UnfavoriteTweetAsync(new UnfavoriteTweetParameters(tweetId));
         }
 
-        public Task UnfavoriteTweet(ITweetIdentifier tweet)
+        public Task UnfavoriteTweetAsync(ITweetIdentifier tweet)
         {
-            return UnfavoriteTweet(new UnfavoriteTweetParameters(tweet));
+            return UnfavoriteTweetAsync(new UnfavoriteTweetParameters(tweet));
         }
 
-        public Task UnfavoriteTweet(ITweet tweet)
+        public Task UnfavoriteTweetAsync(ITweet tweet)
         {
-            return UnfavoriteTweet(tweet.TweetDTO);
+            return UnfavoriteTweetAsync(tweet.TweetDTO);
         }
 
-        public async Task UnfavoriteTweet(ITweetDTO tweet)
+        public async Task UnfavoriteTweetAsync(ITweetDTO tweet)
         {
-            await UnfavoriteTweet(new UnfavoriteTweetParameters(tweet)).ConfigureAwait(false);
+            await UnfavoriteTweetAsync(new UnfavoriteTweetParameters(tweet)).ConfigureAwait(false);
             tweet.Favorited = false;
         }
 
-        public async Task UnfavoriteTweet(IUnfavoriteTweetParameters parameters)
+        public async Task UnfavoriteTweetAsync(IUnfavoriteTweetParameters parameters)
         {
-            await _tweetsRequester.UnfavoriteTweet(parameters).ConfigureAwait(false);
+            await _tweetsRequester.UnfavoriteTweetAsync(parameters).ConfigureAwait(false);
         }
 
-        public Task<IOEmbedTweet> GetOEmbedTweet(ITweetIdentifier tweet)
+        public Task<IOEmbedTweet> GetOEmbedTweetAsync(ITweetIdentifier tweet)
         {
-            return GetOEmbedTweet(new GetOEmbedTweetParameters(tweet));
+            return GetOEmbedTweetAsync(new GetOEmbedTweetParameters(tweet));
         }
 
-        public Task<IOEmbedTweet> GetOEmbedTweet(long tweetId)
+        public Task<IOEmbedTweet> GetOEmbedTweetAsync(long tweetId)
         {
-            return GetOEmbedTweet(new GetOEmbedTweetParameters(tweetId));
+            return GetOEmbedTweetAsync(new GetOEmbedTweetParameters(tweetId));
         }
 
-        public async Task<IOEmbedTweet> GetOEmbedTweet(IGetOEmbedTweetParameters parameters)
+        public async Task<IOEmbedTweet> GetOEmbedTweetAsync(IGetOEmbedTweetParameters parameters)
         {
-            var twitterResult = await _tweetsRequester.GetOEmbedTweet(parameters).ConfigureAwait(false);
+            var twitterResult = await _tweetsRequester.GetOEmbedTweetAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateOEmbedTweet(twitterResult?.DataTransferObject);
         }
 

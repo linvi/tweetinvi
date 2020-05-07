@@ -18,19 +18,19 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/rest/reference/get/account/verify_credentials </para>
         /// </summary>
         /// <returns>TwitterResult containing the client's authenticated user</returns>
-        Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> GetAuthenticatedUserAsync(IGetAuthenticatedUserParameters parameters);
 
         /// <summary>
         /// Get a user
         /// </summary>
         /// <returns>TwitterResult containing a user</returns>
-        Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> GetUserAsync(IGetUserParameters parameters);
 
         /// <summary>
         /// Get multiple users
         /// </summary>
         /// <returns>TwitterResult containing a collection of users</returns>
-        Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters);
+        Task<ITwitterResult<IUserDTO[]>> GetUsersAsync(IGetUsersParameters parameters);
 
         /// <summary>
         /// Get friend ids from a specific user
@@ -48,28 +48,28 @@ namespace Tweetinvi.Client.Requesters
         /// Get relationship information between 2 users.
         /// </summary>
         /// <returns>Returns detailed information about the relationship between two arbitrary users</returns>
-        Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters);
+        Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters parameters);
 
         /// <summary>
         /// Block a user from the client's account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create </para>
         /// </summary>
         /// <returns>TwitterResult containing the blocked user</returns>
-        Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> BlockUserAsync(IBlockUserParameters parameters);
 
         /// <summary>
         /// Unblock a user from the client's account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-blocks-destroy </para>
         /// </summary>
         /// <returns>TwitterResult containing the unblocked user</returns>
-        Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> UnblockUserAsync(IUnblockUserParameters parameters);
 
         /// <summary>
         /// Report a user for spam
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-users-report_spam </para>
         /// </summary>
         /// <returns>TwitterResult containing the reported user</returns>
-        Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters);
+        Task<ITwitterResult<IUserDTO>> ReportUserForSpamAsync(IReportUserForSpamParameters parameters);
 
         /// <summary>
         /// Get the user ids blocked by the client's account
@@ -92,21 +92,21 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create </para>
         /// </summary>
         /// <returns>TwitterResult containing the followed user</returns>
-        Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> FollowUserAsync(IFollowUserParameters parameters);
 
         /// <summary>
         /// Modify the relationship between the authenticated user (source) and another user (target).
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-update </para>
         /// </summary>
         /// <returns>TwitterResult containing the updated relationship details</returns>
-        Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters);
+        Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationshipAsync(IUpdateRelationshipParameters parameters);
 
         /// <summary>
         /// Stops following a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy </para>
         /// </summary>
         /// <returns>TwitterResult containing the user who is no longer followed</returns>
-        Task<ITwitterResult<IUserDTO>> UnfollowUser(IUnfollowUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> UnfollowUserAsync(IUnfollowUserParameters parameters);
 
         // ONGOING REQUESTS
 
@@ -133,14 +133,14 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-lookup </para>
         /// </summary>
         /// <returns>TwitterResult containing the relationships between the authenticated user and multiple other users</returns>
-        Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters);
+        Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWithAsync(IGetRelationshipsWithParameters parameters);
 
         /// <summary>
         /// Get the user ids for whom the retweets are muted
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-no_retweets-ids </para>
         /// </summary>
         /// <returns>TwitterResult containing a list of user ids for whom the retweets are muted</returns>
-        Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
+        Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMutedAsync(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
 
         /// <summary>
         /// Get the muted user ids.
@@ -161,14 +161,14 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create </para>
         /// </summary>
         /// <returns>Twitter result containing the authenticated user</returns>
-        Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> MuteUserAsync(IMuteUserParameters parameters);
 
         /// <summary>
         /// Remove the mute of a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-destroy </para>
         /// </summary>
         /// <returns>Twitter result containing the authenticated user</returns>
-        Task<ITwitterResult<IUserDTO>> UnmuteUser(IUnmuteUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> UnmuteUserAsync(IUnmuteUserParameters parameters);
 
         /// <summary>
         /// Get the profile image of a user

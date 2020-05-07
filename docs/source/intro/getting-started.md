@@ -40,7 +40,7 @@ static async Task Main(string[] args)
 Now lets print your username!
 
 ``` c#
-var user = await client.Users.GetAuthenticatedUser();
+var user = await client.Users.GetAuthenticatedUserAsync();
 Console.WriteLine(user);
 ```
 
@@ -66,7 +66,7 @@ namespace tweetinvi_hello_world
             var client = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 
             // request the user's information from Twitter API
-            var user = await client.Users.GetAuthenticatedUser();
+            var user = await client.Users.GetAuthenticatedUserAsync();
 
             Console.WriteLine("Hello " + user);
         }

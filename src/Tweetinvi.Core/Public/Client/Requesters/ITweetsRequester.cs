@@ -18,21 +18,21 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id </para>
         /// </summary>
         /// <returns>TwitterResult containing specified tweet</returns>
-        Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> GetTweetAsync(IGetTweetParameters parameters);
 
         /// <summary>
         /// Publish a tweet
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the published tweet</returns>
-        Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> PublishTweetAsync(IPublishTweetParameters parameters);
 
         /// <summary>
         /// Destroy a tweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-destroy-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the destroyed tweet</returns>
-        Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> DestroyTweetAsync(IDestroyTweetParameters parameters);
 
         /// <summary>
         /// Get favorite tweets of a user
@@ -46,21 +46,21 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup </para>
         /// </summary>
         /// <returns>TwitterResult containing requested tweets</returns>
-        Task<ITwitterResult<ITweetDTO[]>> GetTweets(IGetTweetsParameters parameters);
+        Task<ITwitterResult<ITweetDTO[]>> GetTweetsAsync(IGetTweetsParameters parameters);
 
         /// <summary>
         /// Get the retweets associated with a specific tweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the retweets</returns>
-        Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters);
+        Task<ITwitterResult<ITweetDTO[]>> GetRetweetsAsync(IGetRetweetsParameters parameters);
 
         /// <summary>
         /// Publish a retweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-retweet-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the published retweet</returns>
-        Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> PublishRetweetAsync(IPublishRetweetParameters parameters);
 
         /// <summary>
         /// Get the ids of the users who retweeted a specific tweet
@@ -74,27 +74,27 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-unretweet-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the success status of the request</returns>
-        Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> DestroyRetweetAsync(IDestroyRetweetParameters parameters);
 
         /// <summary>
         /// Favorite a tweet
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-destroy </para>
         /// <returns>TwitterResult containing the favorited tweet</returns>
-        Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> FavoriteTweetAsync(IFavoriteTweetParameters parameters);
 
         /// <summary>
         /// Remove the favorite of a tweet
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-destroy </para>
         /// <returns>TwitterResult containing the no longer favorited tweet</returns>
-        Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> UnfavoriteTweetAsync(IUnfavoriteTweetParameters parameters);
 
         /// <summary>
         /// Get an oembed tweet
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed </para>
         /// <returns>TwitterResult containing the oembed tweet</returns>
-        Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters);
+        Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweetAsync(IGetOEmbedTweetParameters parameters);
     }
 }

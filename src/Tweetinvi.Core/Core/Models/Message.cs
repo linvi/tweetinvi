@@ -84,9 +84,9 @@ namespace Tweetinvi.Core.Models
         public IMediaEntity AttachedMedia => MessageEventDTO.MessageCreate.MessageData?.Attachment?.Media;
 
         // Destroy
-        public Task Destroy()
+        public Task DestroyAsync()
         {
-            return Client.Messages.DestroyMessage(this);
+            return Client.Messages.DestroyMessageAsync(this);
         }
 
         public bool Equals(IMessage other)

@@ -6,8 +6,8 @@ namespace Tweetinvi.Core.Web
 
     public interface ITwitterAccessor
     {
-        Task<ITwitterResult> ExecuteRequest(ITwitterRequest request);
-        Task<ITwitterResult<T>> ExecuteRequest<T>(ITwitterRequest request) where T : class;
-        Task PrepareTwitterRequest(ITwitterRequest request);
+        Task<ITwitterResult> ExecuteRequestAsync(ITwitterRequest request);
+        Task<ITwitterResult<T>> ExecuteRequestAsync<T>(ITwitterRequest request) where T : class;
+        Task PrepareTwitterRequestAsync(ITwitterRequest request);
     }
 }

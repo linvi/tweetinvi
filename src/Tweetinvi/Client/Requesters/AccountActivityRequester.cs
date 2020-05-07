@@ -25,64 +25,64 @@ namespace Tweetinvi.Client.Requesters
             _accountActivityController = accountActivityController;
         }
 
-        public Task<ITwitterResult<IWebhookDTO>> CreateAccountActivityWebhook(ICreateAccountActivityWebhookParameters parameters)
+        public Task<ITwitterResult<IWebhookDTO>> CreateAccountActivityWebhookAsync(ICreateAccountActivityWebhookParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountActivityController.CreateAccountActivityWebhook(parameters, request));
+            return ExecuteRequestAsync(request => _accountActivityController.CreateAccountActivityWebhookAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IGetAccountActivityWebhookEnvironmentsResultDTO>> GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters parameters)
+        public Task<ITwitterResult<IGetAccountActivityWebhookEnvironmentsResultDTO>> GetAccountActivityWebhookEnvironmentsAsync(IGetAccountActivityWebhookEnvironmentsParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountActivityController.GetAccountActivityWebhookEnvironments(parameters, request));
+            return ExecuteRequestAsync(request => _accountActivityController.GetAccountActivityWebhookEnvironmentsAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IWebhookDTO[]>> GetAccountActivityEnvironmentWebhooks(IGetAccountActivityEnvironmentWebhooksParameters parameters)
+        public Task<ITwitterResult<IWebhookDTO[]>> GetAccountActivityEnvironmentWebhooksAsync(IGetAccountActivityEnvironmentWebhooksParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountActivityController.GetAccountActivityEnvironmentWebhooks(parameters, request));
+            return ExecuteRequestAsync(request => _accountActivityController.GetAccountActivityEnvironmentWebhooksAsync(parameters, request));
         }
 
-        public Task<ITwitterResult> DeleteAccountActivityWebhook(IDeleteAccountActivityWebhookParameters parameters)
+        public Task<ITwitterResult> DeleteAccountActivityWebhookAsync(IDeleteAccountActivityWebhookParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountActivityController.DeleteAccountActivityWebhook(parameters, request));
+            return ExecuteRequestAsync(request => _accountActivityController.DeleteAccountActivityWebhookAsync(parameters, request));
         }
 
-        public Task<ITwitterResult> TriggerAccountActivityWebhookCRC(ITriggerAccountActivityWebhookCRCParameters parameters)
+        public Task<ITwitterResult> TriggerAccountActivityWebhookCRCAsync(ITriggerAccountActivityWebhookCRCParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountActivityController.TriggerAccountActivityWebhookCRC(parameters, request));
+            return ExecuteRequestAsync(request => _accountActivityController.TriggerAccountActivityWebhookCRCAsync(parameters, request));
         }
 
-        public Task<ITwitterResult> SubscribeToAccountActivity(ISubscribeToAccountActivityParameters parameters)
+        public Task<ITwitterResult> SubscribeToAccountActivityAsync(ISubscribeToAccountActivityParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountActivityController.SubscribeToAccountActivity(parameters, request));
+            return ExecuteRequestAsync(request => _accountActivityController.SubscribeToAccountActivityAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IWebhookSubscriptionsCount>> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters)
+        public Task<ITwitterResult<IWebhookSubscriptionsCount>> CountAccountActivitySubscriptionsAsync(ICountAccountActivitySubscriptionsParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountActivityController.CountAccountActivitySubscriptions(parameters, request));
+            return ExecuteRequestAsync(request => _accountActivityController.CountAccountActivitySubscriptionsAsync(parameters, request));
         }
 
-        public Task<ITwitterResult> IsAccountSubscribedToAccountActivity(IIsAccountSubscribedToAccountActivityParameters parameters)
+        public Task<ITwitterResult> IsAccountSubscribedToAccountActivityAsync(IIsAccountSubscribedToAccountActivityParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountActivityController.IsAccountSubscribedToAccountActivity(parameters, request));
+            return ExecuteRequestAsync(request => _accountActivityController.IsAccountSubscribedToAccountActivityAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IWebhookEnvironmentSubscriptionsDTO>> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters)
+        public Task<ITwitterResult<IWebhookEnvironmentSubscriptionsDTO>> GetAccountActivitySubscriptionsAsync(IGetAccountActivitySubscriptionsParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountActivityController.GetAccountActivitySubscriptions(parameters, request));
+            return ExecuteRequestAsync(request => _accountActivityController.GetAccountActivitySubscriptionsAsync(parameters, request));
         }
 
-        public Task<ITwitterResult> UnsubscribeFromAccountActivity(IUnsubscribeFromAccountActivityParameters parameters)
+        public Task<ITwitterResult> UnsubscribeFromAccountActivityAsync(IUnsubscribeFromAccountActivityParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountActivityController.UnsubscribeFromAccountActivity(parameters, request));
+            return ExecuteRequestAsync(request => _accountActivityController.UnsubscribeFromAccountActivityAsync(parameters, request));
         }
     }
 }

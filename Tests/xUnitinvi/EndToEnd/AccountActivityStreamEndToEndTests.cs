@@ -25,7 +25,7 @@ namespace xUnitinvi.EndToEnd
         // Even with the currently high delay, there are still some errors happening due to time issues
 
         [Fact]
-        public async Task Events()
+        public async Task EventsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests || !EndToEndTestConfig.ShouldRunAccountActivityStreamTests)
                 return;
@@ -33,60 +33,60 @@ namespace xUnitinvi.EndToEnd
             var environment = "sandbox";
             var timeoutBetweenOperations = TimeSpan.FromSeconds(25);
 
-            await AccountActivityEndToEndTests.RunAccountActivityTest(async config =>
+            await AccountActivityEndToEndTests.RunAccountActivityTestAsync(async config =>
             {
                 // arrange
                 var client = config.AccountActivityClient;
                 var accountActivityHandler = config.AccountActivityRequestHandler;
 
-                var webhookUrl = $"{await config.Ngrok.GetUrl()}?accountActivityEnvironment={environment}";
-                await client.AccountActivity.CreateAccountActivityWebhook(environment, webhookUrl);
+                var webhookUrl = $"{await config.Ngrok.GetUrlAsync()}?accountActivityEnvironment={environment}";
+                await client.AccountActivity.CreateAccountActivityWebhookAsync(environment, webhookUrl);
 
                 // act
                 var userClient = new TwitterClient(EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.Credentials);
 
-                var user = await userClient.Users.GetAuthenticatedUser();
+                var user = await userClient.Users.GetAuthenticatedUserAsync();
                 var stream = accountActivityHandler.GetAccountActivityStream(user.Id, environment);
 
                 var state = new AccountActivtyEventsState();
 
                 RegisterEvents(stream, state);
 
-                await userClient.AccountActivity.SubscribeToAccountActivity(environment);
+                await userClient.AccountActivity.SubscribeToAccountActivityAsync(environment);
                 await Task.Delay(TimeSpan.FromSeconds(30)); // long timeout as twitter does not start the webhook straight away
 
-                var tweet = await userClient.Tweets.PublishTweet($"testing webhooks -> v1");
+                var tweet = await userClient.Tweets.PublishTweetAsync($"testing webhooks -> v1");
                 await Task.Delay(timeoutBetweenOperations);
-                await userClient.Tweets.FavoriteTweet(tweet);
-                await Task.Delay(timeoutBetweenOperations);
-
-                await tweet.Destroy();
+                await userClient.Tweets.FavoriteTweetAsync(tweet);
                 await Task.Delay(timeoutBetweenOperations);
 
-                await userClient.Users.FollowUser(EndToEndTestConfig.TweetinviTest);
-                await Task.Delay(timeoutBetweenOperations);
-                await userClient.Users.UnfollowUser(EndToEndTestConfig.TweetinviTest);
+                await tweet.DestroyAsync();
                 await Task.Delay(timeoutBetweenOperations);
 
-                await userClient.Users.MuteUser(EndToEndTestConfig.TweetinviTest);
+                await userClient.Users.FollowUserAsync(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
-                await userClient.Users.UnmuteUser(EndToEndTestConfig.TweetinviTest);
+                await userClient.Users.UnfollowUserAsync(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
 
-                await userClient.Users.BlockUser(EndToEndTestConfig.TweetinviTest);
+                await userClient.Users.MuteUserAsync(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
-                await userClient.Users.UnblockUser(EndToEndTestConfig.TweetinviTest);
+                await userClient.Users.UnmuteUserAsync(EndToEndTestConfig.TweetinviTest);
+                await Task.Delay(timeoutBetweenOperations);
+
+                await userClient.Users.BlockUserAsync(EndToEndTestConfig.TweetinviTest);
+                await Task.Delay(timeoutBetweenOperations);
+                await userClient.Users.UnblockUserAsync(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
 
                 var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-                var media = await userClient.Upload.UploadBinary(tweetinviLogoBinary);
-                await userClient.Messages.PublishMessage(new PublishMessageParameters("hello from tweetinvi -> https://github.com/linvi/tweetinvi", EndToEndTestConfig.TweetinviTest.UserId)
+                var media = await userClient.Upload.UploadBinaryAsync(tweetinviLogoBinary);
+                await userClient.Messages.PublishMessageAsync(new PublishMessageParameters("hello from tweetinvi -> https://github.com/linvi/tweetinvi", EndToEndTestConfig.TweetinviTest.UserId)
                 {
                     MediaId = media.Id
                 });
 
                 await Task.Delay(timeoutBetweenOperations);
-                await _tweetinviTestClient.Messages.PublishMessage("Nice to hear from your!", EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.UserId);
+                await _tweetinviTestClient.Messages.PublishMessageAsync("Nice to hear from your!", EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.UserId);
                 await Task.Delay(timeoutBetweenOperations);
 
                 // TODO - Require more test for messages... - was not possible to do as messages were not yet implemented
@@ -94,16 +94,16 @@ namespace xUnitinvi.EndToEnd
                 var stateBeforeUnsubscribe = state.Clone();
 
                 // we are now making sure that we have unsubscribed
-                await client.AccountActivity.UnsubscribeFromAccountActivity(environment, EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.UserId);
+                await client.AccountActivity.UnsubscribeFromAccountActivityAsync(environment, EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.UserId);
                 await Task.Delay(10000); // long timeout as twitter does not start the webhook straight away
 
-                var tweet2 = await userClient.Tweets.PublishTweet($"testing webhooks -> v2");
+                var tweet2 = await userClient.Tweets.PublishTweetAsync($"testing webhooks -> v2");
                 await Task.Delay(timeoutBetweenOperations);
-                await tweet2.Destroy();
+                await tweet2.DestroyAsync();
                 await Task.Delay(timeoutBetweenOperations);
 
                 // assert - cleanup
-                await AccountActivityEndToEndTests.CleanAllEnvironments(client);
+                await AccountActivityEndToEndTests.CleanAllEnvironmentsAsync(client);
 
                 stateBeforeUnsubscribe.EventsReceived.ForEach(eventReceived => { _logger.WriteLine(eventReceived); });
 

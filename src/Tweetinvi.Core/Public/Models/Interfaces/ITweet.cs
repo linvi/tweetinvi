@@ -268,38 +268,38 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Favorites the tweet
         /// </summary>
-        Task Favorite();
+        Task FavoriteAsync();
 
         /// <summary>
         /// Remove the tweet from favourites
         /// </summary>
-        Task Unfavorite();
+        Task UnfavoriteAsync();
 
         #endregion
 
         /// <summary>
         /// Retweet the current tweet from the authenticated user.
         /// </summary>
-        Task<ITweet> PublishRetweet();
+        Task<ITweet> PublishRetweetAsync();
 
         /// <summary>
         /// Get the retweets of the current tweet
         /// </summary>
-        Task<ITweet[]> GetRetweets();
+        Task<ITweet[]> GetRetweetsAsync();
 
         /// <summary>
         /// Remove your retweet.
         /// </summary>
-        Task DestroyRetweet();
+        Task DestroyRetweetAsync();
 
         /// <summary>
         /// Delete a tweet from Twitter
         /// </summary>
-        Task Destroy();
+        Task DestroyAsync();
 
         /// <summary>
         /// Generate an OEmbedTweet.
         /// </summary>
-        Task<IOEmbedTweet> GenerateOEmbedTweet();
+        Task<IOEmbedTweet> GenerateOEmbedTweetAsync();
     }
 }

@@ -15,99 +15,99 @@ namespace Tweetinvi.Client
         ITweetsClientParametersValidator ParametersValidator { get; }
 
         /// <inheritdoc cref="GetTweet(IGetTweetParameters)" />
-        Task<ITweet> GetTweet(long tweetId);
+        Task<ITweet> GetTweetAsync(long tweetId);
 
         /// <summary>
         /// Get a tweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id </para>
         /// </summary>
         /// <returns>The tweet</returns>
-        Task<ITweet> GetTweet(IGetTweetParameters parameters);
+        Task<ITweet> GetTweetAsync(IGetTweetParameters parameters);
 
         /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
-        Task<ITweet[]> GetTweets(long[] tweetIds);
+        Task<ITweet[]> GetTweetsAsync(long[] tweetIds);
         /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
-        Task<ITweet[]> GetTweets(ITweetIdentifier[] tweets);
+        Task<ITweet[]> GetTweetsAsync(ITweetIdentifier[] tweets);
 
         /// <summary>
         /// Get multiple tweets
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup </para>
         /// </summary>
         /// <returns>Requested tweets</returns>
-        Task<ITweet[]> GetTweets(IGetTweetsParameters parameters);
+        Task<ITweet[]> GetTweetsAsync(IGetTweetsParameters parameters);
 
         /// <inheritdoc cref="PublishTweet(IPublishTweetParameters)" />
-        Task<ITweet> PublishTweet(string text);
+        Task<ITweet> PublishTweetAsync(string text);
 
         /// <summary>
         /// Publish a tweet
         /// <para>Read more : https://dev.twitter.com/rest/reference/post/statuses/update </para>
         /// </summary>
         /// <returns>Returns the published tweet</returns>
-        Task<ITweet> PublishTweet(IPublishTweetParameters parameters);
+        Task<ITweet> PublishTweetAsync(IPublishTweetParameters parameters);
 
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
-        Task DestroyTweet(long tweetId);
+        Task DestroyTweetAsync(long tweetId);
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
-        Task DestroyTweet(ITweetIdentifier tweet);
+        Task DestroyTweetAsync(ITweetIdentifier tweet);
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
-        Task DestroyTweet(ITweet tweet);
+        Task DestroyTweetAsync(ITweet tweet);
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
-        Task DestroyTweet(ITweetDTO tweet);
+        Task DestroyTweetAsync(ITweetDTO tweet);
 
         /// <summary>
         /// Destroy a tweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-destroy-id </para>
         /// </summary>
-        Task DestroyTweet(IDestroyTweetParameters parameters);
+        Task DestroyTweetAsync(IDestroyTweetParameters parameters);
 
         /// <inheritdoc cref="GetRetweets(IGetRetweetsParameters)" />
-        Task<ITweet[]> GetRetweets(long tweetId);
+        Task<ITweet[]> GetRetweetsAsync(long tweetId);
 
         /// <inheritdoc cref="GetRetweets(IGetRetweetsParameters)" />
-        Task<ITweet[]> GetRetweets(ITweetIdentifier tweet);
+        Task<ITweet[]> GetRetweetsAsync(ITweetIdentifier tweet);
 
         /// <summary>
         /// Get the retweets associated with a specific tweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets-id </para>
         /// </summary>
         /// <returns>Retweets</returns>
-        Task<ITweet[]> GetRetweets(IGetRetweetsParameters parameters);
+        Task<ITweet[]> GetRetweetsAsync(IGetRetweetsParameters parameters);
 
         /// <inheritdoc cref="PublishRetweet(IPublishRetweetParameters)" />
-        Task<ITweet> PublishRetweet(long tweetId);
+        Task<ITweet> PublishRetweetAsync(long tweetId);
         /// <inheritdoc cref="PublishRetweet(IPublishRetweetParameters)" />
-        Task<ITweet> PublishRetweet(ITweetIdentifier tweet);
+        Task<ITweet> PublishRetweetAsync(ITweetIdentifier tweet);
 
         /// <summary>
         /// Publish a retweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-retweet-id </para>
         /// </summary>
         /// <returns>The retweet</returns>
-        Task<ITweet> PublishRetweet(IPublishRetweetParameters parameters);
+        Task<ITweet> PublishRetweetAsync(IPublishRetweetParameters parameters);
 
         /// <inheritdoc cref="DestroyRetweet(IDestroyRetweetParameters)" />
-        Task DestroyRetweet(long retweetId);
+        Task DestroyRetweetAsync(long retweetId);
         /// <inheritdoc cref="DestroyRetweet(IDestroyRetweetParameters)" />
-        Task DestroyRetweet(ITweetIdentifier retweet);
+        Task DestroyRetweetAsync(ITweetIdentifier retweet);
 
         /// <summary>
         /// Destroy a retweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-unretweet-id </para>
         /// </summary>
-        Task DestroyRetweet(IDestroyRetweetParameters parameters);
+        Task DestroyRetweetAsync(IDestroyRetweetParameters parameters);
 
         /// <inheritdoc cref="GetRetweeterIds(IGetRetweeterIdsParameters)" />
-        Task<long[]> GetRetweeterIds(long tweetId);
+        Task<long[]> GetRetweeterIdsAsync(long tweetId);
         /// <inheritdoc cref="GetRetweeterIds(IGetRetweeterIdsParameters)" />
-        Task<long[]> GetRetweeterIds(ITweetIdentifier tweet);
+        Task<long[]> GetRetweeterIdsAsync(ITweetIdentifier tweet);
 
         /// <summary>
         /// Get the ids of the users who retweeted a specific tweet
         /// <para> Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids </para>
         /// </summary>
         /// <returns>List the retweeter ids</returns>
-        Task<long[]> GetRetweeterIds(IGetRetweeterIdsParameters parameters);
+        Task<long[]> GetRetweeterIdsAsync(IGetRetweeterIdsParameters parameters);
 
         /// <inheritdoc cref="GetRetweeterIdsIterator(IGetRetweeterIdsParameters)" />
         ITwitterIterator<long> GetRetweeterIdsIterator(long tweetId);
@@ -122,18 +122,18 @@ namespace Tweetinvi.Client
         ITwitterIterator<long> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters);
 
         /// <inheritdoc cref="GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters)" />
-        Task<ITweet[]> GetUserFavoriteTweets(long userId);
+        Task<ITweet[]> GetUserFavoriteTweetsAsync(long userId);
         /// <inheritdoc cref="GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters)" />
-        Task<ITweet[]> GetUserFavoriteTweets(string username);
+        Task<ITweet[]> GetUserFavoriteTweetsAsync(string username);
         /// <inheritdoc cref="GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters)" />
-        Task<ITweet[]> GetUserFavoriteTweets(IUserIdentifier user);
+        Task<ITweet[]> GetUserFavoriteTweetsAsync(IUserIdentifier user);
 
         /// <summary>
         /// Get favorite tweets of a user
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list </para>
         /// </summary>
         /// <returns>List the favorite tweets</returns>
-        Task<ITweet[]> GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters parameters);
+        Task<ITweet[]> GetUserFavoriteTweetsAsync(IGetUserFavoriteTweetsParameters parameters);
 
         /// <inheritdoc cref="GetUserFavoriteTweetsIterator(IGetUserFavoriteTweetsParameters)" />
         ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(long userId);
@@ -150,46 +150,46 @@ namespace Tweetinvi.Client
         ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(IGetUserFavoriteTweetsParameters parameters);
 
         /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
-        Task FavoriteTweet(long tweetId);
+        Task FavoriteTweetAsync(long tweetId);
         /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
-        Task FavoriteTweet(ITweetIdentifier tweet);
+        Task FavoriteTweetAsync(ITweetIdentifier tweet);
         /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
-        Task FavoriteTweet(ITweet tweet);
+        Task FavoriteTweetAsync(ITweet tweet);
         /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
-        Task FavoriteTweet(ITweetDTO tweet);
+        Task FavoriteTweetAsync(ITweetDTO tweet);
 
         /// <summary>
         /// Favorite a tweet
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-create </para>
-        Task FavoriteTweet(IFavoriteTweetParameters parameters);
+        Task FavoriteTweetAsync(IFavoriteTweetParameters parameters);
 
         /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
-        Task UnfavoriteTweet(long tweetId);
+        Task UnfavoriteTweetAsync(long tweetId);
         /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
-        Task UnfavoriteTweet(ITweetIdentifier tweet);
+        Task UnfavoriteTweetAsync(ITweetIdentifier tweet);
         /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
-        Task UnfavoriteTweet(ITweet tweet);
+        Task UnfavoriteTweetAsync(ITweet tweet);
         /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
-        Task UnfavoriteTweet(ITweetDTO tweet);
+        Task UnfavoriteTweetAsync(ITweetDTO tweet);
 
         /// <summary>
         /// Remove the favorite of a tweet
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-destroy </para>
-        Task UnfavoriteTweet(IUnfavoriteTweetParameters parameters);
+        Task UnfavoriteTweetAsync(IUnfavoriteTweetParameters parameters);
 
         /// <inheritdoc cref="GetOEmbedTweet(IGetOEmbedTweetParameters)" />
-        Task<IOEmbedTweet> GetOEmbedTweet(ITweetIdentifier tweet);
+        Task<IOEmbedTweet> GetOEmbedTweetAsync(ITweetIdentifier tweet);
 
         /// <inheritdoc cref="GetOEmbedTweet(IGetOEmbedTweetParameters)" />
-        Task<IOEmbedTweet> GetOEmbedTweet(long tweetId);
+        Task<IOEmbedTweet> GetOEmbedTweetAsync(long tweetId);
 
         /// <summary>
         /// Get an oembed tweet
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed </para>
         /// <returns>The generated oembed tweet</returns>
-        Task<IOEmbedTweet> GetOEmbedTweet(IGetOEmbedTweetParameters parameters);
+        Task<IOEmbedTweet> GetOEmbedTweetAsync(IGetOEmbedTweetParameters parameters);
     }
 }

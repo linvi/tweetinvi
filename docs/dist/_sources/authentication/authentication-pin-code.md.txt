@@ -22,7 +22,7 @@ Now let's see how Tweetinvi simplifies this process.
 var appClient = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET");
 
 // Start the authentication process
-var authenticationRequest = await appClient.Auth.RequestAuthenticationUrl();
+var authenticationRequest = await appClient.Auth.RequestAuthenticationUrlAsync();
 
 // Go to the URL so that Twitter authenticates the user and gives him a PIN code.
 Process.Start(new ProcessStartInfo(authenticationRequest.AuthorizationURL)
@@ -35,11 +35,11 @@ Console.WriteLine("Please enter the code and press enter.");
 var pinCode = System.Console.ReadLine();
 
 // With this pin code it is now possible to get the credentials back from Twitter
-var userCredentials = await appClient.Auth.RequestCredentialsFromVerifierCode(pinCode, authenticationRequest);
+var userCredentials = await appClient.Auth.RequestCredentialsFromVerifierCodeAsync(pinCode, authenticationRequest);
 
 // You can now save those credentials or use them as followed
 var userClient = new TwitterClient(userCredentials);
-var user = await userClient.Users.GetAuthenticatedUser();
+var user = await userClient.Users.GetAuthenticatedUserAsync();
 
 Console.WriteLine("Congratulation you have authenticated the user: " + user);
 ```

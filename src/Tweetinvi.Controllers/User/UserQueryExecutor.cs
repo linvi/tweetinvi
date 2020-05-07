@@ -12,46 +12,46 @@ namespace Tweetinvi.Controllers.User
 {
     public interface IUserQueryExecutor
     {
-        Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> GetAuthenticatedUserAsync(IGetAuthenticatedUserParameters parameters, ITwitterRequest request);
 
         // USERS
-        Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> GetUserAsync(IGetUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO[]>> GetUsersAsync(IGetUsersParameters parameters, ITwitterRequest request);
 
         // FRIENDS
-        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIdsAsync(IGetFriendIdsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIdsAsync(IGetFollowerIdsParameters parameters, ITwitterRequest request);
 
         // BLOCK
-        Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> BlockUserAsync(IBlockUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UnblockUserAsync(IUnblockUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> ReportUserForSpamAsync(IReportUserForSpamParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIdsAsync(IGetBlockedUserIdsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsersAsync(IGetBlockedUsersParameters parameters, ITwitterRequest request);
 
         // FOLLOWERS
-        Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UnfollowUser(IUnfollowUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> FollowUserAsync(IFollowUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UnfollowUserAsync(IUnfollowUserParameters parameters, ITwitterRequest request);
 
         // ONGOING REQUESTS
-        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendshipAsync(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollowAsync(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request);
 
         // FRIENDSHIPS
-        Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWithAsync(IGetRelationshipsWithParameters parameters, ITwitterRequest request);
 
         // MUTE
-        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIds(IGetMutedUserIdsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters cursoredParameters, ITwitterRequest request);
+        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIdsAsync(IGetMutedUserIdsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsersAsync(IGetMutedUsersParameters cursoredParameters, ITwitterRequest request);
 
-        Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UnmuteUser(IUnmuteUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> MuteUserAsync(IMuteUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UnmuteUserAsync(IUnmuteUserParameters parameters, ITwitterRequest request);
 
-        Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationshipAsync(IUpdateRelationshipParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMutedAsync(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request);
 
-        Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request);
+        Task<Stream> GetProfileImageStreamAsync(IGetProfileImageParameters parameters, ITwitterRequest request);
     }
 
     public class UserQueryExecutor : IUserQueryExecutor
@@ -70,27 +70,27 @@ namespace Tweetinvi.Controllers.User
             _webHelper = webHelper;
         }
 
-        public Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> GetAuthenticatedUserAsync(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetAuthenticatedUserQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
 
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> GetUserAsync(IGetUserParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetUserQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
 
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO[]>> GetUsersAsync(IGetUsersParameters parameters, ITwitterRequest request)
         {
             if (parameters.Users.Length == 0)
             {
@@ -109,41 +109,41 @@ namespace Tweetinvi.Controllers.User
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
 
-            return _twitterAccessor.ExecuteRequest<IUserDTO[]>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO[]>(request);
         }
 
-        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIdsAsync(IGetFollowerIdsParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetFollowerIdsQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
 
-            return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IIdsCursorQueryResultDTO>(request);
         }
 
-        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIdsAsync(IGetFriendIdsParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetFriendIdsQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
 
-            return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IIdsCursorQueryResultDTO>(request);
         }
 
-        public Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetRelationshipBetweenQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
 
-            return _twitterAccessor.ExecuteRequest<IRelationshipDetailsDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IRelationshipDetailsDTO>(request);
         }
 
         // Stream Profile Image
-        public Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request)
+        public Task<Stream> GetProfileImageStreamAsync(IGetProfileImageParameters parameters, ITwitterRequest request)
         {
             var url = _userQueryGenerator.DownloadProfileImageURL(parameters);
 
@@ -154,141 +154,141 @@ namespace Tweetinvi.Controllers.User
         }
 
         // BLOCK
-        public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> BlockUserAsync(IBlockUserParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetBlockUserQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
 
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UnblockUserAsync(IUnblockUserParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetUnblockUserQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
 
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> ReportUserForSpamAsync(IReportUserForSpamParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetReportUserForSpamQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
 
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIdsAsync(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetBlockedUserIdsQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IIdsCursorQueryResultDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsersAsync(IGetBlockedUsersParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetBlockedUsersQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserCursorQueryResultDTO>(request);
         }
 
         // FOLLOWERS
-        public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> FollowUserAsync(IFollowUserParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetFollowUserQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationshipAsync(IUpdateRelationshipParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetUpdateRelationshipQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<IRelationshipDetailsDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IRelationshipDetailsDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnfollowUser(IUnfollowUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UnfollowUserAsync(IUnfollowUserParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetUnfollowUserQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendshipAsync(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetUserIdsRequestingFriendshipQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IIdsCursorQueryResultDTO>(request);
         }
 
-        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollowAsync(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetUserIdsYouRequestedToFollowQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IIdsCursorQueryResultDTO>(request);
         }
 
         // FRIENDSHIPS
-        public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWithAsync(IGetRelationshipsWithParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetRelationshipsWithQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<IRelationshipStateDTO[]>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IRelationshipStateDTO[]>(request);
         }
 
         // MUTE
-        public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMutedAsync(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<long[]>(request);
+            return _twitterAccessor.ExecuteRequestAsync<long[]>(request);
         }
 
-        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIds(IGetMutedUserIdsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIdsAsync(IGetMutedUserIdsParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetMutedUserIdsQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IIdsCursorQueryResultDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsersAsync(IGetMutedUsersParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetMutedUsersQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserCursorQueryResultDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> MuteUserAsync(IMuteUserParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetMuteUserQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnmuteUser(IUnmuteUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UnmuteUserAsync(IUnmuteUserParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetUnmuteUserQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
     }
 }

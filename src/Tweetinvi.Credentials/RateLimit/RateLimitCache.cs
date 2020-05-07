@@ -23,7 +23,7 @@ namespace Tweetinvi.Credentials.RateLimit
             _credentialsRateLimits = new Dictionary<IReadOnlyTwitterCredentials, ICredentialsRateLimits>();
         }
 
-        public Task Clear(IReadOnlyTwitterCredentials credentials)
+        public Task ClearAsync(IReadOnlyTwitterCredentials credentials)
         {
             // We want to lock both the refresh dictionary access so that we ensure the dictionary
             // is not cleared during a refresh or when it is being accessed
@@ -41,7 +41,7 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public Task ClearAll()
+        public Task ClearAllAsync()
         {
             // We want to lock both the refresh dictionary access so that we ensure the dictionary
             // is not cleared during a refresh or when it is being accessed
@@ -56,7 +56,7 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public Task<ICredentialsRateLimits> GetCredentialsRateLimits(IReadOnlyTwitterCredentials credentials)
+        public Task<ICredentialsRateLimits> GetCredentialsRateLimitsAsync(IReadOnlyTwitterCredentials credentials)
         {
             lock (_lockCredentialsRateLimitsDictionary)
             {
@@ -69,7 +69,7 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public Task RefreshEntry(IReadOnlyTwitterCredentials credentials, ICredentialsRateLimits newCredentialsRateLimits)
+        public Task RefreshEntryAsync(IReadOnlyTwitterCredentials credentials, ICredentialsRateLimits newCredentialsRateLimits)
         {
             lock (_lockCredentialsRateLimitsDictionary)
             {

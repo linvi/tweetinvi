@@ -17,7 +17,7 @@ namespace Tweetinvi.WebLogic
             _oAuthWebRequestGeneratorFactory = oAuthWebRequestGeneratorFactory;
         }
 
-        public async Task<HttpResponseMessage> GetHttpResponse(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
+        public async Task<HttpResponseMessage> GetHttpResponseAsync(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
         {
             using (var client = GetHttpClient(twitterQuery, handler))
             {

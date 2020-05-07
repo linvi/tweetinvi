@@ -28,51 +28,51 @@ namespace Tweetinvi.Client.Requesters
         }
 
         // Tweets
-        public Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO>> GetTweetAsync(IGetTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.GetTweet(parameters, request));
+            return ExecuteRequestAsync(request => _tweetController.GetTweetAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITweetDTO[]>> GetTweets(IGetTweetsParameters parameters)
+        public Task<ITwitterResult<ITweetDTO[]>> GetTweetsAsync(IGetTweetsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.GetTweets(parameters, request));
+            return ExecuteRequestAsync(request => _tweetController.GetTweetsAsync(parameters, request));
         }
 
         // Tweets - Publish
-        public Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO>> PublishTweetAsync(IPublishTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.PublishTweet(parameters, request));
+            return ExecuteRequestAsync(request => _tweetController.PublishTweetAsync(parameters, request));
         }
 
         // Tweets - Destroy
-        public Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO>> DestroyTweetAsync(IDestroyTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.DestroyTweet(parameters, request));
+            return ExecuteRequestAsync(request => _tweetController.DestroyTweetAsync(parameters, request));
         }
 
         // Retweets
-        public Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters)
+        public Task<ITwitterResult<ITweetDTO[]>> GetRetweetsAsync(IGetRetweetsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.GetRetweets(parameters, request));
+            return ExecuteRequestAsync(request => _tweetController.GetRetweetsAsync(parameters, request));
         }
 
         // Retweets - Publish
-        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO>> PublishRetweetAsync(IPublishRetweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.PublishRetweet(parameters, request));
+            return ExecuteRequestAsync(request => _tweetController.PublishRetweetAsync(parameters, request));
         }
 
         // Retweets - Destroy
-        public Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO>> DestroyRetweetAsync(IDestroyRetweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.DestroyRetweet(parameters, request));
+            return ExecuteRequestAsync(request => _tweetController.DestroyRetweetAsync(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters)
@@ -90,22 +90,22 @@ namespace Tweetinvi.Client.Requesters
             return _tweetController.GetFavoriteTweetsIterator(parameters, request);
         }
 
-        public Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO>> FavoriteTweetAsync(IFavoriteTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.FavoriteTweet(parameters, request));
+            return ExecuteRequestAsync(request => _tweetController.FavoriteTweetAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO>> UnfavoriteTweetAsync(IUnfavoriteTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.UnfavoriteTweet(parameters, request));
+            return ExecuteRequestAsync(request => _tweetController.UnfavoriteTweetAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters)
+        public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweetAsync(IGetOEmbedTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.GetOEmbedTweet(parameters, request));
+            return ExecuteRequestAsync(request => _tweetController.GetOEmbedTweetAsync(parameters, request));
         }
     }
 }

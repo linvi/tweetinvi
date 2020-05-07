@@ -76,7 +76,7 @@ namespace Tweetinvi.WebLogic
                 }
                 else
                 {
-                    await WebRequestGenerator.SetTwitterQueryAuthorizationHeader(twitterQuery).ConfigureAwait(false);
+                    await WebRequestGenerator.SetTwitterQueryAuthorizationHeaderAsync(twitterQuery).ConfigureAwait(false);
                 }
             }
 

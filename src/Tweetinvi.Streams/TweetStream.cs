@@ -33,7 +33,7 @@ namespace Tweetinvi.Streams
             _factories = factories;
         }
 
-        public async Task StartStream(string url)
+        public async Task StartStreamAsync(string url)
         {
             ITwitterRequest createTwitterRequest()
             {
@@ -63,7 +63,7 @@ namespace Tweetinvi.Streams
                 }
             }
 
-            await _streamResultGenerator.StartStream(onTweetReceived, createTwitterRequest).ConfigureAwait(false);
+            await _streamResultGenerator.StartStreamAsync(onTweetReceived, createTwitterRequest).ConfigureAwait(false);
         }
     }
 }

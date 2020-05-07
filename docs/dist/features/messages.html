@@ -187,17 +187,17 @@
 <p>Messages allow private interactions between users.</p>
 <div class="section" id="create-read-delete">
 <h2>Create, Read, Delete<a class="headerlink" href="#create-read-delete" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessage</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">publishedMessage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessage</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">DestroyMessage</span><span class="p">(</span><span class="n">publishedMessage</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessageAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">publishedMessage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessageAsync</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">DestroyMessageAsync</span><span class="p">(</span><span class="n">publishedMessage</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="publish-with-a-media">
 <h2>Publish with a Media<a class="headerlink" href="#publish-with-a-media" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">media</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadMessageImage</span><span class="p">(</span><span class="n">binary</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">media</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadMessageImageAsync</span><span class="p">(</span><span class="n">binary</span><span class="p">);</span>
 
-<span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessage</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishMessageParameters</span><span class="p">(</span><span class="s">&quot;piloupe&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span>
+<span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessageAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishMessageParameters</span><span class="p">(</span><span class="s">&quot;piloupe&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">MediaId</span> <span class="p">=</span> <span class="n">media</span><span class="p">.</span><span class="n">Id</span>
 <span class="p">});</span>
@@ -209,7 +209,7 @@
 <blockquote>
 <div><p>Quick replies let you send messages with multiple choice options</p>
 </div></blockquote>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessage</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishMessageParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">)</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessageAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishMessageParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">QuickReplyOptions</span> <span class="p">=</span> <span class="k">new</span> <span class="n">IQuickReplyOption</span><span class="p">[]</span>
     <span class="p">{</span>
@@ -232,7 +232,7 @@
 </div>
 <div class="section" id="list-messages">
 <h2>List Messages<a class="headerlink" href="#list-messages" title="Permalink to this headline">¶</a></h2>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">messages</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessages</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">messages</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessagesAsync</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">messagesIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessagesIterator</span><span class="p">();</span>
 </pre></div>

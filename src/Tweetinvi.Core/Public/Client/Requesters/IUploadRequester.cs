@@ -16,27 +16,27 @@ namespace Tweetinvi.Client.Requesters
         /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
         /// </summary>
         /// <returns>Uploaded media information</returns>
-        Task<IChunkUploadResult> UploadBinary(IUploadParameters parameters);
+        Task<IChunkUploadResult> UploadBinaryAsync(IUploadParameters parameters);
         
         /// <summary>
         /// Add metadata to an uploaded media
         /// <para>Read more : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create</para>
         /// </summary>
         /// <returns>Whether the operation was a success</returns>
-        Task<ITwitterResult> AddMediaMetadata(IAddMediaMetadataParameters parameters);
+        Task<ITwitterResult> AddMediaMetadataAsync(IAddMediaMetadataParameters parameters);
         
         /// <summary>
         /// Get a video processing status
         /// <para>https://dev.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status</para>
         /// </summary>
         /// <returns>Current status of the video processing</returns>
-        Task<ITwitterResult<IUploadedMediaInfo>> GetVideoProcessingStatus(IMedia media);
+        Task<ITwitterResult<IUploadedMediaInfo>> GetVideoProcessingStatusAsync(IMedia media);
         
         /// <summary>
         /// Wait for the upload of a media has completed
         /// <para>Read more : https://dev.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status</para>
         /// </summary>
         /// <returns>Completes wait the media is ready for use</returns>
-        Task WaitForMediaProcessingToGetAllMetadata(IMedia media);
+        Task WaitForMediaProcessingToGetAllMetadataAsync(IMedia media);
     }
 }

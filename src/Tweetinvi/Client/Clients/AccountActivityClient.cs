@@ -25,90 +25,90 @@ namespace Tweetinvi.Client
             return _client.CreateTwitterExecutionContext().Container.Resolve<IAccountActivityRequestHandler>();
         }
 
-        public Task<IWebhook> CreateAccountActivityWebhook(string environment, string webhookUrl)
+        public Task<IWebhook> CreateAccountActivityWebhookAsync(string environment, string webhookUrl)
         {
-            return CreateAccountActivityWebhook(new CreateAccountActivityWebhookParameters(environment, webhookUrl));
+            return CreateAccountActivityWebhookAsync(new CreateAccountActivityWebhookParameters(environment, webhookUrl));
         }
 
-        public async Task<IWebhook> CreateAccountActivityWebhook(ICreateAccountActivityWebhookParameters parameters)
+        public async Task<IWebhook> CreateAccountActivityWebhookAsync(ICreateAccountActivityWebhookParameters parameters)
         {
-            var twitterResult = await _accountActivityRequester.CreateAccountActivityWebhook(parameters).ConfigureAwait(false);
+            var twitterResult = await _accountActivityRequester.CreateAccountActivityWebhookAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateWebhook(twitterResult?.DataTransferObject);
         }
 
-        public Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironments()
+        public Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironmentsAsync()
         {
-            return GetAccountActivityWebhookEnvironments(new GetAccountActivityWebhookEnvironmentsParameters());
+            return GetAccountActivityWebhookEnvironmentsAsync(new GetAccountActivityWebhookEnvironmentsParameters());
         }
 
-        public async Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters parameters)
+        public async Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironmentsAsync(IGetAccountActivityWebhookEnvironmentsParameters parameters)
         {
-            var twitterResult = await _accountActivityRequester.GetAccountActivityWebhookEnvironments(parameters).ConfigureAwait(false);
+            var twitterResult = await _accountActivityRequester.GetAccountActivityWebhookEnvironmentsAsync(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject?.Environments.Select(x => _client.Factories.CreateWebhookEnvironment(x)).ToArray();
         }
 
-        public Task<IWebhook[]> GetAccountActivityEnvironmentWebhooks(string environment)
+        public Task<IWebhook[]> GetAccountActivityEnvironmentWebhooksAsync(string environment)
         {
-            return GetAccountActivityEnvironmentWebhooks(new GetAccountActivityEnvironmentWebhooksParameters(environment));
+            return GetAccountActivityEnvironmentWebhooksAsync(new GetAccountActivityEnvironmentWebhooksParameters(environment));
         }
 
-        public async Task<IWebhook[]> GetAccountActivityEnvironmentWebhooks(IGetAccountActivityEnvironmentWebhooksParameters parameters)
+        public async Task<IWebhook[]> GetAccountActivityEnvironmentWebhooksAsync(IGetAccountActivityEnvironmentWebhooksParameters parameters)
         {
-            var twitterResult = await _accountActivityRequester.GetAccountActivityEnvironmentWebhooks(parameters).ConfigureAwait(false);
+            var twitterResult = await _accountActivityRequester.GetAccountActivityEnvironmentWebhooksAsync(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject?.Select(x => _client.Factories.CreateWebhook(x)).ToArray();
         }
 
-        public Task DeleteAccountActivityWebhook(string environment, string webhookId)
+        public Task DeleteAccountActivityWebhookAsync(string environment, string webhookId)
         {
-            return DeleteAccountActivityWebhook(new DeleteAccountActivityWebhookParameters(environment, webhookId));
+            return DeleteAccountActivityWebhookAsync(new DeleteAccountActivityWebhookParameters(environment, webhookId));
         }
 
-        public Task DeleteAccountActivityWebhook(IDeleteAccountActivityWebhookParameters parameters)
+        public Task DeleteAccountActivityWebhookAsync(IDeleteAccountActivityWebhookParameters parameters)
         {
-            return _accountActivityRequester.DeleteAccountActivityWebhook(parameters);
+            return _accountActivityRequester.DeleteAccountActivityWebhookAsync(parameters);
         }
 
-        public Task TriggerAccountActivityWebhookCRC(string environment, string webhookId)
+        public Task TriggerAccountActivityWebhookCRCAsync(string environment, string webhookId)
         {
-            return TriggerAccountActivityWebhookCRC(new TriggerAccountActivityWebhookCRCParameters(environment, webhookId));
+            return TriggerAccountActivityWebhookCRCAsync(new TriggerAccountActivityWebhookCRCParameters(environment, webhookId));
         }
 
-        public Task TriggerAccountActivityWebhookCRC(ITriggerAccountActivityWebhookCRCParameters parameters)
+        public Task TriggerAccountActivityWebhookCRCAsync(ITriggerAccountActivityWebhookCRCParameters parameters)
         {
-            return _accountActivityRequester.TriggerAccountActivityWebhookCRC(parameters);
+            return _accountActivityRequester.TriggerAccountActivityWebhookCRCAsync(parameters);
         }
 
-        public Task SubscribeToAccountActivity(string environment)
+        public Task SubscribeToAccountActivityAsync(string environment)
         {
-            return SubscribeToAccountActivity(new SubscribeToAccountActivityParameters(environment));
+            return SubscribeToAccountActivityAsync(new SubscribeToAccountActivityParameters(environment));
         }
 
-        public Task SubscribeToAccountActivity(ISubscribeToAccountActivityParameters parameters)
+        public Task SubscribeToAccountActivityAsync(ISubscribeToAccountActivityParameters parameters)
         {
-            return _accountActivityRequester.SubscribeToAccountActivity(parameters);
+            return _accountActivityRequester.SubscribeToAccountActivityAsync(parameters);
         }
 
-        public Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptions()
+        public Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptionsAsync()
         {
-            return CountAccountActivitySubscriptions(new CountAccountActivitySubscriptionsParameters());
+            return CountAccountActivitySubscriptionsAsync(new CountAccountActivitySubscriptionsParameters());
         }
 
-        public async Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters)
+        public async Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptionsAsync(ICountAccountActivitySubscriptionsParameters parameters)
         {
-            var twitterResult = await _accountActivityRequester.CountAccountActivitySubscriptions(parameters).ConfigureAwait(false);
+            var twitterResult = await _accountActivityRequester.CountAccountActivitySubscriptionsAsync(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
         }
 
-        public Task<bool> IsAccountSubscribedToAccountActivity(string environment)
+        public Task<bool> IsAccountSubscribedToAccountActivityAsync(string environment)
         {
-            return IsAccountSubscribedToAccountActivity(new IsAccountSubscribedToAccountActivityParameters(environment));
+            return IsAccountSubscribedToAccountActivityAsync(new IsAccountSubscribedToAccountActivityParameters(environment));
         }
 
-        public async Task<bool> IsAccountSubscribedToAccountActivity(IIsAccountSubscribedToAccountActivityParameters parameters)
+        public async Task<bool> IsAccountSubscribedToAccountActivityAsync(IIsAccountSubscribedToAccountActivityParameters parameters)
         {
             try
             {
-                var twitterResult = await _accountActivityRequester.IsAccountSubscribedToAccountActivity(parameters).ConfigureAwait(false);
+                var twitterResult = await _accountActivityRequester.IsAccountSubscribedToAccountActivityAsync(parameters).ConfigureAwait(false);
                 return twitterResult.Response.StatusCode == 204;
             }
             catch (TwitterException)
@@ -117,25 +117,25 @@ namespace Tweetinvi.Client
             }
         }
 
-        public Task<IWebhookEnvironmentSubscriptions> GetAccountActivitySubscriptions(string environment)
+        public Task<IWebhookEnvironmentSubscriptions> GetAccountActivitySubscriptionsAsync(string environment)
         {
-            return GetAccountActivitySubscriptions(new GetAccountActivitySubscriptionsParameters(environment));
+            return GetAccountActivitySubscriptionsAsync(new GetAccountActivitySubscriptionsParameters(environment));
         }
 
-        public async Task<IWebhookEnvironmentSubscriptions> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters)
+        public async Task<IWebhookEnvironmentSubscriptions> GetAccountActivitySubscriptionsAsync(IGetAccountActivitySubscriptionsParameters parameters)
         {
-            var twitterResult = await _accountActivityRequester.GetAccountActivitySubscriptions(parameters).ConfigureAwait(false);
+            var twitterResult = await _accountActivityRequester.GetAccountActivitySubscriptionsAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateWebhookEnvironmentSubscriptions(twitterResult?.DataTransferObject);
         }
 
-        public Task UnsubscribeFromAccountActivity(string environment, long userId)
+        public Task UnsubscribeFromAccountActivityAsync(string environment, long userId)
         {
-            return UnsubscribeFromAccountActivity(new UnsubscribeFromAccountActivityParameters(environment, userId));
+            return UnsubscribeFromAccountActivityAsync(new UnsubscribeFromAccountActivityParameters(environment, userId));
         }
 
-        public Task UnsubscribeFromAccountActivity(IUnsubscribeFromAccountActivityParameters parameters)
+        public Task UnsubscribeFromAccountActivityAsync(IUnsubscribeFromAccountActivityParameters parameters)
         {
-            return _accountActivityRequester.UnsubscribeFromAccountActivity(parameters);
+            return _accountActivityRequester.UnsubscribeFromAccountActivityAsync(parameters);
         }
     }
 }

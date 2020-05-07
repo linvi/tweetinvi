@@ -31,13 +31,13 @@ namespace Tweetinvi.Parameters
         {
             return new RequestCredentialsParameters(pinCode, authRequest);
         }
-        
+
         /// <inheritdoc cref="FromCallbackUrl(string, IAuthenticationRequest)"/>
         public static IRequestCredentialsParameters FromCallbackUrl(Uri callbackUri, IAuthenticationRequest authenticationRequestStore)
         {
             return FromCallbackUrl(callbackUri.AbsoluteUri, authenticationRequestStore);
         }
-        
+
         public static IRequestCredentialsParameters FromCallbackUrl(string callbackUrl, IAuthenticationRequest authRequest)
         {
             var oAuthVerifier = callbackUrl.GetURLParameter("oauth_verifier");
@@ -50,17 +50,17 @@ namespace Tweetinvi.Parameters
         /// the authentication token, this will return an error.
         /// </summary>
         /// <exception cref="ArgumentException">When callback url is not properly formatted</exception>
-        public static async Task<IRequestCredentialsParameters> FromCallbackUrl(string callbackUrl, IAuthenticationRequestStore authenticationRequestStore)
+        public static async Task<IRequestCredentialsParameters> FromCallbackUrlAsync(string callbackUrl, IAuthenticationRequestStore authenticationRequestStore)
         {
             var tokenId = authenticationRequestStore.ExtractAuthenticationRequestIdFromCallbackUrl(callbackUrl);
 
-            var authToken = await authenticationRequestStore.GetAuthenticationRequestFromId(tokenId).ConfigureAwait(false);
+            var authToken = await authenticationRequestStore.GetAuthenticationRequestFromIdAsync(tokenId).ConfigureAwait(false);
             if (authToken == null)
             {
                 throw new Exception("Could not retrieve the authentication token");
             }
 
-            await authenticationRequestStore.RemoveAuthenticationToken(tokenId).ConfigureAwait(false);
+            await authenticationRequestStore.RemoveAuthenticationTokenAsync(tokenId).ConfigureAwait(false);
 
             var oAuthVerifier = callbackUrl.GetURLParameter("oauth_verifier");
             if (oAuthVerifier == null)

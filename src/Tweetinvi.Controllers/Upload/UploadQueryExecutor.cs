@@ -22,12 +22,12 @@ namespace Tweetinvi.Controllers.Upload
         /// <summary>
         /// Upload a binary
         /// </summary>
-        Task<IChunkUploadResult> UploadBinary(IUploadParameters uploadQueryParameters, ITwitterRequest request);
+        Task<IChunkUploadResult> UploadBinaryAsync(IUploadParameters uploadQueryParameters, ITwitterRequest request);
 
         /// <summary>
         /// Add metadata to a media that has been uploaded.
         /// </summary>
-        Task<ITwitterResult> AddMediaMetadata(IAddMediaMetadataParameters metadata, ITwitterRequest request);
+        Task<ITwitterResult> AddMediaMetadataAsync(IAddMediaMetadataParameters metadata, ITwitterRequest request);
     }
 
     public class UploadQueryExecutor : IUploadQueryExecutor
@@ -46,7 +46,7 @@ namespace Tweetinvi.Controllers.Upload
             _uploadHelper = uploadHelper;
         }
 
-        public async Task<IChunkUploadResult> UploadBinary(IUploadParameters uploadQueryParameters, ITwitterRequest baseRequest)
+        public async Task<IChunkUploadResult> UploadBinaryAsync(IUploadParameters uploadQueryParameters, ITwitterRequest baseRequest)
         {
             var binary = uploadQueryParameters.Binary;
             var uploader = CreateChunkedUploader();
@@ -61,16 +61,16 @@ namespace Tweetinvi.Controllers.Upload
             };
 
             var initRequest = new TwitterRequest(baseRequest);
-            var initOperationSucceeded = await uploader.Init(initParameters, initRequest).ConfigureAwait(false);
+            var initOperationSucceeded = await uploader.InitAsync(initParameters, initRequest).ConfigureAwait(false);
 
             if (!initOperationSucceeded)
             {
                 return uploader.Result;
             }
-            
+
             var binaryChunks = GetBinaryChunks(binary, uploadQueryParameters.MaxChunkSize);
 
-            var totalSize = await CalculateSize("media", binary).ConfigureAwait(false);
+            var totalSize = await CalculateSizeAsync("media", binary).ConfigureAwait(false);
             long uploadedSize = 0;
 
             uploadQueryParameters.UploadStateChanged?.Invoke(new MediaUploadProgressChangedEventArgs(UploadProgressState.INITIALIZED, 0, totalSize));
@@ -94,7 +94,7 @@ namespace Tweetinvi.Controllers.Upload
                 };
 
                 var appendRequest = new TwitterRequest(baseRequest);
-                var appendOperationSucceeded = await uploader.Append(appendParameters, appendRequest).ConfigureAwait(false);
+                var appendOperationSucceeded = await uploader.AppendAsync(appendParameters, appendRequest).ConfigureAwait(false);
 
                 if (!appendOperationSucceeded)
                 {
@@ -105,7 +105,7 @@ namespace Tweetinvi.Controllers.Upload
 
             var finalizeRequest = new TwitterRequest(baseRequest);
 
-            var finalizeSucceeded = await uploader.Finalize(uploadQueryParameters.FinalizeCustomRequestParameters, finalizeRequest).ConfigureAwait(false);
+            var finalizeSucceeded = await uploader.FinalizeAsync(uploadQueryParameters.FinalizeCustomRequestParameters, finalizeRequest).ConfigureAwait(false);
             if (finalizeSucceeded)
             {
                 var result = uploader.Result;
@@ -113,18 +113,18 @@ namespace Tweetinvi.Controllers.Upload
 
                 var category = uploadQueryParameters.MediaCategory;
                 var isAwaitableUpload = category == MediaCategory.Gif || category == MediaCategory.Video;
-                
+
                 if (isAwaitableUpload && uploadQueryParameters.WaitForTwitterProcessing)
                 {
                     var request = new TwitterRequest(baseRequest);
-                    await _uploadHelper.WaitForMediaProcessingToGetAllMetadata(result.Media, request).ConfigureAwait(false);
+                    await _uploadHelper.WaitForMediaProcessingToGetAllMetadataAsync(result.Media, request).ConfigureAwait(false);
                 }
             }
 
             return uploader.Result;
         }
 
-        private static async Task<long> CalculateSize(string contentId, byte[] binary)
+        private static async Task<long> CalculateSizeAsync(string contentId, byte[] binary)
         {
             using (var httpContent = MultipartTwitterQuery.CreateHttpContent(contentId, new[] { binary }))
             {
@@ -155,7 +155,7 @@ namespace Tweetinvi.Controllers.Upload
             return _chunkedUploadFactory.Create();
         }
 
-        public Task<ITwitterResult> AddMediaMetadata(IAddMediaMetadataParameters metadata, ITwitterRequest request)
+        public Task<ITwitterResult> AddMediaMetadataAsync(IAddMediaMetadataParameters metadata, ITwitterRequest request)
         {
             var json = JsonConvert.SerializeObject(metadata);
 
@@ -163,10 +163,10 @@ namespace Tweetinvi.Controllers.Upload
             request.Query.HttpMethod = HttpMethod.POST;
             request.Query.HttpContent = new StringContent(json);
 
-            return _twitterAccessor.ExecuteRequest(request);
+            return _twitterAccessor.ExecuteRequestAsync(request);
         }
-        
-        public async Task<ITwitterResult<IUploadedMediaInfo>> GetMediaStatus(IMedia media, bool autoWait, ITwitterRequest request)
+
+        public async Task<ITwitterResult<IUploadedMediaInfo>> GetMediaStatusAsync(IMedia media, bool autoWait, ITwitterRequest request)
         {
             if (!media.HasBeenUploaded)
             {
@@ -191,8 +191,8 @@ namespace Tweetinvi.Controllers.Upload
 
             request.Query.Url = $"https://upload.twitter.com/1.1/media/upload.json?command=STATUS&media_id={media.Id}";
             request.Query.HttpMethod = HttpMethod.GET;
-            
-            return await _twitterAccessor.ExecuteRequest<IUploadedMediaInfo>(request).ConfigureAwait(false);
+
+            return await _twitterAccessor.ExecuteRequestAsync<IUploadedMediaInfo>(request).ConfigureAwait(false);
         }
     }
 }

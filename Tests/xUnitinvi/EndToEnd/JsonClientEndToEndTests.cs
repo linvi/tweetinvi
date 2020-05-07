@@ -39,12 +39,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task Users()
+        public async Task UsersAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var user = await _tweetinviClient.Users.GetUser("tweetinviapi");
+            var user = await _tweetinviClient.Users.GetUserAsync("tweetinviapi");
             var verifier = new Action<IUserIdentifier>(identifier => { Assert.Equal(user.Id, identifier.Id); });
 
             TestSerializer<IUser, IAuthenticatedUser>(user, verifier);
@@ -55,12 +55,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task AuthenticatedUsers()
+        public async Task AuthenticatedUsersAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var user = await _tweetinviClient.Users.GetAuthenticatedUser();
+            var user = await _tweetinviClient.Users.GetAuthenticatedUserAsync();
             var verifier = new Action<IUserIdentifier>(identifier => { Assert.Equal(user.Id, identifier.Id); });
 
             TestSerializer<IAuthenticatedUser, IAuthenticatedUser>(user, verifier);
@@ -71,12 +71,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task Tweets()
+        public async Task TweetsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var tweet = await _tweetinviClient.Tweets.GetTweet(979753598446948353);
+            var tweet = await _tweetinviClient.Tweets.GetTweetAsync(979753598446948353);
             var verifier = new Action<ITweetIdentifier>(identifier => { Assert.Equal(tweet.Id, identifier.Id); });
 
             TestSerializer<ITweet, ITweet>(tweet, verifier);
@@ -86,13 +86,13 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task Message()
+        public async Task MessageAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var message = await _tweetinviClient.Messages.PublishMessage("How are you doing?", EndToEndTestConfig.TweetinviTest.UserId);
-            await message.Destroy();
+            var message = await _tweetinviClient.Messages.PublishMessageAsync("How are you doing?", EndToEndTestConfig.TweetinviTest.UserId);
+            await message.DestroyAsync();
 
             TestSerializer<IMessage, IMessage>(message, deserializedMessage => { Assert.Equal(message.Text, deserializedMessage.Text); });
 
@@ -107,13 +107,13 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task TwitterLists()
+        public async Task TwitterListsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var list = await _tweetinviClient.Lists.CreateList("THE_LIST");
-            await _tweetinviClient.Lists.DestroyList(list);
+            var list = await _tweetinviClient.Lists.CreateListAsync("THE_LIST");
+            await _tweetinviClient.Lists.DestroyListAsync(list);
 
             var verifier = new Action<ITwitterListIdentifier>(identifier => { Assert.Equal(list.Id, identifier.Id); });
 
@@ -124,12 +124,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task AccountSettings()
+        public async Task AccountSettingsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var accountSettings = await _tweetinviClient.AccountSettings.GetAccountSettings();
+            var accountSettings = await _tweetinviClient.AccountSettings.GetAccountSettingsAsync();
 
             TestSerializer<IAccountSettings, IAccountSettings>(accountSettings, settings =>
             {
@@ -150,13 +150,13 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task Media()
+        public async Task MediaAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-            var media = await _tweetinviClient.Upload.UploadBinary(tweetinviLogoBinary);
+            var media = await _tweetinviClient.Upload.UploadBinaryAsync(tweetinviLogoBinary);
 
             TestSerializer<IMedia, IMedia>(media, deserializedMedia =>
             {
@@ -170,12 +170,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task SearchTweetWithMetadata()
+        public async Task SearchTweetWithMetadataAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var searchResults = await _tweetinviClient.Search.SearchTweetsWithMetadata("hello");
+            var searchResults = await _tweetinviClient.Search.SearchTweetsWithMetadataAsync("hello");
 
             TestSerializer<ISearchResults, ISearchResults>(searchResults, deserializedSearchResult =>
             {
@@ -186,13 +186,13 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task SavedSearch()
+        public async Task SavedSearchAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var savedSearch = await _tweetinviTestClient.Search.CreateSavedSearch("sandwiches");
-            await _tweetinviTestClient.Search.DestroySavedSearch(savedSearch);
+            var savedSearch = await _tweetinviTestClient.Search.CreateSavedSearchAsync("sandwiches");
+            await _tweetinviTestClient.Search.DestroySavedSearchAsync(savedSearch);
 
             TestSerializer<ISavedSearch, ISavedSearch>(savedSearch, deserializedSavedSearch =>
             {
@@ -238,12 +238,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task RateLimits()
+        public async Task RateLimitsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var rateLimits = await _tweetinviClient.RateLimits.GetRateLimits(new GetRateLimitsParameters());
+            var rateLimits = await _tweetinviClient.RateLimits.GetRateLimitsAsync(new GetRateLimitsParameters());
 
             TestSerializer<ICredentialsRateLimits, ICredentialsRateLimits>(rateLimits, deserializedRateLimits =>
             {
@@ -252,12 +252,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task TwitterConfiguration()
+        public async Task TwitterConfigurationAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var config = await _tweetinviClient.Help.GetTwitterConfiguration();
+            var config = await _tweetinviClient.Help.GetTwitterConfigurationAsync();
 
             TestSerializer<ITwitterConfiguration, ITwitterConfiguration>(config, deserializedConfig =>
             {
@@ -266,12 +266,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task SupportedLanguage()
+        public async Task SupportedLanguageAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var language = (await _tweetinviClient.Help.GetSupportedLanguages())[0];
+            var language = (await _tweetinviClient.Help.GetSupportedLanguagesAsync())[0];
 
             TestSerializer<SupportedLanguage, SupportedLanguage>(language, deserializedLanguage =>
             {
@@ -280,12 +280,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task Place()
+        public async Task PlaceAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var place = await _tweetinviTestClient.Help.GetPlace("df51dec6f4ee2b2c");
+            var place = await _tweetinviTestClient.Help.GetPlaceAsync("df51dec6f4ee2b2c");
 
             TestSerializer<IPlace, IPlace>(place, deserializedPlace =>
             {
@@ -294,13 +294,13 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task Trends()
+        public async Task TrendsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var trendsResult = await _tweetinviTestClient.Trends.GetPlaceTrendsAt(1);
-            var trendsLocations = await _tweetinviTestClient.Trends.GetTrendLocations();
+            var trendsResult = await _tweetinviTestClient.Trends.GetPlaceTrendsAtAsync(1);
+            var trendsLocations = await _tweetinviTestClient.Trends.GetTrendLocationsAsync();
 
             TestSerializer<IGetTrendsAtResult, IGetTrendsAtResult>(trendsResult, deserializedTrendsResult =>
             {
@@ -314,14 +314,14 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task Webhooks()
+        public async Task WebhooksAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var environments = await _tweetinviClient.AccountActivity.GetAccountActivityWebhookEnvironments();
-            var count = await _tweetinviClient.AccountActivity.CountAccountActivitySubscriptions();
-            var subscriptions = await _tweetinviClient.AccountActivity.GetAccountActivitySubscriptions(environments[0].Name);
+            var environments = await _tweetinviClient.AccountActivity.GetAccountActivityWebhookEnvironmentsAsync();
+            var count = await _tweetinviClient.AccountActivity.CountAccountActivitySubscriptionsAsync();
+            var subscriptions = await _tweetinviClient.AccountActivity.GetAccountActivitySubscriptionsAsync(environments[0].Name);
 
             TestSerializer<IWebhookEnvironment, IWebhookEnvironment>(environments[0], deserializedEnvironment =>
             {

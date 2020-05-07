@@ -204,30 +204,30 @@
 <div class="section" id="users">
 <h2>Users<a class="headerlink" href="#users" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get the authenticated user</span>
-<span class="kt">var</span> <span class="n">authenticatedUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">authenticatedUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUserAsync</span><span class="p">();</span>
 
 <span class="c1">// Get a specific user</span>
-<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUser</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="tweets">
 <h2>Tweets<a class="headerlink" href="#tweets" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Publish a tweet</span>
-<span class="kt">var</span> <span class="n">publishedTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="s">&quot;Hello Tweetinvi!&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">publishedTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweetAsync</span><span class="p">(</span><span class="s">&quot;Hello Tweetinvi!&quot;</span><span class="p">);</span>
 
 <span class="c1">// Get tweet by id</span>
-<span class="kt">var</span> <span class="n">tweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetTweet</span><span class="p">(</span><span class="n">publishedTweet</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">tweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetTweetAsync</span><span class="p">(</span><span class="n">publishedTweet</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="timelines">
 <h2>Timelines<a class="headerlink" href="#timelines" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get the tweets available on the user&#39;s home page</span>
-<span class="kt">var</span> <span class="n">homeTimeline</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimeline</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">homeTimeline</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimelineAsync</span><span class="p">();</span>
 
 <span class="c1">// Get tweets from a specific user</span>
-<span class="kt">var</span> <span class="n">userTimeline</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimeline</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">userTimeline</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimelineAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -242,7 +242,7 @@
 
 <span class="k">while</span> <span class="p">(!</span><span class="n">userTimelineIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userTimelineIterator</span><span class="p">.</span><span class="n">NextPage</span><span class="p">();</span>
+    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userTimelineIterator</span><span class="p">.</span><span class="n">NextPageAsync</span><span class="p">();</span>
     <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Retrieved &quot;</span> <span class="p">+</span> <span class="n">page</span><span class="p">.</span><span class="n">Count</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot; tweets!&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
@@ -253,10 +253,10 @@
 <div class="section" id="search">
 <h2>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Search tweets</span>
-<span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweets</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweetsAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 
 <span class="c1">// Search users</span>
-<span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchUsers</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchUsersAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -266,10 +266,10 @@
 <p>These parameters can be accessed in the namespace <code class="docutils literal notranslate"><span class="pre">using</span> <span class="pre">Tweetinvi.Parameters;</span></code>.</p>
 <p>Here is an example:</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// simple search</span>
-<span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweets</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweetsAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 
 <span class="c1">// complex search</span>
-<span class="kt">var</span> <span class="n">frenchTweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweets</span><span class="p">(</span><span class="k">new</span> <span class="n">SearchTweetsParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
+<span class="kt">var</span> <span class="n">frenchTweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweetsAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">SearchTweetsParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">Lang</span> <span class="p">=</span> <span class="n">LanguageFilter</span><span class="p">.</span><span class="n">French</span>
 <span class="p">});</span>

@@ -23,44 +23,44 @@ namespace Tweetinvi.Credentials.RateLimit
         public virtual IRateLimitCache RateLimitCache => _rateLimitCache;
         public virtual IRateLimitsClient RateLimitsClient { get; set; }
 
-        public virtual async Task<IEndpointRateLimit> GetQueryRateLimit(IGetEndpointRateLimitsParameters parameters, IReadOnlyTwitterCredentials credentials)
+        public virtual async Task<IEndpointRateLimit> GetQueryRateLimitAsync(IGetEndpointRateLimitsParameters parameters, IReadOnlyTwitterCredentials credentials)
         {
-            var credentialsRateLimits = await RateLimitsClient.GetRateLimits(parameters).ConfigureAwait(false);
+            var credentialsRateLimits = await RateLimitsClient.GetRateLimitsAsync(parameters).ConfigureAwait(false);
             var endpointRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(parameters.Url, credentialsRateLimits, false);
 
             if (parameters.From == RateLimitsSource.CacheOrTwitterApi && ShouldEndpointCacheBeUpdated(endpointRateLimit))
             {
-                var updatedCredentialsRateLimits = await RefreshCredentialsRateLimits(credentials).ConfigureAwait(false);
+                var updatedCredentialsRateLimits = await RefreshCredentialsRateLimitsAsync(credentials).ConfigureAwait(false);
                 endpointRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(parameters.Url, updatedCredentialsRateLimits, false);
             }
 
             return endpointRateLimit;
         }
 
-        public virtual async Task<ICredentialsRateLimits> GetCredentialsRateLimits(IReadOnlyTwitterCredentials credentials)
+        public virtual async Task<ICredentialsRateLimits> GetCredentialsRateLimitsAsync(IReadOnlyTwitterCredentials credentials)
         {
-            var rateLimits = await _rateLimitCache.GetCredentialsRateLimits(credentials).ConfigureAwait(false);
+            var rateLimits = await _rateLimitCache.GetCredentialsRateLimitsAsync(credentials).ConfigureAwait(false);
             if (rateLimits == null)
             {
-                rateLimits = await RefreshCredentialsRateLimits(credentials).ConfigureAwait(false);
+                rateLimits = await RefreshCredentialsRateLimitsAsync(credentials).ConfigureAwait(false);
             }
 
             return rateLimits;
         }
 
-        public virtual Task UpdateCredentialsRateLimits(IReadOnlyTwitterCredentials credentials, ICredentialsRateLimits credentialsRateLimits)
+        public virtual Task UpdateCredentialsRateLimitsAsync(IReadOnlyTwitterCredentials credentials, ICredentialsRateLimits credentialsRateLimits)
         {
-            return _rateLimitCache.RefreshEntry(credentials, credentialsRateLimits);
+            return _rateLimitCache.RefreshEntryAsync(credentials, credentialsRateLimits);
         }
 
-        public virtual async Task<ICredentialsRateLimits> RefreshCredentialsRateLimits(IReadOnlyTwitterCredentials credentials)
+        public virtual async Task<ICredentialsRateLimits> RefreshCredentialsRateLimitsAsync(IReadOnlyTwitterCredentials credentials)
         {
-            var tokenRateLimits = await GetTokenRateLimitsFromTwitter(credentials).ConfigureAwait(false);
-            await _rateLimitCache.RefreshEntry(credentials, tokenRateLimits).ConfigureAwait(false);
-            return await _rateLimitCache.GetCredentialsRateLimits(credentials).ConfigureAwait(false);
+            var tokenRateLimits = await GetTokenRateLimitsFromTwitterAsync(credentials).ConfigureAwait(false);
+            await _rateLimitCache.RefreshEntryAsync(credentials, tokenRateLimits).ConfigureAwait(false);
+            return await _rateLimitCache.GetCredentialsRateLimitsAsync(credentials).ConfigureAwait(false);
         }
 
-        private async Task<ICredentialsRateLimits> GetTokenRateLimitsFromTwitter(IReadOnlyTwitterCredentials credentials)
+        private async Task<ICredentialsRateLimits> GetTokenRateLimitsFromTwitterAsync(IReadOnlyTwitterCredentials credentials)
         {
             var isApplicationOnlyCreds = string.IsNullOrEmpty(credentials.AccessToken) || string.IsNullOrEmpty(credentials.AccessTokenSecret);
             if (isApplicationOnlyCreds && string.IsNullOrEmpty(credentials.BearerToken))
@@ -70,7 +70,7 @@ namespace Tweetinvi.Credentials.RateLimit
 
             try
             {
-                return await RateLimitsClient.GetRateLimits(new GetRateLimitsParameters
+                return await RateLimitsClient.GetRateLimitsAsync(new GetRateLimitsParameters
                 {
                     From = RateLimitsSource.TwitterApiOnly,
                     TrackerMode = RateLimitTrackerMode.None

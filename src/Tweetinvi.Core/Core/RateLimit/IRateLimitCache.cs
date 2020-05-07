@@ -12,21 +12,21 @@ namespace Tweetinvi.Core.RateLimit
         /// <summary>
         /// Clear the rate limits entry associated with a specific set of credentials.
         /// </summary>
-        Task Clear(IReadOnlyTwitterCredentials credentials);
+        Task ClearAsync(IReadOnlyTwitterCredentials credentials);
 
         /// <summary>
         /// Clear all the rate limit entries from the cache.
         /// </summary>
-        Task ClearAll();
+        Task ClearAllAsync();
 
         /// <summary>
         /// Manually set a rate limit entry for a specific set of credentials.
         /// </summary>
-        Task RefreshEntry(IReadOnlyTwitterCredentials credentials, ICredentialsRateLimits newCredentialsRateLimits);
+        Task RefreshEntryAsync(IReadOnlyTwitterCredentials credentials, ICredentialsRateLimits newCredentialsRateLimits);
 
         /// <summary>
         /// Return the rate limits entry for a set of credentials.
         /// </summary>
-        Task<ICredentialsRateLimits> GetCredentialsRateLimits(IReadOnlyTwitterCredentials credentials);
+        Task<ICredentialsRateLimits> GetCredentialsRateLimitsAsync(IReadOnlyTwitterCredentials credentials);
     }
 }

@@ -32,26 +32,26 @@ namespace Tweetinvi.Client.Requesters
             _uploadHelper = uploadHelper;
         }
 
-        public Task<IChunkUploadResult> UploadBinary(IUploadParameters parameters)
+        public Task<IChunkUploadResult> UploadBinaryAsync(IUploadParameters parameters)
         {
             _uploadClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _uploadQueryExecutor.UploadBinary(parameters, request));
+            return ExecuteRequestAsync(request => _uploadQueryExecutor.UploadBinaryAsync(parameters, request));
         }
 
-        public Task<ITwitterResult> AddMediaMetadata(IAddMediaMetadataParameters parameters)
+        public Task<ITwitterResult> AddMediaMetadataAsync(IAddMediaMetadataParameters parameters)
         {
             _uploadClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _uploadQueryExecutor.AddMediaMetadata(parameters, request));
+            return ExecuteRequestAsync(request => _uploadQueryExecutor.AddMediaMetadataAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IUploadedMediaInfo>> GetVideoProcessingStatus(IMedia media)
+        public Task<ITwitterResult<IUploadedMediaInfo>> GetVideoProcessingStatusAsync(IMedia media)
         {
-            return ExecuteRequest(request => _uploadMediaStatusQueryExecutor.GetMediaStatus(media, request));
+            return ExecuteRequestAsync(request => _uploadMediaStatusQueryExecutor.GetMediaStatusAsync(media, request));
         }
 
-        public Task WaitForMediaProcessingToGetAllMetadata(IMedia media)
+        public Task WaitForMediaProcessingToGetAllMetadataAsync(IMedia media)
         {
-            return ExecuteRequest(request => _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media, request));
+            return ExecuteRequestAsync(request => _uploadHelper.WaitForMediaProcessingToGetAllMetadataAsync(media, request));
         }
     }
 }

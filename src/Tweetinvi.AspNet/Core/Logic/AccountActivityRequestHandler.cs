@@ -29,14 +29,14 @@ namespace Tweetinvi.AspNet.Core.Logic
             _consumerOnlyCredentials = new ConsumerOnlyCredentials(client.Credentials);
         }
 
-        public Task<bool> IsRequestManagedByTweetinvi(IWebhooksRequest request)
+        public Task<bool> IsRequestManagedByTweetinviAsync(IWebhooksRequest request)
         {
-            return _router.IsRequestManagedByTweetinvi(request);
+            return _router.IsRequestManagedByTweetinviAsync(request);
         }
 
-        public async Task<bool> TryRouteRequest(IWebhooksRequest request)
+        public async Task<bool> TryRouteRequestAsync(IWebhooksRequest request)
         {
-            return await _router.TryRouteRequest(request, _consumerOnlyCredentials).ConfigureAwait(false);
+            return await _router.TryRouteRequestAsync(request, _consumerOnlyCredentials).ConfigureAwait(false);
         }
 
         private readonly Dictionary<long, IAccountActivityStream> _accountActivityStreams = new Dictionary<long, IAccountActivityStream>();

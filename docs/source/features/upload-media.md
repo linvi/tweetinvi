@@ -15,10 +15,10 @@ Restrictions to the media also apply, check this [documentation for more informa
 var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
 
 // for tweets
-var uploadedImage = await client.Upload.UploadTweetImage(tweetinviLogoBinary);
+var uploadedImage = await client.Upload.UploadTweetImageAsync(tweetinviLogoBinary);
 
 // for messages
-var uploadedImage = await client.Upload.UploadMessageImage(tweetinviLogoBinary);
+var uploadedImage = await client.Upload.UploadMessageImageAsync(tweetinviLogoBinary);
 ```
 
 ## Video
@@ -27,10 +27,10 @@ var uploadedImage = await client.Upload.UploadMessageImage(tweetinviLogoBinary);
 var videoBinary = File.ReadAllBytes("./video.mp4");
 
 // for tweets
-var uploadedVideo = await client.Upload.UploadTweetVideo(videoBinary);
+var uploadedVideo = await client.Upload.UploadTweetVideoAsync(videoBinary);
 
 // for messages
-var uploadedVideo = await client.Upload.UploadMessageVideo(videoBinary);
+var uploadedVideo = await client.Upload.UploadMessageVideoAsync(videoBinary);
 ```
 
 <div class="warning">
@@ -42,7 +42,7 @@ Videos are different from images as they need to be processed by Twitter before 
 You can request the status of the video processing and do this until you receive `Succeeded` or `Failed`.
 
 ``` c#
-var status = await client.Upload.GetVideoProcessingStatus(uploadedVideo);
+var status = await client.Upload.GetVideoProcessingStatusAsync(uploadedVideo);
 // processing state can be : Pending, InProgress, Succeeded, Failed
 var processingCompleted = status.ProcessingInfo.ProcessingState == ProcessingState.Succeeded;
 ```
@@ -52,7 +52,7 @@ var processingCompleted = status.ProcessingInfo.ProcessingState == ProcessingSta
 If you only care about knowing when the video processing has completed you use `WaitForMediaProcessingToGetAllMetadata`.
 
 ``` c#
-await client.Upload.WaitForMediaProcessingToGetAllMetadata(uploadedVideo);
+await client.Upload.WaitForMediaProcessingToGetAllMetadataAsync(uploadedVideo);
 ```
 
 ## Parameters
@@ -60,7 +60,7 @@ await client.Upload.WaitForMediaProcessingToGetAllMetadata(uploadedVideo);
 Tweetinvi includes various parameters to customize the experience and behaviour of upload.
 
 ``` c#
-var uploadedVideo = await client.Upload.UploadBinaryParameters(new UploadVideoParameters(binary)
+var uploadedVideo = await client.Upload.UploadBinaryAsync(new UploadTweetVideoParameters(binary)
 {
     // Defines a timeout after which the operation gets cancelled
     Timeout = TimeSpan.FromMinutes(1),
@@ -81,8 +81,8 @@ var uploadedVideo = await client.Upload.UploadBinaryParameters(new UploadVideoPa
 Twitter let you [add metadata](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create) to media after they have been uploaded.
 
 ``` c#
-var media = await client.Upload.UploadTweetImage("../some/path");
-await client.Upload.AddMediaMetadata(new MediaMetadata(media)
+var media = await client.Upload.UploadTweetImageAsync(binary);
+await client.Upload.AddMediaMetadataAsync(new MediaMetadata(media)
 {
     AltText = "Hello",
 });

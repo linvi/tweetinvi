@@ -54,7 +54,7 @@ namespace xUnitinvi.TestHelpers
                 return this;
             }
 
-            public async Task<HttpListenerRequest> MustHaveHappened()
+            public async Task<HttpListenerRequest> MustHaveHappenedAsync()
             {
                 using (var server = new HttpListener())
                 {

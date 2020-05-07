@@ -12,9 +12,9 @@ namespace Tweetinvi.WebLogic
 {
     public interface ITwitterRequestHandler
     {
-        Task<ITwitterResponse> ExecuteQuery(ITwitterRequest request);
+        Task<ITwitterResponse> ExecuteQueryAsync(ITwitterRequest request);
 
-        Task PrepareTwitterRequest(ITwitterRequest request);
+        Task PrepareTwitterRequestAsync(ITwitterRequest request);
     }
 
     public class TwitterRequestHandler : ITwitterRequestHandler
@@ -36,11 +36,11 @@ namespace Tweetinvi.WebLogic
             _webRequestExecutor = webRequestExecutor;
         }
 
-        public async Task<ITwitterResponse> ExecuteQuery(ITwitterRequest request)
+        public async Task<ITwitterResponse> ExecuteQueryAsync(ITwitterRequest request)
         {
             var rateLimitUpdater = _rateLimitUpdaterFactory.Create(_rateLimitCacheManager);
 
-            await PrepareTwitterRequest(request).ConfigureAwait(false);
+            await PrepareTwitterRequestAsync(request).ConfigureAwait(false);
 
             var beforeQueryExecuteEventArgs = new BeforeExecutingRequestEventArgs(request.Query);
             request.ExecutionContext.Events.RaiseBeforeWaitingForQueryRateLimits(beforeQueryExecuteEventArgs);
@@ -50,7 +50,7 @@ namespace Tweetinvi.WebLogic
                 throw new OperationCanceledException("Operation was cancelled intentionally.");
             }
 
-            await WaitBeforeExecutingQuery(request).ConfigureAwait(false);
+            await WaitBeforeExecutingQueryAsync(request).ConfigureAwait(false);
 
             request.ExecutionContext.Events.RaiseBeforeExecutingQuery(beforeQueryExecuteEventArgs);
 
@@ -60,11 +60,11 @@ namespace Tweetinvi.WebLogic
 
                 if (!(request.Query is IMultipartTwitterQuery))
                 {
-                    twitterResponse = await _webRequestExecutor.ExecuteQuery(request, request.TwitterClientHandler).ConfigureAwait(false);
+                    twitterResponse = await _webRequestExecutor.ExecuteQueryAsync(request, request.TwitterClientHandler).ConfigureAwait(false);
                 }
                 else
                 {
-                    twitterResponse = await _webRequestExecutor.ExecuteMultipartQuery(request).ConfigureAwait(false);
+                    twitterResponse = await _webRequestExecutor.ExecuteMultipartQueryAsync(request).ConfigureAwait(false);
                 }
 
                 QueryCompleted(request, twitterResponse, rateLimitUpdater);
@@ -79,7 +79,7 @@ namespace Tweetinvi.WebLogic
             }
         }
 
-        public async Task PrepareTwitterRequest(ITwitterRequest request)
+        public async Task PrepareTwitterRequestAsync(ITwitterRequest request)
         {
             var twitterQuery = request.Query;
             twitterQuery.Url = CleanupQueryUrl(twitterQuery.Url); // TODO : THIS LOGIC SHOULD HAPPEN BEFORE ARRIVING HERE
@@ -91,7 +91,7 @@ namespace Tweetinvi.WebLogic
             }
 
             // Use the RateLimitCacheManager instead of RateLimitHelper to get the queryRateLimits to ensure the cache is up to date!
-            var credentialRateLimits = await _rateLimitCacheManager.GetCredentialsRateLimits(twitterQuery.TwitterCredentials).ConfigureAwait(false);
+            var credentialRateLimits = await _rateLimitCacheManager.GetCredentialsRateLimitsAsync(twitterQuery.TwitterCredentials).ConfigureAwait(false);
 
             IEndpointRateLimit queryRateLimit = null;
 
@@ -99,7 +99,7 @@ namespace Tweetinvi.WebLogic
             if (credentialRateLimits != null)
             {
                 var getEndpointRateLimitsFromCache = new GetEndpointRateLimitsParameters(twitterQuery.Url, RateLimitsSource.CacheOnly);
-                queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(getEndpointRateLimitsFromCache, twitterQuery.TwitterCredentials).ConfigureAwait(false);
+                queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimitAsync(getEndpointRateLimitsFromCache, twitterQuery.TwitterCredentials).ConfigureAwait(false);
             }
 
             var timeToWait = _rateLimitAwaiter.GetTimeToWaitFromQueryRateLimit(queryRateLimit, request.ExecutionContext);
@@ -109,7 +109,7 @@ namespace Tweetinvi.WebLogic
             twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits = DateTime.UtcNow.Add(timeToWait);
         }
 
-        private async Task WaitBeforeExecutingQuery(ITwitterRequest twitterRequest)
+        private async Task WaitBeforeExecutingQueryAsync(ITwitterRequest twitterRequest)
         {
             var twitterQuery = twitterRequest.Query;
             if (twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits == null)
@@ -119,7 +119,7 @@ namespace Tweetinvi.WebLogic
 
             if (twitterRequest.ExecutionContext.RateLimitTrackerMode == RateLimitTrackerMode.TrackAndAwait)
             {
-                await _rateLimitAwaiter.WaitForCredentialsRateLimit(twitterRequest).ConfigureAwait(false);
+                await _rateLimitAwaiter.WaitForCredentialsRateLimitAsync(twitterRequest).ConfigureAwait(false);
             }
         }
 
@@ -154,7 +154,7 @@ namespace Tweetinvi.WebLogic
             {
                 var rateLimitHeaders = twitterResponse.Headers.Where(kvp => kvp.Key.StartsWith("x-rate-limit-")).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                rateLimitUpdater.QueryExecuted(request.Query.Url, request.Query.TwitterCredentials, rateLimitHeaders);
+                rateLimitUpdater.QueryExecutedAsync(request.Query.Url, request.Query.TwitterCredentials, rateLimitHeaders);
             }
 
             request.ExecutionContext.Events.RaiseAfterExecutingQuery(new AfterExecutingQueryEventArgs(request.Query, twitterResponse.Text, twitterResponse.Headers));
@@ -169,7 +169,7 @@ namespace Tweetinvi.WebLogic
             const int tooManyRequestStatusCode = 429;
             if (request.ExecutionContext.RateLimitTrackerMode != RateLimitTrackerMode.None && statusCode == tooManyRequestStatusCode)
             {
-                rateLimitUpdater.ClearRateLimitsForQuery(request.Query.Url, request.Query.TwitterCredentials);
+                rateLimitUpdater.ClearRateLimitsForQueryAsync(request.Query.Url, request.Query.TwitterCredentials);
             }
 
             request.ExecutionContext.Events.RaiseAfterExecutingQuery(new AfterExecutingQueryExceptionEventArgs(request.Query, exception));

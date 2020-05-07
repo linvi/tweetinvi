@@ -27,49 +27,49 @@ namespace Tweetinvi.Client.Requesters
             _validator = validator;
         }
 
-        public Task<ITwitterResult<CredentialsRateLimitsDTO>> GetRateLimits(IGetRateLimitsParameters parameters)
+        public Task<ITwitterResult<CredentialsRateLimitsDTO>> GetRateLimitsAsync(IGetRateLimitsParameters parameters)
         {
             _validator.Validate(parameters);
 
-            return ExecuteRequest(request =>
+            return ExecuteRequestAsync(request =>
             {
                 if (parameters.TrackerMode != null)
                 {
                     request.ExecutionContext.RateLimitTrackerMode = parameters.TrackerMode.Value;
                 }
 
-                return _helpController.GetRateLimits(parameters, request);
+                return _helpController.GetRateLimitsAsync(parameters, request);
             });
         }
 
-        public Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters)
+        public Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfigurationAsync(IGetTwitterConfigurationParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _helpController.GetTwitterConfiguration(parameters, request));
+            return ExecuteRequestAsync(request => _helpController.GetTwitterConfigurationAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters)
+        public Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguagesAsync(IGetSupportedLanguagesParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _helpController.GetSupportedLanguages(parameters, request));
+            return ExecuteRequestAsync(request => _helpController.GetSupportedLanguagesAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IPlace>> GetPlace(IGetPlaceParameters parameters)
+        public Task<ITwitterResult<IPlace>> GetPlaceAsync(IGetPlaceParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _helpController.GetPlace(parameters, request));
+            return ExecuteRequestAsync(request => _helpController.GetPlaceAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeo(IGeoSearchParameters parameters)
+        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoAsync(IGeoSearchParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _helpController.SearchGeo(parameters, request));
+            return ExecuteRequestAsync(request => _helpController.SearchGeoAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoReverse(IGeoSearchReverseParameters parameters)
+        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoReverseAsync(IGeoSearchReverseParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _helpController.SearchGeoReverse(parameters, request));
+            return ExecuteRequestAsync(request => _helpController.SearchGeoReverseAsync(parameters, request));
         }
     }
 }

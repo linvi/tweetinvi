@@ -16,41 +16,41 @@ namespace Tweetinvi.Client
 
         public ITrendsClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
-        public Task<IGetTrendsAtResult> GetPlaceTrendsAt(long woeid)
+        public Task<IGetTrendsAtResult> GetPlaceTrendsAtAsync(long woeid)
         {
-            return GetPlaceTrendsAt(new GetTrendsAtParameters(woeid));
+            return GetPlaceTrendsAtAsync(new GetTrendsAtParameters(woeid));
         }
 
-        public async Task<IGetTrendsAtResult> GetPlaceTrendsAt(IGetTrendsAtParameters parameters)
+        public async Task<IGetTrendsAtResult> GetPlaceTrendsAtAsync(IGetTrendsAtParameters parameters)
         {
-            var twitterResult = await _client.Raw.Trends.GetPlaceTrendsAt(parameters).ConfigureAwait(false);
+            var twitterResult = await _client.Raw.Trends.GetPlaceTrendsAtAsync(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject[0];
         }
 
-        public Task<ITrendLocation[]> GetTrendLocations()
+        public Task<ITrendLocation[]> GetTrendLocationsAsync()
         {
-            return GetTrendLocations(new GetTrendsLocationParameters());
+            return GetTrendLocationsAsync(new GetTrendsLocationParameters());
         }
 
-        public async Task<ITrendLocation[]> GetTrendLocations(IGetTrendsLocationParameters parameters)
+        public async Task<ITrendLocation[]> GetTrendLocationsAsync(IGetTrendsLocationParameters parameters)
         {
-            var twitterResult = await _client.Raw.Trends.GetTrendLocations(parameters).ConfigureAwait(false);
+            var twitterResult = await _client.Raw.Trends.GetTrendLocationsAsync(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
         }
 
-        public Task<ITrendLocation[]> GetTrendsLocationCloseTo(double latitude, double longitude)
+        public Task<ITrendLocation[]> GetTrendsLocationCloseToAsync(double latitude, double longitude)
         {
-            return GetTrendsLocationCloseTo(new GetTrendsLocationCloseToParameters(latitude, longitude));
+            return GetTrendsLocationCloseToAsync(new GetTrendsLocationCloseToParameters(latitude, longitude));
         }
 
-        public Task<ITrendLocation[]> GetTrendsLocationCloseTo(ICoordinates coordinates)
+        public Task<ITrendLocation[]> GetTrendsLocationCloseToAsync(ICoordinates coordinates)
         {
-            return GetTrendsLocationCloseTo(new GetTrendsLocationCloseToParameters(coordinates));
+            return GetTrendsLocationCloseToAsync(new GetTrendsLocationCloseToParameters(coordinates));
         }
 
-        public async Task<ITrendLocation[]> GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters parameters)
+        public async Task<ITrendLocation[]> GetTrendsLocationCloseToAsync(IGetTrendsLocationCloseToParameters parameters)
         {
-            var twitterResult = await _client.Raw.Trends.GetTrendsLocationCloseTo(parameters).ConfigureAwait(false);
+            var twitterResult = await _client.Raw.Trends.GetTrendsLocationCloseToAsync(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
         }
     }

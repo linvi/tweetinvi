@@ -336,39 +336,39 @@ namespace Tweetinvi.Core.Models
             TweetDTO = tweetDTO;
         }
 
-        public Task<ITweet> PublishRetweet()
+        public Task<ITweet> PublishRetweetAsync()
         {
-            return Client.Tweets.PublishRetweet(this);
+            return Client.Tweets.PublishRetweetAsync(this);
         }
 
-        public Task<ITweet[]> GetRetweets()
+        public Task<ITweet[]> GetRetweetsAsync()
         {
-            return Client.Tweets.GetRetweets(this);
+            return Client.Tweets.GetRetweetsAsync(this);
         }
 
-        public Task DestroyRetweet()
+        public Task DestroyRetweetAsync()
         {
-            return Client.Tweets.DestroyTweet(this);
+            return Client.Tweets.DestroyTweetAsync(this);
         }
 
-        public Task<IOEmbedTweet> GenerateOEmbedTweet()
+        public Task<IOEmbedTweet> GenerateOEmbedTweetAsync()
         {
-            return Client.Tweets.GetOEmbedTweet(this);
+            return Client.Tweets.GetOEmbedTweetAsync(this);
         }
 
-        public Task Destroy()
+        public Task DestroyAsync()
         {
-            return Client.Tweets.DestroyTweet(this);
+            return Client.Tweets.DestroyTweetAsync(this);
         }
 
-        public Task Favorite()
+        public Task FavoriteAsync()
         {
-            return Client.Tweets.FavoriteTweet(this);
+            return Client.Tweets.FavoriteTweetAsync(this);
         }
 
-        public Task Unfavorite()
+        public Task UnfavoriteAsync()
         {
-            return Client.Tweets.UnfavoriteTweet(this);
+            return Client.Tweets.UnfavoriteTweetAsync(this);
         }
 
         public override string ToString()

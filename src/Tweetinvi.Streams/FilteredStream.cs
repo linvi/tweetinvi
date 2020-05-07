@@ -68,7 +68,7 @@ namespace Tweetinvi.Streams
             MatchOn = MatchOn.Everything;
         }
 
-        public async Task StartStreamMatchingAnyCondition()
+        public async Task StartStreamMatchingAnyConditionAsync()
         {
             _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(StreamTrackManager, _locations, _followingUserIds);
 
@@ -121,10 +121,10 @@ namespace Tweetinvi.Streams
                 }
             }
 
-            await _streamResultGenerator.StartStream(OnJsonReceived, CreateTwitterRequest).ConfigureAwait(false);
+            await _streamResultGenerator.StartStreamAsync(OnJsonReceived, CreateTwitterRequest).ConfigureAwait(false);
         }
 
-        public async Task StartStreamMatchingAllConditions()
+        public async Task StartStreamMatchingAllConditionsAsync()
         {
             _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(StreamTrackManager, _locations, _followingUserIds);
 
@@ -173,7 +173,7 @@ namespace Tweetinvi.Streams
                 }
             }
 
-            await _streamResultGenerator.StartStream(JsonReceived, CreateTwitterRequest).ConfigureAwait(false);
+            await _streamResultGenerator.StartStreamAsync(JsonReceived, CreateTwitterRequest).ConfigureAwait(false);
         }
 
         public MatchOn CheckIfTweetMatchesStreamFilters(ITweet tweet)

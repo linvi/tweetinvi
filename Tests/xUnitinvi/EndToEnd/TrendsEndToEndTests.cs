@@ -13,14 +13,14 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task Trends()
+        public async Task TrendsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var trends = await _tweetinviClient.Trends.GetPlaceTrendsAt(1);
-            var availableLocations = await _tweetinviClient.Trends.GetTrendLocations();
-            var locationsCloseTo = await _tweetinviClient.Trends.GetTrendsLocationCloseTo(37.781157, -122.400612831116);
+            var trends = await _tweetinviClient.Trends.GetPlaceTrendsAtAsync(1);
+            var availableLocations = await _tweetinviClient.Trends.GetTrendLocationsAsync();
+            var locationsCloseTo = await _tweetinviClient.Trends.GetTrendsLocationCloseToAsync(37.781157, -122.400612831116);
 
             Assert.True(trends.Trends.Length > 0);
             Assert.True(availableLocations.Length > 0);

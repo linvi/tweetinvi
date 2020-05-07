@@ -16,7 +16,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task SampleStream()
+        public async Task SampleStreamAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -39,7 +39,7 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStream();
+                await stream.StartStreamAsync();
                 _logger.WriteLine("Stream completed");
             });
 
@@ -63,7 +63,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task FilteredStream()
+        public async Task FilteredStreamAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -88,7 +88,7 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStreamMatchingAllConditions();
+                await stream.StartStreamMatchingAllConditionsAsync();
                 _logger.WriteLine("Stream completed");
             });
 
@@ -112,7 +112,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task TweetStream()
+        public async Task TweetStreamAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -135,7 +135,7 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStream("https://stream.twitter.com/1.1/statuses/sample.json");
+                await stream.StartStreamAsync("https://stream.twitter.com/1.1/statuses/sample.json");
                 _logger.WriteLine("Stream completed");
             });
 
@@ -159,7 +159,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task TrackedStream()
+        public async Task TrackedStreamAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;

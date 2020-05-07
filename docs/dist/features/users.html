@@ -187,18 +187,18 @@
 <h1>Users<a class="headerlink" href="#users" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="get-a-user">
 <h2>Get a user<a class="headerlink" href="#get-a-user" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUser</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUser</span><span class="p">(</span><span class="m">1577389800</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserAsync</span><span class="p">(</span><span class="m">1577389800</span><span class="p">);</span>
 
 <span class="c1">// You can aslo get multiple users at once</span>
-<span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUsers</span><span class="p">(</span><span class="k">new</span> <span class="kt">long</span><span class="p">[]{</span> <span class="m">42</span><span class="p">,</span> <span class="m">1577389800</span> <span class="p">});</span>
+<span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUsersAsync</span><span class="p">(</span><span class="k">new</span> <span class="kt">long</span><span class="p">[]{</span> <span class="m">42</span><span class="p">,</span> <span class="m">1577389800</span> <span class="p">});</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="get-the-authenticated-user">
 <h2>Get the authenticated user<a class="headerlink" href="#get-the-authenticated-user" title="Permalink to this headline">¶</a></h2>
 <p>Get the user associated with the client’s credentials. This user has additional fields and methods.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">authenticatedUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">authenticatedUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUserAsync</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -208,17 +208,17 @@
 <div><p>Blocks the specified user from following the authenticating user. In addition the blocked user will not show in the authenticating users mentions or timeline (unless retweeted by another user). If a follow or friend relationship exists it is destroyed.</p>
 </div></blockquote>
 <p><a class="reference external" href="https://help.twitter.com/en/using-twitter/blocking-and-unblocking-accounts">Learn more</a></p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">BlockUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnblockUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">BlockUserAsync</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnblockUserAsync</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">blockedUserIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUserIds</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">blockedUserIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUserIdsAsync</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">blockedUserIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUserIdsIterator</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">blockedUsers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUsers</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">blockedUsers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUsersAsync</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">blockedUsersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUsersIterator</span><span class="p">();</span>
 </pre></div>
@@ -230,23 +230,23 @@
 <div><p>Mute is a feature that allows you to remove an account’s Tweets from your timeline without unfollowing or blocking that account.</p>
 </div></blockquote>
 <p><a class="reference external" href="https://help.twitter.com/en/using-twitter/twitter-mute">Learn more</a></p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">MuteUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnmuteUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">MuteUserAsync</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnmuteUserAsync</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">mutedUserIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUserIds</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">mutedUserIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUserIdsAsync</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">mutedUserIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUserIdsIterator</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">mutedUsers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUsers</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">mutedUsers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUsersAsync</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">mutedUsersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUsersIterator</span><span class="p">();</span>
 </pre></div>
 </div>
 </div><p>You can also list the users whose retweets are muted.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">usersWhoseRetweetsAreMuted</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserIdsWhoseRetweetsAreMuted</span><span class="p">();</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">usersWhoseRetweetsAreMuted</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserIdsWhoseRetweetsAreMutedAsync</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -256,7 +256,7 @@
 <div><p>Report the specified user as a spam account to Twitter. Additionally, it blocks the user on behalf of the authenticated user.</p>
 </div></blockquote>
 <p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-users-report_spam">Learn more</a></p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">ReportUserForSpam</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">ReportUserForSpamAsync</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>

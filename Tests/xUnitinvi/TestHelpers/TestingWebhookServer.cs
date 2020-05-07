@@ -21,11 +21,11 @@ namespace xUnitinvi.TestHelpers
 
             // This is acceptable as the server will never need to be started straight away
 #pragma warning disable 4014
-            RunServer();
+            RunServerAsync();
 #pragma warning restore 4014
         }
 
-        private async Task RunServer()
+        private async Task RunServerAsync()
         {
             while (_server.IsListening)
             {

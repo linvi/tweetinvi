@@ -26,7 +26,7 @@ namespace Tweetinvi.Client
             return TwitterClient.CreateRequest();
         }
 
-        protected async Task ExecuteRequest(Func<Task> action, ITwitterRequest request)
+        protected async Task ExecuteRequestAsync(Func<Task> action, ITwitterRequest request)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Tweetinvi.Client
             }
         }
 
-        protected async Task ExecuteRequest(Func<ITwitterRequest, Task> action)
+        protected async Task ExecuteRequestAsync(Func<ITwitterRequest, Task> action)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace Tweetinvi.Client
             }
         }
 
-        protected async Task<T> ExecuteRequest<T>(Func<ITwitterRequest, Task<T>> action) where T : class
+        protected async Task<T> ExecuteRequestAsync<T>(Func<ITwitterRequest, Task<T>> action) where T : class
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Tweetinvi.Client
             }
         }
 
-        protected async Task<T> ExecuteRequest<T>(Func<Task<T>> action, ITwitterRequest request) where T : class
+        protected async Task<T> ExecuteRequestAsync<T>(Func<Task<T>> action, ITwitterRequest request) where T : class
         {
             try
             {

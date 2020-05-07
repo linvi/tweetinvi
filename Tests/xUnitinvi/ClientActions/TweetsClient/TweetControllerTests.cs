@@ -32,7 +32,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
         }
 
         [Fact]
-        public async Task GetTweet_ReturnsQueryExecutorResult()
+        public async Task GetTweet_ReturnsQueryExecutorResultAsync()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -40,17 +40,17 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
 
-            A.CallTo(() => _fakeTweetQueryExecutor.GetTweet(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTweetQueryExecutor.GetTweetAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.GetTweet(parameters, request);
+            var result = await controller.GetTweetAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task PublishTweet_ReturnsQueryExecutorResult()
+        public async Task PublishTweet_ReturnsQueryExecutorResultAsync()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -58,10 +58,10 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
 
-            A.CallTo(() => _fakeTweetQueryExecutor.PublishTweet(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTweetQueryExecutor.PublishTweetAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.PublishTweet(parameters, request);
+            var result = await controller.PublishTweetAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -86,7 +86,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
         }
 
         [Fact]
-        public async Task GetRetweets_ReturnsQueryExecutorResult()
+        public async Task GetRetweets_ReturnsQueryExecutorResultAsync()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -94,17 +94,17 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            A.CallTo(() => _fakeTweetQueryExecutor.GetRetweets(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTweetQueryExecutor.GetRetweetsAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.GetRetweets(parameters, request);
+            var result = await controller.GetRetweetsAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task PublishRetweet_ReturnsQueryExecutorResult()
+        public async Task PublishRetweet_ReturnsQueryExecutorResultAsync()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -112,17 +112,17 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
 
-            A.CallTo(() => _fakeTweetQueryExecutor.PublishRetweet(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTweetQueryExecutor.PublishRetweetAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.PublishRetweet(parameters, request);
+            var result = await controller.PublishRetweetAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task DestroyRetweet_ReturnsQueryExecutorResult()
+        public async Task DestroyRetweet_ReturnsQueryExecutorResultAsync()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -130,10 +130,10 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
 
-            A.CallTo(() => _fakeTweetQueryExecutor.DestroyRetweet(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTweetQueryExecutor.DestroyRetweetAsync(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.DestroyRetweet(parameters, request);
+            var result = await controller.DestroyRetweetAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

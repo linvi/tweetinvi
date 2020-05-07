@@ -8,7 +8,7 @@ namespace Tweetinvi.Client
     public interface IUploadClient
     {
         /// <inheritdoc cref="UploadBinary(IUploadParameters)" />
-        Task<IMedia> UploadBinary(byte[] binary);
+        Task<IMedia> UploadBinaryAsync(byte[] binary);
 
         /// <summary>
         /// Upload a binary in chunks and waits for the Twitter to have processed it
@@ -17,10 +17,10 @@ namespace Tweetinvi.Client
         /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
         /// </summary>
         /// <returns>Uploaded media</returns>
-        Task<IMedia> UploadBinary(IUploadParameters parameters);
+        Task<IMedia> UploadBinaryAsync(IUploadParameters parameters);
 
         /// <inheritdoc cref="UploadTweetImage(IUploadTweetImageParameters)" />
-        Task<IMedia> UploadTweetImage(byte[] binary);
+        Task<IMedia> UploadTweetImageAsync(byte[] binary);
 
         /// <summary>
         /// Upload an image to Twitter
@@ -29,10 +29,10 @@ namespace Tweetinvi.Client
         /// <para>APPEND : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-append</para>
         /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
         /// <returns>Uploaded media</returns>
-        Task<IMedia> UploadTweetImage(IUploadTweetImageParameters parameters);
+        Task<IMedia> UploadTweetImageAsync(IUploadTweetImageParameters parameters);
 
         /// <inheritdoc cref="UploadMessageImage(IUploadMessageImageParameters)" />
-        Task<IMedia> UploadMessageImage(byte[] binary);
+        Task<IMedia> UploadMessageImageAsync(byte[] binary);
 
         /// <summary>
         /// Upload an image to Twitter
@@ -41,10 +41,10 @@ namespace Tweetinvi.Client
         /// <para>APPEND : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-append</para>
         /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
         /// <returns>Uploaded media</returns>
-        Task<IMedia> UploadMessageImage(IUploadMessageImageParameters parameters);
+        Task<IMedia> UploadMessageImageAsync(IUploadMessageImageParameters parameters);
 
         /// <inheritdoc cref="UploadTweetVideo(IUploadTweetVideoParameters)" />
-        Task<IMedia> UploadTweetVideo(byte[] binary);
+        Task<IMedia> UploadTweetVideoAsync(byte[] binary);
 
         /// <summary>
         /// Upload a video in chunks and waits for the Twitter to have processed it
@@ -54,10 +54,10 @@ namespace Tweetinvi.Client
         /// <para>STATUS : https://dev.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status</para>
         /// </summary>
         /// <returns>Uploaded media</returns>
-        Task<IMedia> UploadTweetVideo(IUploadTweetVideoParameters parameters);
+        Task<IMedia> UploadTweetVideoAsync(IUploadTweetVideoParameters parameters);
 
         /// <inheritdoc cref="UploadMessageVideo(IUploadMessageVideoParameters)" />
-        Task<IMedia> UploadMessageVideo(byte[] binary);
+        Task<IMedia> UploadMessageVideoAsync(byte[] binary);
 
         /// <summary>
         /// Upload a video in chunks and waits for the Twitter to have processed it
@@ -67,29 +67,29 @@ namespace Tweetinvi.Client
         /// <para>STATUS : https://dev.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status</para>
         /// </summary>
         /// <returns>Uploaded media</returns>
-        Task<IMedia> UploadMessageVideo(IUploadMessageVideoParameters parameters);
+        Task<IMedia> UploadMessageVideoAsync(IUploadMessageVideoParameters parameters);
 
         /// <inheritdoc cref="AddMediaMetadata(IAddMediaMetadataParameters)" />
-        Task AddMediaMetadata(IMediaMetadata metadata);
+        Task AddMediaMetadataAsync(IMediaMetadata metadata);
 
         /// <summary>
         /// Add metadata to an uploaded media
         /// <para>Read more : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create</para>
         /// </summary>
-        Task AddMediaMetadata(IAddMediaMetadataParameters parameters);
+        Task AddMediaMetadataAsync(IAddMediaMetadataParameters parameters);
 
         /// <summary>
         /// Get a video processing status
         /// <para>https://dev.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status</para>
         /// </summary>
         /// <returns>Current status of the video processing</returns>
-        Task<IUploadedMediaInfo> GetVideoProcessingStatus(IMedia media);
+        Task<IUploadedMediaInfo> GetVideoProcessingStatusAsync(IMedia media);
 
         /// <summary>
         /// Wait for the upload of a media has completed
         /// <para>Read more : https://dev.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status</para>
         /// </summary>
         /// <returns>Completes wait the media is ready for use</returns>
-        Task WaitForMediaProcessingToGetAllMetadata(IMedia media);
+        Task WaitForMediaProcessingToGetAllMetadataAsync(IMedia media);
     }
 }

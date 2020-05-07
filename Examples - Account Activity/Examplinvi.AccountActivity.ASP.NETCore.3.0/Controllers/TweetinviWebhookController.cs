@@ -27,76 +27,76 @@ namespace Examplinvi.AccountActivity.ASP.NETCore._3._0.Controllers
         // WEBHOOK - Prepare and configure webhook
 
         [HttpPost("SetUserCredentials")]
-        public async Task<string> SetUserCredentials([FromBody]TwitterCredentials credentials)
+        public async Task<string> SetUserCredentialsAsync([FromBody]TwitterCredentials credentials)
         {
             var client = new TwitterClient(credentials);
-            var user = await client.Users.GetAuthenticatedUser();
+            var user = await client.Users.GetAuthenticatedUserAsync();
 
-            await AccountActivityCredentialsRetriever.SetUserCredentials(user.Id, credentials);
+            await AccountActivityCredentialsRetriever.SetUserCredentialsAsync(user.Id, credentials);
             return $"User {user.Id} registered!";
         }
 
         [HttpPost("TriggerAccountActivityWebhookCRC")]
-        public async Task<bool> TriggerAccountActivityWebhookCRC(string environment, string webhookId)
+        public async Task<bool> TriggerAccountActivityWebhookCRCAsync(string environment, string webhookId)
         {
-            return await _accountActivityWebhooksController.TriggerAccountActivityWebhookCRC(environment, webhookId);
+            return await _accountActivityWebhooksController.TriggerAccountActivityWebhookCRCAsync(environment, webhookId);
         }
 
         [HttpPost("RegisterWebhook")]
-        public async Task<bool> RegisterWebhook(string environment, string url)
+        public async Task<bool> RegisterWebhookAsync(string environment, string url)
         {
-            return await _accountActivityWebhooksController.CreateAccountActivityWebhook(environment, url);
+            return await _accountActivityWebhooksController.CreateAccountActivityWebhookAsync(environment, url);
         }
 
         [HttpDelete("DeleteWebhook")]
-        public async Task<bool> DeleteWebhook(string environment, string webhookId)
+        public async Task<bool> DeleteWebhookAsync(string environment, string webhookId)
         {
-            return await _accountActivityWebhooksController.DeleteAccountActivityWebhook(environment, webhookId);
+            return await _accountActivityWebhooksController.DeleteAccountActivityWebhookAsync(environment, webhookId);
         }
 
         [HttpGet("GetWebhookEnvironments")]
-        public async Task<IEnumerable<IWebhookEnvironmentDTO>> GetWebhookEnvironments()
+        public async Task<IEnumerable<IWebhookEnvironmentDTO>> GetWebhookEnvironmentsAsync()
         {
-            return (await _accountActivityWebhooksController.GetAccountActivityWebhookEnvironments()).Select(x => x.WebhookEnvironmentDTO);
+            return (await _accountActivityWebhooksController.GetAccountActivityWebhookEnvironmentsAsync()).Select(x => x.WebhookEnvironmentDTO);
         }
 
         [HttpGet("CountAccountActivitySubscriptions")]
-        public async Task<string> CountAccountActivitySubscriptions()
+        public async Task<string> CountAccountActivitySubscriptionsAsync()
         {
-            return await _accountActivityWebhooksController.CountAccountActivitySubscriptions();
+            return await _accountActivityWebhooksController.CountAccountActivitySubscriptionsAsync();
         }
 
         // SUBSCRIPTIONS - Subscribe / Unsubscribe user from webhook
 
         [HttpGet("GetWebhookSubscriptions")]
-        public async Task<IWebhookSubscription[]> GetWebhookSubscriptions(string environment)
+        public async Task<IWebhookSubscription[]> GetWebhookSubscriptionsAsync(string environment)
         {
-            return await _accountActivitySubscriptionsController.GetWebhookSubscriptions(environment);
+            return await _accountActivitySubscriptionsController.GetWebhookSubscriptionsAsync(environment);
         }
 
         [HttpPost("SubscribeToAccountActivity")]
-        public async Task<bool> SubscribeToAccountActivity(string environment, long userId)
+        public async Task<bool> SubscribeToAccountActivityAsync(string environment, long userId)
         {
-            return await _accountActivitySubscriptionsController.SubscribeToAccountActivity(environment, userId);
+            return await _accountActivitySubscriptionsController.SubscribeToAccountActivityAsync(environment, userId);
         }
 
         [HttpPost("UnsubscribeFromAccountActivity")]
-        public async Task<bool> UnsubscribeFromAccountActivity(string environment, long userId)
+        public async Task<bool> UnsubscribeFromAccountActivityAsync(string environment, long userId)
         {
-            return await _accountActivitySubscriptionsController.UnsubscribeFromAccountActivity(environment, userId);
+            return await _accountActivitySubscriptionsController.UnsubscribeFromAccountActivityAsync(environment, userId);
         }
 
         // ACCOUNT ACTIVITY EVENTS
         [HttpPost("SubscribeToEvents")]
-        public async Task<string> SubscribeToEvents(string environment, long userId)
+        public async Task<string> SubscribeToEventsAsync(string environment, long userId)
         {
-            return await _accountActivityEventsController.SubscribeToEvents(environment, userId);
+            return await _accountActivityEventsController.SubscribeToEventsAsync(environment, userId);
         }
 
         [HttpPost("UnsubscribeFromEvents")]
-        public async Task<string> UnsubscribeFromEvents(string environment, long userId)
+        public async Task<string> UnsubscribeFromEventsAsync(string environment, long userId)
         {
-            return await _accountActivityEventsController.UnsubscribeFromEvents(environment, userId);
+            return await _accountActivityEventsController.UnsubscribeFromEventsAsync(environment, userId);
         }
     }
 }

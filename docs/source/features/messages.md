@@ -5,17 +5,17 @@ Messages allow private interactions between users.
 ## Create, Read, Delete
 
 ``` c#
-var message = await client.Messages.PublishMessage("hello", recipient);
-var publishedMessage = await client.Messages.GetMessage(message.Id);
-await client.Messages.DestroyMessage(publishedMessage);
+var message = await client.Messages.PublishMessageAsync("hello", recipient);
+var publishedMessage = await client.Messages.GetMessageAsync(message.Id);
+await client.Messages.DestroyMessageAsync(publishedMessage);
 ```
 
 ## Publish with a Media
 
 ``` c#
-var media = await client.Upload.UploadMessageImage(binary);
+var media = await client.Upload.UploadMessageImageAsync(binary);
 
-var message = await client.Messages.PublishMessage(new PublishMessageParameters("piloupe", recipient.Id)
+var message = await client.Messages.PublishMessageAsync(new PublishMessageParameters("piloupe", recipient.Id)
 {
     MediaId = media.Id
 });
@@ -26,7 +26,7 @@ var message = await client.Messages.PublishMessage(new PublishMessageParameters(
 > Quick replies let you send messages with multiple choice options
 
 ``` c#
-var message = await client.Messages.PublishMessage(new PublishMessageParameters("hello", recipient)
+var message = await client.Messages.PublishMessageAsync(new PublishMessageParameters("hello", recipient)
 {
     QuickReplyOptions = new IQuickReplyOption[]
     {
@@ -51,7 +51,7 @@ var message = await client.Messages.PublishMessage(new PublishMessageParameters(
 <div class="iterator-available">
 
 ``` c#
-var messages = await client.Messages.GetMessages();
+var messages = await client.Messages.GetMessagesAsync();
 // or
 var messagesIterator = client.Messages.GetMessagesIterator();
 ```

@@ -24,22 +24,22 @@ namespace Tweetinvi.Client.Requesters
             _trendsClientRequiredParametersValidator = trendsClientRequiredParametersValidator;
         }
 
-        public Task<ITwitterResult<IGetTrendsAtResult[]>> GetPlaceTrendsAt(IGetTrendsAtParameters parameters)
+        public Task<ITwitterResult<IGetTrendsAtResult[]>> GetPlaceTrendsAtAsync(IGetTrendsAtParameters parameters)
         {
             _trendsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _trendsController.GetPlaceTrendsAt(parameters, request));
+            return ExecuteRequestAsync(request => _trendsController.GetPlaceTrendsAtAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITrendLocation[]>> GetTrendLocations(IGetTrendsLocationParameters parameters)
+        public Task<ITwitterResult<ITrendLocation[]>> GetTrendLocationsAsync(IGetTrendsLocationParameters parameters)
         {
             _trendsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _trendsController.GetTrendLocations(parameters, request));
+            return ExecuteRequestAsync(request => _trendsController.GetTrendLocationsAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITrendLocation[]>> GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters parameters)
+        public Task<ITwitterResult<ITrendLocation[]>> GetTrendsLocationCloseToAsync(IGetTrendsLocationCloseToParameters parameters)
         {
             _trendsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _trendsController.GetTrendsLocationCloseTo(parameters, request));
+            return ExecuteRequestAsync(request => _trendsController.GetTrendsLocationCloseToAsync(parameters, request));
         }
     }
 }

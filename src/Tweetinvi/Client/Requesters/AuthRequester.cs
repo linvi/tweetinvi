@@ -25,42 +25,42 @@ namespace Tweetinvi.Client.Requesters
             _validator = validator;
         }
 
-        public Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken(ICreateBearerTokenParameters parameters)
+        public Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerTokenAsync(ICreateBearerTokenParameters parameters)
         {
-            return ExecuteRequest(request =>
+            return ExecuteRequestAsync(request =>
             {
                 _validator.Validate(parameters, request);
-                return _authController.CreateBearerToken(parameters, request);
+                return _authController.CreateBearerTokenAsync(parameters, request);
             });
         }
 
-        public Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrl(IRequestAuthUrlParameters parameters)
+        public Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrlAsync(IRequestAuthUrlParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _authController.RequestAuthUrl(parameters, request));
+            return ExecuteRequestAsync(request => _authController.RequestAuthUrlAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITwitterCredentials>> RequestCredentials(IRequestCredentialsParameters parameters)
+        public Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsAsync(IRequestCredentialsParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _authController.RequestCredentials(parameters, request));
+            return ExecuteRequestAsync(request => _authController.RequestCredentialsAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters)
+        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerTokenAsync(IInvalidateBearerTokenParameters parameters)
         {
-            return ExecuteRequest(request =>
+            return ExecuteRequestAsync(request =>
             {
                 _validator.Validate(parameters, request);
-                return _authController.InvalidateBearerToken(parameters, request);
+                return _authController.InvalidateBearerTokenAsync(parameters, request);
             });
         }
 
-        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters)
+        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessTokenAsync(IInvalidateAccessTokenParameters parameters)
         {
-            return ExecuteRequest(request =>
+            return ExecuteRequestAsync(request =>
             {
                 _validator.Validate(parameters, request);
-                return _authController.InvalidateAccessToken(parameters, request);
+                return _authController.InvalidateAccessTokenAsync(parameters, request);
             });
         }
     }

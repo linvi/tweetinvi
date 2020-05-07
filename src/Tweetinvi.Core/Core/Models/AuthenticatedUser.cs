@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -23,242 +22,242 @@ namespace Tweetinvi.Core.Models
         public IReadOnlyTwitterCredentials Credentials => Client.Credentials;
 
         // Home Timeline
-        public Task<ITweet[]> GetHomeTimeline()
+        public Task<ITweet[]> GetHomeTimelineAsync()
         {
-            return Client.Timelines.GetHomeTimeline();
+            return Client.Timelines.GetHomeTimelineAsync();
         }
 
-        public Task<ITweet[]> GetMentionsTimeline()
+        public Task<ITweet[]> GetMentionsTimelineAsync()
         {
-            return Client.Timelines.GetMentionsTimeline();
+            return Client.Timelines.GetMentionsTimelineAsync();
         }
 
         // Friendships
-        public Task UpdateRelationship(IUpdateRelationshipParameters parameters)
+        public Task UpdateRelationshipAsync(IUpdateRelationshipParameters parameters)
         {
-            return Client.Users.UpdateRelationship(parameters);
+            return Client.Users.UpdateRelationshipAsync(parameters);
         }
 
         // Friends - Followers
-        public Task<long[]> GetUserIdsRequestingFriendship()
+        public Task<long[]> GetUserIdsRequestingFriendshipAsync()
         {
-            return Client.Users.GetUserIdsRequestingFriendship(new GetUserIdsRequestingFriendshipParameters());
+            return Client.Users.GetUserIdsRequestingFriendshipAsync(new GetUserIdsRequestingFriendshipParameters());
         }
 
-        public Task<IUser[]> GetUsersRequestingFriendship()
+        public Task<IUser[]> GetUsersRequestingFriendshipAsync()
         {
-            return Client.Users.GetUsersRequestingFriendship(new GetUsersRequestingFriendshipParameters());
+            return Client.Users.GetUsersRequestingFriendshipAsync(new GetUsersRequestingFriendshipParameters());
         }
 
-        public Task<long[]> GetUserIdsYouRequestedToFollow()
+        public Task<long[]> GetUserIdsYouRequestedToFollowAsync()
         {
-            return Client.Users.GetUserIdsYouRequestedToFollow();
+            return Client.Users.GetUserIdsYouRequestedToFollowAsync();
         }
 
-        public Task<IUser[]> GetUsersYouRequestedToFollow()
+        public Task<IUser[]> GetUsersYouRequestedToFollowAsync()
         {
-            return Client.Users.GetUsersYouRequestedToFollow(new GetUsersYouRequestedToFollowParameters());
+            return Client.Users.GetUsersYouRequestedToFollowAsync(new GetUsersYouRequestedToFollowParameters());
         }
 
 
         // Follow
-        public Task FollowUser(IUserIdentifier user)
+        public Task FollowUserAsync(IUserIdentifier user)
         {
-            return Client.Users.FollowUser(user);
+            return Client.Users.FollowUserAsync(user);
         }
 
-        public Task FollowUser(long userId)
+        public Task FollowUserAsync(long userId)
         {
-            return Client.Users.FollowUser(userId);
+            return Client.Users.FollowUserAsync(userId);
         }
 
-        public Task FollowUser(string username)
+        public Task FollowUserAsync(string username)
         {
-            return Client.Users.FollowUser(username);
+            return Client.Users.FollowUserAsync(username);
         }
 
-        public Task UnfollowUser(IUserIdentifier user)
+        public Task UnfollowUserAsync(IUserIdentifier user)
         {
-            return Client.Users.UnfollowUser(user);
+            return Client.Users.UnfollowUserAsync(user);
         }
 
-        public Task UnfollowUser(long userId)
+        public Task UnfollowUserAsync(long userId)
         {
-            return Client.Users.UnfollowUser(userId);
+            return Client.Users.UnfollowUserAsync(userId);
         }
 
-        public Task UnfollowUser(string username)
+        public Task UnfollowUserAsync(string username)
         {
-            return Client.Users.UnfollowUser(username);
+            return Client.Users.UnfollowUserAsync(username);
         }
 
-        public Task<ISavedSearch[]> ListSavedSearches()
+        public Task<ISavedSearch[]> ListSavedSearchesAsync()
         {
-            return Client.Search.ListSavedSearches();
+            return Client.Search.ListSavedSearchesAsync();
         }
 
         // Block
-        public override Task BlockUser()
+        public override Task BlockUserAsync()
         {
             throw new InvalidOperationException("You cannot block yourself...");
         }
 
-        public Task BlockUser(IUserIdentifier user)
+        public Task BlockUserAsync(IUserIdentifier user)
         {
-            return Client.Users.BlockUser(user);
+            return Client.Users.BlockUserAsync(user);
         }
 
-        public Task BlockUser(long userId)
+        public Task BlockUserAsync(long userId)
         {
-            return Client.Users.BlockUser(userId);
+            return Client.Users.BlockUserAsync(userId);
         }
 
-        public Task BlockUser(string username)
+        public Task BlockUserAsync(string username)
         {
-            return Client.Users.BlockUser(username);
+            return Client.Users.BlockUserAsync(username);
         }
 
         // Unblock
-        public override Task UnblockUser()
+        public override Task UnblockUserAsync()
         {
             throw new InvalidOperationException("You cannot unblock yourself...");
         }
 
-        public Task UnblockUser(IUserIdentifier user)
+        public Task UnblockUserAsync(IUserIdentifier user)
         {
-            return Client.Users.UnblockUser(user);
+            return Client.Users.UnblockUserAsync(user);
         }
 
-        public Task UnblockUser(long userId)
+        public Task UnblockUserAsync(long userId)
         {
-            return Client.Users.UnblockUser(userId);
+            return Client.Users.UnblockUserAsync(userId);
         }
 
-        public Task UnblockUser(string username)
+        public Task UnblockUserAsync(string username)
         {
-            return Client.Users.UnblockUser(username);
+            return Client.Users.UnblockUserAsync(username);
         }
 
         // Get Blocked Users
-        public Task<long[]> GetBlockedUserIds()
+        public Task<long[]> GetBlockedUserIdsAsync()
         {
-            return Client.Users.GetBlockedUserIds();
+            return Client.Users.GetBlockedUserIdsAsync();
         }
 
-        public Task<IUser[]> GetBlockedUsers()
+        public Task<IUser[]> GetBlockedUsersAsync()
         {
-            return Client.Users.GetBlockedUsers();
+            return Client.Users.GetBlockedUsersAsync();
         }
 
         // Spam
-        public override Task ReportUserForSpam()
+        public override Task ReportUserForSpamAsync()
         {
             throw new InvalidOperationException("You cannot report yourself for spam...");
         }
 
-        public Task ReportUserForSpam(IUserIdentifier user)
+        public Task ReportUserForSpamAsync(IUserIdentifier user)
         {
-            return Client.Users.ReportUserForSpam(user);
+            return Client.Users.ReportUserForSpamAsync(user);
         }
 
-        public Task ReportUserForSpam(string username)
+        public Task ReportUserForSpamAsync(string username)
         {
-            return Client.Users.ReportUserForSpam(username);
+            return Client.Users.ReportUserForSpamAsync(username);
         }
 
-        public Task ReportUserForSpam(long userId)
+        public Task ReportUserForSpamAsync(long userId)
         {
-            return Client.Users.ReportUserForSpam(userId);
+            return Client.Users.ReportUserForSpamAsync(userId);
         }
 
         // Direct Messages
-        public Task<IMessage[]> GetLatestMessages()
+        public Task<IMessage[]> GetLatestMessagesAsync()
         {
-            return Client.Messages.GetMessages();
+            return Client.Messages.GetMessagesAsync();
         }
 
-        public Task<IMessage> PublishMessage(IPublishMessageParameters publishMessageParameters)
+        public Task<IMessage> PublishMessageAsync(IPublishMessageParameters publishMessageParameters)
         {
-            return Client.Messages.PublishMessage(publishMessageParameters);
+            return Client.Messages.PublishMessageAsync(publishMessageParameters);
         }
 
         // Tweet
-        public Task<ITweet> PublishTweet(IPublishTweetParameters parameters)
+        public Task<ITweet> PublishTweetAsync(IPublishTweetParameters parameters)
         {
-            return Client.Tweets.PublishTweet(parameters);
+            return Client.Tweets.PublishTweetAsync(parameters);
         }
 
-        public Task<ITweet> PublishTweet(string text)
+        public Task<ITweet> PublishTweetAsync(string text)
         {
-            return Client.Tweets.PublishTweet(text);
+            return Client.Tweets.PublishTweetAsync(text);
         }
 
         // Settings
-        public Task<IAccountSettings> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters)
+        public Task<IAccountSettings> UpdateAccountSettingsAsync(IUpdateAccountSettingsParameters parameters)
         {
-            return Client.AccountSettings.UpdateAccountSettings(parameters);
+            return Client.AccountSettings.UpdateAccountSettingsAsync(parameters);
         }
 
         // Twitter Lists
-        public Task<ITwitterList> SubscribeToList(ITwitterListIdentifier list)
+        public Task<ITwitterList> SubscribeToListAsync(ITwitterListIdentifier list)
         {
-            return Client.Lists.SubscribeToList(list);
+            return Client.Lists.SubscribeToListAsync(list);
         }
 
-        public Task<ITwitterList> SubscribeToList(long listId)
+        public Task<ITwitterList> SubscribeToListAsync(long listId)
         {
-            return Client.Lists.SubscribeToList(listId);
+            return Client.Lists.SubscribeToListAsync(listId);
         }
 
-        public Task<ITwitterList> UnsubscribeFromList(ITwitterListIdentifier list)
+        public Task<ITwitterList> UnsubscribeFromListAsync(ITwitterListIdentifier list)
         {
-            return Client.Lists.UnsubscribeFromList(list);
+            return Client.Lists.UnsubscribeFromListAsync(list);
         }
 
-        public Task<ITwitterList> UnsubscribeFromList(long listId)
+        public Task<ITwitterList> UnsubscribeFromListAsync(long listId)
         {
-            return Client.Lists.UnsubscribeFromList(listId);
+            return Client.Lists.UnsubscribeFromListAsync(listId);
         }
 
         // Mute
-        public Task<long[]> GetMutedUserIds()
+        public Task<long[]> GetMutedUserIdsAsync()
         {
-            return Client.Users.GetMutedUserIds();
+            return Client.Users.GetMutedUserIdsAsync();
         }
 
-        public Task<IUser[]> GetMutedUsers()
+        public Task<IUser[]> GetMutedUsersAsync()
         {
-            return Client.Users.GetMutedUsers();
+            return Client.Users.GetMutedUsersAsync();
         }
 
-        public Task MuteUser(IUserIdentifier user)
+        public Task MuteUserAsync(IUserIdentifier user)
         {
-            return Client.Users.MuteUser(user);
+            return Client.Users.MuteUserAsync(user);
         }
 
-        public Task MuteUser(long userId)
+        public Task MuteUserAsync(long userId)
         {
-            return Client.Users.MuteUser(userId);
+            return Client.Users.MuteUserAsync(userId);
         }
 
-        public Task MuteUser(string username)
+        public Task MuteUserAsync(string username)
         {
-            return Client.Users.MuteUser(username);
+            return Client.Users.MuteUserAsync(username);
         }
 
-        public Task UnmuteUser(IUserIdentifier user)
+        public Task UnmuteUserAsync(IUserIdentifier user)
         {
-            return Client.Users.UnmuteUser(user);
+            return Client.Users.UnmuteUserAsync(user);
         }
 
-        public Task UnmuteUser(long userId)
+        public Task UnmuteUserAsync(long userId)
         {
-            return Client.Users.UnmuteUser(userId);
+            return Client.Users.UnmuteUserAsync(userId);
         }
 
-        public Task UnmuteUser(string username)
+        public Task UnmuteUserAsync(string username)
         {
-            return Client.Users.UnmuteUser(username);
+            return Client.Users.UnmuteUserAsync(username);
         }
     }
 }

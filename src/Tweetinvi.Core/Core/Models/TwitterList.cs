@@ -51,127 +51,127 @@ namespace Tweetinvi.Core.Models
         public int MemberCount => _twitterListDTO.MemberCount;
         public int SubscriberCount => _twitterListDTO.SubscriberCount;
 
-        public Task<ITweet[]> GetTweets()
+        public Task<ITweet[]> GetTweetsAsync()
         {
-            return Client.Lists.GetTweetsFromList(this);
+            return Client.Lists.GetTweetsFromListAsync(this);
         }
 
         // Members
-        public Task<IUser[]> GetMembers()
+        public Task<IUser[]> GetMembersAsync()
         {
-            return Client.Lists.GetMembersOfList(new GetMembersOfListParameters(this));
+            return Client.Lists.GetMembersOfListAsync(new GetMembersOfListParameters(this));
         }
 
-        public Task AddMember(long userId)
+        public Task AddMemberAsync(long userId)
         {
-            return Client.Lists.AddMemberToList(this, userId);
+            return Client.Lists.AddMemberToListAsync(this, userId);
         }
 
-        public Task AddMember(string username)
+        public Task AddMemberAsync(string username)
         {
-            return Client.Lists.AddMemberToList(this, username);
+            return Client.Lists.AddMemberToListAsync(this, username);
         }
 
-        public Task AddMember(IUserIdentifier user)
+        public Task AddMemberAsync(IUserIdentifier user)
         {
-            return Client.Lists.AddMemberToList(this, user);
+            return Client.Lists.AddMemberToListAsync(this, user);
         }
 
-        public Task AddMembers(IEnumerable<long> userIds)
+        public Task AddMembersAsync(IEnumerable<long> userIds)
         {
-            return Client.Lists.AddMembersToList(this, userIds);
+            return Client.Lists.AddMembersToListAsync(this, userIds);
         }
 
-        public Task AddMembers(IEnumerable<string> usernames)
+        public Task AddMembersAsync(IEnumerable<string> usernames)
         {
-            return Client.Lists.AddMembersToList(this, usernames);
+            return Client.Lists.AddMembersToListAsync(this, usernames);
         }
 
-        public Task AddMembers(IEnumerable<IUserIdentifier> users)
+        public Task AddMembersAsync(IEnumerable<IUserIdentifier> users)
         {
-            return Client.Lists.AddMembersToList(this, users);
-        }
-
-
-        public Task<bool> RemoveMember(long userId)
-        {
-            return Client.Lists.CheckIfUserIsMemberOfList(this, userId);
-        }
-
-        public Task<bool> RemoveMember(string username)
-        {
-            return Client.Lists.CheckIfUserIsMemberOfList(this, username);
-        }
-
-        public Task<bool> RemoveMember(IUserIdentifier user)
-        {
-            return Client.Lists.CheckIfUserIsMemberOfList(this, user);
+            return Client.Lists.AddMembersToListAsync(this, users);
         }
 
 
-        public Task RemoveMembers(IEnumerable<long> userIds)
+        public Task<bool> RemoveMemberAsync(long userId)
         {
-            return Client.Lists.RemoveMembersFromList(this, userIds);
+            return Client.Lists.CheckIfUserIsMemberOfListAsync(this, userId);
         }
 
-        public Task RemoveMembers(IEnumerable<string> usernames)
+        public Task<bool> RemoveMemberAsync(string username)
         {
-            return Client.Lists.RemoveMembersFromList(this, usernames);
+            return Client.Lists.CheckIfUserIsMemberOfListAsync(this, username);
         }
 
-        public Task RemoveMembers(IEnumerable<IUserIdentifier> users)
+        public Task<bool> RemoveMemberAsync(IUserIdentifier user)
         {
-            return Client.Lists.RemoveMembersFromList(this, users);
+            return Client.Lists.CheckIfUserIsMemberOfListAsync(this, user);
         }
 
 
-        public Task<bool> CheckUserMembership(long userId)
+        public Task RemoveMembersAsync(IEnumerable<long> userIds)
         {
-            return Client.Lists.CheckIfUserIsMemberOfList(this, userId);
+            return Client.Lists.RemoveMembersFromListAsync(this, userIds);
         }
 
-        public Task<bool> CheckUserMembership(string userScreenName)
+        public Task RemoveMembersAsync(IEnumerable<string> usernames)
         {
-            return Client.Lists.CheckIfUserIsMemberOfList(this, userScreenName);
+            return Client.Lists.RemoveMembersFromListAsync(this, usernames);
         }
 
-        public Task<bool> CheckUserMembership(IUserIdentifier user)
+        public Task RemoveMembersAsync(IEnumerable<IUserIdentifier> users)
         {
-            return Client.Lists.CheckIfUserIsMemberOfList(this, user);
+            return Client.Lists.RemoveMembersFromListAsync(this, users);
+        }
+
+
+        public Task<bool> CheckUserMembershipAsync(long userId)
+        {
+            return Client.Lists.CheckIfUserIsMemberOfListAsync(this, userId);
+        }
+
+        public Task<bool> CheckUserMembershipAsync(string userScreenName)
+        {
+            return Client.Lists.CheckIfUserIsMemberOfListAsync(this, userScreenName);
+        }
+
+        public Task<bool> CheckUserMembershipAsync(IUserIdentifier user)
+        {
+            return Client.Lists.CheckIfUserIsMemberOfListAsync(this, user);
         }
 
         // Subscribers
-        public Task<IUser[]> GetSubscribers()
+        public Task<IUser[]> GetSubscribersAsync()
         {
-            return Client.Lists.GetListSubscribers(this);
+            return Client.Lists.GetListSubscribersAsync(this);
         }
 
-        public Task<ITwitterList> Subscribe()
+        public Task<ITwitterList> SubscribeAsync()
         {
-            return Client.Lists.SubscribeToList(this);
+            return Client.Lists.SubscribeToListAsync(this);
         }
 
-        public Task<ITwitterList> Unsubscribe()
+        public Task<ITwitterList> UnsubscribeAsync()
         {
-            return Client.Lists.UnsubscribeFromList(this);
+            return Client.Lists.UnsubscribeFromListAsync(this);
         }
 
-        public Task<bool> CheckUserSubscription(long userId)
+        public Task<bool> CheckUserSubscriptionAsync(long userId)
         {
-            return Client.Lists.CheckIfUserIsSubscriberOfList(this, userId);
+            return Client.Lists.CheckIfUserIsSubscriberOfListAsync(this, userId);
         }
 
-        public Task<bool> CheckUserSubscription(string username)
+        public Task<bool> CheckUserSubscriptionAsync(string username)
         {
-            return Client.Lists.CheckIfUserIsSubscriberOfList(this, username);
+            return Client.Lists.CheckIfUserIsSubscriberOfListAsync(this, username);
         }
 
-        public Task<bool> CheckUserSubscription(IUserIdentifier user)
+        public Task<bool> CheckUserSubscriptionAsync(IUserIdentifier user)
         {
-            return Client.Lists.CheckIfUserIsSubscriberOfList(this, user);
+            return Client.Lists.CheckIfUserIsSubscriberOfListAsync(this, user);
         }
 
-        public async Task Update(IListMetadataParameters parameters)
+        public async Task UpdateAsync(IListMetadataParameters parameters)
         {
             var updateListParams = new UpdateListParameters(this)
             {
@@ -180,7 +180,7 @@ namespace Tweetinvi.Core.Models
                 PrivacyMode = parameters?.PrivacyMode
             };
 
-            var updateList = await Client.Lists.UpdateList(updateListParams).ConfigureAwait(false);
+            var updateList = await Client.Lists.UpdateListAsync(updateListParams).ConfigureAwait(false);
 
             if (updateList != null)
             {
@@ -188,9 +188,9 @@ namespace Tweetinvi.Core.Models
             }
         }
 
-        public Task Destroy()
+        public Task DestroyAsync()
         {
-            return Client.Lists.DestroyList(this);
+            return Client.Lists.DestroyListAsync(this);
         }
 
         private void UpdateOwner()

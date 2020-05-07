@@ -27,22 +27,22 @@ namespace Tweetinvi.Client.Requesters
             _messagesClientParametersValidator = messagesClientParametersValidator;
         }
 
-        public Task<ITwitterResult<ICreateMessageDTO>> PublishMessage(IPublishMessageParameters parameters)
+        public Task<ITwitterResult<ICreateMessageDTO>> PublishMessageAsync(IPublishMessageParameters parameters)
         {
             _messagesClientParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _messageController.PublishMessage(parameters, request));
+            return ExecuteRequestAsync(request => _messageController.PublishMessageAsync(parameters, request));
         }
 
-        public Task<ITwitterResult> DestroyMessage(IDeleteMessageParameters parameters)
+        public Task<ITwitterResult> DestroyMessageAsync(IDeleteMessageParameters parameters)
         {
             _messagesClientParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _messageController.DestroyMessage(parameters, request));
+            return ExecuteRequestAsync(request => _messageController.DestroyMessageAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<IGetMessageDTO>> GetMessage(IGetMessageParameters parameters)
+        public Task<ITwitterResult<IGetMessageDTO>> GetMessageAsync(IGetMessageParameters parameters)
         {
             _messagesClientParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _messageController.GetMessage(parameters, request));
+            return ExecuteRequestAsync(request => _messageController.GetMessageAsync(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IMessageCursorQueryResultDTO>> GetMessagesIterator(IGetMessagesParameters parameters)

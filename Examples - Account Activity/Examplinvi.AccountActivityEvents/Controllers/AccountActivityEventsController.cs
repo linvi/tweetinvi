@@ -15,7 +15,7 @@ namespace Examplinvi.AccountActivityEvents.Controllers
         }
 
         // EVENT
-        public Task<string> SubscribeToEvents(string environment, long userId)
+        public Task<string> SubscribeToEventsAsync(string environment, long userId)
         {
             var activityStream = _requestHandler.GetAccountActivityStream(userId, environment);
             _accountActivityEventsManager.RegisterAccountActivityStream(activityStream);
@@ -27,7 +27,7 @@ namespace Examplinvi.AccountActivityEvents.Controllers
                 "NOTE: It may take 10 seconds for the subscription to become active on Twitter.");
         }
 
-        public Task<string> UnsubscribeFromEvents(string environment, long userId)
+        public Task<string> UnsubscribeFromEventsAsync(string environment, long userId)
         {
             var activityStream = _requestHandler.GetAccountActivityStream(userId, environment);
             _accountActivityEventsManager.UnregisterAccountActivityStream(activityStream);

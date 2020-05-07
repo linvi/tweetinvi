@@ -16,53 +16,53 @@ namespace Tweetinvi.Client
             _helpRequester = helpRequester;
         }
 
-        public Task<ITwitterConfiguration> GetTwitterConfiguration()
+        public Task<ITwitterConfiguration> GetTwitterConfigurationAsync()
         {
-            return GetTwitterConfiguration(new GetTwitterConfigurationParameters());
+            return GetTwitterConfigurationAsync(new GetTwitterConfigurationParameters());
         }
 
-        public async Task<ITwitterConfiguration> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters)
+        public async Task<ITwitterConfiguration> GetTwitterConfigurationAsync(IGetTwitterConfigurationParameters parameters)
         {
-            var twitterResult = await _helpRequester.GetTwitterConfiguration(parameters).ConfigureAwait(false);
+            var twitterResult = await _helpRequester.GetTwitterConfigurationAsync(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
         }
 
-        public Task<SupportedLanguage[]> GetSupportedLanguages()
+        public Task<SupportedLanguage[]> GetSupportedLanguagesAsync()
         {
-            return GetSupportedLanguages(new GetSupportedLanguagesParameters());
+            return GetSupportedLanguagesAsync(new GetSupportedLanguagesParameters());
         }
 
-        public async Task<SupportedLanguage[]> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters)
+        public async Task<SupportedLanguage[]> GetSupportedLanguagesAsync(IGetSupportedLanguagesParameters parameters)
         {
-            var twitterResult = await _helpRequester.GetSupportedLanguages(parameters).ConfigureAwait(false);
+            var twitterResult = await _helpRequester.GetSupportedLanguagesAsync(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
         }
 
-        public Task<IPlace> GetPlace(string placeId)
+        public Task<IPlace> GetPlaceAsync(string placeId)
         {
-            return GetPlace(new GetPlaceParameters(placeId));
+            return GetPlaceAsync(new GetPlaceParameters(placeId));
         }
 
-        public async Task<IPlace> GetPlace(IGetPlaceParameters parameters)
+        public async Task<IPlace> GetPlaceAsync(IGetPlaceParameters parameters)
         {
-            var result = await _helpRequester.GetPlace(parameters).ConfigureAwait(false);
+            var result = await _helpRequester.GetPlaceAsync(parameters).ConfigureAwait(false);
             return result?.DataTransferObject;
         }
 
-        public async Task<IPlace[]> SearchGeo(IGeoSearchParameters parameters)
+        public async Task<IPlace[]> SearchGeoAsync(IGeoSearchParameters parameters)
         {
-            var result = await _helpRequester.SearchGeo(parameters).ConfigureAwait(false);
+            var result = await _helpRequester.SearchGeoAsync(parameters).ConfigureAwait(false);
             return result?.DataTransferObject?.Result.Places;
         }
 
-        public Task<IPlace[]> SearchGeoReverse(ICoordinates coordinates)
+        public Task<IPlace[]> SearchGeoReverseAsync(ICoordinates coordinates)
         {
-            return SearchGeoReverse(new GeoSearchReverseParameters(coordinates));
+            return SearchGeoReverseAsync(new GeoSearchReverseParameters(coordinates));
         }
 
-        public async Task<IPlace[]> SearchGeoReverse(IGeoSearchReverseParameters parameters)
+        public async Task<IPlace[]> SearchGeoReverseAsync(IGeoSearchReverseParameters parameters)
         {
-            var result = await _helpRequester.SearchGeoReverse(parameters).ConfigureAwait(false);
+            var result = await _helpRequester.SearchGeoReverseAsync(parameters).ConfigureAwait(false);
             return result?.DataTransferObject?.Result.Places;
         }
     }

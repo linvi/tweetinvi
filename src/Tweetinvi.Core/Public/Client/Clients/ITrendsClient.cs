@@ -13,35 +13,35 @@ namespace Tweetinvi.Client
         ITrendsClientParametersValidator ParametersValidator { get; }
 
         /// <inheritdoc cref="GetPlaceTrendsAt(IGetTrendsAtParameters)"/>
-        Task<IGetTrendsAtResult> GetPlaceTrendsAt(long woeid);
+        Task<IGetTrendsAtResult> GetPlaceTrendsAtAsync(long woeid);
 
         /// <summary>
         /// Returns the top 50 trending topics for a specific WOEID
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/trends/trends-for-location/api-reference/get-trends-place </para>
         /// <returns>Trending topics</returns>
-        Task<IGetTrendsAtResult> GetPlaceTrendsAt(IGetTrendsAtParameters parameters);
+        Task<IGetTrendsAtResult> GetPlaceTrendsAtAsync(IGetTrendsAtParameters parameters);
 
         /// <inheritdoc cref="GetTrendLocations(IGetTrendsLocationParameters)"/>
-        Task<ITrendLocation[]> GetTrendLocations();
+        Task<ITrendLocation[]> GetTrendLocationsAsync();
 
         /// <summary>
         /// Returns the locations that Twitter has trending topic information for.
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/trends/locations-with-trending-topics/api-reference/get-trends-available </para>
         /// <returns>Trending locations</returns>
-        Task<ITrendLocation[]> GetTrendLocations(IGetTrendsLocationParameters parameters);
+        Task<ITrendLocation[]> GetTrendLocationsAsync(IGetTrendsLocationParameters parameters);
 
         /// <inheritdoc cref="GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters)"/>
-        Task<ITrendLocation[]> GetTrendsLocationCloseTo(double latitude, double longitude);
+        Task<ITrendLocation[]> GetTrendsLocationCloseToAsync(double latitude, double longitude);
         /// <inheritdoc cref="GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters)"/>
-        Task<ITrendLocation[]> GetTrendsLocationCloseTo(ICoordinates coordinates);
+        Task<ITrendLocation[]> GetTrendsLocationCloseToAsync(ICoordinates coordinates);
 
         /// <summary>
         /// Returns the locations that Twitter has trending topic information for, closest to a specified location.
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/trends/locations-with-trending-topics/api-reference/get-trends-closest </para>
         /// <returns>Trending locations</returns>
-        Task<ITrendLocation[]> GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters parameters);
+        Task<ITrendLocation[]> GetTrendsLocationCloseToAsync(IGetTrendsLocationCloseToParameters parameters);
     }
 }

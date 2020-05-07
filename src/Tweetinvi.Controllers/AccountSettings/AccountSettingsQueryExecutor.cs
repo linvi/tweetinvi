@@ -14,14 +14,14 @@ namespace Tweetinvi.Controllers.AccountSettings
 {
     public interface IAccountSettingsQueryExecutor
     {
-        Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettings(IGetAccountSettingsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UpdateProfile(IUpdateProfileParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult> UpdateProfileBanner(IUpdateProfileBannerParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult> RemoveProfileBanner(IRemoveProfileBannerParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettingsAsync(IGetAccountSettingsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettingsAsync(IUpdateAccountSettingsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UpdateProfileAsync(IUpdateProfileParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UpdateProfileImageAsync(IUpdateProfileImageParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult> UpdateProfileBannerAsync(IUpdateProfileBannerParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult> RemoveProfileBannerAsync(IRemoveProfileBannerParameters parameters, ITwitterRequest request);
     }
-    
+
     public class AccountSettingsQueryExecutor : IAccountSettingsQueryExecutor
     {
         private readonly IAccountSettingsQueryGenerator _accountSettingsQueryGenerator;
@@ -35,31 +35,31 @@ namespace Tweetinvi.Controllers.AccountSettings
             _twitterAccessor = twitterAccessor;
         }
 
-        public Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettings(IGetAccountSettingsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettingsAsync(IGetAccountSettingsParameters parameters, ITwitterRequest request)
         {
             var query = _accountSettingsQueryGenerator.GetAccountSettingsQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<IAccountSettingsDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IAccountSettingsDTO>(request);
         }
 
-        public Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettingsAsync(IUpdateAccountSettingsParameters parameters, ITwitterRequest request)
         {
             var query = _accountSettingsQueryGenerator.GetUpdateAccountSettingsQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<IAccountSettingsDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IAccountSettingsDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UpdateProfile(IUpdateProfileParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UpdateProfileAsync(IUpdateProfileParameters parameters, ITwitterRequest request)
         {
             var query = _accountSettingsQueryGenerator.GetUpdateProfileQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UpdateProfileImageAsync(IUpdateProfileImageParameters parameters, ITwitterRequest request)
         {
             var query = _accountSettingsQueryGenerator.GetUpdateProfileImageQuery(parameters);
 
@@ -74,11 +74,11 @@ namespace Tweetinvi.Controllers.AccountSettings
             };
 
             request.Query = multipartQuery;
-            
-            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+
+            return _twitterAccessor.ExecuteRequestAsync<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult> UpdateProfileBanner(IUpdateProfileBannerParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult> UpdateProfileBannerAsync(IUpdateProfileBannerParameters parameters, ITwitterRequest request)
         {
             var query = _accountSettingsQueryGenerator.GetUpdateProfileBannerQuery(parameters);
             var banner = StringFormater.UrlEncode(Convert.ToBase64String(parameters.Binary));
@@ -89,16 +89,16 @@ namespace Tweetinvi.Controllers.AccountSettings
             request.Query.HttpContent = new ProgressableStreamContent(bannerHttpContent, parameters.UploadProgressChanged);
             request.Query.IsHttpContentPartOfQueryParams = true;
             request.Query.Timeout = parameters.Timeout ?? TimeSpan.FromMilliseconds(System.Threading.Timeout.Infinite);
-            
-            return _twitterAccessor.ExecuteRequest(request);
+
+            return _twitterAccessor.ExecuteRequestAsync(request);
         }
 
-        public Task<ITwitterResult> RemoveProfileBanner(IRemoveProfileBannerParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult> RemoveProfileBannerAsync(IRemoveProfileBannerParameters parameters, ITwitterRequest request)
         {
             var query = _accountSettingsQueryGenerator.GetRemoveProfileBannerQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest(request);
+            return _twitterAccessor.ExecuteRequestAsync(request);
         }
     }
 }

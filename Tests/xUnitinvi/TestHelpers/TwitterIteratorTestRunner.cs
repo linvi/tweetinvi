@@ -46,7 +46,7 @@ namespace xUnitinvi.TestHelpers
             callToQueryExecutor.ReturnsNextFromSequence(_expectedResults);
         }
 
-        public async Task Act()
+        public async Task ActAsync()
         {
             if (_iterator.NextCursor != null)
             {
@@ -55,12 +55,12 @@ namespace xUnitinvi.TestHelpers
 
             while (!_iterator.Completed)
             {
-                var page = await _iterator.NextPage();
+                var page = await _iterator.NextPageAsync();
                 _resultPages.Add(page);
             }
         }
 
-        public async Task Assert()
+        public async Task AssertAsync()
         {
             Xunit.Assert.Equal(_resultPages.Count, _expectedResults.Length);
 
@@ -75,7 +75,7 @@ namespace xUnitinvi.TestHelpers
             Xunit.Assert.Equal(lastPage.Content, _expectedResults[_expectedResults.Length - 1]);
             Xunit.Assert.True(lastPage.IsLastPage);
 
-            await Xunit.Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => _iterator.NextPage());
+            await Xunit.Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => _iterator.NextPageAsync());
         }
     }
 }

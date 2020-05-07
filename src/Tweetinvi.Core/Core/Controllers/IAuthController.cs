@@ -8,10 +8,10 @@ namespace Tweetinvi.Core.Controllers
 {
     public interface IAuthController
     {
-        Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken(ICreateBearerTokenParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrl(IRequestAuthUrlParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<ITwitterCredentials>> RequestCredentials(IRequestCredentialsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerTokenAsync(ICreateBearerTokenParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrlAsync(IRequestAuthUrlParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsAsync(IRequestCredentialsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessTokenAsync(IInvalidateAccessTokenParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerTokenAsync(IInvalidateBearerTokenParameters parameters, ITwitterRequest request);
     }
 }

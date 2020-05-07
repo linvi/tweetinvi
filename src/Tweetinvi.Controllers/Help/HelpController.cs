@@ -18,34 +18,34 @@ namespace Tweetinvi.Controllers.Help
             _helpQueryExecutor = helpQueryExecutor;
         }
 
-        public Task<ITwitterResult<CredentialsRateLimitsDTO>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<CredentialsRateLimitsDTO>> GetRateLimitsAsync(IGetRateLimitsParameters parameters, ITwitterRequest request)
         {
-            return _helpQueryExecutor.GetRateLimits(parameters, request);
+            return _helpQueryExecutor.GetRateLimitsAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfigurationAsync(IGetTwitterConfigurationParameters parameters, ITwitterRequest request)
         {
-            return _helpQueryExecutor.GetTwitterConfiguration(parameters, request);
+            return _helpQueryExecutor.GetTwitterConfigurationAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguagesAsync(IGetSupportedLanguagesParameters parameters, ITwitterRequest request)
         {
-            return _helpQueryExecutor.GetSupportedLanguages(parameters, request);
+            return _helpQueryExecutor.GetSupportedLanguagesAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<IPlace>> GetPlace(IGetPlaceParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IPlace>> GetPlaceAsync(IGetPlaceParameters parameters, ITwitterRequest request)
         {
-            return _helpQueryExecutor.GetPlace(parameters, request);
+            return _helpQueryExecutor.GetPlaceAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeo(IGeoSearchParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoAsync(IGeoSearchParameters parameters, ITwitterRequest request)
         {
-            return _helpQueryExecutor.SearchGeo(parameters, request);
+            return _helpQueryExecutor.SearchGeoAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoReverse(IGeoSearchReverseParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoReverseAsync(IGeoSearchReverseParameters parameters, ITwitterRequest request)
         {
-            return _helpQueryExecutor.SearchGeoReverse(parameters, request);
+            return _helpQueryExecutor.SearchGeoReverseAsync(parameters, request);
         }
     }
 }

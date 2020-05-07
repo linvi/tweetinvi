@@ -23,7 +23,7 @@ namespace xUnitinvi.Integration
         }
 
         [Fact]
-        public async Task GetRateLimits_FromCacheOnly_GetResultsFromCache()
+        public async Task GetRateLimits_FromCacheOnly_GetResultsFromCacheAsync()
         {
             var fakeRateLimitCache = A.Fake<IRateLimitCache>();
             var creds = A.Fake<ITwitterCredentials>();
@@ -34,18 +34,18 @@ namespace xUnitinvi.Integration
                 RateLimitCache = fakeRateLimitCache
             });
 
-            A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimits(client.Credentials))
+            A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimitsAsync(client.Credentials))
                 .Returns(expectedRateLimits);
 
             // act
-            var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOnly);
+            var rateLimits = await client.RateLimits.GetRateLimitsAsync(RateLimitsSource.CacheOnly);
 
             // arrange
             Assert.Same(rateLimits, expectedRateLimits);
         }
 
         [Fact]
-        public async Task GetRateLimits_FromTwitterApiOnly_GetsResultFromTwitterAccessor()
+        public async Task GetRateLimits_FromTwitterApiOnly_GetsResultFromTwitterAccessorAsync()
         {
             var expectedRateLimits = A.Fake<CredentialsRateLimitsDTO>();
             var twitterAccessor = A.Fake<ITwitterAccessor>();
@@ -59,18 +59,18 @@ namespace xUnitinvi.Integration
             {
                 Container = container
             });
-            A.CallTo(() => twitterAccessor.ExecuteRequest<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
+            A.CallTo(() => twitterAccessor.ExecuteRequestAsync<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
                 .Returns(new TwitterResult<CredentialsRateLimitsDTO> { DataTransferObject = expectedRateLimits });
 
             // act
-            var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.TwitterApiOnly);
+            var rateLimits = await client.RateLimits.GetRateLimitsAsync(RateLimitsSource.TwitterApiOnly);
 
             // arrange
             Assert.Same(rateLimits.CredentialsRateLimitsDTO, expectedRateLimits);
         }
 
         [Fact]
-        public async Task GetRateLimits_FromCacheOrTwitterApi_GetsFirstFromTwitterApiThenFromCache()
+        public async Task GetRateLimits_FromCacheOrTwitterApi_GetsFirstFromTwitterApiThenFromCacheAsync()
         {
             var fakeRateLimitCache = A.Fake<IRateLimitCache>();
             var twitterApiRateLimitsDTO = A.Fake<CredentialsRateLimitsDTO>();
@@ -90,22 +90,22 @@ namespace xUnitinvi.Integration
                 RateLimitCache = fakeRateLimitCache
             });
 
-            A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimits(client.Credentials)).Returns(Task.FromResult<ICredentialsRateLimits>(null));
-            A.CallTo(() => fakeRateLimitCache.RefreshEntry(client.Credentials, A<ICredentialsRateLimits>.That.Matches(x => x.CredentialsRateLimitsDTO == twitterApiRateLimitsDTO)))
+            A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimitsAsync(client.Credentials)).Returns(Task.FromResult<ICredentialsRateLimits>(null));
+            A.CallTo(() => fakeRateLimitCache.RefreshEntryAsync(client.Credentials, A<ICredentialsRateLimits>.That.Matches(x => x.CredentialsRateLimitsDTO == twitterApiRateLimitsDTO)))
                 .ReturnsLazily(() =>
                 {
                     // we use sequence here as `RefreshCredentialsRateLimits` is calling GetCredentialsRateLimits right after having put it in the cache
-                    A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimits(client.Credentials))
+                    A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimitsAsync(client.Credentials))
                         .ReturnsNextFromSequence(twitterApiRateLimits, cacheRateLimits);
                     return Task.CompletedTask;
                 });
 
-            A.CallTo(() => twitterAccessor.ExecuteRequest<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
+            A.CallTo(() => twitterAccessor.ExecuteRequestAsync<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
                 .Returns(new TwitterResult<CredentialsRateLimitsDTO> { DataTransferObject = twitterApiRateLimitsDTO });
 
             // act
-            var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOrTwitterApi);
-            var rateLimitsThatShouldComeCache = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOrTwitterApi);
+            var rateLimits = await client.RateLimits.GetRateLimitsAsync(RateLimitsSource.CacheOrTwitterApi);
+            var rateLimitsThatShouldComeCache = await client.RateLimits.GetRateLimitsAsync(RateLimitsSource.CacheOrTwitterApi);
 
             // arrange
             Assert.Same(rateLimits.CredentialsRateLimitsDTO, twitterApiRateLimitsDTO);

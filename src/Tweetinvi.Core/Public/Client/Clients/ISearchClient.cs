@@ -12,27 +12,27 @@ namespace Tweetinvi.Client
         ISearchClientParametersValidator ParametersValidator { get; }
 
         /// <inheritdoc cref="SearchTweets(ISearchTweetsParameters)"/>
-        Task<ITweet[]> SearchTweets(string query);
+        Task<ITweet[]> SearchTweetsAsync(string query);
 
         /// <inheritdoc cref="SearchTweetsWithMetadata(ISearchTweetsParameters)"/>
-        Task<ITweet[]> SearchTweets(IGeoCode geoCode);
+        Task<ITweet[]> SearchTweetsAsync(IGeoCode geoCode);
 
         /// <summary>
         /// Search for tweets
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets </para>
         /// <returns>Tweets matching the search</returns>
-        Task<ITweet[]> SearchTweets(ISearchTweetsParameters parameters);
+        Task<ITweet[]> SearchTweetsAsync(ISearchTweetsParameters parameters);
 
         /// <inheritdoc cref="SearchTweetsWithMetadata(ISearchTweetsParameters)"/>
-        Task<ISearchResults> SearchTweetsWithMetadata(string query);
+        Task<ISearchResults> SearchTweetsWithMetadataAsync(string query);
 
         /// <summary>
         /// Search for tweets
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets </para>
         /// <returns>Tweets matching the search with search metadata</returns>
-        Task<ISearchResults> SearchTweetsWithMetadata(ISearchTweetsParameters parameters);
+        Task<ISearchResults> SearchTweetsWithMetadataAsync(ISearchTweetsParameters parameters);
 
         /// <inheritdoc cref="GetSearchTweetsIterator(ISearchTweetsParameters)"/>
         ITwitterIterator<ITweet, long?> GetSearchTweetsIterator(string query);
@@ -54,14 +54,14 @@ namespace Tweetinvi.Client
         ITweet[] FilterTweets(ITweet[] tweets, OnlyGetTweetsThatAre? filter, bool tweetsMustContainGeoInformation);
 
         /// <inheritdoc cref="SearchUsers(ISearchUsersParameters)"/>
-        Task<IUser[]> SearchUsers(string query);
+        Task<IUser[]> SearchUsersAsync(string query);
 
         /// <summary>
         /// Search for tweets
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-search </para>
         /// <returns>Users matching the search</returns>
-        Task<IUser[]> SearchUsers(ISearchUsersParameters parameters);
+        Task<IUser[]> SearchUsersAsync(ISearchUsersParameters parameters);
 
         /// <inheritdoc cref="GetSearchUsersIterator(ISearchUsersParameters)"/>
         ITwitterIterator<IUser, int?> GetSearchUsersIterator(string query);
@@ -74,46 +74,46 @@ namespace Tweetinvi.Client
         ITwitterIterator<IUser, int?> GetSearchUsersIterator(ISearchUsersParameters parameters);
 
         /// <inheritdoc cref="CreateSavedSearch(ICreateSavedSearchParameters)"/>
-        Task<ISavedSearch> CreateSavedSearch(string query);
+        Task<ISavedSearch> CreateSavedSearchAsync(string query);
 
         /// <summary>
         /// Create a saved search
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-saved_searches-create </para>
         /// <returns>Created saved search</returns>
-        Task<ISavedSearch> CreateSavedSearch(ICreateSavedSearchParameters parameters);
+        Task<ISavedSearch> CreateSavedSearchAsync(ICreateSavedSearchParameters parameters);
 
         /// <inheritdoc cref="GetSavedSearch(IGetSavedSearchParameters)"/>
-        Task<ISavedSearch> GetSavedSearch(long savedSearchId);
+        Task<ISavedSearch> GetSavedSearchAsync(long savedSearchId);
 
         /// <summary>
         /// Get an existing saved search
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-saved_searches-show-id </para>
         /// <returns>Requested saved search</returns>
-        Task<ISavedSearch> GetSavedSearch(IGetSavedSearchParameters parameters);
+        Task<ISavedSearch> GetSavedSearchAsync(IGetSavedSearchParameters parameters);
 
         /// <inheritdoc cref="ListSavedSearches(Tweetinvi.Parameters.IListSavedSearchesParameters)"/>
-        Task<ISavedSearch[]> ListSavedSearches();
+        Task<ISavedSearch[]> ListSavedSearchesAsync();
 
         /// <summary>
         /// List account's saved searches
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-saved_searches-list </para>
         /// <returns>Account's saved searches</returns>
-        Task<ISavedSearch[]> ListSavedSearches(IListSavedSearchesParameters parameters);
+        Task<ISavedSearch[]> ListSavedSearchesAsync(IListSavedSearchesParameters parameters);
 
         /// <inheritdoc cref="DestroySavedSearch(IDestroySavedSearchParameters)"/>
-        Task<ISavedSearch> DestroySavedSearch(long savedSearchId);
+        Task<ISavedSearch> DestroySavedSearchAsync(long savedSearchId);
 
         /// <inheritdoc cref="DestroySavedSearch(IDestroySavedSearchParameters)"/>
-        Task<ISavedSearch> DestroySavedSearch(ISavedSearch savedSearch);
+        Task<ISavedSearch> DestroySavedSearchAsync(ISavedSearch savedSearch);
 
         /// <summary>
         /// Destroys a saved search
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-saved_searches-destroy-id </para>
         /// <returns>Deleted search</returns>
-        Task<ISavedSearch> DestroySavedSearch(IDestroySavedSearchParameters parameters);
+        Task<ISavedSearch> DestroySavedSearchAsync(IDestroySavedSearchParameters parameters);
     }
 }

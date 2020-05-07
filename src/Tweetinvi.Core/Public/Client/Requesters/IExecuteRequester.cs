@@ -7,13 +7,13 @@ namespace Tweetinvi.Client.Requesters
 {
     public interface IExecuteRequester
     {
-        Task<ITwitterResult<T>> Request<T>(Action<ITwitterRequest> configureRequest) where T : class;
-        Task<ITwitterResult> Request(Action<ITwitterRequest> configureRequest);
+        Task<ITwitterResult<T>> RequestAsync<T>(Action<ITwitterRequest> configureRequest) where T : class;
+        Task<ITwitterResult> RequestAsync(Action<ITwitterRequest> configureRequest);
 
-        Task<ITwitterResult<T>> Request<T>(Action<ITwitterQuery> configureQuery) where T : class;
-        Task<ITwitterResult> Request(Action<ITwitterQuery> configureQuery);
+        Task<ITwitterResult<T>> RequestAsync<T>(Action<ITwitterQuery> configureQuery) where T : class;
+        Task<ITwitterResult> RequestAsync(Action<ITwitterQuery> configureQuery);
 
-        Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterQuery> configureQuery);
-        Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterRequest> configureRequest);
+        Task<ITwitterRequest> PrepareTwitterRequestAsync(Action<ITwitterQuery> configureQuery);
+        Task<ITwitterRequest> PrepareTwitterRequestAsync(Action<ITwitterRequest> configureRequest);
     }
 }

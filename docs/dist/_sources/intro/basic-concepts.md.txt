@@ -18,30 +18,30 @@ var userClient = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TO
 
 ``` c#
 // Get the authenticated user
-var authenticatedUser = await client.Users.GetAuthenticatedUser();
+var authenticatedUser = await client.Users.GetAuthenticatedUserAsync();
 
 // Get a specific user
-var user = await client.Users.GetUser("tweetinviapi");
+var user = await client.Users.GetUserAsync("tweetinviapi");
 ```
 
 ## Tweets
 
 ``` c#
 // Publish a tweet
-var publishedTweet = await client.Tweets.PublishTweet("Hello Tweetinvi!");
+var publishedTweet = await client.Tweets.PublishTweetAsync("Hello Tweetinvi!");
 
 // Get tweet by id
-var tweet = await client.Tweets.GetTweet(publishedTweet.Id);
+var tweet = await client.Tweets.GetTweetAsync(publishedTweet.Id);
 ```
 
 ## Timelines
 
 ``` c#
 // Get the tweets available on the user's home page
-var homeTimeline = await client.Timelines.GetHomeTimeline();
+var homeTimeline = await client.Timelines.GetHomeTimelineAsync();
 
 // Get tweets from a specific user
-var userTimeline = await client.Timelines.GetUserTimeline("tweetinviapi");
+var userTimeline = await client.Timelines.GetUserTimelineAsync("tweetinviapi");
 ```
 
 ## Iterators
@@ -59,7 +59,7 @@ var userTimelineIterator = client.Timelines.GetUserTimelineIterator("tweetinviap
 
 while (!userTimelineIterator.Completed)
 {
-    var page = await userTimelineIterator.NextPage();
+    var page = await userTimelineIterator.NextPageAsync();
     Console.WriteLine("Retrieved " + page.Count() + " tweets!");
 }
 
@@ -71,10 +71,10 @@ Console.WriteLine("We have now retrieved all the tweets!");
 
 ``` c#
 // Search tweets
-var tweets = await client.Search.SearchTweets("hello");
+var tweets = await client.Search.SearchTweetsAsync("hello");
 
 // Search users
-var users = await client.Search.SearchUsers("tweetinviapi");
+var users = await client.Search.SearchUsersAsync("tweetinviapi");
 ```
 
 ## Parameters
@@ -88,10 +88,10 @@ Here is an example:
 
 ``` c#
 // simple search
-var tweets = await client.Search.SearchTweets("hello");
+var tweets = await client.Search.SearchTweetsAsync("hello");
 
 // complex search
-var frenchTweets = await client.Search.SearchTweets(new SearchTweetsParameters("hello")
+var frenchTweets = await client.Search.SearchTweetsAsync(new SearchTweetsParameters("hello")
 {
     Lang = LanguageFilter.French
 });

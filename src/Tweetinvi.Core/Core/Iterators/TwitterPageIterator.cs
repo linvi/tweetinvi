@@ -9,7 +9,7 @@ namespace Tweetinvi.Core.Iterators
     {
         TCursor NextCursor { get; }
         bool Completed { get; }
-        Task<ITwitterIteratorPageResult<TPage, TCursor>> NextPage();
+        Task<ITwitterIteratorPageResult<TPage, TCursor>> NextPageAsync();
     }
 
     public interface ITwitterPageIterator<TPage> : ITwitterPageIterator<TPage, string>
@@ -50,7 +50,7 @@ namespace Tweetinvi.Core.Iterators
         public TCursor NextCursor { get; private set; }
         public bool Completed { get; private set; }
 
-        public async Task<ITwitterIteratorPageResult<TPage, TCursor>> NextPage()
+        public async Task<ITwitterIteratorPageResult<TPage, TCursor>> NextPageAsync()
         {
             if (Completed)
             {

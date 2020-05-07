@@ -30,7 +30,7 @@ namespace Tweetinvi.Controllers.Timeline
                     MaxId = cursor
                 };
 
-                return _timelineQueryExecutor.GetHomeTimeline(cursoredParameters, new TwitterRequest(request));
+                return _timelineQueryExecutor.GetHomeTimelineAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
 
@@ -43,7 +43,7 @@ namespace Tweetinvi.Controllers.Timeline
                     MaxId = cursor
                 };
 
-                return _timelineQueryExecutor.GetUserTimeline(cursoredParameters, new TwitterRequest(request));
+                return _timelineQueryExecutor.GetUserTimelineAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
 
@@ -56,7 +56,7 @@ namespace Tweetinvi.Controllers.Timeline
                     MaxId = cursor
                 };
 
-                return _timelineQueryExecutor.GetMentionsTimeline(cursoredParameters, new TwitterRequest(request));
+                return _timelineQueryExecutor.GetMentionsTimelineAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
 
@@ -69,7 +69,7 @@ namespace Tweetinvi.Controllers.Timeline
                     MaxId = cursor
                 };
 
-                return _timelineQueryExecutor.GetRetweetsOfMeTimeline(cursoredParameters, new TwitterRequest(request));
+                return _timelineQueryExecutor.GetRetweetsOfMeTimelineAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
     }

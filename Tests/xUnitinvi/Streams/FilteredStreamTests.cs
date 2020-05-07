@@ -28,7 +28,7 @@ namespace xUnitinvi.Streams
 
             Action<string> jsonReceivedCallback = null;
 
-            A.CallTo(() => fakeStreamResultGenerator.StartStream(It.IsAny<Action<string>>(), It.IsAny<Func<ITwitterRequest>>()))
+            A.CallTo(() => fakeStreamResultGenerator.StartStreamAsync(It.IsAny<Action<string>>(), It.IsAny<Func<ITwitterRequest>>()))
                 .ReturnsLazily(callInfo =>
                 {
                     jsonReceivedCallback = callInfo.Arguments.Get<Action<string>>("onJsonReceivedCallback");
@@ -45,7 +45,7 @@ namespace xUnitinvi.Streams
         }
 
         [Fact]
-        public async Task Tweet_MatchOn_Text()
+        public async Task Tweet_MatchOn_TextAsync()
         {
             // arrange
             var tuple = InitForCatchingJsonEvents();
@@ -63,7 +63,7 @@ namespace xUnitinvi.Streams
                 matchingTweetReceived = true;
             };
 
-            await fs.StartStreamMatchingAnyCondition();
+            await fs.StartStreamMatchingAnyConditionAsync();
 
             var json = File.ReadAllText("./Streams/FilteredStreamEvent.json");
             var jsonReceivedCallback = tuple.Item2();
@@ -75,7 +75,7 @@ namespace xUnitinvi.Streams
         }
 
         [Fact]
-        public async Task QuotedTweet_MatchOn_UrlEntities()
+        public async Task QuotedTweet_MatchOn_UrlEntitiesAsync()
         {
             // arrange
             var tuple = InitForCatchingJsonEvents();
@@ -93,7 +93,7 @@ namespace xUnitinvi.Streams
                 matchingTweetReceived = true;
             };
 
-            await fs.StartStreamMatchingAnyCondition();
+            await fs.StartStreamMatchingAnyConditionAsync();
 
             var json = File.ReadAllText("./Streams/FilteredStreamEvent.json");
             var jsonReceivedCallback = tuple.Item2();

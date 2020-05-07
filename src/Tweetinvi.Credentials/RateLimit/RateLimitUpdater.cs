@@ -25,10 +25,10 @@ namespace Tweetinvi.Credentials.RateLimit
             _rateLimitCacheManager = rateLimitCacheManager;
         }
 
-        public async Task QueryExecuted(string query, ITwitterCredentials credentials, int numberOfRequests = 1)
+        public async Task QueryExecutedAsync(string query, ITwitterCredentials credentials, int numberOfRequests = 1)
         {
             var getRateLimitsFromCacheParameters = new GetEndpointRateLimitsParameters(query, RateLimitsSource.CacheOnly);
-            var rateLimit = await _rateLimitCacheManager.GetQueryRateLimit(getRateLimitsFromCacheParameters, credentials).ConfigureAwait(false);
+            var rateLimit = await _rateLimitCacheManager.GetQueryRateLimitAsync(getRateLimitsFromCacheParameters, credentials).ConfigureAwait(false);
 
             if (rateLimit != null)
             {
@@ -37,11 +37,11 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public async Task QueryExecuted(string query, ITwitterCredentials credentials, Dictionary<string, IEnumerable<string>> rateLimitHeaders)
+        public async Task QueryExecutedAsync(string query, ITwitterCredentials credentials, Dictionary<string, IEnumerable<string>> rateLimitHeaders)
         {
             if (rateLimitHeaders != null && rateLimitHeaders.Count > 0)
             {
-                var rateLimit = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query), credentials).ConfigureAwait(false);
+                var rateLimit = await _rateLimitCacheManager.GetQueryRateLimitAsync(new GetEndpointRateLimitsParameters(query), credentials).ConfigureAwait(false);
 
                 // If the user runs out of RateLimit requests
                 if (rateLimit == null)
@@ -81,14 +81,14 @@ namespace Tweetinvi.Credentials.RateLimit
             }
             else
             {
-                await QueryExecuted(query, credentials).ConfigureAwait(false);
+                await QueryExecutedAsync(query, credentials).ConfigureAwait(false);
             }
         }
 
-        public async Task ClearRateLimitsForQuery(string query, IReadOnlyTwitterCredentials credentials)
+        public async Task ClearRateLimitsForQueryAsync(string query, IReadOnlyTwitterCredentials credentials)
         {
 
-            var rateLimit = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query, RateLimitsSource.CacheOnly), credentials).ConfigureAwait(false);
+            var rateLimit = await _rateLimitCacheManager.GetQueryRateLimitAsync(new GetEndpointRateLimitsParameters(query, RateLimitsSource.CacheOnly), credentials).ConfigureAwait(false);
             if (rateLimit != null)
             {
                 rateLimit.Remaining = 0;

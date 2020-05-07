@@ -18,7 +18,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task ShouldProperlyHandleExceptions()
+        public async Task ShouldProperlyHandleExceptionsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -36,7 +36,7 @@ namespace xUnitinvi.EndToEnd
 
             try
             {
-                await client.Users.GetAuthenticatedUser();
+                await client.Users.GetAuthenticatedUserAsync();
             }
             catch (TwitterException e)
             {

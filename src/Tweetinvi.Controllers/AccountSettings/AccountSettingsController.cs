@@ -8,14 +8,14 @@ namespace Tweetinvi.Controllers.AccountSettings
 {
     public interface IAccountSettingsController
     {
-        Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettings(IGetAccountSettingsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UpdateProfile(IUpdateProfileParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult> UpdateProfileBanner(IUpdateProfileBannerParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult> RemoveProfileBanner(IRemoveProfileBannerParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettingsAsync(IGetAccountSettingsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettingsAsync(IUpdateAccountSettingsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UpdateProfileAsync(IUpdateProfileParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UpdateProfileImageAsync(IUpdateProfileImageParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult> UpdateProfileBannerAsync(IUpdateProfileBannerParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult> RemoveProfileBannerAsync(IRemoveProfileBannerParameters parameters, ITwitterRequest request);
     }
-    
+
     public class AccountSettingsController : IAccountSettingsController
     {
         private readonly IAccountSettingsQueryExecutor _accountSettingsQueryExecutor;
@@ -25,34 +25,34 @@ namespace Tweetinvi.Controllers.AccountSettings
             _accountSettingsQueryExecutor = accountSettingsQueryExecutor;
         }
 
-        public Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettings(IGetAccountSettingsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettingsAsync(IGetAccountSettingsParameters parameters, ITwitterRequest request)
         {
-            return _accountSettingsQueryExecutor.GetAccountSettings(parameters, request);
-        }
-        
-        public Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters, ITwitterRequest request)
-        {
-            return _accountSettingsQueryExecutor.UpdateAccountSettings(parameters, request);
+            return _accountSettingsQueryExecutor.GetAccountSettingsAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UpdateProfile(IUpdateProfileParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettingsAsync(IUpdateAccountSettingsParameters parameters, ITwitterRequest request)
         {
-            return _accountSettingsQueryExecutor.UpdateProfile(parameters, request);
+            return _accountSettingsQueryExecutor.UpdateAccountSettingsAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UpdateProfileAsync(IUpdateProfileParameters parameters, ITwitterRequest request)
         {
-            return _accountSettingsQueryExecutor.UpdateProfileImage(parameters, request);
+            return _accountSettingsQueryExecutor.UpdateProfileAsync(parameters, request);
         }
 
-        public Task<ITwitterResult> UpdateProfileBanner(IUpdateProfileBannerParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UpdateProfileImageAsync(IUpdateProfileImageParameters parameters, ITwitterRequest request)
         {
-            return _accountSettingsQueryExecutor.UpdateProfileBanner(parameters, request);
+            return _accountSettingsQueryExecutor.UpdateProfileImageAsync(parameters, request);
         }
 
-        public Task<ITwitterResult> RemoveProfileBanner(IRemoveProfileBannerParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult> UpdateProfileBannerAsync(IUpdateProfileBannerParameters parameters, ITwitterRequest request)
         {
-            return _accountSettingsQueryExecutor.RemoveProfileBanner(parameters, request);
+            return _accountSettingsQueryExecutor.UpdateProfileBannerAsync(parameters, request);
+        }
+
+        public Task<ITwitterResult> RemoveProfileBannerAsync(IRemoveProfileBannerParameters parameters, ITwitterRequest request)
+        {
+            return _accountSettingsQueryExecutor.RemoveProfileBannerAsync(parameters, request);
         }
     }
 }

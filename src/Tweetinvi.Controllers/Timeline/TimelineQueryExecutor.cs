@@ -9,16 +9,16 @@ namespace Tweetinvi.Controllers.Timeline
     public interface ITimelineQueryExecutor
     {
         // Home Timeline
-        Task<ITwitterResult<ITweetDTO[]>> GetHomeTimeline(IGetHomeTimelineParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetHomeTimelineAsync(IGetHomeTimelineParameters parameters, ITwitterRequest request);
 
         // User Timeline
-        Task<ITwitterResult<ITweetDTO[]>> GetUserTimeline(IGetUserTimelineParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetUserTimelineAsync(IGetUserTimelineParameters parameters, ITwitterRequest request);
 
         // Mention Timeline
-        Task<ITwitterResult<ITweetDTO[]>> GetMentionsTimeline(IGetMentionsTimelineParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetMentionsTimelineAsync(IGetMentionsTimelineParameters parameters, ITwitterRequest request);
 
         // Retweets Of Me Timeline
-        Task<ITwitterResult<ITweetDTO[]>> GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetRetweetsOfMeTimelineAsync(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request);
     }
 
     public class TimelineQueryExecutor : ITimelineQueryExecutor
@@ -35,38 +35,38 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Home Timeline
-        public Task<ITwitterResult<ITweetDTO[]>> GetHomeTimeline(IGetHomeTimelineParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetHomeTimelineAsync(IGetHomeTimelineParameters parameters, ITwitterRequest request)
         {
             var query = _timelineQueryGenerator.GetHomeTimelineQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
         }
 
-        public Task<ITwitterResult<ITweetDTO[]>> GetUserTimeline(IGetUserTimelineParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetUserTimelineAsync(IGetUserTimelineParameters parameters, ITwitterRequest request)
         {
             var query = _timelineQueryGenerator.GetUserTimelineQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
         }
 
         // Mention Timeline
-        public Task<ITwitterResult<ITweetDTO[]>> GetMentionsTimeline(IGetMentionsTimelineParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetMentionsTimelineAsync(IGetMentionsTimelineParameters parameters, ITwitterRequest request)
         {
             var query = _timelineQueryGenerator.GetMentionsTimelineQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
         }
 
         // Retweets of Me Timeline
-        public Task<ITwitterResult<ITweetDTO[]>> GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetRetweetsOfMeTimelineAsync(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request)
         {
             var query = _timelineQueryGenerator.GetRetweetsOfMeTimelineQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
         }
     }
 }

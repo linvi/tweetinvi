@@ -22,29 +22,29 @@ namespace Tweetinvi.Controllers.TwitterLists
             _pageCursorIteratorFactories = pageCursorIteratorFactories;
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> CreateListAsync(ICreateListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.CreateList(parameters, request);
+            return _twitterListQueryExecutor.CreateListAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> GetListAsync(IGetListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.GetList(parameters, request);
+            return _twitterListQueryExecutor.GetListAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO[]>> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO[]>> GetListsSubscribedByUserAsync(IGetListsSubscribedByUserParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.GetListsSubscribedByUser(parameters, request);
+            return _twitterListQueryExecutor.GetListsSubscribedByUserAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> UpdateListAsync(IUpdateListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.UpdateList(parameters, request);
+            return _twitterListQueryExecutor.UpdateListAsync(parameters, request);
         }
 
-        Task<ITwitterResult<ITwitterListDTO>> ITwitterListController.DestroyList(IDestroyListParameters parameters, ITwitterRequest request)
+        Task<ITwitterResult<ITwitterListDTO>> ITwitterListController.DestroyListAsync(IDestroyListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.DestroyList(parameters, request);
+            return _twitterListQueryExecutor.DestroyListAsync(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters, ITwitterRequest request)
@@ -56,18 +56,18 @@ namespace Tweetinvi.Controllers.TwitterLists
                     Cursor = cursor
                 };
 
-                return _twitterListQueryExecutor.GetListsOwnedByUser(cursoredParameters, new TwitterRequest(request));
+                return _twitterListQueryExecutor.GetListsOwnedByUserAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> AddMemberToList(IAddMemberToListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> AddMemberToListAsync(IAddMemberToListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.AddMemberToList(parameters, request);
+            return _twitterListQueryExecutor.AddMemberToListAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> AddMembersToList(IAddMembersToListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> AddMembersToListAsync(IAddMembersToListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.AddMembersToList(parameters, request);
+            return _twitterListQueryExecutor.AddMembersToListAsync(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetUserListMembershipsIterator(IGetUserListMembershipsParameters parameters, ITwitterRequest request)
@@ -79,7 +79,7 @@ namespace Tweetinvi.Controllers.TwitterLists
                     Cursor = cursor
                 };
 
-                return _twitterListQueryExecutor.GetUserListMemberships(cursoredParameters, new TwitterRequest(request));
+                return _twitterListQueryExecutor.GetUserListMembershipsAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
 
@@ -92,33 +92,33 @@ namespace Tweetinvi.Controllers.TwitterLists
                     Cursor = cursor
                 };
 
-                return _twitterListQueryExecutor.GetMembersOfList(cursoredParameters, new TwitterRequest(request));
+                return _twitterListQueryExecutor.GetMembersOfListAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsAListMemberAsync(ICheckIfUserIsMemberOfListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.CheckIfUserIsAListMember(parameters, request);
+            return _twitterListQueryExecutor.CheckIfUserIsAListMemberAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromListAsync(IRemoveMemberFromListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.RemoveMemberFromList(parameters, request);
+            return _twitterListQueryExecutor.RemoveMemberFromListAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> RemoveMembersFromListAsync(IRemoveMembersFromListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.RemoveMembersFromList(parameters, request);
+            return _twitterListQueryExecutor.RemoveMembersFromListAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> SubscribeToList(ISubscribeToListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> SubscribeToListAsync(ISubscribeToListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.SubscribeToList(parameters, request);
+            return _twitterListQueryExecutor.SubscribeToListAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> UnsubscribeFromList(IUnsubscribeFromListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> UnsubscribeFromListAsync(IUnsubscribeFromListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.UnsubscribeFromList(parameters, request);
+            return _twitterListQueryExecutor.UnsubscribeFromListAsync(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetListSubscribersIterator(IGetListSubscribersParameters parameters, ITwitterRequest request)
@@ -130,7 +130,7 @@ namespace Tweetinvi.Controllers.TwitterLists
                     Cursor = cursor
                 };
 
-                return _twitterListQueryExecutor.GetListSubscribers(cursoredParameters, new TwitterRequest(request));
+                return _twitterListQueryExecutor.GetListSubscribersAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
 
@@ -143,13 +143,13 @@ namespace Tweetinvi.Controllers.TwitterLists
                     Cursor = cursor
                 };
 
-                return _twitterListQueryExecutor.GetUserListSubscriptions(cursoredParameters, new TwitterRequest(request));
+                return _twitterListQueryExecutor.GetUserListSubscriptionsAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsSubscriberOfListAsync(ICheckIfUserIsSubscriberOfListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.CheckIfUserIsSubscriberOfList(parameters, request);
+            return _twitterListQueryExecutor.CheckIfUserIsSubscriberOfListAsync(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetTweetsFromListIterator(IGetTweetsFromListParameters parameters, ITwitterRequest request)
@@ -161,7 +161,7 @@ namespace Tweetinvi.Controllers.TwitterLists
                     MaxId = cursor
                 };
 
-                return _twitterListQueryExecutor.GetTweetsFromList(cursoredParameters, new TwitterRequest(request));
+                return _twitterListQueryExecutor.GetTweetsFromListAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
     }

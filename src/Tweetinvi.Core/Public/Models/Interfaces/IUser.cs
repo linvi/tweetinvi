@@ -277,65 +277,65 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the relationship details between the user and another one.
         /// </summary>
-        Task<IRelationshipDetails> GetRelationshipWith(IUserIdentifier user);
+        Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user);
 
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        Task<IRelationshipDetails> GetRelationshipWith(long userId);
+        Task<IRelationshipDetails> GetRelationshipWithAsync(long userId);
 
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        Task<IRelationshipDetails> GetRelationshipWith(string username);
+        Task<IRelationshipDetails> GetRelationshipWithAsync(string username);
 
         // Timeline
 
         /// <inheritdoc cref="ITimelinesClient.GetUserTimeline(IUserIdentifier)"/>
-        Task<ITweet[]> GetUserTimeline();
+        Task<ITweet[]> GetUserTimelineAsync();
 
         // Get Favorites
 
         /// <inheritdoc cref="ITweetsClient.GetUserFavoriteTweets(IUserIdentifier)"/>
-        Task<ITweet[]> GetFavoriteTweets();
+        Task<ITweet[]> GetFavoriteTweetsAsync();
 
         // Lists
 
         /// <inheritdoc cref="IListsClient.GetListsOwnedByUser(IUserIdentifier)"/>
-        Task<ITwitterList[]> GetOwnedLists();
+        Task<ITwitterList[]> GetOwnedListsAsync();
 
         /// <inheritdoc cref="IListsClient.GetUserListSubscriptions(IUserIdentifier)"/>
-        Task<ITwitterList[]> GetListSubscriptions();
+        Task<ITwitterList[]> GetListSubscriptionsAsync();
 
         // Block
 
         /// <summary>
         /// Make the authenticated user block the user.
         /// </summary>
-        Task BlockUser();
+        Task BlockUserAsync();
 
         /// <summary>
         /// Make the authenticated user unblock the user.
         /// </summary>
-        Task UnblockUser();
+        Task UnblockUserAsync();
 
         // Spam
 
         /// <summary>
         /// Report the user for spam.
         /// </summary>
-        Task ReportUserForSpam();
+        Task ReportUserForSpamAsync();
 
         // Stream Profile Image
 
         /// <summary>
         /// Get a stream to get the profile image of this user.
         /// </summary>
-        Task<Stream> GetProfileImageStream();
+        Task<Stream> GetProfileImageStreamAsync();
 
         /// <summary>
         /// Get a stream to get the profile image of this user.
         /// </summary>
-        Task<Stream> GetProfileImageStream(ImageSize imageSize);
+        Task<Stream> GetProfileImageStreamAsync(ImageSize imageSize);
     }
 }

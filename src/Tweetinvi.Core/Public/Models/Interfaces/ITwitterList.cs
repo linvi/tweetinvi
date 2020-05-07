@@ -72,126 +72,126 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the tweets from this list.
         /// </summary>
-        Task<ITweet[]> GetTweets();
+        Task<ITweet[]> GetTweetsAsync();
 
         /// <summary>
         /// Get the members of this list.
         /// </summary>
-        Task<IUser[]> GetMembers();
+        Task<IUser[]> GetMembersAsync();
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task AddMember(long userId);
+        Task AddMemberAsync(long userId);
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task AddMember(string username);
+        Task AddMemberAsync(string username);
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task AddMember(IUserIdentifier user);
+        Task AddMemberAsync(IUserIdentifier user);
 
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task AddMembers(IEnumerable<long> userIds);
+        Task AddMembersAsync(IEnumerable<long> userIds);
 
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task AddMembers(IEnumerable<string> userScreenNames);
+        Task AddMembersAsync(IEnumerable<string> userScreenNames);
 
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task AddMembers(IEnumerable<IUserIdentifier> users);
+        Task AddMembersAsync(IEnumerable<IUserIdentifier> users);
 
         /// <summary>
         /// Remove a member from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<bool> RemoveMember(long userId);
+        Task<bool> RemoveMemberAsync(long userId);
 
         /// <summary>
         /// Remove a member from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<bool> RemoveMember(string username);
+        Task<bool> RemoveMemberAsync(string username);
 
         /// <summary>
         /// Remove a member from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<bool> RemoveMember(IUserIdentifier user);
+        Task<bool> RemoveMemberAsync(IUserIdentifier user);
 
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task RemoveMembers(IEnumerable<long> userIds);
+        Task RemoveMembersAsync(IEnumerable<long> userIds);
 
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task RemoveMembers(IEnumerable<string> usernames);
+        Task RemoveMembersAsync(IEnumerable<string> usernames);
 
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task RemoveMembers(IEnumerable<IUserIdentifier> users);
+        Task RemoveMembersAsync(IEnumerable<IUserIdentifier> users);
 
         /// <summary>
         /// Test if a user is a member of the list.
         /// </summary>
-        Task<bool> CheckUserMembership(long userId);
+        Task<bool> CheckUserMembershipAsync(long userId);
 
         /// <summary>
         /// Test if a user is a member of the list.
         /// </summary>
-        Task<bool> CheckUserMembership(string userScreenName);
+        Task<bool> CheckUserMembershipAsync(string userScreenName);
 
         /// <summary>
         /// Test if a user is a member of the list.
         /// </summary>
-        Task<bool> CheckUserMembership(IUserIdentifier user);
+        Task<bool> CheckUserMembershipAsync(IUserIdentifier user);
 
         /// <summary>
         /// Get the subscribers of the list.
         /// </summary>
-        Task<IUser[]> GetSubscribers();
+        Task<IUser[]> GetSubscribersAsync();
 
         /// <summary>
         /// Subscribe the authenticated user to the list.
         /// </summary>
-        Task<ITwitterList> Subscribe();
+        Task<ITwitterList> SubscribeAsync();
 
         /// <summary>
         /// Unsubscribe the authenticated user from the list.
         /// </summary>
-        Task<ITwitterList> Unsubscribe();
+        Task<ITwitterList> UnsubscribeAsync();
 
         /// <summary>
         /// Check whether a user has subscribed to the list.
         /// </summary>
-        Task<bool> CheckUserSubscription(long userId);
+        Task<bool> CheckUserSubscriptionAsync(long userId);
 
         /// <summary>
         /// Check whether a user has subscribed to the list.
         /// </summary>
-        Task<bool> CheckUserSubscription(string username);
+        Task<bool> CheckUserSubscriptionAsync(string username);
 
         /// <summary>
         /// Check whether a user has subscribed to the list.
         /// </summary>
-        Task<bool> CheckUserSubscription(IUserIdentifier user);
+        Task<bool> CheckUserSubscriptionAsync(IUserIdentifier user);
 
         /// <summary>
         /// Update the list.
         /// </summary>
-        Task Update(IListMetadataParameters parameters);
+        Task UpdateAsync(IListMetadataParameters parameters);
 
         /// <summary>
         /// Destroy the list.
         /// </summary>
-        Task Destroy();
+        Task DestroyAsync();
     }
 }

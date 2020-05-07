@@ -9,7 +9,7 @@ You can use the [direct api calls](../features/direct-api-calls) to perform requ
 
 ``` c#
 // get labs api response
-var getTweetResponse = await client.Execute.Request(request =>
+var getTweetResponse = await client.Execute.RequestAsync(request =>
 {
     request.Url = "https://api.twitter.com/labs/2/tweets/1138505981460193280?expansions=attachments.media_keys&tweet.fields=created_at";
 });

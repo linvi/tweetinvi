@@ -37,11 +37,11 @@ namespace Examplinvi.ASP.NET.Core.Controllers
 
                 if (fileBytes != null)
                 {
-                    var media = await client.Upload.UploadBinary(fileBytes);
+                    var media = await client.Upload.UploadBinaryAsync(fileBytes);
                     publishTweetParameters.Medias.Add(media);
                 }
 
-                var publishedTweet = await client.Tweets.PublishTweet(publishTweetParameters);
+                var publishedTweet = await client.Tweets.PublishTweetAsync(publishTweetParameters);
                 var routeValueParameters = new Dictionary<string, object>
                 {
                     { "id", publishedTweet?.Id },
@@ -93,7 +93,7 @@ namespace Examplinvi.ASP.NET.Core.Controllers
 
             try
             {
-                var tweet = await client.Tweets.GetTweet(id);
+                var tweet = await client.Tweets.GetTweetAsync(id);
                 var routeValueParameters = new Dictionary<string, object>
                 {
                     { "id", id },
@@ -104,7 +104,7 @@ namespace Examplinvi.ASP.NET.Core.Controllers
 
                 try
                 {
-                    await tweet.Destroy();
+                    await tweet.DestroyAsync();
                 }
                 catch (Exception)
                 {

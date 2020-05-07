@@ -14,7 +14,7 @@ namespace Tweetinvi.Client
         ITimelineClientParametersValidator ParametersValidator { get; }
 
         /// <inheritdoc cref="GetHomeTimeline(IGetHomeTimelineParameters)" />
-        Task<ITweet[]> GetHomeTimeline();
+        Task<ITweet[]> GetHomeTimelineAsync();
 
         /// <summary>
         /// Returns a collection of the most recent Tweets and Retweets posted by the authenticated user and the users they follow.
@@ -25,7 +25,7 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline </para>
         /// <returns>List the of tweets displayed on the authenticated user's home page</returns>
-        Task<ITweet[]> GetHomeTimeline(IGetHomeTimelineParameters parameters);
+        Task<ITweet[]> GetHomeTimelineAsync(IGetHomeTimelineParameters parameters);
 
         /// <inheritdoc cref="GetHomeTimelineIterator(IGetHomeTimelineParameters)" />
         ITwitterIterator<ITweet, long?> GetHomeTimelineIterator();
@@ -43,7 +43,7 @@ namespace Tweetinvi.Client
 
 
         /// <inheritdoc cref="GetMentionsTimeline(IGetMentionsTimelineParameters)" />
-        Task<ITweet[]> GetMentionsTimeline();
+        Task<ITweet[]> GetMentionsTimelineAsync();
 
         /// <summary>
         /// Returns the most recent mentions (Tweets containing a users's @screen_name) for the authenticated user.
@@ -51,7 +51,7 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline </para>
         /// <returns>List the of tweets mentioning the authenticated user</returns>
-        Task<ITweet[]> GetMentionsTimeline(IGetMentionsTimelineParameters parameters);
+        Task<ITweet[]> GetMentionsTimelineAsync(IGetMentionsTimelineParameters parameters);
 
         /// <inheritdoc cref="GetMentionsTimelineIterator(IGetMentionsTimelineParameters)" />
         ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator();
@@ -66,20 +66,20 @@ namespace Tweetinvi.Client
 
 
         /// <inheritdoc cref="GetUserTimeline(IGetUserTimelineParameters)" />
-        Task<ITweet[]> GetUserTimeline(long userId);
+        Task<ITweet[]> GetUserTimelineAsync(long userId);
 
         /// <inheritdoc cref="GetUserTimeline(IGetUserTimelineParameters)" />
-        Task<ITweet[]> GetUserTimeline(string username);
+        Task<ITweet[]> GetUserTimelineAsync(string username);
 
         /// <inheritdoc cref="GetUserTimeline(IGetUserTimelineParameters)" />
-        Task<ITweet[]> GetUserTimeline(IUserIdentifier user);
+        Task<ITweet[]> GetUserTimelineAsync(IUserIdentifier user);
 
         /// <summary>
         /// Returns a collection of the most recent Tweets posted by the user indicated by the screen_name or user_id parameters.
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline </para>
         /// <returns>Tweets visible in the user's timeline</returns>
-        Task<ITweet[]> GetUserTimeline(IGetUserTimelineParameters parameters);
+        Task<ITweet[]> GetUserTimelineAsync(IGetUserTimelineParameters parameters);
 
         /// <inheritdoc cref="GetUserTimelineIterator(IGetUserTimelineParameters)" />
         ITwitterIterator<ITweet, long?> GetUserTimelineIterator(long userId);
@@ -99,7 +99,7 @@ namespace Tweetinvi.Client
 
 
         /// <inheritdoc cref="GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters)" />
-        Task<ITweet[]> GetRetweetsOfMeTimeline();
+        Task<ITweet[]> GetRetweetsOfMeTimelineAsync();
 
         /// <summary>
         /// Returns the most recent Tweets authored by the authenticating user that have been retweeted by others.
@@ -107,7 +107,7 @@ namespace Tweetinvi.Client
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets_of_me </para>
         /// </summary>
         /// <returns>The tweets retweeted by others</returns>
-        Task<ITweet[]> GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters parameters);
+        Task<ITweet[]> GetRetweetsOfMeTimelineAsync(IGetRetweetsOfMeTimelineParameters parameters);
 
         /// <inheritdoc cref="GetRetweetsOfMeTimelineIterator(IGetRetweetsOfMeTimelineParameters)" />
         ITwitterIterator<ITweet, long?> GetRetweetsOfMeTimelineIterator();

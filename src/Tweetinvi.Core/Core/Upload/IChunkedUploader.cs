@@ -12,8 +12,8 @@ namespace Tweetinvi.Core.Upload
         Dictionary<long, byte[]> UploadedSegments { get; }
         IChunkUploadResult Result { get; }
 
-        Task<bool> Init(IChunkUploadInitParameters initParameters, ITwitterRequest request);
-        Task<bool> Append(IChunkUploadAppendParameters parameters, ITwitterRequest request);
-        Task<bool> Finalize(ICustomRequestParameters customRequestParameters, ITwitterRequest request);
+        Task<bool> InitAsync(IChunkUploadInitParameters initParameters, ITwitterRequest request);
+        Task<bool> AppendAsync(IChunkUploadAppendParameters parameters, ITwitterRequest request);
+        Task<bool> FinalizeAsync(ICustomRequestParameters customRequestParameters, ITwitterRequest request);
     }
 }

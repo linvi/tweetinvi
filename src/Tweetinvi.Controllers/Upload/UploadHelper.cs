@@ -8,7 +8,7 @@ namespace Tweetinvi.Controllers.Upload
 {
     public interface IUploadHelper
     {
-        Task WaitForMediaProcessingToGetAllMetadata(IMedia media, ITwitterRequest request);
+        Task WaitForMediaProcessingToGetAllMetadataAsync(IMedia media, ITwitterRequest request);
     }
 
     public class UploadHelper : IUploadHelper
@@ -20,7 +20,7 @@ namespace Tweetinvi.Controllers.Upload
             _uploadQueryExecutor = uploadQueryExecutor;
         }
 
-        public async Task WaitForMediaProcessingToGetAllMetadata(IMedia media, ITwitterRequest request)
+        public async Task WaitForMediaProcessingToGetAllMetadataAsync(IMedia media, ITwitterRequest request)
         {
             if (media == null)
             {
@@ -44,8 +44,8 @@ namespace Tweetinvi.Controllers.Upload
                 await Task.Delay(Math.Max(timeToWait, 1)).ConfigureAwait(false);
 
                 // The second parameter (false) informs Tweetinvi that you are manually awaiting the media to be ready
-                var mediaStatusTwitterResult = await _uploadQueryExecutor.GetMediaStatus(media, request).ConfigureAwait(false);
-                
+                var mediaStatusTwitterResult = await _uploadQueryExecutor.GetMediaStatusAsync(media, request).ConfigureAwait(false);
+
                 mediaStatus = mediaStatusTwitterResult.DataTransferObject;
                 isProcessed = IsMediaProcessed(mediaStatus.ProcessingInfo);
                 timeToWait = mediaStatus.ProcessingInfo.CheckAfterInMilliseconds;

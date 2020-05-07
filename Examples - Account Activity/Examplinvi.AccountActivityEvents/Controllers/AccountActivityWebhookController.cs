@@ -15,11 +15,11 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             _accountActivityClient = accountActivityClient;
         }
 
-        public async Task<bool> TriggerAccountActivityWebhookCRC(string environment, string webhookId)
+        public async Task<bool> TriggerAccountActivityWebhookCRCAsync(string environment, string webhookId)
         {
             try
             {
-                await _accountActivityClient.AccountActivity.TriggerAccountActivityWebhookCRC(environment, webhookId);
+                await _accountActivityClient.AccountActivity.TriggerAccountActivityWebhookCRCAsync(environment, webhookId);
                 return true;
             }
             catch (TwitterException e)
@@ -29,11 +29,11 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             }
         }
 
-        public async Task<bool> CreateAccountActivityWebhook(string environment, string url)
+        public async Task<bool> CreateAccountActivityWebhookAsync(string environment, string url)
         {
             try
             {
-                await _accountActivityClient.AccountActivity.CreateAccountActivityWebhook(environment, url);
+                await _accountActivityClient.AccountActivity.CreateAccountActivityWebhookAsync(environment, url);
                 return true;
             }
             catch (TwitterException e)
@@ -43,11 +43,11 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             }
         }
 
-        public async Task<bool> DeleteAccountActivityWebhook(string environment, string webhookId)
+        public async Task<bool> DeleteAccountActivityWebhookAsync(string environment, string webhookId)
         {
             try
             {
-                await _accountActivityClient.AccountActivity.DeleteAccountActivityWebhook(environment, webhookId);
+                await _accountActivityClient.AccountActivity.DeleteAccountActivityWebhookAsync(environment, webhookId);
                 return true;
             }
             catch (TwitterException e)
@@ -57,15 +57,15 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             }
         }
 
-        public async Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironments()
+        public async Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironmentsAsync()
         {
-            var webhookEnvironments = await _accountActivityClient.AccountActivity.GetAccountActivityWebhookEnvironments();
+            var webhookEnvironments = await _accountActivityClient.AccountActivity.GetAccountActivityWebhookEnvironmentsAsync();
             return webhookEnvironments;
         }
 
-        public async Task<string> CountAccountActivitySubscriptions()
+        public async Task<string> CountAccountActivitySubscriptionsAsync()
         {
-            var subscriptionsCount = await _accountActivityClient.AccountActivity.CountAccountActivitySubscriptions();
+            var subscriptionsCount = await _accountActivityClient.AccountActivity.CountAccountActivitySubscriptionsAsync();
             return $"{subscriptionsCount?.SubscriptionsCount}/{subscriptionsCount?.ProvisionedCount}";
         }
     }

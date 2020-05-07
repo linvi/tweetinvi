@@ -7,7 +7,7 @@ namespace Tweetinvi.Core.Helpers
 {
     public interface IHttpClientWebHelper
     {
-        Task<HttpResponseMessage> GetHttpResponse(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null);
+        Task<HttpResponseMessage> GetHttpResponseAsync(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null);
         HttpClient GetHttpClient(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null);
     }
 }

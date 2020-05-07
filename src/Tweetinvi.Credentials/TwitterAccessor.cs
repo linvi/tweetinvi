@@ -16,22 +16,22 @@ namespace Tweetinvi.Credentials
             _twitterResultFactory = twitterResultFactory;
         }
 
-        public async Task<ITwitterResult> ExecuteRequest(ITwitterRequest request)
+        public async Task<ITwitterResult> ExecuteRequestAsync(ITwitterRequest request)
         {
-            var response = await _twitterRequestHandler.ExecuteQuery(request).ConfigureAwait(false);
+            var response = await _twitterRequestHandler.ExecuteQueryAsync(request).ConfigureAwait(false);
             return _twitterResultFactory.Create(request, response);
         }
 
-        public async Task<ITwitterResult<T>> ExecuteRequest<T>(ITwitterRequest request) where T : class
+        public async Task<ITwitterResult<T>> ExecuteRequestAsync<T>(ITwitterRequest request) where T : class
         {
-            var response = await _twitterRequestHandler.ExecuteQuery(request).ConfigureAwait(false);
+            var response = await _twitterRequestHandler.ExecuteQueryAsync(request).ConfigureAwait(false);
             return _twitterResultFactory.Create<T>(request, response);
         }
 
         // Sign
-        public Task PrepareTwitterRequest(ITwitterRequest request)
+        public Task PrepareTwitterRequestAsync(ITwitterRequest request)
         {
-            return _twitterRequestHandler.PrepareTwitterRequest(request);
+            return _twitterRequestHandler.PrepareTwitterRequestAsync(request);
         }
     }
 }

@@ -21,17 +21,17 @@ namespace Tweetinvi.Auth
         /// <summary>
         /// Returns the AuthenticationRequest from its identifier
         /// </summary>
-        Task<IAuthenticationRequest> GetAuthenticationRequestFromId(string authenticationRequestTokenId);
+        Task<IAuthenticationRequest> GetAuthenticationRequestFromIdAsync(string authenticationRequestTokenId);
 
         /// <summary>
         /// Stores the AuthenticationRequest
         /// </summary>
-        Task AddAuthenticationToken(string authenticationRequestId, IAuthenticationRequest authenticationRequest);
+        Task AddAuthenticationTokenAsync(string authenticationRequestId, IAuthenticationRequest authenticationRequest);
 
         /// <summary>
         /// Removes an AuthenticationRequest from the store
         /// </summary>
-        Task RemoveAuthenticationToken(string authenticationRequestId);
+        Task RemoveAuthenticationTokenAsync(string authenticationRequestId);
     }
 
     public class LocalAuthenticationRequestStore : IAuthenticationRequestStore
@@ -63,19 +63,19 @@ namespace Tweetinvi.Auth
             return callbackUrl.AddParameterToQuery(CallbackTokenIdParameterName, authenticationRequestId);
         }
 
-        public virtual Task<IAuthenticationRequest> GetAuthenticationRequestFromId(string authenticationRequestTokenId)
+        public virtual Task<IAuthenticationRequest> GetAuthenticationRequestFromIdAsync(string authenticationRequestTokenId)
         {
             _store.TryGetValue(authenticationRequestTokenId, out var authenticationRequest);
             return Task.FromResult(authenticationRequest);
         }
 
-        public virtual Task AddAuthenticationToken(string authenticationRequestId, IAuthenticationRequest authenticationRequest)
+        public virtual Task AddAuthenticationTokenAsync(string authenticationRequestId, IAuthenticationRequest authenticationRequest)
         {
             _store.AddOrUpdate(authenticationRequestId, s => authenticationRequest, (s, token) => authenticationRequest);
             return Task.CompletedTask;
         }
 
-        public virtual Task RemoveAuthenticationToken(string authenticationRequestId)
+        public virtual Task RemoveAuthenticationTokenAsync(string authenticationRequestId)
         {
             _store.TryRemove(authenticationRequestId, out _);
             return Task.CompletedTask;

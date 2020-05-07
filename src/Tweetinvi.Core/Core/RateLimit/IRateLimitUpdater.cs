@@ -17,16 +17,16 @@ namespace Tweetinvi.Core.RateLimit
         /// <summary>
         /// Inform the updater a specific query has been executed with a specific set of credentials.
         /// </summary>
-        Task QueryExecuted(string query, ITwitterCredentials credentials, int numberOfRequests = 1);
+        Task QueryExecutedAsync(string query, ITwitterCredentials credentials, int numberOfRequests = 1);
 
         /// <summary>
         /// Inform the updater a specific query has been executed with a specific set of credentials.
         /// </summary>
-        Task QueryExecuted(string query, ITwitterCredentials credentials, Dictionary<string, IEnumerable<string>> rateLimitHeaders);
+        Task QueryExecutedAsync(string query, ITwitterCredentials credentials, Dictionary<string, IEnumerable<string>> rateLimitHeaders);
 
         /// <summary>
         /// Inform that you want to query rate limits to be set to 0.
         /// </summary>
-        Task ClearRateLimitsForQuery(string query, IReadOnlyTwitterCredentials credentials);
+        Task ClearRateLimitsForQueryAsync(string query, IReadOnlyTwitterCredentials credentials);
     }
 }

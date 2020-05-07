@@ -201,10 +201,10 @@ Restrictions to the media also apply, check this <a class="reference external" h
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetinviLogoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./tweetinvi-logo-purple.png&quot;</span><span class="p">);</span>
 
 <span class="c1">// for tweets</span>
-<span class="kt">var</span> <span class="n">uploadedImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadTweetImage</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadTweetImageAsync</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
 
 <span class="c1">// for messages</span>
-<span class="kt">var</span> <span class="n">uploadedImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadMessageImage</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadMessageImageAsync</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -213,10 +213,10 @@ Restrictions to the media also apply, check this <a class="reference external" h
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">videoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./video.mp4&quot;</span><span class="p">);</span>
 
 <span class="c1">// for tweets</span>
-<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadTweetVideo</span><span class="p">(</span><span class="n">videoBinary</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadTweetVideoAsync</span><span class="p">(</span><span class="n">videoBinary</span><span class="p">);</span>
 
 <span class="c1">// for messages</span>
-<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadMessageVideo</span><span class="p">(</span><span class="n">videoBinary</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadMessageVideoAsync</span><span class="p">(</span><span class="n">videoBinary</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="warning">
@@ -224,7 +224,7 @@ Videos are different from images as they need to be processed by Twitter before 
 </div><div class="section" id="video-processing-status">
 <h3>Video Processing Status<a class="headerlink" href="#video-processing-status" title="Permalink to this headline">¶</a></h3>
 <p>You can request the status of the video processing and do this until you receive <code class="docutils literal notranslate"><span class="pre">Succeeded</span></code> or <code class="docutils literal notranslate"><span class="pre">Failed</span></code>.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">status</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">GetVideoProcessingStatus</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">status</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">GetVideoProcessingStatusAsync</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
 <span class="c1">// processing state can be : Pending, InProgress, Succeeded, Failed</span>
 <span class="kt">var</span> <span class="n">processingCompleted</span> <span class="p">=</span> <span class="n">status</span><span class="p">.</span><span class="n">ProcessingInfo</span><span class="p">.</span><span class="n">ProcessingState</span> <span class="p">==</span> <span class="n">ProcessingState</span><span class="p">.</span><span class="n">Succeeded</span><span class="p">;</span>
 </pre></div>
@@ -233,7 +233,7 @@ Videos are different from images as they need to be processed by Twitter before 
 <div class="section" id="automatic-wait">
 <h3>Automatic wait<a class="headerlink" href="#automatic-wait" title="Permalink to this headline">¶</a></h3>
 <p>If you only care about knowing when the video processing has completed you use <code class="docutils literal notranslate"><span class="pre">WaitForMediaProcessingToGetAllMetadata</span></code>.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">WaitForMediaProcessingToGetAllMetadata</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">WaitForMediaProcessingToGetAllMetadataAsync</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -241,7 +241,7 @@ Videos are different from images as they need to be processed by Twitter before 
 <div class="section" id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
 <p>Tweetinvi includes various parameters to customize the experience and behaviour of upload.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadBinaryParameters</span><span class="p">(</span><span class="k">new</span> <span class="n">UploadVideoParameters</span><span class="p">(</span><span class="n">binary</span><span class="p">)</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadBinaryAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">UploadTweetVideoParameters</span><span class="p">(</span><span class="n">binary</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="c1">// Defines a timeout after which the operation gets cancelled</span>
     <span class="n">Timeout</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromMinutes</span><span class="p">(</span><span class="m">1</span><span class="p">),</span>
@@ -261,8 +261,8 @@ Videos are different from images as they need to be processed by Twitter before 
 <div class="section" id="add-metadata">
 <h2>Add metadata<a class="headerlink" href="#add-metadata" title="Permalink to this headline">¶</a></h2>
 <p>Twitter let you <a class="reference external" href="https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create">add metadata</a> to media after they have been uploaded.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">media</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadTweetImage</span><span class="p">(</span><span class="s">&quot;../some/path&quot;</span><span class="p">);</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">AddMediaMetadata</span><span class="p">(</span><span class="k">new</span> <span class="n">MediaMetadata</span><span class="p">(</span><span class="n">media</span><span class="p">)</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">media</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadTweetImageAsync</span><span class="p">(</span><span class="n">binary</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">AddMediaMetadataAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">MediaMetadata</span><span class="p">(</span><span class="n">media</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">AltText</span> <span class="p">=</span> <span class="s">&quot;Hello&quot;</span><span class="p">,</span>
 <span class="p">});</span>

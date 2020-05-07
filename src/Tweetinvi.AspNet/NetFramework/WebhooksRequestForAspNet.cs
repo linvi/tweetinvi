@@ -21,7 +21,7 @@ namespace Tweetinvi.AspNet
             _response = new HttpResponseMessage();
         }
         
-        public Task<string> GetJsonFromBody()
+        public Task<string> GetJsonFromBodyAsync()
         {
             return _request.Content.ReadAsStringAsync();
         }

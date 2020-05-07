@@ -12,7 +12,7 @@ namespace Tweetinvi.Models
 
     public interface IWebhooksRequest : IWebhooksRequestInfoRetriever
     {
-        Task<string> GetJsonFromBody();
+        Task<string> GetJsonFromBodyAsync();
         void SetResponseStatusCode(int statusCode);
         Task WriteInResponseAsync(string content, string contentType);
     }

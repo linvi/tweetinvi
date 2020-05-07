@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 
@@ -10,7 +9,7 @@ namespace Examplinvi.AccountActivityEvents
     {
         public static readonly Dictionary<long, ITwitterCredentials> CredentialsByUserId = new Dictionary<long, ITwitterCredentials>();
 
-        public static async Task<ITwitterCredentials> GetUserCredentials(long userId)
+        public static async Task<ITwitterCredentials> GetUserCredentialsAsync(long userId)
         {
             // Implement your own logic for user credentials data retrieval
             if (CredentialsByUserId.TryGetValue(userId, out var credentials))
@@ -21,7 +20,7 @@ namespace Examplinvi.AccountActivityEvents
             return null;
         }
 
-        public static async Task SetUserCredentials(long userId, ITwitterCredentials credentials)
+        public static async Task SetUserCredentialsAsync(long userId, ITwitterCredentials credentials)
         {
             await Task.Run(() =>
             {

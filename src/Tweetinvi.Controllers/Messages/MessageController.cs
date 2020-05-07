@@ -18,19 +18,19 @@ namespace Tweetinvi.Controllers.Messages
             _messageQueryExecutor = messageQueryExecutor;
         }
 
-        public Task<ITwitterResult<ICreateMessageDTO>> PublishMessage(IPublishMessageParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ICreateMessageDTO>> PublishMessageAsync(IPublishMessageParameters parameters, ITwitterRequest request)
         {
-            return _messageQueryExecutor.PublishMessage(parameters, request);
+            return _messageQueryExecutor.PublishMessageAsync(parameters, request);
         }
 
-        public Task<ITwitterResult> DestroyMessage(IDeleteMessageParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult> DestroyMessageAsync(IDeleteMessageParameters parameters, ITwitterRequest request)
         {
-            return _messageQueryExecutor.DestroyMessage(parameters, request);
+            return _messageQueryExecutor.DestroyMessageAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<IGetMessageDTO>> GetMessage(IGetMessageParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IGetMessageDTO>> GetMessageAsync(IGetMessageParameters parameters, ITwitterRequest request)
         {
-            return _messageQueryExecutor.GetMessage(parameters, request);
+            return _messageQueryExecutor.GetMessageAsync(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<IMessageCursorQueryResultDTO>> GetMessagesIterator(IGetMessagesParameters parameters, ITwitterRequest request)
@@ -44,7 +44,7 @@ namespace Tweetinvi.Controllers.Messages
                         Cursor = cursor
                     };
 
-                    return _messageQueryExecutor.GetMessages(cursoredParameters, new TwitterRequest(request));
+                    return _messageQueryExecutor.GetMessagesAsync(cursoredParameters, new TwitterRequest(request));
                 },
                 page => page.DataTransferObject.NextCursorStr,
                 page =>

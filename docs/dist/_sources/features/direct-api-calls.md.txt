@@ -6,19 +6,19 @@ Tweetinvi will take care of setting up the headers for you, you take care of the
 ## Example
 
 ``` c#
-var homeTimelineResult = await client.Execute.Request(request =>
+var homeTimelineResult = await client.Execute.RequestAsync(request =>
 {
     request.Url = "https://api.twitter.com/1.1/statuses/home_timeline.json";
     request.HttpMethod = HttpMethod.GET;
 });
 
-var jsonResponse = result.RawResult;
+var jsonResponse = homeTimelineResult.RawResult;
 ```
 
 You can also get objects.
 
 ``` c#
-var result = await client.Execute.Request<TweetDTO[]>(request =>
+var result = await client.Execute.RequestAsync<TweetDTO[]>(request =>
 {
     request.Url = "https://api.twitter.com/1.1/statuses/home_timeline.json";
     request.HttpMethod = HttpMethod.GET;
@@ -42,7 +42,7 @@ var username = "Your username";
 var password = "Your password";
 var basicAuthContent = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(username + ":" + password));
 
-var result = await client.Execute.Request(request =>
+var result = await client.Execute.RequestAsync(request =>
 {
     request.Url = "https://....";
     request.CustomHeaders.Add("Authorization", "Basic " + basicAuthContent);

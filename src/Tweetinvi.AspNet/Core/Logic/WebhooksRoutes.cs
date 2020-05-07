@@ -6,7 +6,7 @@ namespace Tweetinvi.AspNet.Core.Logic
 {
     public interface IWebhooksRoutes
     {
-        Task<bool> TryToReplyToCrcChallenge(IWebhooksRequest request, IConsumerCredentials credentials);
+        Task<bool> TryToReplyToCrcChallengeAsync(IWebhooksRequest request, IConsumerCredentials credentials);
     }
 
     public class WebhooksRoutes : IWebhooksRoutes
@@ -18,7 +18,7 @@ namespace Tweetinvi.AspNet.Core.Logic
             _webhooksHelper = webhooksHelper;
         }
 
-        public async Task<bool> TryToReplyToCrcChallenge(IWebhooksRequest request, IConsumerCredentials credentials)
+        public async Task<bool> TryToReplyToCrcChallengeAsync(IWebhooksRequest request, IConsumerCredentials credentials)
         {
             var crcToken = request.GetQuery()["crc_token"];
 
@@ -27,13 +27,13 @@ namespace Tweetinvi.AspNet.Core.Logic
                 return false;
             }
 
-            await ReplyToCrcChallengeRequest(crcToken[0], request, credentials).ConfigureAwait(false);
+            await ReplyToCrcChallengeRequestAsync(crcToken[0], request, credentials).ConfigureAwait(false);
 
             return true;
 
         }
 
-        private async Task ReplyToCrcChallengeRequest(string crcToken, IWebhooksRequest request, IConsumerCredentials credentials)
+        private async Task ReplyToCrcChallengeRequestAsync(string crcToken, IWebhooksRequest request, IConsumerCredentials credentials)
         {
             var crcResponseInfo = _webhooksHelper.CreateCrcResponseToken(crcToken, credentials.ConsumerSecret);
 

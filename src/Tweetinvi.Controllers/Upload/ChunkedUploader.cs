@@ -49,14 +49,14 @@ namespace Tweetinvi.Controllers.Upload
         public Dictionary<long, byte[]> UploadedSegments { get; }
         public int NextSegmentIndex { get; set; }
 
-        public async Task<bool> Init(IChunkUploadInitParameters initParameters, ITwitterRequest request)
+        public async Task<bool> InitAsync(IChunkUploadInitParameters initParameters, ITwitterRequest request)
         {
             var initQuery = _uploadQueryGenerator.GetChunkedUploadInitQuery(initParameters);
 
             request.Query.Url = initQuery;
             request.Query.HttpMethod = HttpMethod.POST;
 
-            var twitterResult = await _twitterAccessor.ExecuteRequest<IUploadInitModel>(request).ConfigureAwait(false);
+            var twitterResult = await _twitterAccessor.ExecuteRequestAsync<IUploadInitModel>(request).ConfigureAwait(false);
             _result.Init = twitterResult;
 
             var initModel = twitterResult?.DataTransferObject;
@@ -69,7 +69,7 @@ namespace Tweetinvi.Controllers.Upload
             return initModel != null;
         }
 
-        public async Task<bool> Append(IChunkUploadAppendParameters parameters, ITwitterRequest request)
+        public async Task<bool> AppendAsync(IChunkUploadAppendParameters parameters, ITwitterRequest request)
         {
             if (MediaId == null)
             {
@@ -104,7 +104,7 @@ namespace Tweetinvi.Controllers.Upload
 
             request.Query = multipartQuery;
 
-            var twitterResult = await _twitterAccessor.ExecuteRequest(request).ConfigureAwait(false);
+            var twitterResult = await _twitterAccessor.ExecuteRequestAsync(request).ConfigureAwait(false);
             _result.AppendsList.Add(twitterResult);
 
             if (twitterResult.Response.IsSuccessStatusCode)
@@ -116,7 +116,7 @@ namespace Tweetinvi.Controllers.Upload
             return twitterResult.Response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> Finalize(ICustomRequestParameters customRequestParameters, ITwitterRequest request)
+        public async Task<bool> FinalizeAsync(ICustomRequestParameters customRequestParameters, ITwitterRequest request)
         {
             if (MediaId == null)
             {
@@ -128,7 +128,7 @@ namespace Tweetinvi.Controllers.Upload
             request.Query.Url = finalizeQuery;
             request.Query.HttpMethod = HttpMethod.POST;
 
-            var finalizeTwitterResult = await _twitterAccessor.ExecuteRequest<UploadedMediaInfo>(request).ConfigureAwait(false);
+            var finalizeTwitterResult = await _twitterAccessor.ExecuteRequestAsync<UploadedMediaInfo>(request).ConfigureAwait(false);
             var uploadedMediaInfos = finalizeTwitterResult.DataTransferObject;
 
             UpdateMedia(uploadedMediaInfos);

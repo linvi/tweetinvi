@@ -223,9 +223,9 @@
     <span class="c1">// Add the user identifier as a query parameters that will be received by `ValidateTwitterAuth`</span>
     <span class="kt">var</span> <span class="n">redirectURL</span> <span class="p">=</span> <span class="n">_myAuthRequestStore</span><span class="p">.</span><span class="n">AppendAuthenticationRequestIdToCallbackUrl</span><span class="p">(</span><span class="n">redirectPath</span><span class="p">,</span> <span class="n">authenticationRequestId</span><span class="p">);</span>
     <span class="c1">// Initialize the authentication process</span>
-    <span class="kt">var</span> <span class="n">authenticationRequestToken</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestAuthenticationUrl</span><span class="p">(</span><span class="n">redirectURL</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">authenticationRequestToken</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestAuthenticationUrlAsync</span><span class="p">(</span><span class="n">redirectURL</span><span class="p">);</span>
     <span class="c1">// Store the token information in the store</span>
-    <span class="k">await</span> <span class="n">_myAuthRequestStore</span><span class="p">.</span><span class="n">AddAuthenticationToken</span><span class="p">(</span><span class="n">authenticationRequestId</span><span class="p">,</span> <span class="n">authenticationRequestToken</span><span class="p">);</span>
+    <span class="k">await</span> <span class="n">_myAuthRequestStore</span><span class="p">.</span><span class="n">AddAuthenticationTokenAsync</span><span class="p">(</span><span class="n">authenticationRequestId</span><span class="p">,</span> <span class="n">authenticationRequestToken</span><span class="p">);</span>
 
     <span class="c1">// Redirect the user to Twitter</span>
     <span class="k">return</span> <span class="k">new</span> <span class="nf">RedirectResult</span><span class="p">(</span><span class="n">authenticationRequestToken</span><span class="p">.</span><span class="n">AuthorizationURL</span><span class="p">);</span>
@@ -236,13 +236,13 @@
     <span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">);</span>
     
     <span class="c1">// Extract the information from the redirection url</span>
-    <span class="kt">var</span> <span class="n">requestParameters</span> <span class="p">=</span> <span class="k">await</span> <span class="n">RequestCredentialsParameters</span><span class="p">.</span><span class="n">FromCallbackUrl</span><span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="n">QueryString</span><span class="p">.</span><span class="n">Value</span><span class="p">,</span> <span class="n">_myAuthRequestStore</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">requestParameters</span> <span class="p">=</span> <span class="k">await</span> <span class="n">RequestCredentialsParameters</span><span class="p">.</span><span class="n">FromCallbackUrlAsync</span><span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="n">QueryString</span><span class="p">.</span><span class="n">Value</span><span class="p">,</span> <span class="n">_myAuthRequestStore</span><span class="p">);</span>
     <span class="c1">// Request Twitter to generate the credentials.</span>
-    <span class="kt">var</span> <span class="n">userCreds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestCredentials</span><span class="p">(</span><span class="n">requestParameters</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">userCreds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestCredentialsAsync</span><span class="p">(</span><span class="n">requestParameters</span><span class="p">);</span>
 
     <span class="c1">// Congratulations the user is now authenticated!</span>
     <span class="kt">var</span> <span class="n">userClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">userCreds</span><span class="p">);</span>
-    <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
+    <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUserAsync</span><span class="p">();</span>
 
     <span class="n">ViewBag</span><span class="p">.</span><span class="n">User</span> <span class="p">=</span> <span class="n">user</span><span class="p">;</span>
 

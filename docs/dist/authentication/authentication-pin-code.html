@@ -201,7 +201,7 @@
 <span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">);</span>
 
 <span class="c1">// Start the authentication process</span>
-<span class="kt">var</span> <span class="n">authenticationRequest</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestAuthenticationUrl</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">authenticationRequest</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestAuthenticationUrlAsync</span><span class="p">();</span>
 
 <span class="c1">// Go to the URL so that Twitter authenticates the user and gives him a PIN code.</span>
 <span class="n">Process</span><span class="p">.</span><span class="n">Start</span><span class="p">(</span><span class="k">new</span> <span class="n">ProcessStartInfo</span><span class="p">(</span><span class="n">authenticationRequest</span><span class="p">.</span><span class="n">AuthorizationURL</span><span class="p">)</span>
@@ -214,11 +214,11 @@
 <span class="kt">var</span> <span class="n">pinCode</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
 
 <span class="c1">// With this pin code it is now possible to get the credentials back from Twitter</span>
-<span class="kt">var</span> <span class="n">userCredentials</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestCredentialsFromVerifierCode</span><span class="p">(</span><span class="n">pinCode</span><span class="p">,</span> <span class="n">authenticationRequest</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">userCredentials</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestCredentialsFromVerifierCodeAsync</span><span class="p">(</span><span class="n">pinCode</span><span class="p">,</span> <span class="n">authenticationRequest</span><span class="p">);</span>
 
 <span class="c1">// You can now save those credentials or use them as followed</span>
 <span class="kt">var</span> <span class="n">userClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">userCredentials</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUserAsync</span><span class="p">();</span>
 
 <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Congratulation you have authenticated the user: &quot;</span> <span class="p">+</span> <span class="n">user</span><span class="p">);</span>
 </pre></div>

@@ -38,9 +38,9 @@ namespace Tweetinvi.Core.Web
         /// <summary>
         /// Generate authorization headers for a query with the specified OAuth fields.
         /// </summary>
-        Task<string> SetTwitterQueryAuthorizationHeader(ITwitterQuery twitterQuery);
+        Task<string> SetTwitterQueryAuthorizationHeaderAsync(ITwitterQuery twitterQuery);
 
-        Task<string> GenerateAuthorizationHeader(
+        Task<string> GenerateAuthorizationHeaderAsync(
             Uri uri,
             HttpContent queryContent,
             HttpMethod httpMethod,

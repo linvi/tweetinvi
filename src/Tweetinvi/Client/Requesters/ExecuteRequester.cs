@@ -19,58 +19,58 @@ namespace Tweetinvi.Client.Requesters
             _accessor = accessor;
         }
 
-        public Task<ITwitterResult<T>> Request<T>(Action<ITwitterRequest> configureRequest) where T : class
+        public Task<ITwitterResult<T>> RequestAsync<T>(Action<ITwitterRequest> configureRequest) where T : class
         {
-            return ExecuteRequest(request =>
+            return ExecuteRequestAsync(request =>
             {
                 configureRequest(request);
-                return _accessor.ExecuteRequest<T>(request);
+                return _accessor.ExecuteRequestAsync<T>(request);
             });
         }
 
-        public Task<ITwitterResult> Request(Action<ITwitterRequest> configureRequest)
+        public Task<ITwitterResult> RequestAsync(Action<ITwitterRequest> configureRequest)
         {
-            return ExecuteRequest(request =>
+            return ExecuteRequestAsync(request =>
             {
                 configureRequest(request);
-                return _accessor.ExecuteRequest(request);
+                return _accessor.ExecuteRequestAsync(request);
             });
         }
 
-        public Task<ITwitterResult<T>> Request<T>(Action<ITwitterQuery> configureQuery) where T : class
+        public Task<ITwitterResult<T>> RequestAsync<T>(Action<ITwitterQuery> configureQuery) where T : class
         {
-            return ExecuteRequest(request =>
+            return ExecuteRequestAsync(request =>
             {
                 configureQuery(request.Query);
-                return _accessor.ExecuteRequest<T>(request);
+                return _accessor.ExecuteRequestAsync<T>(request);
             });
         }
 
-        public Task<ITwitterResult> Request(Action<ITwitterQuery> configureQuery)
+        public Task<ITwitterResult> RequestAsync(Action<ITwitterQuery> configureQuery)
         {
-            return ExecuteRequest(request =>
+            return ExecuteRequestAsync(request =>
             {
                 configureQuery(request.Query);
-                return _accessor.ExecuteRequest(request);
+                return _accessor.ExecuteRequestAsync(request);
             });
         }
 
-        public Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterQuery> configureQuery)
+        public Task<ITwitterRequest> PrepareTwitterRequestAsync(Action<ITwitterQuery> configureQuery)
         {
-            return ExecuteRequest(async request =>
+            return ExecuteRequestAsync(async request =>
             {
                 configureQuery(request.Query);
-                await _accessor.PrepareTwitterRequest(request).ConfigureAwait(false);
+                await _accessor.PrepareTwitterRequestAsync(request).ConfigureAwait(false);
                 return request;
             });
         }
 
-        public Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterRequest> configureRequest)
+        public Task<ITwitterRequest> PrepareTwitterRequestAsync(Action<ITwitterRequest> configureRequest)
         {
-            return ExecuteRequest(async request =>
+            return ExecuteRequestAsync(async request =>
             {
                 configureRequest(request);
-                await _accessor.PrepareTwitterRequest(request).ConfigureAwait(false);
+                await _accessor.PrepareTwitterRequestAsync(request).ConfigureAwait(false);
                 return request;
             });
         }

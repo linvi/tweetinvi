@@ -62,7 +62,7 @@ namespace Tweetinvi.Streams
 
         StreamState StreamState { get; }
 
-        Task Start();
+        Task StartAsync();
         void Resume();
         void Pause();
         void Stop();
@@ -108,7 +108,7 @@ namespace Tweetinvi.Streams
 
         public StreamState StreamState { get; private set; }
 
-        public async Task Start()
+        public async Task StartAsync()
         {
             if (StreamState == StreamState.Stop && !_isNew)
             {
@@ -130,15 +130,15 @@ namespace Tweetinvi.Streams
                 throw new TwitterInvalidCredentialsException(_twitterRequest.Query.TwitterCredentials);
             }
 
-            await RunStream().ConfigureAwait(false);
+            await RunStreamAsync().ConfigureAwait(false);
         }
 
-        private async Task RunStream()
+        private async Task RunStreamAsync()
         {
             try
             {
                 _currentHttpClient = GetHttpClient(_twitterRequest);
-                _currentStreamReader = await GetStreamReader(_currentHttpClient, _twitterRequest).ConfigureAwait(false);
+                _currentStreamReader = await GetStreamReaderAsync(_currentHttpClient, _twitterRequest).ConfigureAwait(false);
 
                 var numberOfRepeatedFailures = 0;
 
@@ -154,7 +154,7 @@ namespace Tweetinvi.Streams
                         continue;
                     }
 
-                    var json = await GetJsonResponseFromReader(_currentStreamReader, _twitterRequest).ConfigureAwait(false);
+                    var json = await GetJsonResponseFromReaderAsync(_currentStreamReader, _twitterRequest).ConfigureAwait(false);
 
                     var isJsonResponseValid = json.IsMatchingJsonFormat();
                     if (!isJsonResponseValid)
@@ -227,7 +227,7 @@ namespace Tweetinvi.Streams
             return _httpClientWebHelper.GetHttpClient(request.Query);
         }
 
-        private async Task<StreamReader> GetStreamReader(HttpClient client, ITwitterRequest request)
+        private async Task<StreamReader> GetStreamReaderAsync(HttpClient client, ITwitterRequest request)
         {
             try
             {
@@ -250,7 +250,7 @@ namespace Tweetinvi.Streams
                 {
                     httpRequestMessage = new HttpRequestMessage(httpMethod, twitterQuery.Url);
                 }
-                
+
                 var response = await client.SendAsync(httpRequestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                 var body = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
@@ -263,7 +263,7 @@ namespace Tweetinvi.Streams
             }
         }
 
-        private static async Task<string> GetJsonResponseFromReader(StreamReader reader, ITwitterRequest request)
+        private static async Task<string> GetJsonResponseFromReaderAsync(StreamReader reader, ITwitterRequest request)
         {
             var requestTask = reader.ReadLineAsync();
             var resultingTask = await Task.WhenAny(requestTask, Task.Delay(STREAM_DISCONNECTED_DELAY)).ConfigureAwait(false);
@@ -297,7 +297,7 @@ namespace Tweetinvi.Streams
             if (numberOfRepeatedFailures == 1)
             {
                 _currentStreamReader.Dispose();
-                _currentStreamReader = GetStreamReader(_currentHttpClient, _twitterRequest).Result;
+                _currentStreamReader = GetStreamReaderAsync(_currentHttpClient, _twitterRequest).Result;
                 return true;
             }
 
@@ -307,7 +307,7 @@ namespace Tweetinvi.Streams
                 _currentHttpClient.Dispose();
 
                 _currentHttpClient = GetHttpClient(_twitterRequest);
-                _currentStreamReader = GetStreamReader(_currentHttpClient, _twitterRequest).Result;
+                _currentStreamReader = GetStreamReaderAsync(_currentHttpClient, _twitterRequest).Result;
                 return true;
             }
 

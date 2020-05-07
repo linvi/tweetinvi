@@ -30,7 +30,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
         }
 
         [Fact]
-        public async Task GetHomeTimelineQuery_ReturnsTweets()
+        public async Task GetHomeTimelineQuery_ReturnsTweetsAsync()
         {
             // Arrange
             var queryExecutor = CreateTimelineQueryExecutor();
@@ -41,10 +41,10 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
             A.CallTo(() => _fakeTimelineQueryGenerator.GetHomeTimelineQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO[]>(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.GetHomeTimeline(parameters, request);
+            var result = await queryExecutor.GetHomeTimelineAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -53,7 +53,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
         }
 
         [Fact]
-        public async Task GetMentionsTimelineQuery_ReturnsTweets()
+        public async Task GetMentionsTimelineQuery_ReturnsTweetsAsync()
         {
             // Arrange
             var queryExecutor = CreateTimelineQueryExecutor();
@@ -64,10 +64,10 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
             A.CallTo(() => _fakeTimelineQueryGenerator.GetMentionsTimelineQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO[]>(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.GetMentionsTimeline(parameters, request);
+            var result = await queryExecutor.GetMentionsTimelineAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -76,7 +76,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
         }
 
         [Fact]
-        public async Task GetUserTimelineQuery_ReturnsTweets()
+        public async Task GetUserTimelineQuery_ReturnsTweetsAsync()
         {
             // Arrange
             var queryExecutor = CreateTimelineQueryExecutor();
@@ -87,10 +87,10 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
             A.CallTo(() => _fakeTimelineQueryGenerator.GetUserTimelineQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO[]>(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.GetUserTimeline(parameters, request);
+            var result = await queryExecutor.GetUserTimelineAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -99,7 +99,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
         }
 
         [Fact]
-        public async Task GetRetweetsOfMeTimelineQuery_ReturnsTweets()
+        public async Task GetRetweetsOfMeTimelineQuery_ReturnsTweetsAsync()
         {
             // Arrange
             var queryExecutor = CreateTimelineQueryExecutor();
@@ -110,10 +110,10 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
             A.CallTo(() => _fakeTimelineQueryGenerator.GetRetweetsOfMeTimelineQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO[]>(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.GetRetweetsOfMeTimeline(parameters, request);
+            var result = await queryExecutor.GetRetweetsOfMeTimelineAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

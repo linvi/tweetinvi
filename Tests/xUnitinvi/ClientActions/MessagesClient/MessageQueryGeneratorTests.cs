@@ -48,7 +48,7 @@ namespace xUnitinvi.ClientActions.MessagesClient
         }
 
         [Fact]
-        public async Task GetPublishMessageQuery_ReturnsExpectedQuery()
+        public async Task GetPublishMessageQuery_ReturnsExpectedQueryAsync()
         {
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
@@ -70,7 +70,7 @@ namespace xUnitinvi.ClientActions.MessagesClient
         }
 
         [Fact]
-        public async Task GetPublishMessageQuery_WithMedia_ReturnsExpectedQuery()
+        public async Task GetPublishMessageQuery_WithMedia_ReturnsExpectedQueryAsync()
         {
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();

@@ -26,113 +26,113 @@ namespace Tweetinvi.Client
             _client = client;
         }
 
-        public Task<ITwitterList> CreateList(string name)
+        public Task<ITwitterList> CreateListAsync(string name)
         {
-            return CreateList(new CreateListParameters(name));
+            return CreateListAsync(new CreateListParameters(name));
         }
 
-        public Task<ITwitterList> CreateList(string name, PrivacyMode privacyMode)
+        public Task<ITwitterList> CreateListAsync(string name, PrivacyMode privacyMode)
         {
-            return CreateList(new CreateListParameters(name)
+            return CreateListAsync(new CreateListParameters(name)
             {
                 PrivacyMode = privacyMode
             });
         }
 
-        public async Task<ITwitterList> CreateList(ICreateListParameters parameters)
+        public async Task<ITwitterList> CreateListAsync(ICreateListParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.CreateList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.CreateListAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
-        public Task<ITwitterList> GetList(long listId)
+        public Task<ITwitterList> GetListAsync(long listId)
         {
-            return GetList(new GetListParameters(listId));
+            return GetListAsync(new GetListParameters(listId));
         }
 
-        public Task<ITwitterList> GetList(string slug, IUserIdentifier user)
+        public Task<ITwitterList> GetListAsync(string slug, IUserIdentifier user)
         {
-            return GetList(new GetListParameters(slug, user));
+            return GetListAsync(new GetListParameters(slug, user));
         }
 
-        public Task<ITwitterList> GetList(ITwitterListIdentifier listId)
+        public Task<ITwitterList> GetListAsync(ITwitterListIdentifier listId)
         {
-            return GetList(new GetListParameters(listId));
+            return GetListAsync(new GetListParameters(listId));
         }
 
-        public async Task<ITwitterList> GetList(IGetListParameters parameters)
+        public async Task<ITwitterList> GetListAsync(IGetListParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.GetList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.GetListAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
-        public Task<ITwitterList[]> GetListsSubscribedByAccount()
+        public Task<ITwitterList[]> GetListsSubscribedByAccountAsync()
         {
-            return GetListsSubscribedByAccount(new GetListsSubscribedByAccountParameters());
+            return GetListsSubscribedByAccountAsync(new GetListsSubscribedByAccountParameters());
         }
 
-        public Task<ITwitterList[]> GetListsSubscribedByAccount(IGetListsSubscribedByAccountParameters parameters)
+        public Task<ITwitterList[]> GetListsSubscribedByAccountAsync(IGetListsSubscribedByAccountParameters parameters)
         {
-            return GetListsSubscribedByUser(new GetListsSubscribedByUserParameters(parameters));
+            return GetListsSubscribedByUserAsync(new GetListsSubscribedByUserParameters(parameters));
         }
 
-        public Task<ITwitterList[]> GetListsSubscribedByUser(long userId)
+        public Task<ITwitterList[]> GetListsSubscribedByUserAsync(long userId)
         {
-            return GetListsSubscribedByUser(new GetListsSubscribedByUserParameters(userId));
+            return GetListsSubscribedByUserAsync(new GetListsSubscribedByUserParameters(userId));
         }
 
-        public Task<ITwitterList[]> GetListsSubscribedByUser(string username)
+        public Task<ITwitterList[]> GetListsSubscribedByUserAsync(string username)
         {
-            return GetListsSubscribedByUser(new GetListsSubscribedByUserParameters(username));
+            return GetListsSubscribedByUserAsync(new GetListsSubscribedByUserParameters(username));
         }
 
-        public Task<ITwitterList[]> GetListsSubscribedByUser(IUserIdentifier user)
+        public Task<ITwitterList[]> GetListsSubscribedByUserAsync(IUserIdentifier user)
         {
-            return GetListsSubscribedByUser(new GetListsSubscribedByUserParameters(user));
+            return GetListsSubscribedByUserAsync(new GetListsSubscribedByUserParameters(user));
         }
 
-        public async Task<ITwitterList[]> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters)
+        public async Task<ITwitterList[]> GetListsSubscribedByUserAsync(IGetListsSubscribedByUserParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.GetListsSubscribedByUser(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.GetListsSubscribedByUserAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTwitterLists(twitterResult?.DataTransferObject);
         }
 
-        public async Task<ITwitterList> UpdateList(IUpdateListParameters parameters)
+        public async Task<ITwitterList> UpdateListAsync(IUpdateListParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.UpdateList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.UpdateListAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
-        public Task<ITwitterList> DestroyList(long listId)
+        public Task<ITwitterList> DestroyListAsync(long listId)
         {
-            return DestroyList(new DestroyListParameters(listId));
+            return DestroyListAsync(new DestroyListParameters(listId));
         }
 
-        public Task<ITwitterList> DestroyList(string slug, IUserIdentifier user)
+        public Task<ITwitterList> DestroyListAsync(string slug, IUserIdentifier user)
         {
-            return DestroyList(new DestroyListParameters(slug, user));
+            return DestroyListAsync(new DestroyListParameters(slug, user));
         }
 
-        public Task<ITwitterList> DestroyList(ITwitterListIdentifier list)
+        public Task<ITwitterList> DestroyListAsync(ITwitterListIdentifier list)
         {
-            return DestroyList(new DestroyListParameters(list));
+            return DestroyListAsync(new DestroyListParameters(list));
         }
 
-        public async Task<ITwitterList> DestroyList(IDestroyListParameters parameters)
+        public async Task<ITwitterList> DestroyListAsync(IDestroyListParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.DestroyList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.DestroyListAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
-        public Task<ITwitterList[]> GetListsOwnedByAccount()
+        public Task<ITwitterList[]> GetListsOwnedByAccountAsync()
         {
-            return GetListsOwnedByAccount(new GetListsOwnedByAccountParameters());
+            return GetListsOwnedByAccountAsync(new GetListsOwnedByAccountParameters());
         }
 
-        public async Task<ITwitterList[]> GetListsOwnedByAccount(IGetListsOwnedByAccountParameters parameters)
+        public async Task<ITwitterList[]> GetListsOwnedByAccountAsync(IGetListsOwnedByAccountParameters parameters)
         {
             var iterator = GetListsOwnedByAccountIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator()
@@ -145,25 +145,25 @@ namespace Tweetinvi.Client
             return GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(parameters));
         }
 
-        public Task<ITwitterList[]> GetListsOwnedByUser(long userId)
+        public Task<ITwitterList[]> GetListsOwnedByUserAsync(long userId)
         {
-            return GetListsOwnedByUser(new GetListsOwnedByAccountByUserParameters(userId));
+            return GetListsOwnedByUserAsync(new GetListsOwnedByAccountByUserParameters(userId));
         }
 
-        public Task<ITwitterList[]> GetListsOwnedByUser(string username)
+        public Task<ITwitterList[]> GetListsOwnedByUserAsync(string username)
         {
-            return GetListsOwnedByUser(new GetListsOwnedByAccountByUserParameters(username));
+            return GetListsOwnedByUserAsync(new GetListsOwnedByAccountByUserParameters(username));
         }
 
-        public Task<ITwitterList[]> GetListsOwnedByUser(IUserIdentifier user)
+        public Task<ITwitterList[]> GetListsOwnedByUserAsync(IUserIdentifier user)
         {
-            return GetListsOwnedByUser(new GetListsOwnedByAccountByUserParameters(user));
+            return GetListsOwnedByUserAsync(new GetListsOwnedByAccountByUserParameters(user));
         }
 
-        public async Task<ITwitterList[]> GetListsOwnedByUser(IGetListsOwnedByUserParameters parameters)
+        public async Task<ITwitterList[]> GetListsOwnedByUserAsync(IGetListsOwnedByUserParameters parameters)
         {
             var iterator = GetListsOwnedByUserIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(long userId)
@@ -191,77 +191,77 @@ namespace Tweetinvi.Client
             });
         }
 
-        public Task<ITwitterList> AddMemberToList(long listId, long userId)
+        public Task<ITwitterList> AddMemberToListAsync(long listId, long userId)
         {
-            return AddMemberToList(new TwitterListIdentifier(listId), userId);
+            return AddMemberToListAsync(new TwitterListIdentifier(listId), userId);
         }
 
-        public Task<ITwitterList> AddMemberToList(ITwitterListIdentifier list, long userId)
+        public Task<ITwitterList> AddMemberToListAsync(ITwitterListIdentifier list, long userId)
         {
-            return AddMemberToList(new AddMemberToListParameters(list, userId));
+            return AddMemberToListAsync(new AddMemberToListParameters(list, userId));
         }
 
-        public Task<ITwitterList> AddMemberToList(ITwitterListIdentifier list, string username)
+        public Task<ITwitterList> AddMemberToListAsync(ITwitterListIdentifier list, string username)
         {
-            return AddMemberToList(new AddMemberToListParameters(list, username));
+            return AddMemberToListAsync(new AddMemberToListParameters(list, username));
         }
 
-        public Task<ITwitterList> AddMemberToList(ITwitterListIdentifier list, IUserIdentifier user)
+        public Task<ITwitterList> AddMemberToListAsync(ITwitterListIdentifier list, IUserIdentifier user)
         {
-            return AddMemberToList(new AddMemberToListParameters(list, user));
+            return AddMemberToListAsync(new AddMemberToListParameters(list, user));
         }
 
-        public async Task<ITwitterList> AddMemberToList(IAddMemberToListParameters parameters)
+        public async Task<ITwitterList> AddMemberToListAsync(IAddMemberToListParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.AddMemberToList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.AddMemberToListAsync(parameters).ConfigureAwait(false);
             return twitterResult?.Result;
         }
 
-        public Task<ITwitterList> AddMembersToList(long listId, IEnumerable<long> userIds)
+        public Task<ITwitterList> AddMembersToListAsync(long listId, IEnumerable<long> userIds)
         {
-            return AddMembersToList(new AddMembersToListParameters(listId, userIds));
+            return AddMembersToListAsync(new AddMembersToListParameters(listId, userIds));
         }
 
-        public Task<ITwitterList> AddMembersToList(long listId, IEnumerable<string> usernames)
+        public Task<ITwitterList> AddMembersToListAsync(long listId, IEnumerable<string> usernames)
         {
-            return AddMembersToList(new AddMembersToListParameters(listId, usernames));
+            return AddMembersToListAsync(new AddMembersToListParameters(listId, usernames));
         }
 
-        public Task<ITwitterList> AddMembersToList(long listId, IEnumerable<IUserIdentifier> users)
+        public Task<ITwitterList> AddMembersToListAsync(long listId, IEnumerable<IUserIdentifier> users)
         {
-            return AddMembersToList(new AddMembersToListParameters(listId, users));
+            return AddMembersToListAsync(new AddMembersToListParameters(listId, users));
         }
 
-        public Task<ITwitterList> AddMembersToList(ITwitterListIdentifier list, IEnumerable<long> userIds)
+        public Task<ITwitterList> AddMembersToListAsync(ITwitterListIdentifier list, IEnumerable<long> userIds)
         {
-            return AddMembersToList(new AddMembersToListParameters(list, userIds));
+            return AddMembersToListAsync(new AddMembersToListParameters(list, userIds));
         }
 
-        public Task<ITwitterList> AddMembersToList(ITwitterListIdentifier list, IEnumerable<string> usernames)
+        public Task<ITwitterList> AddMembersToListAsync(ITwitterListIdentifier list, IEnumerable<string> usernames)
         {
-            return AddMembersToList(new AddMembersToListParameters(list, usernames));
+            return AddMembersToListAsync(new AddMembersToListParameters(list, usernames));
         }
 
-        public Task<ITwitterList> AddMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
+        public Task<ITwitterList> AddMembersToListAsync(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
         {
-            return AddMembersToList(new AddMembersToListParameters(list, users));
+            return AddMembersToListAsync(new AddMembersToListParameters(list, users));
         }
 
-        public async Task<ITwitterList> AddMembersToList(IAddMembersToListParameters parameters)
+        public async Task<ITwitterList> AddMembersToListAsync(IAddMembersToListParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.AddMembersToList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.AddMembersToListAsync(parameters).ConfigureAwait(false);
             return twitterResult?.Result;
         }
 
-        public Task<ITwitterList[]> GetAccountListMemberships()
+        public Task<ITwitterList[]> GetAccountListMembershipsAsync()
         {
-            return GetAccountListMemberships(new GetAccountListMembershipsParameters());
+            return GetAccountListMembershipsAsync(new GetAccountListMembershipsParameters());
         }
 
-        public async Task<ITwitterList[]> GetAccountListMemberships(IGetAccountListMembershipsParameters parameters)
+        public async Task<ITwitterList[]> GetAccountListMembershipsAsync(IGetAccountListMembershipsParameters parameters)
         {
             var iterator = GetAccountListMembershipsIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetAccountListMembershipsIterator()
@@ -274,25 +274,25 @@ namespace Tweetinvi.Client
             return GetUserListMembershipsIterator(new GetUserListMembershipsParameters(parameters));
         }
 
-        public Task<ITwitterList[]> GetUserListMemberships(long userId)
+        public Task<ITwitterList[]> GetUserListMembershipsAsync(long userId)
         {
-            return GetUserListMemberships(new GetUserListMembershipsParameters(userId));
+            return GetUserListMembershipsAsync(new GetUserListMembershipsParameters(userId));
         }
 
-        public Task<ITwitterList[]> GetUserListMemberships(string username)
+        public Task<ITwitterList[]> GetUserListMembershipsAsync(string username)
         {
-            return GetUserListMemberships(new GetUserListMembershipsParameters(username));
+            return GetUserListMembershipsAsync(new GetUserListMembershipsParameters(username));
         }
 
-        public Task<ITwitterList[]> GetUserListMemberships(IUserIdentifier user)
+        public Task<ITwitterList[]> GetUserListMembershipsAsync(IUserIdentifier user)
         {
-            return GetUserListMemberships(new GetUserListMembershipsParameters(user));
+            return GetUserListMembershipsAsync(new GetUserListMembershipsParameters(user));
         }
 
-        public async Task<ITwitterList[]> GetUserListMemberships(IGetUserListMembershipsParameters parameters)
+        public async Task<ITwitterList[]> GetUserListMembershipsAsync(IGetUserListMembershipsParameters parameters)
         {
             var iterator = GetUserListMembershipsIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(long userId)
@@ -320,20 +320,20 @@ namespace Tweetinvi.Client
             });
         }
 
-        public Task<IUser[]> GetMembersOfList(long listId)
+        public Task<IUser[]> GetMembersOfListAsync(long listId)
         {
-            return GetMembersOfList(new GetMembersOfListParameters(listId));
+            return GetMembersOfListAsync(new GetMembersOfListParameters(listId));
         }
 
-        public Task<IUser[]> GetMembersOfList(ITwitterListIdentifier list)
+        public Task<IUser[]> GetMembersOfListAsync(ITwitterListIdentifier list)
         {
-            return GetMembersOfList(new GetMembersOfListParameters(list));
+            return GetMembersOfListAsync(new GetMembersOfListParameters(list));
         }
 
-        public async Task<IUser[]> GetMembersOfList(IGetMembersOfListParameters parameters)
+        public async Task<IUser[]> GetMembersOfListAsync(IGetMembersOfListParameters parameters)
         {
             var iterator = GetMembersOfListIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<IUser> GetMembersOfListIterator(long listId)
@@ -355,41 +355,41 @@ namespace Tweetinvi.Client
             });
         }
 
-        public Task<bool> CheckIfUserIsMemberOfList(long listId, long userId)
+        public Task<bool> CheckIfUserIsMemberOfListAsync(long listId, long userId)
         {
-            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(listId, userId));
+            return CheckIfUserIsMemberOfListAsync(new CheckIfUserIsMemberOfListParameters(listId, userId));
         }
 
-        public Task<bool> CheckIfUserIsMemberOfList(long listId, string username)
+        public Task<bool> CheckIfUserIsMemberOfListAsync(long listId, string username)
         {
-            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(listId, username));
+            return CheckIfUserIsMemberOfListAsync(new CheckIfUserIsMemberOfListParameters(listId, username));
         }
 
-        public Task<bool> CheckIfUserIsMemberOfList(long listId, IUserIdentifier user)
+        public Task<bool> CheckIfUserIsMemberOfListAsync(long listId, IUserIdentifier user)
         {
-            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(listId, user));
+            return CheckIfUserIsMemberOfListAsync(new CheckIfUserIsMemberOfListParameters(listId, user));
         }
 
-        public Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, long userId)
+        public Task<bool> CheckIfUserIsMemberOfListAsync(ITwitterListIdentifier list, long userId)
         {
-            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(list, userId));
+            return CheckIfUserIsMemberOfListAsync(new CheckIfUserIsMemberOfListParameters(list, userId));
         }
 
-        public Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, string username)
+        public Task<bool> CheckIfUserIsMemberOfListAsync(ITwitterListIdentifier list, string username)
         {
-            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(list, username));
+            return CheckIfUserIsMemberOfListAsync(new CheckIfUserIsMemberOfListParameters(list, username));
         }
 
-        public Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, IUserIdentifier user)
+        public Task<bool> CheckIfUserIsMemberOfListAsync(ITwitterListIdentifier list, IUserIdentifier user)
         {
-            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(list, user));
+            return CheckIfUserIsMemberOfListAsync(new CheckIfUserIsMemberOfListParameters(list, user));
         }
 
-        public async Task<bool> CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters parameters)
+        public async Task<bool> CheckIfUserIsMemberOfListAsync(ICheckIfUserIsMemberOfListParameters parameters)
         {
             try
             {
-                await _twitterListsRequester.CheckIfUserIsAListMember(parameters).ConfigureAwait(false);
+                await _twitterListsRequester.CheckIfUserIsAListMemberAsync(parameters).ConfigureAwait(false);
                 return true;
             }
             catch (TwitterException e)
@@ -405,75 +405,75 @@ namespace Tweetinvi.Client
             }
         }
 
-        public Task<ITwitterList> RemoveMemberFromList(long listId, long userId)
+        public Task<ITwitterList> RemoveMemberFromListAsync(long listId, long userId)
         {
-            return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, userId));
+            return RemoveMemberFromListAsync(new RemoveMemberFromListParameters(listId, userId));
         }
 
-        public Task<ITwitterList> RemoveMemberFromList(long listId, string username)
+        public Task<ITwitterList> RemoveMemberFromListAsync(long listId, string username)
         {
-            return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, username));
+            return RemoveMemberFromListAsync(new RemoveMemberFromListParameters(listId, username));
         }
 
-        public Task<ITwitterList> RemoveMemberFromList(long listId, IUserIdentifier user)
+        public Task<ITwitterList> RemoveMemberFromListAsync(long listId, IUserIdentifier user)
         {
-            return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, user));
+            return RemoveMemberFromListAsync(new RemoveMemberFromListParameters(listId, user));
         }
 
-        public Task<ITwitterList> RemoveMemberFromList(ITwitterListIdentifier list, long userId)
+        public Task<ITwitterList> RemoveMemberFromListAsync(ITwitterListIdentifier list, long userId)
         {
-            return RemoveMemberFromList(new RemoveMemberFromListParameters(list, userId));
+            return RemoveMemberFromListAsync(new RemoveMemberFromListParameters(list, userId));
         }
 
-        public Task<ITwitterList> RemoveMemberFromList(ITwitterListIdentifier list, string username)
+        public Task<ITwitterList> RemoveMemberFromListAsync(ITwitterListIdentifier list, string username)
         {
-            return RemoveMemberFromList(new RemoveMemberFromListParameters(list, username));
+            return RemoveMemberFromListAsync(new RemoveMemberFromListParameters(list, username));
         }
 
-        public Task<ITwitterList> RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user)
+        public Task<ITwitterList> RemoveMemberFromListAsync(ITwitterListIdentifier list, IUserIdentifier user)
         {
-            return RemoveMemberFromList(new RemoveMemberFromListParameters(list, user));
+            return RemoveMemberFromListAsync(new RemoveMemberFromListParameters(list, user));
         }
 
-        public async Task<ITwitterList> RemoveMemberFromList(IRemoveMemberFromListParameters parameters)
+        public async Task<ITwitterList> RemoveMemberFromListAsync(IRemoveMemberFromListParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.RemoveMemberFromList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.RemoveMemberFromListAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
-        public Task<ITwitterList> RemoveMembersFromList(long listId, IEnumerable<long> userIds)
+        public Task<ITwitterList> RemoveMembersFromListAsync(long listId, IEnumerable<long> userIds)
         {
-            return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, userIds));
+            return RemoveMembersFromListAsync(new RemoveMembersFromListParameters(listId, userIds));
         }
 
-        public Task<ITwitterList> RemoveMembersFromList(long listId, IEnumerable<string> usernames)
+        public Task<ITwitterList> RemoveMembersFromListAsync(long listId, IEnumerable<string> usernames)
         {
-            return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, usernames));
+            return RemoveMembersFromListAsync(new RemoveMembersFromListParameters(listId, usernames));
         }
 
-        public Task<ITwitterList> RemoveMembersFromList(long listId, IEnumerable<IUserIdentifier> users)
+        public Task<ITwitterList> RemoveMembersFromListAsync(long listId, IEnumerable<IUserIdentifier> users)
         {
-            return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, users));
+            return RemoveMembersFromListAsync(new RemoveMembersFromListParameters(listId, users));
         }
 
-        public Task<ITwitterList> RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds)
+        public Task<ITwitterList> RemoveMembersFromListAsync(ITwitterListIdentifier list, IEnumerable<long> userIds)
         {
-            return RemoveMembersFromList(new RemoveMembersFromListParameters(list, userIds));
+            return RemoveMembersFromListAsync(new RemoveMembersFromListParameters(list, userIds));
         }
 
-        public Task<ITwitterList> RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<string> usernames)
+        public Task<ITwitterList> RemoveMembersFromListAsync(ITwitterListIdentifier list, IEnumerable<string> usernames)
         {
-            return RemoveMembersFromList(new RemoveMembersFromListParameters(list, usernames));
+            return RemoveMembersFromListAsync(new RemoveMembersFromListParameters(list, usernames));
         }
 
-        public Task<ITwitterList> RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
+        public Task<ITwitterList> RemoveMembersFromListAsync(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
         {
-            return RemoveMembersFromList(new RemoveMembersFromListParameters(list, users));
+            return RemoveMembersFromListAsync(new RemoveMembersFromListParameters(list, users));
         }
 
-        public async Task<ITwitterList> RemoveMembersFromList(IRemoveMembersFromListParameters parameters)
+        public async Task<ITwitterList> RemoveMembersFromListAsync(IRemoveMembersFromListParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.RemoveMembersFromList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.RemoveMembersFromListAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
@@ -481,52 +481,52 @@ namespace Tweetinvi.Client
         // SUBSCRIBERS
         // ***********
 
-        public Task<ITwitterList> SubscribeToList(long listId)
+        public Task<ITwitterList> SubscribeToListAsync(long listId)
         {
-            return SubscribeToList(new SubscribeToListParameters(listId));
+            return SubscribeToListAsync(new SubscribeToListParameters(listId));
         }
 
-        public Task<ITwitterList> SubscribeToList(ITwitterListIdentifier list)
+        public Task<ITwitterList> SubscribeToListAsync(ITwitterListIdentifier list)
         {
-            return SubscribeToList(new SubscribeToListParameters(list));
+            return SubscribeToListAsync(new SubscribeToListParameters(list));
         }
 
-        public async Task<ITwitterList> SubscribeToList(ISubscribeToListParameters parameters)
+        public async Task<ITwitterList> SubscribeToListAsync(ISubscribeToListParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.SubscribeToList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.SubscribeToListAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
-        public Task<ITwitterList> UnsubscribeFromList(long listId)
+        public Task<ITwitterList> UnsubscribeFromListAsync(long listId)
         {
-            return UnsubscribeFromList(new UnsubscribeFromListParameters(listId));
+            return UnsubscribeFromListAsync(new UnsubscribeFromListParameters(listId));
         }
 
-        public Task<ITwitterList> UnsubscribeFromList(ITwitterListIdentifier list)
+        public Task<ITwitterList> UnsubscribeFromListAsync(ITwitterListIdentifier list)
         {
-            return UnsubscribeFromList(new UnsubscribeFromListParameters(list));
+            return UnsubscribeFromListAsync(new UnsubscribeFromListParameters(list));
         }
 
-        public async Task<ITwitterList> UnsubscribeFromList(IUnsubscribeFromListParameters parameters)
+        public async Task<ITwitterList> UnsubscribeFromListAsync(IUnsubscribeFromListParameters parameters)
         {
-            var twitterResult = await _twitterListsRequester.UnsubscribeFromList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.UnsubscribeFromListAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
-        public Task<IUser[]> GetListSubscribers(long listId)
+        public Task<IUser[]> GetListSubscribersAsync(long listId)
         {
-            return GetListSubscribers(new GetListSubscribersParameters(listId));
+            return GetListSubscribersAsync(new GetListSubscribersParameters(listId));
         }
 
-        public Task<IUser[]> GetListSubscribers(ITwitterListIdentifier list)
+        public Task<IUser[]> GetListSubscribersAsync(ITwitterListIdentifier list)
         {
-            return GetListSubscribers(new GetListSubscribersParameters(list));
+            return GetListSubscribersAsync(new GetListSubscribersParameters(list));
         }
 
-        public async Task<IUser[]> GetListSubscribers(IGetListSubscribersParameters parameters)
+        public async Task<IUser[]> GetListSubscribersAsync(IGetListSubscribersParameters parameters)
         {
             var iterator = GetListSubscribersIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<IUser> GetListSubscribersIterator(long listId)
@@ -553,25 +553,25 @@ namespace Tweetinvi.Client
             return GetUserListSubscriptionsIterator(new GetUserListSubscriptionsParameters(parameters));
         }
 
-        public Task<ITwitterList[]> GetUserListSubscriptions(long userId)
+        public Task<ITwitterList[]> GetUserListSubscriptionsAsync(long userId)
         {
-            return GetUserListSubscriptions(new GetUserListSubscriptionsParameters(userId));
+            return GetUserListSubscriptionsAsync(new GetUserListSubscriptionsParameters(userId));
         }
 
-        public Task<ITwitterList[]> GetUserListSubscriptions(string username)
+        public Task<ITwitterList[]> GetUserListSubscriptionsAsync(string username)
         {
-            return GetUserListSubscriptions(new GetUserListSubscriptionsParameters(username));
+            return GetUserListSubscriptionsAsync(new GetUserListSubscriptionsParameters(username));
         }
 
-        public Task<ITwitterList[]> GetUserListSubscriptions(IUserIdentifier user)
+        public Task<ITwitterList[]> GetUserListSubscriptionsAsync(IUserIdentifier user)
         {
-            return GetUserListSubscriptions(new GetUserListSubscriptionsParameters(user));
+            return GetUserListSubscriptionsAsync(new GetUserListSubscriptionsParameters(user));
         }
 
-        public async Task<ITwitterList[]> GetUserListSubscriptions(IGetUserListSubscriptionsParameters parameters)
+        public async Task<ITwitterList[]> GetUserListSubscriptionsAsync(IGetUserListSubscriptionsParameters parameters)
         {
             var iterator = GetUserListSubscriptionsIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(long userId)
@@ -599,41 +599,41 @@ namespace Tweetinvi.Client
             });
         }
 
-        Task<bool> IListsClient.CheckIfUserIsSubscriberOfList(long listId, long userId)
+        Task<bool> IListsClient.CheckIfUserIsSubscriberOfListAsync(long listId, long userId)
         {
-            return CheckIfUserIsSubscriberOfList(new CheckIfUserIsSubscriberOfListParameters(listId, userId));
+            return CheckIfUserIsSubscriberOfListAsync(new CheckIfUserIsSubscriberOfListParameters(listId, userId));
         }
 
-        public Task<bool> CheckIfUserIsSubscriberOfList(long listId, string username)
+        public Task<bool> CheckIfUserIsSubscriberOfListAsync(long listId, string username)
         {
-            return CheckIfUserIsSubscriberOfList(new CheckIfUserIsSubscriberOfListParameters(listId, username));
+            return CheckIfUserIsSubscriberOfListAsync(new CheckIfUserIsSubscriberOfListParameters(listId, username));
         }
 
-        public Task<bool> CheckIfUserIsSubscriberOfList(long listId, IUserIdentifier user)
+        public Task<bool> CheckIfUserIsSubscriberOfListAsync(long listId, IUserIdentifier user)
         {
-            return CheckIfUserIsSubscriberOfList(new CheckIfUserIsSubscriberOfListParameters(listId, user));
+            return CheckIfUserIsSubscriberOfListAsync(new CheckIfUserIsSubscriberOfListParameters(listId, user));
         }
 
-        public Task<bool> CheckIfUserIsSubscriberOfList(ITwitterListIdentifier list, long userId)
+        public Task<bool> CheckIfUserIsSubscriberOfListAsync(ITwitterListIdentifier list, long userId)
         {
-            return CheckIfUserIsSubscriberOfList(new CheckIfUserIsSubscriberOfListParameters(list, userId));
+            return CheckIfUserIsSubscriberOfListAsync(new CheckIfUserIsSubscriberOfListParameters(list, userId));
         }
 
-        public Task<bool> CheckIfUserIsSubscriberOfList(ITwitterListIdentifier list, string username)
+        public Task<bool> CheckIfUserIsSubscriberOfListAsync(ITwitterListIdentifier list, string username)
         {
-            return CheckIfUserIsSubscriberOfList(new CheckIfUserIsSubscriberOfListParameters(list, username));
+            return CheckIfUserIsSubscriberOfListAsync(new CheckIfUserIsSubscriberOfListParameters(list, username));
         }
 
-        public Task<bool> CheckIfUserIsSubscriberOfList(ITwitterListIdentifier list, IUserIdentifier user)
+        public Task<bool> CheckIfUserIsSubscriberOfListAsync(ITwitterListIdentifier list, IUserIdentifier user)
         {
-            return CheckIfUserIsSubscriberOfList(new CheckIfUserIsSubscriberOfListParameters(list, user));
+            return CheckIfUserIsSubscriberOfListAsync(new CheckIfUserIsSubscriberOfListParameters(list, user));
         }
 
-        public async Task<bool> CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters parameters)
+        public async Task<bool> CheckIfUserIsSubscriberOfListAsync(ICheckIfUserIsSubscriberOfListParameters parameters)
         {
             try
             {
-                await _twitterListsRequester.CheckIfUserIsSubscriberOfList(parameters).ConfigureAwait(false);
+                await _twitterListsRequester.CheckIfUserIsSubscriberOfListAsync(parameters).ConfigureAwait(false);
                 return true;
             }
             catch (TwitterException e)
@@ -653,20 +653,20 @@ namespace Tweetinvi.Client
         // GET TWEETS
         // ***********
 
-        public Task<ITweet[]> GetTweetsFromList(long listId)
+        public Task<ITweet[]> GetTweetsFromListAsync(long listId)
         {
-            return GetTweetsFromList(new GetTweetsFromListParameters(listId));
+            return GetTweetsFromListAsync(new GetTweetsFromListParameters(listId));
         }
 
-        public Task<ITweet[]> GetTweetsFromList(ITwitterListIdentifier list)
+        public Task<ITweet[]> GetTweetsFromListAsync(ITwitterListIdentifier list)
         {
-            return GetTweetsFromList(new GetTweetsFromListParameters(list));
+            return GetTweetsFromListAsync(new GetTweetsFromListParameters(list));
         }
 
-        public async Task<ITweet[]> GetTweetsFromList(IGetTweetsFromListParameters parameters)
+        public async Task<ITweet[]> GetTweetsFromListAsync(IGetTweetsFromListParameters parameters)
         {
             var iterator = GetTweetsFromListIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITweet, long?> GetTweetsFromListIterator(long listId)

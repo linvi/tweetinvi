@@ -15,79 +15,79 @@ namespace Tweetinvi.Client
             _uploadRequester = client.Raw.Upload;
         }
 
-        public Task<IMedia> UploadBinary(byte[] binary)
+        public Task<IMedia> UploadBinaryAsync(byte[] binary)
         {
-            return UploadBinary(new UploadBinaryParameters(binary));
+            return UploadBinaryAsync(new UploadBinaryParameters(binary));
         }
 
-        public async Task<IMedia> UploadBinary(IUploadParameters parameters)
+        public async Task<IMedia> UploadBinaryAsync(IUploadParameters parameters)
         {
-            var chunkUploadResult = await _uploadRequester.UploadBinary(parameters).ConfigureAwait(false);
+            var chunkUploadResult = await _uploadRequester.UploadBinaryAsync(parameters).ConfigureAwait(false);
             return chunkUploadResult.Media;
         }
 
-        public Task<IMedia> UploadTweetImage(byte[] binary)
+        public Task<IMedia> UploadTweetImageAsync(byte[] binary)
         {
-            return UploadTweetImage(new UploadTweetImageParameters(binary));
+            return UploadTweetImageAsync(new UploadTweetImageParameters(binary));
         }
 
-        public Task<IMedia> UploadTweetImage(IUploadTweetImageParameters parameters)
+        public Task<IMedia> UploadTweetImageAsync(IUploadTweetImageParameters parameters)
         {
-            return UploadBinary(parameters);
+            return UploadBinaryAsync(parameters);
         }
 
-        public Task<IMedia> UploadMessageImage(byte[] binary)
+        public Task<IMedia> UploadMessageImageAsync(byte[] binary)
         {
-            return UploadMessageImage(new UploadMessageImageParameters(binary));
+            return UploadMessageImageAsync(new UploadMessageImageParameters(binary));
         }
 
-        public Task<IMedia> UploadMessageImage(IUploadMessageImageParameters parameters)
+        public Task<IMedia> UploadMessageImageAsync(IUploadMessageImageParameters parameters)
         {
-            return UploadBinary(parameters);
+            return UploadBinaryAsync(parameters);
         }
 
-        public Task<IMedia> UploadTweetVideo(byte[] binary)
+        public Task<IMedia> UploadTweetVideoAsync(byte[] binary)
         {
-            return UploadTweetVideo(new UploadTweetVideoParameters(binary));
+            return UploadTweetVideoAsync(new UploadTweetVideoParameters(binary));
         }
 
-        public Task<IMedia> UploadTweetVideo(IUploadTweetVideoParameters parameters)
+        public Task<IMedia> UploadTweetVideoAsync(IUploadTweetVideoParameters parameters)
         {
-            return UploadBinary(parameters);
+            return UploadBinaryAsync(parameters);
         }
 
-        public Task<IMedia> UploadMessageVideo(byte[] binary)
+        public Task<IMedia> UploadMessageVideoAsync(byte[] binary)
         {
-            return UploadMessageVideo(new UploadMessageVideoParameters(binary));
+            return UploadMessageVideoAsync(new UploadMessageVideoParameters(binary));
         }
 
-        public Task<IMedia> UploadMessageVideo(IUploadMessageVideoParameters parameters)
+        public Task<IMedia> UploadMessageVideoAsync(IUploadMessageVideoParameters parameters)
         {
-            return UploadBinary(parameters);
+            return UploadBinaryAsync(parameters);
         }
 
-        public Task AddMediaMetadata(IMediaMetadata metadata)
+        public Task AddMediaMetadataAsync(IMediaMetadata metadata)
         {
-            return AddMediaMetadata(new AddMediaMetadataParameters(metadata.MediaId)
+            return AddMediaMetadataAsync(new AddMediaMetadataParameters(metadata.MediaId)
             {
                 AltText = metadata.AltText
             });
         }
 
-        public async Task AddMediaMetadata(IAddMediaMetadataParameters parameters)
+        public async Task AddMediaMetadataAsync(IAddMediaMetadataParameters parameters)
         {
-            await _uploadRequester.AddMediaMetadata(parameters).ConfigureAwait(false);
+            await _uploadRequester.AddMediaMetadataAsync(parameters).ConfigureAwait(false);
         }
 
-        public async Task<IUploadedMediaInfo> GetVideoProcessingStatus(IMedia media)
+        public async Task<IUploadedMediaInfo> GetVideoProcessingStatusAsync(IMedia media)
         {
-            var twitterResult = await _uploadRequester.GetVideoProcessingStatus(media).ConfigureAwait(false);
+            var twitterResult = await _uploadRequester.GetVideoProcessingStatusAsync(media).ConfigureAwait(false);
             return twitterResult.DataTransferObject;
         }
 
-        public Task WaitForMediaProcessingToGetAllMetadata(IMedia media)
+        public Task WaitForMediaProcessingToGetAllMetadataAsync(IMedia media)
         {
-            return _uploadRequester.WaitForMediaProcessingToGetAllMetadata(media);
+            return _uploadRequester.WaitForMediaProcessingToGetAllMetadataAsync(media);
         }
     }
 }

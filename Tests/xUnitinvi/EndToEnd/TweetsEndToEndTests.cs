@@ -19,30 +19,30 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task CreateReadDelete()
+        public async Task CreateReadDeleteAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var sourceTweet = await _protectedClient.Tweets.GetTweet(979753598446948353);
+            var sourceTweet = await _protectedClient.Tweets.GetTweetAsync(979753598446948353);
 
-            var quotingTweet1 = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweetinvi 3.0!")
+            var quotingTweet1 = await _protectedClient.Tweets.PublishTweetAsync(new PublishTweetParameters("tweetinvi 3.0!")
             {
                 QuotedTweetUrl = "https://twitter.com/TweetinviApi/status/979753598446948353",
             });
 
-            var quotingTweet2 = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("Tweetinvi 3 v2!")
+            var quotingTweet2 = await _protectedClient.Tweets.PublishTweetAsync(new PublishTweetParameters("Tweetinvi 3 v2!")
             {
                 QuotedTweet = sourceTweet
             });
 
-            var replyTweet = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("Tweetinvi 3 v2!")
+            var replyTweet = await _protectedClient.Tweets.PublishTweetAsync(new PublishTweetParameters("Tweetinvi 3 v2!")
             {
                 InReplyToTweetId = sourceTweet.Id,
                 AutoPopulateReplyMetadata = true
             });
 
-            var fullTweet = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("#tweetinvi and https://github.com/linvi/tweetinvi Full Tweet!")
+            var fullTweet = await _protectedClient.Tweets.PublishTweetAsync(new PublishTweetParameters("#tweetinvi and https://github.com/linvi/tweetinvi Full Tweet!")
             {
                 Coordinates = new Coordinates(37.7821120598956, -122.400612831116),
                 DisplayExactCoordinates = true,
@@ -51,8 +51,8 @@ namespace xUnitinvi.EndToEnd
             });
 
             var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-            var media = await _protectedClient.Upload.UploadTweetImage(tweetinviLogoBinary);
-            var tweetWithMedia = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
+            var media = await _protectedClient.Upload.UploadTweetImageAsync(tweetinviLogoBinary);
+            var tweetWithMedia = await _protectedClient.Tweets.PublishTweetAsync(new PublishTweetParameters("tweet with media")
             {
                 Medias = { media },
                 PossiblySensitive = true,
@@ -67,13 +67,13 @@ namespace xUnitinvi.EndToEnd
                 tweetWithMedia
             };
 
-            var allTweets = await _protectedClient.Tweets.GetTweets(allTweetIdentifiers);
+            var allTweets = await _protectedClient.Tweets.GetTweetsAsync(allTweetIdentifiers);
 
-            await _protectedClient.Tweets.DestroyTweet(quotingTweet1);
-            await _protectedClient.Tweets.DestroyTweet(quotingTweet2);
-            await _protectedClient.Tweets.DestroyTweet(replyTweet);
-            await _protectedClient.Tweets.DestroyTweet(fullTweet);
-            await _protectedClient.Tweets.DestroyTweet(tweetWithMedia);
+            await _protectedClient.Tweets.DestroyTweetAsync(quotingTweet1);
+            await _protectedClient.Tweets.DestroyTweetAsync(quotingTweet2);
+            await _protectedClient.Tweets.DestroyTweetAsync(replyTweet);
+            await _protectedClient.Tweets.DestroyTweetAsync(fullTweet);
+            await _protectedClient.Tweets.DestroyTweetAsync(tweetWithMedia);
 
             // ASSERT
             Assert.Equal(979753598446948353, quotingTweet1.QuotedStatusId);
@@ -97,49 +97,49 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task PublishWithMediaId()
+        public async Task PublishWithMediaIdAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-            var media = await _protectedClient.Upload.UploadBinary(tweetinviLogoBinary);
-            var tweetWithMedia = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
+            var media = await _protectedClient.Upload.UploadBinaryAsync(tweetinviLogoBinary);
+            var tweetWithMedia = await _protectedClient.Tweets.PublishTweetAsync(new PublishTweetParameters("tweet with media")
             {
                 MediaIds = { media.Id.Value },
                 PossiblySensitive = true,
             });
 
-            await _protectedClient.Tweets.DestroyTweet(tweetWithMedia);
+            await _protectedClient.Tweets.DestroyTweetAsync(tweetWithMedia);
 
             Assert.Equal(tweetWithMedia.Media[0].Id, media.Id.Value);
         }
 
         [Fact]
-        public async Task Retweets()
+        public async Task RetweetsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             const long tweetId = 979753598446948353;
 
-            var sourceTweet = await _protectedClient.Tweets.GetTweet(tweetId);
-            var retweet = await _protectedClient.Tweets.PublishRetweet(sourceTweet);
+            var sourceTweet = await _protectedClient.Tweets.GetTweetAsync(tweetId);
+            var retweet = await _protectedClient.Tweets.PublishRetweetAsync(sourceTweet);
             await Task.Delay(TimeSpan.FromSeconds(35)); // for Twitter to sync
-            var sourceRetweets = await _protectedClient.Tweets.GetRetweets(sourceTweet);
-            var tweetAfterRetweet = await _protectedClient.Tweets.GetTweet(tweetId);
+            var sourceRetweets = await _protectedClient.Tweets.GetRetweetsAsync(sourceTweet);
+            var tweetAfterRetweet = await _protectedClient.Tweets.GetTweetAsync(tweetId);
 
             var allRetweeterIdsBefore = new List<long>();
 
-            await _protectedClient.Tweets.GetRetweeterIds(tweetId);
+            await _protectedClient.Tweets.GetRetweeterIdsAsync(tweetId);
             var retweeterIdsBeforeIterator = _protectedClient.Tweets.GetRetweeterIdsIterator(tweetId);
             while (!retweeterIdsBeforeIterator.Completed)
             {
-                allRetweeterIdsBefore.AddRange(await retweeterIdsBeforeIterator.NextPage());
+                allRetweeterIdsBefore.AddRange(await retweeterIdsBeforeIterator.NextPageAsync());
             }
 
-            await _protectedClient.Tweets.DestroyRetweet(retweet);
-            var tweetAfterDestroy = await _protectedClient.Tweets.GetTweet(tweetId);
+            await _protectedClient.Tweets.DestroyRetweetAsync(retweet);
+            var tweetAfterDestroy = await _protectedClient.Tweets.GetTweetAsync(tweetId);
 
             // assert
             Assert.Equal(tweetAfterRetweet.RetweetCount, sourceTweet.RetweetCount + 1);
@@ -150,25 +150,25 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task Favorite()
+        public async Task FavoriteAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var tweet = await _tweetinviTestClient.Tweets.PublishTweet(Guid.NewGuid().ToString());
+            var tweet = await _tweetinviTestClient.Tweets.PublishTweetAsync(Guid.NewGuid().ToString());
             var favoritedAtStart = tweet.Favorited;
 
-            await _tweetinviTestClient.Tweets.FavoriteTweet(tweet);
-            var tweetAfterFavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id);
+            await _tweetinviTestClient.Tweets.FavoriteTweetAsync(tweet);
+            var tweetAfterFavoriteCall = await _tweetinviTestClient.Tweets.GetTweetAsync(tweet.Id);
             var inMemoryTweetFavoriteStateAfterFavoriteCall = tweet.Favorited;
 
-            await _tweetinviTestClient.Tweets.GetUserFavoriteTweets(EndToEndTestConfig.TweetinviTest);
+            await _tweetinviTestClient.Tweets.GetUserFavoriteTweetsAsync(EndToEndTestConfig.TweetinviTest);
 
-            await _tweetinviTestClient.Tweets.UnfavoriteTweet(tweet);
-            var tweetAfterUnfavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id);
+            await _tweetinviTestClient.Tweets.UnfavoriteTweetAsync(tweet);
+            var tweetAfterUnfavoriteCall = await _tweetinviTestClient.Tweets.GetTweetAsync(tweet.Id);
             var inMemoryTweetFavoriteStateAfterUnfavoriteCall = tweet.Favorited;
 
-            await _tweetinviTestClient.Tweets.DestroyTweet(tweet);
+            await _tweetinviTestClient.Tweets.DestroyTweetAsync(tweet);
 
             // Assert
             Assert.False(favoritedAtStart);
@@ -179,15 +179,15 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task OEmbedTweets()
+        public async Task OEmbedTweetsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var tweet = await _tweetinviTestClient.Tweets.PublishTweet(Guid.NewGuid().ToString());
-            var oEmbedTweet = await _tweetinviTestClient.Tweets.GetOEmbedTweet(tweet);
+            var tweet = await _tweetinviTestClient.Tweets.PublishTweetAsync(Guid.NewGuid().ToString());
+            var oEmbedTweet = await _tweetinviTestClient.Tweets.GetOEmbedTweetAsync(tweet);
 
-            await tweet.Destroy();
+            await tweet.DestroyAsync();
 
             // Assert
             Assert.Contains(tweet.CreatedBy.ScreenName, oEmbedTweet.HTML);

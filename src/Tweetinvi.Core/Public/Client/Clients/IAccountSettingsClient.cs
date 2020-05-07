@@ -16,54 +16,54 @@ namespace Tweetinvi.Client
         IAccountSettingsClientParametersValidator ParametersValidator { get; }
 
         /// <inheritdoc cref="GetAccountSettings(IGetAccountSettingsParameters)" />
-        Task<IAccountSettings> GetAccountSettings();
+        Task<IAccountSettings> GetAccountSettingsAsync();
 
         /// <summary>
         /// Get the client's account settings
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-settings </para>
         /// </summary>
         /// <returns>Account settings</returns>
-        Task<IAccountSettings> GetAccountSettings(IGetAccountSettingsParameters parameters);
+        Task<IAccountSettings> GetAccountSettingsAsync(IGetAccountSettingsParameters parameters);
 
         /// <summary>
         /// Update the client's account settings
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-settings </para>
         /// </summary>
         /// <returns>Updated account settings</returns>
-        Task<IAccountSettings> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters);
+        Task<IAccountSettings> UpdateAccountSettingsAsync(IUpdateAccountSettingsParameters parameters);
 
         /// <summary>
         /// Update the client's account profile
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-update_profile </para>
         /// </summary>
         /// <returns>Updated profile</returns>
-        Task<IAuthenticatedUser> UpdateProfile(IUpdateProfileParameters parameters);
+        Task<IAuthenticatedUser> UpdateProfileAsync(IUpdateProfileParameters parameters);
 
         /// <inheritdoc cref="UpdateProfileImage(IUpdateProfileImageParameters)" />
-        Task<IUser> UpdateProfileImage(byte[] binary);
+        Task<IUser> UpdateProfileImageAsync(byte[] binary);
 
         /// <summary>
         /// Update the profile image of the account
         /// <para>Read more : https://dev.twitter.com/rest/reference/post/account/update_profile_image</para>
         /// </summary>
-        Task<IUser> UpdateProfileImage(IUpdateProfileImageParameters parameters);
+        Task<IUser> UpdateProfileImageAsync(IUpdateProfileImageParameters parameters);
 
         /// <inheritdoc cref="UpdateProfileBanner(IUpdateProfileBannerParameters)" />
-        Task UpdateProfileBanner(byte[] binary);
+        Task UpdateProfileBannerAsync(byte[] binary);
 
         /// <summary>
         /// Update the profile banner of the account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-update_profile_banner </para>
         /// </summary>
-        Task UpdateProfileBanner(IUpdateProfileBannerParameters parameters);
+        Task UpdateProfileBannerAsync(IUpdateProfileBannerParameters parameters);
 
         /// <inheritdoc cref="RemoveProfileBanner(IRemoveProfileBannerParameters)" />
-        Task RemoveProfileBanner();
+        Task RemoveProfileBannerAsync();
 
         /// <summary>
         /// Remove the profile banner of the account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-remove_profile_banner </para>
         /// </summary>
-        Task RemoveProfileBanner(IRemoveProfileBannerParameters parameters);
+        Task RemoveProfileBannerAsync(IRemoveProfileBannerParameters parameters);
     }
 }

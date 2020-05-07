@@ -21,22 +21,22 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task Messages_CRUD()
+        public async Task Messages_CRUDAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             var messageTextIdentifier = $"hello from tweetinvi {Guid.NewGuid()}";
-            var message = await _tweetinviClient.Messages.PublishMessage(messageTextIdentifier, EndToEndTestConfig.TweetinviTest.UserId);
-            var publishedMessage = await _tweetinviClient.Messages.GetMessage(message.Id);
-            var responseMessage = await _tweetinviTestClient.Messages.PublishMessage($"you are soo nice {Guid.NewGuid()}", EndToEndTestConfig.TweetinviApi.UserId);
+            var message = await _tweetinviClient.Messages.PublishMessageAsync(messageTextIdentifier, EndToEndTestConfig.TweetinviTest.UserId);
+            var publishedMessage = await _tweetinviClient.Messages.GetMessageAsync(message.Id);
+            var responseMessage = await _tweetinviTestClient.Messages.PublishMessageAsync($"you are soo nice {Guid.NewGuid()}", EndToEndTestConfig.TweetinviApi.UserId);
 
             // wait for twitter eventual consistency
             await Task.Delay(TimeSpan.FromSeconds(70));
 
             try
             {
-                await _tweetinviClient.Messages.GetMessages();
+                await _tweetinviClient.Messages.GetMessagesAsync();
                 var messagesIterator = _tweetinviClient.Messages.GetMessagesIterator(new GetMessagesParameters
                 {
                     PageSize = 1
@@ -50,7 +50,7 @@ namespace xUnitinvi.EndToEnd
                 while (messages.Count < 2 && !messagesIterator.Completed && totalCursorRequestRun < 5)
                 {
                     ++totalCursorRequestRun; // prevent getting out of RateLimits when Twitter continuously returns no elements
-                    var page = (await messagesIterator.NextPage()).ToArray();
+                    var page = (await messagesIterator.NextPageAsync()).ToArray();
                     _logger.WriteLine($"Received {page.Length} elements");
                     messages.AddRange(page);
                 }
@@ -67,15 +67,15 @@ namespace xUnitinvi.EndToEnd
             {
                 // messages have to be destroyed by both the sender and receiver
                 // for it to no longer exists.
-                await _tweetinviClient.Messages.DestroyMessage(message);
-                await _tweetinviTestClient.Messages.DestroyMessage(message);
-                await _tweetinviClient.Messages.DestroyMessage(responseMessage);
-                await _tweetinviTestClient.Messages.DestroyMessage(responseMessage);
+                await _tweetinviClient.Messages.DestroyMessageAsync(message);
+                await _tweetinviTestClient.Messages.DestroyMessageAsync(message);
+                await _tweetinviClient.Messages.DestroyMessageAsync(responseMessage);
+                await _tweetinviTestClient.Messages.DestroyMessageAsync(responseMessage);
             }
 
             try
             {
-                await _tweetinviClient.Messages.GetMessage(message.Id);
+                await _tweetinviClient.Messages.GetMessageAsync(message.Id);
                 throw new Exception("Should not be able to retrieve the message");
             }
             catch (TwitterException)
@@ -87,33 +87,33 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task PublishMedia()
+        public async Task PublishMediaAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-            var media = await _tweetinviClient.Upload.UploadBinary(tweetinviLogoBinary);
-            var message = await _tweetinviClient.Messages.PublishMessage(new PublishMessageParameters("hello", EndToEndTestConfig.TweetinviTest.UserId)
+            var media = await _tweetinviClient.Upload.UploadBinaryAsync(tweetinviLogoBinary);
+            var message = await _tweetinviClient.Messages.PublishMessageAsync(new PublishMessageParameters("hello", EndToEndTestConfig.TweetinviTest.UserId)
             {
                 MediaId = media.Id
             });
 
-            await _tweetinviClient.Messages.DestroyMessage(message);
-            await _tweetinviTestClient.Messages.DestroyMessage(message);
+            await _tweetinviClient.Messages.DestroyMessageAsync(message);
+            await _tweetinviTestClient.Messages.DestroyMessageAsync(message);
 
             Assert.Equal(message.AttachedMedia.Id, media.Id);
         }
 
         [Fact]
-        public async Task PublishOptions()
+        public async Task PublishOptionsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-            var media = await _tweetinviClient.Upload.UploadBinary(tweetinviLogoBinary);
-            var message = await _tweetinviClient.Messages.PublishMessage(new PublishMessageParameters("hello", EndToEndTestConfig.TweetinviTest.UserId)
+            var media = await _tweetinviClient.Upload.UploadBinaryAsync(tweetinviLogoBinary);
+            var message = await _tweetinviClient.Messages.PublishMessageAsync(new PublishMessageParameters("hello", EndToEndTestConfig.TweetinviTest.UserId)
             {
                 QuickReplyOptions = new IQuickReplyOption[]
                 {
@@ -132,8 +132,8 @@ namespace xUnitinvi.EndToEnd
                 }
             });
 
-            await _tweetinviClient.Messages.DestroyMessage(message);
-            await _tweetinviTestClient.Messages.DestroyMessage(message);
+            await _tweetinviClient.Messages.DestroyMessageAsync(message);
+            await _tweetinviTestClient.Messages.DestroyMessageAsync(message);
 
             Assert.Equal(message.QuickReplyOptions.Length, 3);
         }

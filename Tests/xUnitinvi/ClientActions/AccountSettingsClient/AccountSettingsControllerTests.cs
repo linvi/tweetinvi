@@ -25,9 +25,9 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
         {
             return _fakeBuilder.GenerateClass();
         }
-        
+
         [Fact]
-        public async Task GetAccountSettings_ReturnsFromQueryExecutor()
+        public async Task GetAccountSettings_ReturnsFromQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateAccountSettingsController();
@@ -35,17 +35,17 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var request = A.Fake<ITwitterRequest>();
             var twitterResult = A.Fake<ITwitterResult<IAccountSettingsDTO>>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryExecutor.GetAccountSettings(parameters, request)).Returns(twitterResult);
+            A.CallTo(() => _fakeAccountSettingsQueryExecutor.GetAccountSettingsAsync(parameters, request)).Returns(twitterResult);
 
             // Act
-            var result = await controller.GetAccountSettings(parameters, request);
+            var result = await controller.GetAccountSettingsAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, twitterResult);
         }
-        
+
         [Fact]
-        public async Task UpdateAccountSettings_ReturnsFromQueryExecutor()
+        public async Task UpdateAccountSettings_ReturnsFromQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateAccountSettingsController();
@@ -53,17 +53,17 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var request = A.Fake<ITwitterRequest>();
             var twitterResult = A.Fake<ITwitterResult<IAccountSettingsDTO>>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryExecutor.UpdateAccountSettings(parameters, request)).Returns(twitterResult);
+            A.CallTo(() => _fakeAccountSettingsQueryExecutor.UpdateAccountSettingsAsync(parameters, request)).Returns(twitterResult);
 
             // Act
-            var result = await controller.UpdateAccountSettings(parameters, request);
+            var result = await controller.UpdateAccountSettingsAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, twitterResult);
         }
-        
+
         [Fact]
-        public async Task UpdateProfile_ReturnsFromQueryExecutor()
+        public async Task UpdateProfile_ReturnsFromQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateAccountSettingsController();
@@ -71,17 +71,17 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var request = A.Fake<ITwitterRequest>();
             var twitterResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryExecutor.UpdateProfile(parameters, request)).Returns(twitterResult);
+            A.CallTo(() => _fakeAccountSettingsQueryExecutor.UpdateProfileAsync(parameters, request)).Returns(twitterResult);
 
             // Act
-            var result = await controller.UpdateProfile(parameters, request);
+            var result = await controller.UpdateProfileAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, twitterResult);
         }
 
         [Fact]
-        public async Task UpdateProfileImage_ReturnsFromQueryExecutor()
+        public async Task UpdateProfileImage_ReturnsFromQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateAccountSettingsController();
@@ -89,17 +89,17 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var request = A.Fake<ITwitterRequest>();
             var twitterResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryExecutor.UpdateProfileImage(parameters, request)).Returns(twitterResult);
+            A.CallTo(() => _fakeAccountSettingsQueryExecutor.UpdateProfileImageAsync(parameters, request)).Returns(twitterResult);
 
             // Act
-            var result = await controller.UpdateProfileImage(parameters, request);
+            var result = await controller.UpdateProfileImageAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, twitterResult);
         }
-        
+
         [Fact]
-        public async Task UpdateProfileBanner_ReturnsFromQueryExecutor()
+        public async Task UpdateProfileBanner_ReturnsFromQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateAccountSettingsController();
@@ -107,17 +107,17 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var request = A.Fake<ITwitterRequest>();
             var twitterResult = A.Fake<ITwitterResult>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryExecutor.UpdateProfileBanner(parameters, request)).Returns(twitterResult);
+            A.CallTo(() => _fakeAccountSettingsQueryExecutor.UpdateProfileBannerAsync(parameters, request)).Returns(twitterResult);
 
             // Act
-            var result = await controller.UpdateProfileBanner(parameters, request);
+            var result = await controller.UpdateProfileBannerAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, twitterResult);
         }
-        
+
         [Fact]
-        public async Task RemoveProfileBanner_ReturnsFromQueryExecutor()
+        public async Task RemoveProfileBanner_ReturnsFromQueryExecutorAsync()
         {
             // Arrange
             var controller = CreateAccountSettingsController();
@@ -125,10 +125,10 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var request = A.Fake<ITwitterRequest>();
             var twitterResult = A.Fake<ITwitterResult>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryExecutor.RemoveProfileBanner(parameters, request)).Returns(twitterResult);
+            A.CallTo(() => _fakeAccountSettingsQueryExecutor.RemoveProfileBannerAsync(parameters, request)).Returns(twitterResult);
 
             // Act
-            var result = await controller.RemoveProfileBanner(parameters, request);
+            var result = await controller.RemoveProfileBannerAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, twitterResult);

@@ -24,7 +24,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task GetRateLimits()
+        public async Task GetRateLimitsAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -49,12 +49,12 @@ namespace xUnitinvi.EndToEnd
             TweetinviEvents.SubscribeToClientEvents(client);
 
             // act
-            var firstApplicationRateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.TwitterApiOnly);
-            var rateLimits = await client.RateLimits.GetRateLimits();
-            var fromCacheLimits = await client.RateLimits.GetRateLimits();
+            var firstApplicationRateLimits = await client.RateLimits.GetRateLimitsAsync(RateLimitsSource.TwitterApiOnly);
+            var rateLimits = await client.RateLimits.GetRateLimitsAsync();
+            var fromCacheLimits = await client.RateLimits.GetRateLimitsAsync();
 
             // assert
-            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequest<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
+            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequestAsync<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
                 .MustHaveHappenedTwiceExactly();
 
             Assert.Equal(firstApplicationRateLimits.ApplicationRateLimitStatusLimit.Remaining, rateLimits.ApplicationRateLimitStatusLimit.Remaining + 1);
@@ -62,7 +62,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task GetEndpointRateLimit()
+        public async Task GetEndpointRateLimitAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -81,28 +81,28 @@ namespace xUnitinvi.EndToEnd
             client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
 
             // act
-            var firstApplicationRateLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json", RateLimitsSource.TwitterApiOnly);
-            var rateLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
-            await client.Timelines.GetHomeTimeline();
-            var fromCacheLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
+            var firstApplicationRateLimits = await client.RateLimits.GetEndpointRateLimitAsync("https://api.twitter.com/1.1/statuses/home_timeline.json", RateLimitsSource.TwitterApiOnly);
+            var rateLimits = await client.RateLimits.GetEndpointRateLimitAsync("https://api.twitter.com/1.1/statuses/home_timeline.json");
+            await client.Timelines.GetHomeTimelineAsync();
+            var fromCacheLimits = await client.RateLimits.GetEndpointRateLimitAsync("https://api.twitter.com/1.1/statuses/home_timeline.json");
 
             // assert
-            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequest<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
+            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequestAsync<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
                 .MustHaveHappenedTwiceExactly();
 
             Assert.Equal(firstApplicationRateLimits.Remaining, fromCacheLimits.Remaining + 1);
             Assert.Same(rateLimits, fromCacheLimits);
 
             // act
-            await client.RateLimits.ClearRateLimitCache();
-            await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
+            await client.RateLimits.ClearRateLimitCacheAsync();
+            await client.RateLimits.GetEndpointRateLimitAsync("https://api.twitter.com/1.1/statuses/home_timeline.json");
 
-            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequest<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
+            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequestAsync<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
                 .MustHaveHappened(3, Times.Exactly);
         }
 
         [Fact, Order(10)]
-        public async Task RateLimitAwaiter()
+        public async Task RateLimitAwaiterAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests || !EndToEndTestConfig.ShouldRunRateLimitHungryTests)
                 return;
@@ -125,26 +125,26 @@ namespace xUnitinvi.EndToEnd
             client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
 
             // act - assert
-            var rateLimits = await client.RateLimits.GetEndpointRateLimit(Resources.Timeline_GetHomeTimeline);
+            var rateLimits = await client.RateLimits.GetEndpointRateLimitAsync(Resources.Timeline_GetHomeTimeline);
             var rateLimitsRemaining = rateLimits.Remaining;
 
-            await client.RateLimits.WaitForQueryRateLimit(Resources.Timeline_GetHomeTimeline);
+            await client.RateLimits.WaitForQueryRateLimitAsync(Resources.Timeline_GetHomeTimeline);
 
             for (var i = 0; i < rateLimitsRemaining; ++i)
             {
                 var timelineIterator = client.Timelines.GetHomeTimelineIterator();
-                await timelineIterator.NextPage();
+                await timelineIterator.NextPageAsync();
             }
 
             A.CallTo(() => taskDelayer.Delay(It.IsAny<TimeSpan>())).MustNotHaveHappened();
 
-            await client.RateLimits.WaitForQueryRateLimit(Resources.Timeline_GetHomeTimeline);
+            await client.RateLimits.WaitForQueryRateLimitAsync(Resources.Timeline_GetHomeTimeline);
             A.CallTo(() => taskDelayer.Delay(It.IsAny<TimeSpan>())).MustHaveHappenedOnceExactly();
 
             try
             {
                 var timelineIterator = client.Timelines.GetHomeTimelineIterator();
-                await timelineIterator.NextPage();
+                await timelineIterator.NextPageAsync();
             }
             // ReSharper disable once CC0004
             catch (Exception)

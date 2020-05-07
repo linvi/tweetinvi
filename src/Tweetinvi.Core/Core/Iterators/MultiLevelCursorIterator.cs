@@ -36,7 +36,7 @@ namespace Tweetinvi.Core.Iterators
 
         public bool Completed => _lastParentPageResult != null && _lastParentPageResult.IsLastPage && _itemsLeftToProcess.Count == 0;
 
-        public async Task<IMultiLevelCursorIteratorPage<TParent, TItem, TCursor>> NextPage()
+        public async Task<IMultiLevelCursorIteratorPage<TParent, TItem, TCursor>> NextPageAsync()
         {
             if (Completed)
             {

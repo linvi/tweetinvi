@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Controllers;
@@ -30,20 +28,20 @@ namespace Tweetinvi.Controllers.Tweet
             _pageCursorIteratorFactories = pageCursorIteratorFactories;
         }
 
-        public Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> GetTweetAsync(IGetTweetParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.GetTweet(parameters, request);
+            return _tweetQueryExecutor.GetTweetAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITweetDTO[]>> GetTweets(IGetTweetsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetTweetsAsync(IGetTweetsParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.GetTweets(parameters, request);
+            return _tweetQueryExecutor.GetTweetsAsync(parameters, request);
         }
 
-        public async Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
+        public async Task<ITwitterResult<ITweetDTO>> PublishTweetAsync(IPublishTweetParameters parameters, ITwitterRequest request)
         {
             parameters.MediaIds.AddRange(parameters.Medias.Select(x => x.UploadedMediaInfo.MediaId));
-            return await _tweetQueryExecutor.PublishTweet(parameters, request).ConfigureAwait(false);
+            return await _tweetQueryExecutor.PublishTweetAsync(parameters, request).ConfigureAwait(false);
         }
 
         public bool CanBePublished(IPublishTweetParameters publishTweetParameters)
@@ -87,23 +85,23 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Retweets - Publish
-        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> PublishRetweetAsync(IPublishRetweetParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.PublishRetweet(parameters, request);
+            return _tweetQueryExecutor.PublishRetweetAsync(parameters, request);
         }
 
         // Retweets - Destroy
 
-        public Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> DestroyRetweetAsync(IDestroyRetweetParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.DestroyRetweet(parameters, request);
+            return _tweetQueryExecutor.DestroyRetweetAsync(parameters, request);
         }
 
         #region GetRetweets
 
-        public Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetRetweetsAsync(IGetRetweetsParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.GetRetweets(parameters, request);
+            return _tweetQueryExecutor.GetRetweetsAsync(parameters, request);
         }
 
         #endregion
@@ -117,14 +115,14 @@ namespace Tweetinvi.Controllers.Tweet
                     Cursor = cursor
                 };
 
-                return _tweetQueryExecutor.GetRetweeterIds(cursoredParameters, new TwitterRequest(request));
+                return _tweetQueryExecutor.GetRetweeterIdsAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
 
         // Destroy Tweet
-        public Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> DestroyTweetAsync(IDestroyTweetParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.DestroyTweet(parameters, request);
+            return _tweetQueryExecutor.DestroyTweetAsync(parameters, request);
         }
 
         // Favorite Tweet
@@ -137,23 +135,23 @@ namespace Tweetinvi.Controllers.Tweet
                     MaxId = cursor
                 };
 
-                return _tweetQueryExecutor.GetFavoriteTweets(cursoredParameters, new TwitterRequest(request));
+                return _tweetQueryExecutor.GetFavoriteTweetsAsync(cursoredParameters, new TwitterRequest(request));
             });
         }
 
-        public Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> FavoriteTweetAsync(IFavoriteTweetParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.FavoriteTweet(parameters, request);
+            return _tweetQueryExecutor.FavoriteTweetAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> UnfavoriteTweetAsync(IUnfavoriteTweetParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.UnfavoriteTweet(parameters, request);
+            return _tweetQueryExecutor.UnfavoriteTweetAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweetAsync(IGetOEmbedTweetParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.GetOEmbedTweet(parameters, request);
+            return _tweetQueryExecutor.GetOEmbedTweetAsync(parameters, request);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Examplinvi.Console
             var client = new TwitterClient(credentials);
 
             // ask the user for the pin code
-            var authenticatedUser = await client.Users.GetAuthenticatedUser();
+            var authenticatedUser = await client.Users.GetAuthenticatedUserAsync();
 
             System.Console.WriteLine(authenticatedUser);
             System.Console.ReadLine();

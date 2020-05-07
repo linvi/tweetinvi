@@ -33,15 +33,15 @@ namespace Tweetinvi.WebLogic
         }
 
         // Simple Query
-        public Task<ITwitterResponse> ExecuteQuery(ITwitterRequest request, ITwitterClientHandler handler = null)
+        public Task<ITwitterResponse> ExecuteQueryAsync(ITwitterRequest request, ITwitterClientHandler handler = null)
         {
-            return ExecuteTwitterQuerySafely(request, async () =>
+            return ExecuteTwitterQuerySafelyAsync(request, async () =>
             {
                 HttpResponseMessage httpResponseMessage = null;
 
                 try
                 {
-                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(request.Query, handler).ConfigureAwait(false);
+                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponseAsync(request.Query, handler).ConfigureAwait(false);
 
                     var result = GetWebResultFromResponse(request.Query.Url, httpResponseMessage);
 
@@ -101,15 +101,15 @@ namespace Tweetinvi.WebLogic
             return binary;
         }
 
-        public Task<ITwitterResponse> ExecuteMultipartQuery(ITwitterRequest request)
+        public Task<ITwitterResponse> ExecuteMultipartQueryAsync(ITwitterRequest request)
         {
-            return ExecuteTwitterQuerySafely(request, async () =>
+            return ExecuteTwitterQuerySafelyAsync(request, async () =>
             {
                 HttpResponseMessage httpResponseMessage = null;
 
                 try
                 {
-                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(request.Query).ConfigureAwait(false);
+                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponseAsync(request.Query).ConfigureAwait(false);
 
                     var result = GetWebResultFromResponse(request.Query.Url, httpResponseMessage);
 
@@ -155,7 +155,7 @@ namespace Tweetinvi.WebLogic
             return webRequestResult;
         }
 
-        private async Task<T> ExecuteTwitterQuerySafely<T>(ITwitterRequest request, Func<Task<T>> action)
+        private async Task<T> ExecuteTwitterQuerySafelyAsync<T>(ITwitterRequest request, Func<Task<T>> action)
         {
             try
             {

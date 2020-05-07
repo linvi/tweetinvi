@@ -35,34 +35,34 @@ namespace Tweetinvi.Client.Requesters
             _validator = validator;
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO>> CreateListAsync(ICreateListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.CreateList(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.CreateListAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO>> GetListAsync(IGetListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.GetList(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.GetListAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITwitterListDTO[]>> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO[]>> GetListsSubscribedByUserAsync(IGetListsSubscribedByUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.GetListsSubscribedByUser(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.GetListsSubscribedByUserAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO>> UpdateListAsync(IUpdateListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.UpdateList(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.UpdateListAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO>> DestroyListAsync(IDestroyListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.DestroyList(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.DestroyListAsync(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters)
@@ -74,22 +74,22 @@ namespace Tweetinvi.Client.Requesters
             return _twitterListController.GetListsOwnedByUserIterator(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMemberToList(IAddMemberToListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMemberToListAsync(IAddMemberToListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(async request =>
+            return ExecuteRequestAsync(async request =>
             {
-                var twitterResult = await _twitterListController.AddMemberToList(parameters, request).ConfigureAwait(false);
+                var twitterResult = await _twitterListController.AddMemberToListAsync(parameters, request).ConfigureAwait(false);
                 return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTwitterList(dto));
             });
         }
 
-        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMembersToList(IAddMembersToListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMembersToListAsync(IAddMembersToListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(async request =>
+            return ExecuteRequestAsync(async request =>
             {
-                var twitterResult = await _twitterListController.AddMembersToList(parameters, request).ConfigureAwait(false);
+                var twitterResult = await _twitterListController.AddMembersToListAsync(parameters, request).ConfigureAwait(false);
                 return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTwitterList(dto));
             });
         }
@@ -112,34 +112,34 @@ namespace Tweetinvi.Client.Requesters
             return _twitterListController.GetMembersOfListIterator(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsAListMemberAsync(ICheckIfUserIsMemberOfListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.CheckIfUserIsAListMember(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.CheckIfUserIsAListMemberAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromListAsync(IRemoveMemberFromListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.RemoveMemberFromList(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.RemoveMemberFromListAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO>> RemoveMembersFromListAsync(IRemoveMembersFromListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.RemoveMembersFromList(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.RemoveMembersFromListAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> SubscribeToList(ISubscribeToListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO>> SubscribeToListAsync(ISubscribeToListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.SubscribeToList(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.SubscribeToListAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> UnsubscribeFromList(IUnsubscribeFromListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO>> UnsubscribeFromListAsync(IUnsubscribeFromListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.UnsubscribeFromList(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.UnsubscribeFromListAsync(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetListSubscribersIterator(IGetListSubscribersParameters parameters)
@@ -161,10 +161,10 @@ namespace Tweetinvi.Client.Requesters
             return _twitterListController.GetUserListSubscriptionsIterator(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsSubscriberOfListAsync(ICheckIfUserIsSubscriberOfListParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _twitterListController.CheckIfUserIsSubscriberOfList(parameters, request));
+            return ExecuteRequestAsync(request => _twitterListController.CheckIfUserIsSubscriberOfListAsync(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetTweetsFromListIterator(IGetTweetsFromListParameters parameters)

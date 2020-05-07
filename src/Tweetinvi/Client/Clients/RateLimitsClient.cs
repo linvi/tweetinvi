@@ -24,85 +24,85 @@ namespace Tweetinvi.Client
             _rateLimitAwaiter = executionContext.Container.Resolve<IRateLimitAwaiter>();
         }
 
-        public async Task InitializeRateLimitsManager()
+        public async Task InitializeRateLimitsManagerAsync()
         {
-            var credentialsRateLimits = await _rateLimitCacheManager.RateLimitCache.GetCredentialsRateLimits(_client.Credentials).ConfigureAwait(false);
+            var credentialsRateLimits = await _rateLimitCacheManager.RateLimitCache.GetCredentialsRateLimitsAsync(_client.Credentials).ConfigureAwait(false);
             if (credentialsRateLimits == null)
             {
-                await _rateLimitCacheManager.RefreshCredentialsRateLimits(_client.Credentials).ConfigureAwait(false);
+                await _rateLimitCacheManager.RefreshCredentialsRateLimitsAsync(_client.Credentials).ConfigureAwait(false);
             }
         }
 
-        public Task<ICredentialsRateLimits> GetRateLimits()
+        public Task<ICredentialsRateLimits> GetRateLimitsAsync()
         {
-            return GetRateLimits(new GetRateLimitsParameters());
+            return GetRateLimitsAsync(new GetRateLimitsParameters());
         }
 
-        public Task<ICredentialsRateLimits> GetRateLimits(RateLimitsSource from)
+        public Task<ICredentialsRateLimits> GetRateLimitsAsync(RateLimitsSource from)
         {
-            return GetRateLimits(new GetRateLimitsParameters
+            return GetRateLimitsAsync(new GetRateLimitsParameters
             {
                 From = from
             });
         }
 
-        public async Task<ICredentialsRateLimits> GetRateLimits(IGetRateLimitsParameters parameters)
+        public async Task<ICredentialsRateLimits> GetRateLimitsAsync(IGetRateLimitsParameters parameters)
         {
             switch (parameters.From)
             {
                 case RateLimitsSource.CacheOnly:
-                    return await _rateLimitCacheManager.RateLimitCache.GetCredentialsRateLimits(_client.Credentials).ConfigureAwait(false);
+                    return await _rateLimitCacheManager.RateLimitCache.GetCredentialsRateLimitsAsync(_client.Credentials).ConfigureAwait(false);
                 case RateLimitsSource.TwitterApiOnly:
-                    var twitterResult = await _helpRequester.GetRateLimits(parameters).ConfigureAwait(false);
+                    var twitterResult = await _helpRequester.GetRateLimitsAsync(parameters).ConfigureAwait(false);
                     return _client.Factories.CreateRateLimits(twitterResult?.DataTransferObject);
                 case RateLimitsSource.CacheOrTwitterApi:
-                    return await _rateLimitCacheManager.GetCredentialsRateLimits(_client.Credentials).ConfigureAwait(false);
+                    return await _rateLimitCacheManager.GetCredentialsRateLimitsAsync(_client.Credentials).ConfigureAwait(false);
                 default:
                     throw new ArgumentException(nameof(parameters.From));
             }
         }
 
-        public Task<IEndpointRateLimit> GetEndpointRateLimit(string url)
+        public Task<IEndpointRateLimit> GetEndpointRateLimitAsync(string url)
         {
-            return GetEndpointRateLimit(new GetEndpointRateLimitsParameters(url));
+            return GetEndpointRateLimitAsync(new GetEndpointRateLimitsParameters(url));
         }
 
-        public Task<IEndpointRateLimit> GetEndpointRateLimit(string url, RateLimitsSource from)
+        public Task<IEndpointRateLimit> GetEndpointRateLimitAsync(string url, RateLimitsSource from)
         {
-            return GetEndpointRateLimit(new GetEndpointRateLimitsParameters(url)
+            return GetEndpointRateLimitAsync(new GetEndpointRateLimitsParameters(url)
             {
                 From = from
             });
         }
 
-        public Task<IEndpointRateLimit> GetEndpointRateLimit(IGetEndpointRateLimitsParameters parameters)
+        public Task<IEndpointRateLimit> GetEndpointRateLimitAsync(IGetEndpointRateLimitsParameters parameters)
         {
-            return _rateLimitCacheManager.GetQueryRateLimit(parameters, _client.Credentials);
+            return _rateLimitCacheManager.GetQueryRateLimitAsync(parameters, _client.Credentials);
         }
 
-        public Task WaitForQueryRateLimit(string url)
+        public Task WaitForQueryRateLimitAsync(string url)
         {
-            return _rateLimitAwaiter.WaitForCredentialsRateLimit(url, _client.Credentials, _client.CreateTwitterExecutionContext());
+            return _rateLimitAwaiter.WaitForCredentialsRateLimitAsync(url, _client.Credentials, _client.CreateTwitterExecutionContext());
         }
 
-        public Task WaitForQueryRateLimit(IEndpointRateLimit endpointRateLimit)
+        public Task WaitForQueryRateLimitAsync(IEndpointRateLimit endpointRateLimit)
         {
-            return _rateLimitAwaiter.WaitForCredentialsRateLimit(endpointRateLimit, _client.Credentials, _client.CreateTwitterExecutionContext());
+            return _rateLimitAwaiter.WaitForCredentialsRateLimitAsync(endpointRateLimit, _client.Credentials, _client.CreateTwitterExecutionContext());
         }
 
-        public Task ClearRateLimitCache(IReadOnlyTwitterCredentials credentials)
+        public Task ClearRateLimitCacheAsync(IReadOnlyTwitterCredentials credentials)
         {
-            return _rateLimitCacheManager.RateLimitCache.Clear(credentials);
+            return _rateLimitCacheManager.RateLimitCache.ClearAsync(credentials);
         }
 
-        public Task ClearRateLimitCache()
+        public Task ClearRateLimitCacheAsync()
         {
-            return _rateLimitCacheManager.RateLimitCache.Clear(_client.Credentials);
+            return _rateLimitCacheManager.RateLimitCache.ClearAsync(_client.Credentials);
         }
 
-        public Task ClearAllRateLimitCache()
+        public Task ClearAllRateLimitCacheAsync()
         {
-            return _rateLimitCacheManager.RateLimitCache.ClearAll();
+            return _rateLimitCacheManager.RateLimitCache.ClearAllAsync();
         }
     }
 }

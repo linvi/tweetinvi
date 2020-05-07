@@ -24,12 +24,12 @@ namespace Tweetinvi.Controllers.Auth
             _parseRequestUrlResponseRegex = new Regex(Resources.Auth_RequestTokenParserRegex);
         }
 
-        public Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken(ICreateBearerTokenParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerTokenAsync(ICreateBearerTokenParameters parameters, ITwitterRequest request)
         {
-            return _authQueryExecutor.CreateBearerToken(parameters, request);
+            return _authQueryExecutor.CreateBearerTokenAsync(parameters, request);
         }
 
-        public async Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrl(IRequestAuthUrlParameters parameters, ITwitterRequest request)
+        public async Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrlAsync(IRequestAuthUrlParameters parameters, ITwitterRequest request)
         {
             var authToken = new AuthenticationRequest(request.Query.TwitterCredentials);
 
@@ -40,7 +40,7 @@ namespace Tweetinvi.Controllers.Auth
                 authProcessParams.CallbackUrl = Resources.Auth_PinCodeUrl;
             }
 
-            var requestTokenResponse = await _authQueryExecutor.RequestAuthUrl(authProcessParams, request).ConfigureAwait(false);
+            var requestTokenResponse = await _authQueryExecutor.RequestAuthUrlAsync(authProcessParams, request).ConfigureAwait(false);
 
             if (string.IsNullOrEmpty(requestTokenResponse.RawResult) || requestTokenResponse.RawResult == Resources.Auth_RequestToken)
             {
@@ -72,9 +72,9 @@ namespace Tweetinvi.Controllers.Auth
             };
         }
 
-        public async Task<ITwitterResult<ITwitterCredentials>> RequestCredentials(IRequestCredentialsParameters parameters, ITwitterRequest request)
+        public async Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsAsync(IRequestCredentialsParameters parameters, ITwitterRequest request)
         {
-            var twitterResult = await _authQueryExecutor.RequestCredentials(parameters, request).ConfigureAwait(false);
+            var twitterResult = await _authQueryExecutor.RequestCredentialsAsync(parameters, request).ConfigureAwait(false);
 
             var oAuthToken = twitterResult.RawResult.GetURLParameter("oauth_token");
             var oAuthTokenSecret = twitterResult.RawResult.GetURLParameter("oauth_token_secret");
@@ -98,14 +98,14 @@ namespace Tweetinvi.Controllers.Auth
             };
         }
 
-        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerTokenAsync(IInvalidateBearerTokenParameters parameters, ITwitterRequest request)
         {
-            return _authQueryExecutor.InvalidateBearerToken(parameters, request);
+            return _authQueryExecutor.InvalidateBearerTokenAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessTokenAsync(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)
         {
-            return _authQueryExecutor.InvalidateAccessToken(parameters, request);
+            return _authQueryExecutor.InvalidateAccessTokenAsync(parameters, request);
         }
     }
 }

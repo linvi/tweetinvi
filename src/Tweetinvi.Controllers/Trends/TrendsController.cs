@@ -16,19 +16,19 @@ namespace Tweetinvi.Controllers.Trends
         }
 
 
-        public Task<ITwitterResult<IGetTrendsAtResult[]>> GetPlaceTrendsAt(IGetTrendsAtParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IGetTrendsAtResult[]>> GetPlaceTrendsAtAsync(IGetTrendsAtParameters parameters, ITwitterRequest request)
         {
-            return _trendsQueryExecutor.GetPlaceTrendsAt(parameters, request);
+            return _trendsQueryExecutor.GetPlaceTrendsAtAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITrendLocation[]>> GetTrendLocations(IGetTrendsLocationParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITrendLocation[]>> GetTrendLocationsAsync(IGetTrendsLocationParameters parameters, ITwitterRequest request)
         {
-            return _trendsQueryExecutor.GetTrendLocations(parameters, request);
+            return _trendsQueryExecutor.GetTrendLocationsAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<ITrendLocation[]>> GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITrendLocation[]>> GetTrendsLocationCloseToAsync(IGetTrendsLocationCloseToParameters parameters, ITwitterRequest request)
         {
-            return _trendsQueryExecutor.GetTrendsLocationCloseTo(parameters, request);
+            return _trendsQueryExecutor.GetTrendsLocationCloseToAsync(parameters, request);
         }
     }
 }

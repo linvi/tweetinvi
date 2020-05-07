@@ -13,7 +13,7 @@ namespace Tweetinvi.AspNet.Core.Logic
     {
         CrcResponseTokenInfo CreateCrcResponseToken(string message, string secret);
         bool IsCrcChallenge(IWebhooksRequestInfoRetriever request);
-        Task<bool> IsRequestManagedByTweetinvi(IWebhooksRequest request);
+        Task<bool> IsRequestManagedByTweetinviAsync(IWebhooksRequest request);
     }
 
     public class WebhooksHelper : IWebhooksHelper
@@ -25,7 +25,7 @@ namespace Tweetinvi.AspNet.Core.Logic
             _jObjectStaticWrapper = jObjectStaticWrapper;
         }
 
-        public async Task<bool> IsRequestManagedByTweetinvi(IWebhooksRequest request)
+        public async Task<bool> IsRequestManagedByTweetinviAsync(IWebhooksRequest request)
         {
             var isRequestComingFromTwitter = IsRequestComingFromTwitter(request);
             if (!isRequestComingFromTwitter)
@@ -33,7 +33,7 @@ namespace Tweetinvi.AspNet.Core.Logic
                 return false;
             }
 
-            var body = await request.GetJsonFromBody().ConfigureAwait(false);
+            var body = await request.GetJsonFromBodyAsync().ConfigureAwait(false);
 
             if (body != null)
             {

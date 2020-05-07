@@ -27,32 +27,32 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Send a Tweet
         /// </summary>
-        Task<ITweet> PublishTweet(string text);
+        Task<ITweet> PublishTweetAsync(string text);
 
         /// <summary>
         /// Send a Tweet
         /// </summary>
-        Task<ITweet> PublishTweet(IPublishTweetParameters parameters);
+        Task<ITweet> PublishTweetAsync(IPublishTweetParameters parameters);
 
         #endregion
 
         /// <summary>
         /// Get list of recent messages
         /// </summary>
-        Task<IMessage[]> GetLatestMessages();
+        Task<IMessage[]> GetLatestMessagesAsync();
 
         /// <summary>
         /// Publish a message.
         /// </summary>
-        Task<IMessage> PublishMessage(IPublishMessageParameters publishMessageParameters);
+        Task<IMessage> PublishMessageAsync(IPublishMessageParameters publishMessageParameters);
 
         #region Timeline
 
         /// <inheritdoc cref="ITimelinesClient.GetHomeTimeline()"/>
-        Task<ITweet[]> GetHomeTimeline();
+        Task<ITweet[]> GetHomeTimelineAsync();
 
         /// <inheritdoc cref="ITimelinesClient.GetMentionsTimeline()"/>
-        Task<ITweet[]> GetMentionsTimeline();
+        Task<ITweet[]> GetMentionsTimelineAsync();
 
         #endregion
 
@@ -61,193 +61,193 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Modify the friendship between the authenticated user (source) and another user (target).
         /// </summary>
-        Task UpdateRelationship(IUpdateRelationshipParameters parameters);
+        Task UpdateRelationshipAsync(IUpdateRelationshipParameters parameters);
 
         // Friends - Followers
 
         /// <summary>
         /// Get the user ids who requested to follow you.
         /// </summary>
-        Task<long[]> GetUserIdsRequestingFriendship();
+        Task<long[]> GetUserIdsRequestingFriendshipAsync();
 
         /// <summary>
         /// Get the users who requested to follow you.
         /// </summary>
-        Task<IUser[]> GetUsersRequestingFriendship();
+        Task<IUser[]> GetUsersRequestingFriendshipAsync();
 
         /// <summary>
         /// Get the user ids you've requested to follow.
         /// </summary>
-        Task<long[]> GetUserIdsYouRequestedToFollow();
+        Task<long[]> GetUserIdsYouRequestedToFollowAsync();
 
         /// <summary>
         /// Get the users you've requested to follow.
         /// </summary>
-        Task<IUser[]> GetUsersYouRequestedToFollow();
+        Task<IUser[]> GetUsersYouRequestedToFollowAsync();
 
         /// <summary>
         /// Follow a specific user.
         /// </summary>
-        Task FollowUser(IUserIdentifier user);
+        Task FollowUserAsync(IUserIdentifier user);
 
         /// <summary>
         /// Follow a specific user.
         /// </summary>
-        Task FollowUser(long userId);
+        Task FollowUserAsync(long userId);
 
         /// <summary>
         /// Follow a specific user.
         /// </summary>
-        Task FollowUser(string screenName);
+        Task FollowUserAsync(string screenName);
 
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        Task UnfollowUser(IUserIdentifier user);
+        Task UnfollowUserAsync(IUserIdentifier user);
 
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        Task UnfollowUser(long userId);
+        Task UnfollowUserAsync(long userId);
 
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        Task UnfollowUser(string username);
+        Task UnfollowUserAsync(string username);
 
         // Saved Searches
 
         /// <summary>
         /// Get the authenticated user saved searches.
         /// </summary>
-        Task<ISavedSearch[]> ListSavedSearches();
+        Task<ISavedSearch[]> ListSavedSearchesAsync();
 
         // Block
 
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        Task BlockUser(IUserIdentifier user);
+        Task BlockUserAsync(IUserIdentifier user);
 
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        Task BlockUser(long userId);
+        Task BlockUserAsync(long userId);
 
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        Task BlockUser(string username);
+        Task BlockUserAsync(string username);
 
         // Unblock
 
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        Task UnblockUser(IUserIdentifier user);
+        Task UnblockUserAsync(IUserIdentifier user);
 
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        Task UnblockUser(long userId);
+        Task UnblockUserAsync(long userId);
 
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        Task UnblockUser(string username);
+        Task UnblockUserAsync(string username);
 
         /// <summary>
         /// Get the ids of the user you blocked.
         /// </summary>
-        Task<long[]> GetBlockedUserIds();
+        Task<long[]> GetBlockedUserIdsAsync();
 
         /// <summary>
         /// Retrieve the users blocked by the current user.
         /// </summary>
-        Task<IUser[]> GetBlockedUsers();
+        Task<IUser[]> GetBlockedUsersAsync();
 
         // Spam
 
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        Task ReportUserForSpam(IUserIdentifier user);
+        Task ReportUserForSpamAsync(IUserIdentifier user);
 
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        Task ReportUserForSpam(long userId);
+        Task ReportUserForSpamAsync(long userId);
 
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        Task ReportUserForSpam(string userName);
+        Task ReportUserForSpamAsync(string userName);
 
         // Mute
 
         /// <summary>
         /// Get a list of the users you've muted.
         /// </summary>
-        Task<long[]> GetMutedUserIds();
+        Task<long[]> GetMutedUserIdsAsync();
 
         /// <summary>
         /// Get a list of the users you've muted.
         /// </summary>
-        Task<IUser[]> GetMutedUsers();
+        Task<IUser[]> GetMutedUsersAsync();
 
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        Task MuteUser(IUserIdentifier user);
+        Task MuteUserAsync(IUserIdentifier user);
 
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        Task MuteUser(long userId);
+        Task MuteUserAsync(long userId);
 
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        Task MuteUser(string username);
+        Task MuteUserAsync(string username);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task UnmuteUser(IUserIdentifier user);
+        Task UnmuteUserAsync(IUserIdentifier user);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task UnmuteUser(long userId);
+        Task UnmuteUserAsync(long userId);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task UnmuteUser(string username);
+        Task UnmuteUserAsync(string username);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        Task<ITwitterList> SubscribeToList(ITwitterListIdentifier list);
+        Task<ITwitterList> SubscribeToListAsync(ITwitterListIdentifier list);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        Task<ITwitterList> SubscribeToList(long listId);
+        Task<ITwitterList> SubscribeToListAsync(long listId);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        Task<ITwitterList> UnsubscribeFromList(ITwitterListIdentifier list);
+        Task<ITwitterList> UnsubscribeFromListAsync(ITwitterListIdentifier list);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        Task<ITwitterList> UnsubscribeFromList(long listId);
+        Task<ITwitterList> UnsubscribeFromListAsync(long listId);
 
         /// <summary>
         /// Modify the authenticated account settings.
         /// </summary>
-        Task<IAccountSettings> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters);
+        Task<IAccountSettings> UpdateAccountSettingsAsync(IUpdateAccountSettingsParameters parameters);
     }
 }

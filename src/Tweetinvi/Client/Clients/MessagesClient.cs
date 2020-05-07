@@ -25,42 +25,42 @@ namespace Tweetinvi.Client
             _messageRequester = messageRequester;
         }
 
-        public Task<IMessage> PublishMessage(string text, IUserIdentifier recipient)
+        public Task<IMessage> PublishMessageAsync(string text, IUserIdentifier recipient)
         {
-            return PublishMessage(new PublishMessageParameters(text, recipient.Id));
+            return PublishMessageAsync(new PublishMessageParameters(text, recipient.Id));
         }
 
-        public Task<IMessage> PublishMessage(string text, long recipientId)
+        public Task<IMessage> PublishMessageAsync(string text, long recipientId)
         {
-            return PublishMessage(new PublishMessageParameters(text, recipientId));
+            return PublishMessageAsync(new PublishMessageParameters(text, recipientId));
         }
 
-        public async Task<IMessage> PublishMessage(IPublishMessageParameters parameters)
+        public async Task<IMessage> PublishMessageAsync(IPublishMessageParameters parameters)
         {
-            var twitterResult = await _messageRequester.PublishMessage(parameters).ConfigureAwait(false);
+            var twitterResult = await _messageRequester.PublishMessageAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateMessage(twitterResult?.DataTransferObject);
         }
 
-        public Task<IMessage> GetMessage(long messageId)
+        public Task<IMessage> GetMessageAsync(long messageId)
         {
-            return GetMessage(new GetMessageParameters(messageId));
+            return GetMessageAsync(new GetMessageParameters(messageId));
         }
 
-        public async Task<IMessage> GetMessage(IGetMessageParameters parameters)
+        public async Task<IMessage> GetMessageAsync(IGetMessageParameters parameters)
         {
-            var twitterResult = await _messageRequester.GetMessage(parameters).ConfigureAwait(false);
+            var twitterResult = await _messageRequester.GetMessageAsync(parameters).ConfigureAwait(false);
             return _client.Factories.CreateMessage(twitterResult?.DataTransferObject);
         }
 
-        public Task<IMessage[]> GetMessages()
+        public Task<IMessage[]> GetMessagesAsync()
         {
-            return GetMessages(new GetMessagesParameters());
+            return GetMessagesAsync(new GetMessagesParameters());
         }
 
-        public async Task<IMessage[]> GetMessages(IGetMessagesParameters parameters)
+        public async Task<IMessage[]> GetMessagesAsync(IGetMessagesParameters parameters)
         {
             var iterator = GetMessagesIterator(parameters);
-            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<IMessage> GetMessagesIterator()
@@ -96,19 +96,19 @@ namespace Tweetinvi.Client
                 });
         }
 
-        public Task DestroyMessage(long messageId)
+        public Task DestroyMessageAsync(long messageId)
         {
-            return DestroyMessage(new DestroyMessageParameters(messageId));
+            return DestroyMessageAsync(new DestroyMessageParameters(messageId));
         }
 
-        public Task DestroyMessage(IMessage message)
+        public Task DestroyMessageAsync(IMessage message)
         {
-            return DestroyMessage(new DestroyMessageParameters(message));
+            return DestroyMessageAsync(new DestroyMessageParameters(message));
         }
 
-        public Task DestroyMessage(IDeleteMessageParameters parameters)
+        public Task DestroyMessageAsync(IDeleteMessageParameters parameters)
         {
-            return _messageRequester.DestroyMessage(parameters);
+            return _messageRequester.DestroyMessageAsync(parameters);
         }
     }
 }

@@ -10,33 +10,33 @@ namespace Tweetinvi.Controllers.Tweet
 {
     public interface ITweetQueryExecutor
     {
-        Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<ITweetDTO[]>> GetTweets(IGetTweetsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> GetTweetAsync(IGetTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetTweetsAsync(IGetTweetsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> PublishTweetAsync(IPublishTweetParameters parameters, ITwitterRequest request);
 
 
         // Publish Retweet
-        Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> PublishRetweetAsync(IPublishRetweetParameters parameters, ITwitterRequest request);
 
         // UnRetweet
-        Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> DestroyRetweetAsync(IDestroyRetweetParameters parameters, ITwitterRequest request);
 
         // Get Retweets
-        Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetRetweetsAsync(IGetRetweetsParameters parameters, ITwitterRequest request);
 
         //Get Retweeters Ids
-        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIds(IGetRetweeterIdsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIdsAsync(IGetRetweeterIdsParameters parameters, ITwitterRequest request);
 
         // Destroy Tweet
-        Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> DestroyTweetAsync(IDestroyTweetParameters parameters, ITwitterRequest request);
 
         // Favorite Tweet
-        Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> FavoriteTweetAsync(IFavoriteTweetParameters parameters, ITwitterRequest request);
 
-        Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweets(IGetUserFavoriteTweetsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> UnfavoriteTweetAsync(IUnfavoriteTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweetsAsync(IGetUserFavoriteTweetsParameters parameters, ITwitterRequest request);
 
-        Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweetAsync(IGetOEmbedTweetParameters parameters, ITwitterRequest request);
     }
 
     public class TweetQueryExecutor : ITweetQueryExecutor
@@ -52,108 +52,108 @@ namespace Tweetinvi.Controllers.Tweet
             _twitterAccessor = twitterAccessor;
         }
 
-        public Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> GetTweetAsync(IGetTweetParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetTweetQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO>(request);
         }
 
-        public Task<ITwitterResult<ITweetDTO[]>> GetTweets(IGetTweetsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetTweetsAsync(IGetTweetsParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetTweetsQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
         }
 
-        public Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> PublishTweetAsync(IPublishTweetParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetPublishTweetQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO>(request);
         }
 
         // Publish Retweet
-        public Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetRetweetsAsync(IGetRetweetsParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetRetweetsQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
         }
 
-        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> PublishRetweetAsync(IPublishRetweetParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetPublishRetweetQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO>(request);
         }
 
         // Publish UnRetweet
-        public Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> DestroyRetweetAsync(IDestroyRetweetParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetDestroyRetweetQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO>(request);
         }
 
         #region Get Retweeters IDs
 
-        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIds(IGetRetweeterIdsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIdsAsync(IGetRetweeterIdsParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetRetweeterIdsQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IIdsCursorQueryResultDTO>(request);
         }
 
         #endregion
 
         // Destroy Tweet
-        public Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> DestroyTweetAsync(IDestroyTweetParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetDestroyTweetQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO>(request);
         }
 
         // Favourite Tweet
-        public Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweets(IGetUserFavoriteTweetsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweetsAsync(IGetUserFavoriteTweetsParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetFavoriteTweetsQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
         }
 
-        public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweetAsync(IGetOEmbedTweetParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetOEmbedTweetQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<IOEmbedTweetDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<IOEmbedTweetDTO>(request);
         }
 
-        public Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> FavoriteTweetAsync(IFavoriteTweetParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetCreateFavoriteTweetQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO>(request);
         }
 
-        public Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> UnfavoriteTweetAsync(IUnfavoriteTweetParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetUnfavoriteTweetQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<ITweetDTO>(request);
         }
     }
 }

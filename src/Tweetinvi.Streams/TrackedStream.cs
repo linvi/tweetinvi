@@ -88,7 +88,7 @@ namespace Tweetinvi.Streams
                 }
             }
 
-            await _streamResultGenerator.StartStream(onJsonReceived, createTwitterRequest).ConfigureAwait(false);
+            await _streamResultGenerator.StartStreamAsync(onJsonReceived, createTwitterRequest).ConfigureAwait(false);
         }
 
         protected void RaiseJsonObjectReceived(string json)

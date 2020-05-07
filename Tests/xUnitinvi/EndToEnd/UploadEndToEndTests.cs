@@ -15,7 +15,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task UploadVideo()
+        public async Task UploadVideoAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -26,15 +26,15 @@ namespace xUnitinvi.EndToEnd
             var videoBinary = await httpClient.GetByteArrayAsync("https://github.com/linvi/tweetinvi.issues/raw/master/sample_video.mp4");
             _logger.WriteLine("Video downloaded");
 
-            var uploadedVideo = await _tweetinviTestClient.Upload.UploadTweetVideo(videoBinary);
-            await _tweetinviTestClient.Upload.WaitForMediaProcessingToGetAllMetadata(uploadedVideo);
+            var uploadedVideo = await _tweetinviTestClient.Upload.UploadTweetVideoAsync(videoBinary);
+            await _tweetinviTestClient.Upload.WaitForMediaProcessingToGetAllMetadataAsync(uploadedVideo);
 
-            var tweet = await _tweetinviTestClient.Tweets.PublishTweet(new PublishTweetParameters("superb video...")
+            var tweet = await _tweetinviTestClient.Tweets.PublishTweetAsync(new PublishTweetParameters("superb video...")
             {
                 Medias = {uploadedVideo}
             });
 
-            await tweet.Destroy();
+            await tweet.DestroyAsync();
 
             Assert.Equal(tweet.Media.Count, 1);
         }

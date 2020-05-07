@@ -85,6 +85,6 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Destroy the message.
         /// </summary>
-        Task Destroy();
+        Task DestroyAsync();
     }
 }

@@ -49,7 +49,7 @@ namespace Tweetinvi.AspNet
         }
 
         private string _body;
-        public Task<string> GetJsonFromBody()
+        public Task<string> GetJsonFromBodyAsync()
         {
             if (_body != null)
             {

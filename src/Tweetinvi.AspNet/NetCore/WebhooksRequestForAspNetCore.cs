@@ -22,7 +22,7 @@ namespace Tweetinvi.AspNet
         private string _body;
 
 #pragma warning disable 1998
-        public async Task<string> GetJsonFromBody()
+        public async Task<string> GetJsonFromBodyAsync()
 #pragma warning restore 1998
         {
             if (_body == "")

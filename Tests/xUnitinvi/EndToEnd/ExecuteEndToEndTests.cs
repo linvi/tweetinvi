@@ -15,12 +15,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task ExecuteRequestReturningTwitterResult()
+        public async Task ExecuteRequestReturningTwitterResultAsync()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var twitterResult = await _tweetinviTestClient.Execute.Request(request =>
+            var twitterResult = await _tweetinviTestClient.Execute.RequestAsync(request =>
             {
                 request.Url = "https://api.twitter.com/1.1/account/verify_credentials.json";
                 request.HttpMethod = HttpMethod.GET;
@@ -28,7 +28,7 @@ namespace xUnitinvi.EndToEnd
 
             var userFromJson = _tweetinviTestClient.Json.Deserialize<IUserDTO>(twitterResult.RawResult);
 
-            var userTwitterResult = await _tweetinviTestClient.Execute.Request<IUserDTO>(request =>
+            var userTwitterResult = await _tweetinviTestClient.Execute.RequestAsync<IUserDTO>(request =>
             {
                 request.Url = "https://api.twitter.com/1.1/account/verify_credentials.json";
                 request.HttpMethod = HttpMethod.GET;

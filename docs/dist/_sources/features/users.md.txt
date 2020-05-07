@@ -3,11 +3,11 @@
 ## Get a user
 
 ``` c#
-var tweetinviUser = await client.Users.GetUser("tweetinviapi");
-var tweetinviUser = await client.Users.GetUser(1577389800);
+var tweetinviUser = await client.Users.GetUserAsync("tweetinviapi");
+var tweetinviUser = await client.Users.GetUserAsync(1577389800);
 
 // You can aslo get multiple users at once
-var users = await client.Users.GetUsers(new long[]{ 42, 1577389800 });
+var users = await client.Users.GetUsersAsync(new long[]{ 42, 1577389800 });
 ```
 
 ## Get the authenticated user
@@ -15,7 +15,7 @@ var users = await client.Users.GetUsers(new long[]{ 42, 1577389800 });
 Get the user associated with the client's credentials. This user has additional fields and methods.
 
 ``` c#
-var authenticatedUser = await client.Users.GetAuthenticatedUser();
+var authenticatedUser = await client.Users.GetAuthenticatedUserAsync();
 ```
 
 ## Block
@@ -25,14 +25,14 @@ var authenticatedUser = await client.Users.GetAuthenticatedUser();
 [Learn more](https://help.twitter.com/en/using-twitter/blocking-and-unblocking-accounts)
 
 ``` c#
-await client.Users.BlockUser(userId);
-await client.Users.UnblockUser(userId);
+await client.Users.BlockUserAsync(userId);
+await client.Users.UnblockUserAsync(userId);
 ```
 
 <div class="iterator-available">
 
 ``` c#
-var blockedUserIds = await client.Users.GetBlockedUserIds();
+var blockedUserIds = await client.Users.GetBlockedUserIdsAsync();
 // or
 var blockedUserIdsIterator = client.Users.GetBlockedUserIdsIterator();
 ```
@@ -40,7 +40,7 @@ var blockedUserIdsIterator = client.Users.GetBlockedUserIdsIterator();
 <div class="iterator-available">
 
 ``` c#
-var blockedUsers = await client.Users.GetBlockedUsers();
+var blockedUsers = await client.Users.GetBlockedUsersAsync();
 // or
 var blockedUsersIterator = client.Users.GetBlockedUsersIterator();
 ```
@@ -54,14 +54,14 @@ var blockedUsersIterator = client.Users.GetBlockedUsersIterator();
 [Learn more](https://help.twitter.com/en/using-twitter/twitter-mute)
 
 ``` c#
-await client.Users.MuteUser(userId);
-await client.Users.UnmuteUser(userId);
+await client.Users.MuteUserAsync(userId);
+await client.Users.UnmuteUserAsync(userId);
 ```
 
 <div class="iterator-available">
 
 ``` c#
-var mutedUserIds = await client.Users.GetMutedUserIds();
+var mutedUserIds = await client.Users.GetMutedUserIdsAsync();
 // or
 var mutedUserIdsIterator = client.Users.GetMutedUserIdsIterator();
 ```
@@ -70,7 +70,7 @@ var mutedUserIdsIterator = client.Users.GetMutedUserIdsIterator();
 <div class="iterator-available">
 
 ``` c#
-var mutedUsers = await client.Users.GetMutedUsers();
+var mutedUsers = await client.Users.GetMutedUsersAsync();
 // or
 var mutedUsersIterator = client.Users.GetMutedUsersIterator();
 ```
@@ -80,7 +80,7 @@ var mutedUsersIterator = client.Users.GetMutedUsersIterator();
 You can also list the users whose retweets are muted.
 
 ``` c#
-var usersWhoseRetweetsAreMuted = await client.Users.GetUserIdsWhoseRetweetsAreMuted();
+var usersWhoseRetweetsAreMuted = await client.Users.GetUserIdsWhoseRetweetsAreMutedAsync();
 ```
 
 ## Report
@@ -90,5 +90,5 @@ var usersWhoseRetweetsAreMuted = await client.Users.GetUserIdsWhoseRetweetsAreMu
 [Learn more](https://developer.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-users-report_spam)
 
 ``` c#
-await client.Users.ReportUserForSpam("");
+await client.Users.ReportUserForSpamAsync("");
 ```

@@ -238,7 +238,7 @@ namespace Tweetinvi.WebLogic
             return GenerateHeader(uri, httpMethod, queryParameters, urlParameters);
         }
 
-        public async Task<string> GenerateAuthorizationHeader(
+        public async Task<string> GenerateAuthorizationHeaderAsync(
             Uri uri,
             HttpContent queryContent,
             HttpMethod httpMethod,
@@ -258,7 +258,7 @@ namespace Tweetinvi.WebLogic
             return GenerateHeader(uri, httpMethod, queryParameters, urlParameters);
         }
 
-        public async Task<string> SetTwitterQueryAuthorizationHeader(ITwitterQuery twitterQuery)
+        public async Task<string> SetTwitterQueryAuthorizationHeaderAsync(ITwitterQuery twitterQuery)
         {
             var credentials = twitterQuery.TwitterCredentials;
 
@@ -269,7 +269,7 @@ namespace Tweetinvi.WebLogic
 
                 if (twitterQuery.HttpContent != null && twitterQuery.IsHttpContentPartOfQueryParams)
                 {
-                    twitterQuery.AuthorizationHeader = await GenerateAuthorizationHeader(uri, twitterQuery.HttpContent, twitterQuery.HttpMethod, credentialsParameters).ConfigureAwait(false);
+                    twitterQuery.AuthorizationHeader = await GenerateAuthorizationHeaderAsync(uri, twitterQuery.HttpContent, twitterQuery.HttpMethod, credentialsParameters).ConfigureAwait(false);
                 }
                 else
                 {

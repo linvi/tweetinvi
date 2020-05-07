@@ -9,7 +9,7 @@ namespace Tweetinvi.Controllers.Upload
 {
     public interface IUploadMediaStatusQueryExecutor
     {
-        Task<ITwitterResult<IUploadedMediaInfo>> GetMediaStatus(IMedia media, ITwitterRequest request);
+        Task<ITwitterResult<IUploadedMediaInfo>> GetMediaStatusAsync(IMedia media, ITwitterRequest request);
     }
 
     public class UploadMediaStatusQueryExecutor : IUploadMediaStatusQueryExecutor
@@ -21,7 +21,7 @@ namespace Tweetinvi.Controllers.Upload
             _twitterAccessor = twitterAccessor;
         }
 
-        public async Task<ITwitterResult<IUploadedMediaInfo>> GetMediaStatus(IMedia media, ITwitterRequest request)
+        public async Task<ITwitterResult<IUploadedMediaInfo>> GetMediaStatusAsync(IMedia media, ITwitterRequest request)
         {
             if (!media.HasBeenUploaded)
             {
@@ -35,10 +35,10 @@ namespace Tweetinvi.Controllers.Upload
 
             request.Query.Url = $"https://upload.twitter.com/1.1/media/upload.json?command=STATUS&media_id={media.Id}";
             request.Query.HttpMethod = HttpMethod.GET;
-            
-            return await _twitterAccessor.ExecuteRequest<IUploadedMediaInfo>(request).ConfigureAwait(false);
+
+            return await _twitterAccessor.ExecuteRequestAsync<IUploadedMediaInfo>(request).ConfigureAwait(false);
         }
 
-        
+
     }
 }

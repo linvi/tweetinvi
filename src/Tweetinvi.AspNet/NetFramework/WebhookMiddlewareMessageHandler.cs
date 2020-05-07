@@ -21,9 +21,9 @@ namespace Tweetinvi.AspNet
         {
             var requestHandler = new WebhooksRequestHandlerForWebApi(request);
 
-            if (await _accountActivityRequestHandler.IsRequestManagedByTweetinvi(requestHandler).ConfigureAwait(false))
+            if (await _accountActivityRequestHandler.IsRequestManagedByTweetinviAsync(requestHandler).ConfigureAwait(false))
             {
-                var routeHandled = await _accountActivityRequestHandler.TryRouteRequest(requestHandler).ConfigureAwait(false);
+                var routeHandled = await _accountActivityRequestHandler.TryRouteRequestAsync(requestHandler).ConfigureAwait(false);
                 if (routeHandled)
                 {
                     var response = requestHandler.GetHttpResponseMessage();

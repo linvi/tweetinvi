@@ -185,17 +185,17 @@
 <p>Tweetinvi offers a simple approach to calling the Twitter api directly.<br />Tweetinvi will take care of setting up the headers for you, you take care of the query!</p>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">homeTimelineResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">Request</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">homeTimelineResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
     <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/1.1/statuses/home_timeline.json&quot;</span><span class="p">;</span>
     <span class="n">request</span><span class="p">.</span><span class="n">HttpMethod</span> <span class="p">=</span> <span class="n">HttpMethod</span><span class="p">.</span><span class="n">GET</span><span class="p">;</span>
 <span class="p">});</span>
 
-<span class="kt">var</span> <span class="n">jsonResponse</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">RawResult</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">jsonResponse</span> <span class="p">=</span> <span class="n">homeTimelineResult</span><span class="p">.</span><span class="n">RawResult</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>You can also get objects.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">Request</span><span class="p">&lt;</span><span class="n">TweetDTO</span><span class="p">[]&gt;(</span><span class="n">request</span> <span class="p">=&gt;</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">&lt;</span><span class="n">TweetDTO</span><span class="p">[]&gt;(</span><span class="n">request</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
     <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/1.1/statuses/home_timeline.json&quot;</span><span class="p">;</span>
     <span class="n">request</span><span class="p">.</span><span class="n">HttpMethod</span> <span class="p">=</span> <span class="n">HttpMethod</span><span class="p">.</span><span class="n">GET</span><span class="p">;</span>
@@ -218,7 +218,7 @@
 <span class="kt">var</span> <span class="n">password</span> <span class="p">=</span> <span class="s">&quot;Your password&quot;</span><span class="p">;</span>
 <span class="kt">var</span> <span class="n">basicAuthContent</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToBase64String</span><span class="p">(</span><span class="n">ASCIIEncoding</span><span class="p">.</span><span class="n">ASCII</span><span class="p">.</span><span class="n">GetBytes</span><span class="p">(</span><span class="n">username</span> <span class="p">+</span> <span class="s">&quot;:&quot;</span> <span class="p">+</span> <span class="n">password</span><span class="p">));</span>
 
-<span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">Request</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
+<span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
     <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://....&quot;</span><span class="p">;</span>
     <span class="n">request</span><span class="p">.</span><span class="n">CustomHeaders</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&quot;Authorization&quot;</span><span class="p">,</span> <span class="s">&quot;Basic &quot;</span> <span class="p">+</span> <span class="n">basicAuthContent</span><span class="p">);</span>

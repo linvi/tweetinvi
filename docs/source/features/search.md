@@ -5,7 +5,7 @@
 <div class="iterator-available">
 
 ``` c#
-var users = await client.Search.SearchUsers("tweetinvi");
+var users = await client.Search.SearchUsersAsync("tweetinvi");
 
 // or
 
@@ -37,7 +37,7 @@ User search paging of Twitter API does not behave the same as other Twitter API 
 <div class="iterator-available">
 
 ``` c#
-var tweets = await client.Search.SearchTweets("hello");
+var tweets = await client.Search.SearchTweetsAsync("hello");
 
 //or
 

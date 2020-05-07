@@ -186,7 +186,7 @@
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// get labs api response</span>
-<span class="kt">var</span> <span class="n">getTweetResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">Request</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
+<span class="kt">var</span> <span class="n">getTweetResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
     <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/labs/2/tweets/1138505981460193280?expansions=attachments.media_keys&amp;tweet.fields=created_at&quot;</span><span class="p">;</span>
 <span class="p">});</span>

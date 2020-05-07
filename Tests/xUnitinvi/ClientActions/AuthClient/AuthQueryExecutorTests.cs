@@ -33,7 +33,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task CreateBearerToken_ReturnsBearerToken()
+        public async Task CreateBearerToken_ReturnsBearerTokenAsync()
         {
             // Arrange
             var queryExecutor = CreateAuthQueryExecutor();
@@ -45,11 +45,11 @@ namespace xUnitinvi.ClientActions.AuthClient
             var parameters = A.Fake<ICreateBearerTokenParameters>();
 
             A.CallTo(() => _fakeAuthQueryGenerator.GetCreateBearerTokenQuery(parameters)).Returns(url);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<CreateTokenResponseDTO>(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<CreateTokenResponseDTO>(request)).Returns(expectedResult);
             A.CallTo(() => _fakeOAuthWebRequestGeneratorFactory.Create(request)).Returns(oAuthWebRequestGenerator);
 
             // Act
-            var result = await queryExecutor.CreateBearerToken(parameters, request);
+            var result = await queryExecutor.CreateBearerTokenAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -59,7 +59,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task RequestAuthUrl_ReturnsFromTwitterAccessor()
+        public async Task RequestAuthUrl_ReturnsFromTwitterAccessorAsync()
         {
             // Arrange
             var queryExecutor = CreateAuthQueryExecutor();
@@ -74,11 +74,11 @@ namespace xUnitinvi.ClientActions.AuthClient
             A.CallTo(() => oAuthWebRequestGenerator.GenerateParameter("oauth_callback", It.IsAny<string>(), true, true, false)).Returns(oAuthQueryParams);
 
             A.CallTo(() => _fakeAuthQueryGenerator.GetRequestAuthUrlQuery(parameters)).Returns(url);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync(request)).Returns(expectedResult);
             A.CallTo(() => _fakeOAuthWebRequestGeneratorFactory.Create(request)).Returns(oAuthWebRequestGenerator);
 
             // Act
-            var result = await queryExecutor.RequestAuthUrl(parameters, request);
+            var result = await queryExecutor.RequestAuthUrlAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -88,7 +88,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task RequestCredentials_ReturnsFromTwitterAccessor()
+        public async Task RequestCredentials_ReturnsFromTwitterAccessorAsync()
         {
             // Arrange
             var queryExecutor = CreateAuthQueryExecutor();
@@ -103,11 +103,11 @@ namespace xUnitinvi.ClientActions.AuthClient
             A.CallTo(() => oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", It.IsAny<string>(), true, true, false)).Returns(oAuthQueryParams);
 
             A.CallTo(() => _fakeAuthQueryGenerator.GetRequestCredentialsQuery(parameters)).Returns(url);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync(request)).Returns(expectedResult);
             A.CallTo(() => _fakeOAuthWebRequestGeneratorFactory.Create(request)).Returns(oAuthWebRequestGenerator);
 
             // Act
-            var result = await queryExecutor.RequestCredentials(parameters, request);
+            var result = await queryExecutor.RequestCredentialsAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -117,7 +117,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task InvalidateBearerToken_ReturnsFromTwitterAccessor()
+        public async Task InvalidateBearerToken_ReturnsFromTwitterAccessorAsync()
         {
             // Arrange
             var queryExecutor = CreateAuthQueryExecutor();
@@ -128,10 +128,10 @@ namespace xUnitinvi.ClientActions.AuthClient
             var parameters = A.Fake<IInvalidateBearerTokenParameters>();
 
             A.CallTo(() => _fakeAuthQueryGenerator.GetInvalidateBearerTokenQuery(parameters)).Returns(url);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<InvalidateTokenResponse>(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<InvalidateTokenResponse>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.InvalidateBearerToken(parameters, request);
+            var result = await queryExecutor.InvalidateBearerTokenAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -141,7 +141,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task InvalidateAccessToken_ReturnsFromTwitterAccessor()
+        public async Task InvalidateAccessToken_ReturnsFromTwitterAccessorAsync()
         {
             // Arrange
             var queryExecutor = CreateAuthQueryExecutor();
@@ -152,10 +152,10 @@ namespace xUnitinvi.ClientActions.AuthClient
             var parameters = A.Fake<IInvalidateAccessTokenParameters>();
 
             A.CallTo(() => _fakeAuthQueryGenerator.GetInvalidateAccessTokenQuery(parameters)).Returns(url);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<InvalidateTokenResponse>(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<InvalidateTokenResponse>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.InvalidateAccessToken(parameters, request);
+            var result = await queryExecutor.InvalidateAccessTokenAsync(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

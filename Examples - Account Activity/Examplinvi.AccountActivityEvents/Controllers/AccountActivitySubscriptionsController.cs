@@ -16,20 +16,20 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             _accountActivityClient = accountActivityClient;
         }
 
-        public async Task<IWebhookSubscription[]> GetWebhookSubscriptions(string environment)
+        public async Task<IWebhookSubscription[]> GetWebhookSubscriptionsAsync(string environment)
         {
-            var webhookEnvironments = await _accountActivityClient.AccountActivity.GetAccountActivitySubscriptions(environment);
+            var webhookEnvironments = await _accountActivityClient.AccountActivity.GetAccountActivitySubscriptionsAsync(environment);
             return webhookEnvironments.Subscriptions;
         }
 
-        public async Task<bool> SubscribeToAccountActivity(string environment, long userId)
+        public async Task<bool> SubscribeToAccountActivityAsync(string environment, long userId)
         {
-            var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentials(userId);
+            var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentialsAsync(userId);
             var client = new TwitterClient(userCredentials);
 
             try
             {
-                await client.AccountActivity.SubscribeToAccountActivity(environment);
+                await client.AccountActivity.SubscribeToAccountActivityAsync(environment);
                 return true;
             }
             catch (TwitterException e)
@@ -45,11 +45,11 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             }
         }
 
-        public async Task<bool> UnsubscribeFromAccountActivity(string environment, long userId)
+        public async Task<bool> UnsubscribeFromAccountActivityAsync(string environment, long userId)
         {
             try
             {
-                await _accountActivityClient.AccountActivity.UnsubscribeFromAccountActivity(environment, userId);
+                await _accountActivityClient.AccountActivity.UnsubscribeFromAccountActivityAsync(environment, userId);
                 return true;
             }
             catch (TwitterException e)
