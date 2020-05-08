@@ -11,10 +11,10 @@ namespace Tweetinvi.Client
         /// </summary>
         Task InitializeRateLimitsManagerAsync();
 
-        /// <inheritdoc cref="GetRateLimits(IGetRateLimitsParameters)" />
+        /// <inheritdoc cref="IRateLimitsClient.GetRateLimitsAsync(IGetRateLimitsParameters)" />
         Task<ICredentialsRateLimits> GetRateLimitsAsync();
 
-        /// <inheritdoc cref="GetRateLimits(IGetRateLimitsParameters)" />
+        /// <inheritdoc cref="IRateLimitsClient.GetRateLimitsAsync(IGetRateLimitsParameters)" />
         Task<ICredentialsRateLimits> GetRateLimitsAsync(RateLimitsSource from);
 
         /// <summary>
@@ -24,10 +24,10 @@ namespace Tweetinvi.Client
         /// <returns>The client's rate limits</returns>
         Task<ICredentialsRateLimits> GetRateLimitsAsync(IGetRateLimitsParameters parameters);
 
-        /// <inheritdoc cref="GetEndpointRateLimit(IGetEndpointRateLimitsParameters)"/>
+        /// <inheritdoc cref="IRateLimitsClient.GetEndpointRateLimitAsync(IGetEndpointRateLimitsParameters)"/>
         Task<IEndpointRateLimit> GetEndpointRateLimitAsync(string url);
 
-        /// <inheritdoc cref="GetEndpointRateLimit(IGetEndpointRateLimitsParameters)"/>
+        /// <inheritdoc cref="IRateLimitsClient.GetEndpointRateLimitAsync(IGetEndpointRateLimitsParameters)"/>
         Task<IEndpointRateLimit> GetEndpointRateLimitAsync(string url, RateLimitsSource from);
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Tweetinvi.Client
         /// <returns>The endpoint's rate limits, or null if the endpoint is not support by Tweetinvi</returns>
         Task<IEndpointRateLimit> GetEndpointRateLimitAsync(IGetEndpointRateLimitsParameters parameters);
 
-        /// <inheritdoc cref="WaitForQueryRateLimit(IEndpointRateLimit)" />
+        /// <inheritdoc cref="IRateLimitsClient.WaitForQueryRateLimitAsync(IEndpointRateLimit)" />
         Task WaitForQueryRateLimitAsync(string url);
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace Tweetinvi.Client
 
         #region AuthenticatedUser
 
-        /// <inheritdoc cref="GetAuthenticatedUser(IGetAuthenticatedUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetAuthenticatedUserAsync(IGetAuthenticatedUserParameters)" />
         Task<IAuthenticatedUser> GetAuthenticatedUserAsync();
 
         /// <summary>
@@ -31,11 +31,11 @@ namespace Tweetinvi.Client
 
         #region Get User
 
-        /// <inheritdoc cref="GetUser(IGetUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUserAsync(IGetUserParameters)" />
         Task<IUser> GetUserAsync(long userId);
-        /// <inheritdoc cref="GetUser(IGetUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUserAsync(IGetUserParameters)" />
         Task<IUser> GetUserAsync(string username);
-        /// <inheritdoc cref="GetUser(IGetUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUserAsync(IGetUserParameters)" />
         Task<IUser> GetUserAsync(IUserIdentifier userIdentifier);
 
         /// <summary>
@@ -49,11 +49,11 @@ namespace Tweetinvi.Client
 
         #region GetUsers
 
-        /// <inheritdoc cref="GetUsers(IGetUsersParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUsersAsync(IGetUsersParameters)" />
         Task<IUser[]> GetUsersAsync(IEnumerable<long> userIds);
-        /// <inheritdoc cref="GetUsers(IGetUsersParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUsersAsync(IGetUsersParameters)" />
         Task<IUser[]> GetUsersAsync(IEnumerable<string> usernames);
-        /// <inheritdoc cref="GetUsers(IGetUsersParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUsersAsync(IGetUsersParameters)" />
         Task<IUser[]> GetUsersAsync(IEnumerable<IUserIdentifier> userIdentifiers);
 
         /// <summary>
@@ -67,11 +67,11 @@ namespace Tweetinvi.Client
 
         #region GetFriendIds / Friends
 
-        /// <inheritdoc cref="GetFriendIds(IGetFriendIdsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFriendIdsAsync(IGetFriendIdsParameters)" />
         Task<long[]> GetFriendIdsAsync(string username);
-        /// <inheritdoc cref="GetFriendIds(IGetFriendIdsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFriendIdsAsync(IGetFriendIdsParameters)" />
         Task<long[]> GetFriendIdsAsync(long userId);
-        /// <inheritdoc cref="GetFriendIds(IGetFriendIdsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFriendIdsAsync(IGetFriendIdsParameters)" />
         Task<long[]> GetFriendIdsAsync(IUserIdentifier user);
 
         /// <summary>
@@ -95,11 +95,11 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list a user's friend ids</returns>
         ITwitterIterator<long> GetFriendIdsIterator(IGetFriendIdsParameters parameters);
 
-        /// <inheritdoc cref="GetFriends(IGetFriendsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFriendsAsync(IGetFriendsParameters)" />
         Task<IUser[]> GetFriendsAsync(long userId);
-        /// <inheritdoc cref="GetFriends(IGetFriendsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFriendsAsync(IGetFriendsParameters)" />
         Task<IUser[]> GetFriendsAsync(string username);
-        /// <inheritdoc cref="GetFriends(IGetFriendsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFriendsAsync(IGetFriendsParameters)" />
         Task<IUser[]> GetFriendsAsync(IUserIdentifier user);
 
         /// <summary>
@@ -120,11 +120,11 @@ namespace Tweetinvi.Client
 
         #region GetFollowerIds / Followers
 
-        /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFollowerIdsAsync(IGetFollowerIdsParameters)" />
         Task<long[]> GetFollowerIdsAsync(long userId);
-        /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFollowerIdsAsync(IGetFollowerIdsParameters)" />
         Task<long[]> GetFollowerIdsAsync(string username);
-        /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFollowerIdsAsync(IGetFollowerIdsParameters)" />
         Task<long[]> GetFollowerIdsAsync(IUserIdentifier user);
 
         /// <summary>
@@ -148,11 +148,11 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list a user's follower ids'</returns>
         ITwitterIterator<long> GetFollowerIdsIterator(IGetFollowerIdsParameters parameters);
 
-        /// <inheritdoc cref="GetFollowers(IGetFollowersParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFollowersAsync(IGetFollowersParameters)" />
         Task<IUser[]> GetFollowersAsync(long userId);
-        /// <inheritdoc cref="GetFollowers(IGetFollowersParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFollowersAsync(IGetFollowersParameters)" />
         Task<IUser[]> GetFollowersAsync(string username);
-        /// <inheritdoc cref="GetFollowers(IGetFollowersParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetFollowersAsync(IGetFollowersParameters)" />
         Task<IUser[]> GetFollowersAsync(IUserIdentifier user);
 
         /// <summary>
@@ -173,23 +173,23 @@ namespace Tweetinvi.Client
 
         #region Relationship between users
 
-        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetweenAsync(long sourceUserId, long targetUserId);
-        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetweenAsync(long sourceUserId, string targetUsername);
-        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetweenAsync(long sourceUserId, IUserIdentifier targetUser);
-        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetweenAsync(string sourceUsername, long targetUserId);
-        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetweenAsync(string sourceUsername, string targetUsername);
-        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetweenAsync(string sourceUsername, IUserIdentifier targetUser);
-        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetweenAsync(IUserIdentifier sourceUser, long targetUserId);
-        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetweenAsync(IUserIdentifier sourceUser, string targetUsername);
-        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetweenAsync(IUserIdentifier sourceUser, IUserIdentifier targetUser);
 
         /// <summary>
@@ -203,13 +203,13 @@ namespace Tweetinvi.Client
 
         #region Block / Unblock
 
-        /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.BlockUserAsync(IBlockUserParameters)" />
         Task<IUser> BlockUserAsync(long userId);
 
-        /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.BlockUserAsync(IBlockUserParameters)" />
         Task<IUser> BlockUserAsync(string username);
 
-        /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.BlockUserAsync(IBlockUserParameters)" />
         Task<IUser> BlockUserAsync(IUserIdentifier user);
 
         /// <summary>
@@ -218,13 +218,13 @@ namespace Tweetinvi.Client
         /// </summary>
         Task<IUser> BlockUserAsync(IBlockUserParameters parameters);
 
-        /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.UnblockUserAsync(IUnblockUserParameters)" />
         Task<IUser> UnblockUserAsync(long userId);
 
-        /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.UnblockUserAsync(IUnblockUserParameters)" />
         Task<IUser> UnblockUserAsync(string username);
 
-        /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.UnblockUserAsync(IUnblockUserParameters)" />
         Task<IUser> UnblockUserAsync(IUserIdentifier user);
 
         /// <summary>
@@ -233,13 +233,13 @@ namespace Tweetinvi.Client
         /// </summary>
         Task<IUser> UnblockUserAsync(IUnblockUserParameters parameters);
 
-        /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
+        /// <inheritdoc cref="IUsersClient.ReportUserForSpamAsync(IReportUserForSpamParameters)" />
         Task<IUser> ReportUserForSpamAsync(long userId);
 
-        /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
+        /// <inheritdoc cref="IUsersClient.ReportUserForSpamAsync(IReportUserForSpamParameters)" />
         Task<IUser> ReportUserForSpamAsync(string username);
 
-        /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
+        /// <inheritdoc cref="IUsersClient.ReportUserForSpamAsync(IReportUserForSpamParameters)" />
         Task<IUser> ReportUserForSpamAsync(IUserIdentifier user);
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Tweetinvi.Client
         /// </summary>
         Task<IUser> ReportUserForSpamAsync(IReportUserForSpamParameters parameters);
 
-        /// <inheritdoc cref="GetBlockedUserIds(IGetBlockedUserIdsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetBlockedUserIdsAsync(IGetBlockedUserIdsParameters)" />
         Task<long[]> GetBlockedUserIdsAsync();
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the blocked users</returns>
         ITwitterIterator<long> GetBlockedUserIdsIterator(IGetBlockedUserIdsParameters parameters);
 
-        /// <inheritdoc cref="GetBlockedUsers(IGetBlockedUsersParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetBlockedUsersAsync(IGetBlockedUsersParameters)" />
         Task<IUser[]> GetBlockedUsersAsync();
 
         /// <summary>
@@ -292,13 +292,13 @@ namespace Tweetinvi.Client
 
         #region Follow / Unfollow
 
-        /// <inheritdoc cref="FollowUser(IFollowUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.FollowUserAsync(IFollowUserParameters)" />
         Task<IUser> FollowUserAsync(long userId);
 
-        /// <inheritdoc cref="FollowUser(IFollowUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.FollowUserAsync(IFollowUserParameters)" />
         Task<IUser> FollowUserAsync(string username);
 
-        /// <inheritdoc cref="FollowUser(IFollowUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.FollowUserAsync(IFollowUserParameters)" />
         Task<IUser> FollowUserAsync(IUserIdentifier user);
 
         /// <summary>
@@ -307,13 +307,13 @@ namespace Tweetinvi.Client
         /// </summary>
         Task<IUser> FollowUserAsync(IFollowUserParameters parameters);
 
-        /// <inheritdoc cref="UnfollowUser(IUnfollowUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.UnfollowUserAsync(IUnfollowUserParameters)" />
         Task<IUser> UnfollowUserAsync(long userId);
 
-        /// <inheritdoc cref="UnfollowUser(IUnfollowUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.UnfollowUserAsync(IUnfollowUserParameters)" />
         Task<IUser> UnfollowUserAsync(string username);
 
-        /// <inheritdoc cref="UnfollowUser(IUnfollowUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.UnfollowUserAsync(IUnfollowUserParameters)" />
         Task<IUser> UnfollowUserAsync(IUserIdentifier user);
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace Tweetinvi.Client
 
         #region Follower Requests
 
-        /// <inheritdoc cref="GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUserIdsRequestingFriendshipAsync(IGetUserIdsRequestingFriendshipParameters)" />
         Task<long[]> GetUserIdsRequestingFriendshipAsync();
 
         /// <summary>
@@ -348,7 +348,7 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the user ids who requested to follow the client's account</returns>
         ITwitterIterator<long> GetUserIdsRequestingFriendshipIterator(IGetUserIdsRequestingFriendshipParameters parameters);
 
-        /// <inheritdoc cref="GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUsersRequestingFriendshipAsync(IGetUsersRequestingFriendshipParameters)" />
         Task<IUser[]> GetUsersRequestingFriendshipAsync();
 
         /// <summary>
@@ -370,7 +370,7 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the users who requested to follow the client's account</returns>
         IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendshipIterator(IGetUsersRequestingFriendshipParameters parameters);
 
-        /// <inheritdoc cref="GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUserIdsYouRequestedToFollowAsync(IGetUserIdsYouRequestedToFollowParameters)" />
         Task<long[]> GetUserIdsYouRequestedToFollowAsync();
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the user ids the client's account requested to follow</returns>
         ITwitterIterator<long> GetUserIdsYouRequestedToFollowIterator(IGetUserIdsYouRequestedToFollowParameters parameters);
 
-        /// <inheritdoc cref="GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUsersYouRequestedToFollowAsync(IGetUsersYouRequestedToFollowParameters)" />
         Task<IUser[]> GetUsersYouRequestedToFollowAsync();
 
         /// <summary>
@@ -425,13 +425,13 @@ namespace Tweetinvi.Client
         /// <returns>Returns whether the update operation was successful.</returns>
         Task UpdateRelationshipAsync(IUpdateRelationshipParameters parameters);
 
-        /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipsWithAsync(IGetRelationshipsWithParameters)" />
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWithAsync(long[] userIds);
-        /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipsWithAsync(IGetRelationshipsWithParameters)" />
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWithAsync(string[] usernames);
-        /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipsWithAsync(IGetRelationshipsWithParameters)" />
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWithAsync(IUserIdentifier[] users);
-        /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetRelationshipsWithAsync(IGetRelationshipsWithParameters)" />
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWithAsync(IUser[] users);
 
         /// <summary>
@@ -445,7 +445,7 @@ namespace Tweetinvi.Client
 
         #region Muted
 
-        /// <inheritdoc cref="GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetUserIdsWhoseRetweetsAreMutedAsync(IGetUserIdsWhoseRetweetsAreMutedParameters)" />
         Task<long[]> GetUserIdsWhoseRetweetsAreMutedAsync();
 
         /// <summary>
@@ -455,7 +455,7 @@ namespace Tweetinvi.Client
         /// <returns>Returns a list of user ids for whom the retweets are muted</returns>
         Task<long[]> GetUserIdsWhoseRetweetsAreMutedAsync(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
 
-        /// <inheritdoc cref="GetMutedUserIds(IGetMutedUserIdsParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetMutedUserIdsAsync(IGetMutedUserIdsParameters)" />
         Task<long[]> GetMutedUserIdsAsync();
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the user ids muted by the client's account</returns>
         ITwitterIterator<long> GetMutedUserIdsIterator(IGetMutedUserIdsParameters parameters);
 
-        /// <inheritdoc cref="GetMutedUsers(IGetMutedUsersParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetMutedUsersAsync(IGetMutedUsersParameters)" />
         Task<IUser[]> GetMutedUsersAsync();
 
         /// <summary>
@@ -495,11 +495,11 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the users muted by the client's account</returns>
         ITwitterIterator<IUser> GetMutedUsersIterator(IGetMutedUsersParameters parameters);
 
-        /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.MuteUserAsync(IMuteUserParameters)" />
         Task<IUser> MuteUserAsync(long userId);
-        /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.MuteUserAsync(IMuteUserParameters)" />
         Task<IUser> MuteUserAsync(string username);
-        /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.MuteUserAsync(IMuteUserParameters)" />
         Task<IUser> MuteUserAsync(IUserIdentifier user);
 
         /// <summary>
@@ -508,11 +508,11 @@ namespace Tweetinvi.Client
         /// </summary>
         Task<IUser> MuteUserAsync(IMuteUserParameters parameters);
 
-        /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.UnmuteUserAsync(IUnmuteUserParameters)" />
         Task<IUser> UnmuteUserAsync(long userId);
-        /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.UnmuteUserAsync(IUnmuteUserParameters)" />
         Task<IUser> UnmuteUserAsync(string username);
-        /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
+        /// <inheritdoc cref="IUsersClient.UnmuteUserAsync(IUnmuteUserParameters)" />
         Task<IUser> UnmuteUserAsync(IUserIdentifier user);
 
         /// <summary>
@@ -525,13 +525,13 @@ namespace Tweetinvi.Client
 
         #region Profile Image
 
-        /// <inheritdoc cref="GetProfileImageStream(IGetProfileImageParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetProfileImageStreamAsync(IGetProfileImageParameters)" />
         Task<System.IO.Stream> GetProfileImageStream(string url);
 
-        /// <inheritdoc cref="GetProfileImageStream(IGetProfileImageParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetProfileImageStreamAsync(IGetProfileImageParameters)" />
         Task<System.IO.Stream> GetProfileImageStream(IUser user);
 
-        /// <inheritdoc cref="GetProfileImageStream(IGetProfileImageParameters)" />
+        /// <inheritdoc cref="IUsersClient.GetProfileImageStreamAsync(IGetProfileImageParameters)" />
         Task<System.IO.Stream> GetProfileImageStream(IUserDTO user);
 
         /// <summary>

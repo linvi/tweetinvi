@@ -12,7 +12,7 @@ namespace Tweetinvi.Client
         /// </summary>
         ITrendsClientParametersValidator ParametersValidator { get; }
 
-        /// <inheritdoc cref="GetPlaceTrendsAt(IGetTrendsAtParameters)"/>
+        /// <inheritdoc cref="ITrendsClient.GetPlaceTrendsAtAsync(IGetTrendsAtParameters)"/>
         Task<IGetTrendsAtResult> GetPlaceTrendsAtAsync(long woeid);
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Tweetinvi.Client
         /// <returns>Trending topics</returns>
         Task<IGetTrendsAtResult> GetPlaceTrendsAtAsync(IGetTrendsAtParameters parameters);
 
-        /// <inheritdoc cref="GetTrendLocations(IGetTrendsLocationParameters)"/>
+        /// <inheritdoc cref="ITrendsClient.GetTrendLocationsAsync(IGetTrendsLocationParameters)"/>
         Task<ITrendLocation[]> GetTrendLocationsAsync();
 
         /// <summary>
@@ -32,9 +32,9 @@ namespace Tweetinvi.Client
         /// <returns>Trending locations</returns>
         Task<ITrendLocation[]> GetTrendLocationsAsync(IGetTrendsLocationParameters parameters);
 
-        /// <inheritdoc cref="GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters)"/>
+        /// <inheritdoc cref="ITrendsClient.GetTrendsLocationCloseToAsync(IGetTrendsLocationCloseToParameters)"/>
         Task<ITrendLocation[]> GetTrendsLocationCloseToAsync(double latitude, double longitude);
-        /// <inheritdoc cref="GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters)"/>
+        /// <inheritdoc cref="ITrendsClient.GetTrendsLocationCloseToAsync(IGetTrendsLocationCloseToParameters)"/>
         Task<ITrendLocation[]> GetTrendsLocationCloseToAsync(ICoordinates coordinates);
 
         /// <summary>

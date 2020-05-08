@@ -7,10 +7,10 @@ namespace Tweetinvi.Client
 {
     public interface IMessagesClient
     {
-        /// <inheritdoc cref="PublishMessage(IPublishMessageParameters)" />
+        /// <inheritdoc cref="IMessagesClient.PublishMessageAsync(IPublishMessageParameters)" />
         Task<IMessage> PublishMessageAsync(string text, IUserIdentifier recipient);
 
-        /// <inheritdoc cref="PublishMessage(IPublishMessageParameters)" />
+        /// <inheritdoc cref="IMessagesClient.PublishMessageAsync(IPublishMessageParameters)" />
         Task<IMessage> PublishMessageAsync(string text, long recipientId);
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Tweetinvi.Client
         /// <returns>Message published</returns>
         Task<IMessage> PublishMessageAsync(IPublishMessageParameters parameters);
 
-        /// <inheritdoc cref="GetMessage(IGetMessageParameters)" />
+        /// <inheritdoc cref="IMessagesClient.GetMessageAsync(IGetMessageParameters)" />
         Task<IMessage> GetMessageAsync(long messageId);
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Tweetinvi.Client
         /// <returns>Requested message</returns>
         Task<IMessage> GetMessageAsync(IGetMessageParameters parameters);
 
-        /// <inheritdoc cref="GetMessages(IGetMessagesParameters)" />
+        /// <inheritdoc cref="IMessagesClient.GetMessagesAsync(IGetMessagesParameters)" />
         Task<IMessage[]> GetMessagesAsync();
 
         /// <summary>
@@ -50,9 +50,9 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the recent messages of the user</returns>
         ITwitterIterator<IMessage> GetMessagesIterator(IGetMessagesParameters parameters);
 
-        /// <inheritdoc cref="DestroyMessage(IDeleteMessageParameters)" />
+        /// <inheritdoc cref="IMessagesClient.DestroyMessageAsync(IDeleteMessageParameters)" />
         Task DestroyMessageAsync(long messageId);
-        /// <inheritdoc cref="DestroyMessage(IDeleteMessageParameters)" />
+        /// <inheritdoc cref="IMessagesClient.DestroyMessageAsync(IDeleteMessageParameters)" />
         Task DestroyMessageAsync(IMessage message);
 
         /// <summary>

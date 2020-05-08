@@ -8,10 +8,10 @@ namespace Tweetinvi.Client
 {
     public interface IListsClient
     {
-        /// <inheritdoc cref="CreateList(ICreateListParameters)"/>
+        /// <inheritdoc cref="IListsClient.CreateListAsync(ICreateListParameters)"/>
         Task<ITwitterList> CreateListAsync(string name);
 
-        /// <inheritdoc cref="CreateList(ICreateListParameters)"/>
+        /// <inheritdoc cref="IListsClient.CreateListAsync(ICreateListParameters)"/>
         Task<ITwitterList> CreateListAsync(string name, PrivacyMode privacyMode);
 
         /// <summary>
@@ -21,13 +21,13 @@ namespace Tweetinvi.Client
         /// <returns>Created list</returns>
         Task<ITwitterList> CreateListAsync(ICreateListParameters parameters);
 
-        /// <inheritdoc cref="GetList(IGetListParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListAsync(IGetListParameters)"/>
         Task<ITwitterList> GetListAsync(long listId);
 
-        /// <inheritdoc cref="GetList(IGetListParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListAsync(IGetListParameters)"/>
         Task<ITwitterList> GetListAsync(string slug, IUserIdentifier user);
 
-        /// <inheritdoc cref="GetList(IGetListParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListAsync(IGetListParameters)"/>
         Task<ITwitterList> GetListAsync(ITwitterListIdentifier listId);
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Tweetinvi.Client
         /// <returns>List requested</returns>
         Task<ITwitterList> GetListAsync(IGetListParameters parameters);
 
-        /// <inheritdoc cref="GetListsSubscribedByAccount(IGetListsSubscribedByAccountParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListsSubscribedByAccountAsync(IGetListsSubscribedByAccountParameters)"/>
         Task<ITwitterList[]> GetListsSubscribedByAccountAsync();
 
         /// <summary>
@@ -47,11 +47,11 @@ namespace Tweetinvi.Client
         /// <returns>Account user's lists</returns>
         Task<ITwitterList[]> GetListsSubscribedByAccountAsync(IGetListsSubscribedByAccountParameters parameters);
 
-        /// <inheritdoc cref="GetListsSubscribedByUser(IGetListsSubscribedByUserParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListsSubscribedByUserAsync(IGetListsSubscribedByUserParameters)"/>
         Task<ITwitterList[]> GetListsSubscribedByUserAsync(long userId);
-        /// <inheritdoc cref="GetListsSubscribedByUser(IGetListsSubscribedByUserParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListsSubscribedByUserAsync(IGetListsSubscribedByUserParameters)"/>
         Task<ITwitterList[]> GetListsSubscribedByUserAsync(string username);
-        /// <inheritdoc cref="GetListsSubscribedByUser(IGetListsSubscribedByUserParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListsSubscribedByUserAsync(IGetListsSubscribedByUserParameters)"/>
         Task<ITwitterList[]> GetListsSubscribedByUserAsync(IUserIdentifier user);
 
         /// <summary>
@@ -68,13 +68,13 @@ namespace Tweetinvi.Client
         /// <returns>Updated list</returns>
         Task<ITwitterList> UpdateListAsync(IUpdateListParameters parameters);
 
-        /// <inheritdoc cref="DestroyList(IDestroyListParameters)"/>
+        /// <inheritdoc cref="IListsClient.DestroyListAsync(IDestroyListParameters)"/>
         Task<ITwitterList> DestroyListAsync(long listId);
 
-        /// <inheritdoc cref="DestroyList(IDestroyListParameters)"/>
+        /// <inheritdoc cref="IListsClient.DestroyListAsync(IDestroyListParameters)"/>
         Task<ITwitterList> DestroyListAsync(string slug, IUserIdentifier user);
 
-        /// <inheritdoc cref="DestroyList(IDestroyListParameters)"/>
+        /// <inheritdoc cref="IListsClient.DestroyListAsync(IDestroyListParameters)"/>
         Task<ITwitterList> DestroyListAsync(ITwitterListIdentifier listId);
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Tweetinvi.Client
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-destroy </para>
         Task<ITwitterList> DestroyListAsync(IDestroyListParameters parameters);
 
-        /// <inheritdoc cref="GetListsOwnedByAccount(IGetListsOwnedByAccountParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListsOwnedByAccountAsync(IGetListsOwnedByAccountParameters)"/>
         Task<ITwitterList[]> GetListsOwnedByAccountAsync();
 
         /// <summary>
@@ -103,11 +103,11 @@ namespace Tweetinvi.Client
         /// <returns>An iterator over the lists owned by the account</returns>
         ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator(IGetListsOwnedByAccountParameters parameters);
 
-        /// <inheritdoc cref="GetListsOwnedByUser(IGetListsOwnedByUserParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListsOwnedByUserAsync(IGetListsOwnedByUserParameters)"/>
         Task<ITwitterList[]> GetListsOwnedByUserAsync(long userId);
-        /// <inheritdoc cref="GetListsOwnedByUser(IGetListsOwnedByUserParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListsOwnedByUserAsync(IGetListsOwnedByUserParameters)"/>
         Task<ITwitterList[]> GetListsOwnedByUserAsync(string username);
-        /// <inheritdoc cref="GetListsOwnedByUser(IGetListsOwnedByUserParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetListsOwnedByUserAsync(IGetListsOwnedByUserParameters)"/>
         Task<ITwitterList[]> GetListsOwnedByUserAsync(IUserIdentifier user);
 
         /// <summary>
@@ -135,13 +135,13 @@ namespace Tweetinvi.Client
         // MEMBERSHIP
         // ***********
 
-        /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
+        /// <inheritdoc cref="IListsClient.AddMemberToListAsync(IAddMemberToListParameters)"/>
         Task<ITwitterList> AddMemberToListAsync(long listId, long userId);
-        /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
+        /// <inheritdoc cref="IListsClient.AddMemberToListAsync(IAddMemberToListParameters)"/>
         Task<ITwitterList> AddMemberToListAsync(ITwitterListIdentifier list, long userId);
-        /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
+        /// <inheritdoc cref="IListsClient.AddMemberToListAsync(IAddMemberToListParameters)"/>
         Task<ITwitterList> AddMemberToListAsync(ITwitterListIdentifier list, string username);
-        /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
+        /// <inheritdoc cref="IListsClient.AddMemberToListAsync(IAddMemberToListParameters)"/>
         Task<ITwitterList> AddMemberToListAsync(ITwitterListIdentifier list, IUserIdentifier user);
 
         /// <summary>
@@ -150,17 +150,17 @@ namespace Tweetinvi.Client
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create </para>
         Task<ITwitterList> AddMemberToListAsync(IAddMemberToListParameters parameters);
 
-        /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
+        /// <inheritdoc cref="IListsClient.AddMembersToListAsync(IAddMembersToListParameters)"/>
         Task<ITwitterList> AddMembersToListAsync(long listId, IEnumerable<long> userIds);
-        /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
+        /// <inheritdoc cref="IListsClient.AddMembersToListAsync(IAddMembersToListParameters)"/>
         Task<ITwitterList> AddMembersToListAsync(long listId, IEnumerable<string> usernames);
-        /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
+        /// <inheritdoc cref="IListsClient.AddMembersToListAsync(IAddMembersToListParameters)"/>
         Task<ITwitterList> AddMembersToListAsync(long listId, IEnumerable<IUserIdentifier> users);
-        /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
+        /// <inheritdoc cref="IListsClient.AddMembersToListAsync(IAddMembersToListParameters)"/>
         Task<ITwitterList> AddMembersToListAsync(ITwitterListIdentifier list, IEnumerable<long> userIds);
-        /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
+        /// <inheritdoc cref="IListsClient.AddMembersToListAsync(IAddMembersToListParameters)"/>
         Task<ITwitterList> AddMembersToListAsync(ITwitterListIdentifier list, IEnumerable<string> usernames);
-        /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
+        /// <inheritdoc cref="IListsClient.AddMembersToListAsync(IAddMembersToListParameters)"/>
         Task<ITwitterList> AddMembersToListAsync(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Tweetinvi.Client
         /// </summary>
         Task<ITwitterList> AddMembersToListAsync(IAddMembersToListParameters parameters);
 
-        /// <inheritdoc cref="GetAccountListMemberships(IGetAccountListMembershipsParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetAccountListMembershipsAsync(IGetAccountListMembershipsParameters)"/>
         Task<ITwitterList[]> GetAccountListMembershipsAsync();
 
         /// <summary>
@@ -189,11 +189,11 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to retrieve all the lists the account is member of</returns>
         ITwitterIterator<ITwitterList> GetAccountListMembershipsIterator(IGetAccountListMembershipsParameters parameters);
 
-        /// <inheritdoc cref="GetUserListMemberships(IGetUserListMembershipsParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetUserListMembershipsAsync(IGetUserListMembershipsParameters)"/>
         Task<ITwitterList[]> GetUserListMembershipsAsync(long userId);
-        /// <inheritdoc cref="GetUserListMemberships(IGetUserListMembershipsParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetUserListMembershipsAsync(IGetUserListMembershipsParameters)"/>
         Task<ITwitterList[]> GetUserListMembershipsAsync(string username);
-        /// <inheritdoc cref="GetUserListMemberships(IGetUserListMembershipsParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetUserListMembershipsAsync(IGetUserListMembershipsParameters)"/>
         Task<ITwitterList[]> GetUserListMembershipsAsync(IUserIdentifier user);
 
         /// <summary>
@@ -217,9 +217,9 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to retrieve all the lists a user is member of</returns>
         ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(IGetUserListMembershipsParameters parameters);
 
-        /// <inheritdoc cref="GetMembersOfList(IGetMembersOfListParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetMembersOfListAsync(IGetMembersOfListParameters)"/>
         Task<IUser[]> GetMembersOfListAsync(long listId);
-        /// <inheritdoc cref="GetMembersOfList(IGetMembersOfListParameters)"/>
+        /// <inheritdoc cref="IListsClient.GetMembersOfListAsync(IGetMembersOfListParameters)"/>
         Task<IUser[]> GetMembersOfListAsync(ITwitterListIdentifier list);
 
         /// <summary>
@@ -241,18 +241,18 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the users members of the list</returns>
         ITwitterIterator<IUser> GetMembersOfListIterator(IGetMembersOfListParameters parameters);
 
-        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsMemberOfListAsync(ICheckIfUserIsMemberOfListParameters)"/>
         Task<bool> CheckIfUserIsMemberOfListAsync(long listId, long userId);
-        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsMemberOfListAsync(ICheckIfUserIsMemberOfListParameters)"/>
         Task<bool> CheckIfUserIsMemberOfListAsync(long listId, string username);
-        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsMemberOfListAsync(ICheckIfUserIsMemberOfListParameters)"/>
         Task<bool> CheckIfUserIsMemberOfListAsync(long listId, IUserIdentifier user);
 
-        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsMemberOfListAsync(ICheckIfUserIsMemberOfListParameters)"/>
         Task<bool> CheckIfUserIsMemberOfListAsync(ITwitterListIdentifier list, long userId);
-        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsMemberOfListAsync(ICheckIfUserIsMemberOfListParameters)"/>
         Task<bool> CheckIfUserIsMemberOfListAsync(ITwitterListIdentifier list, string username);
-        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsMemberOfListAsync(ICheckIfUserIsMemberOfListParameters)"/>
         Task<bool> CheckIfUserIsMemberOfListAsync(ITwitterListIdentifier list, IUserIdentifier user);
 
         /// <summary>
@@ -262,17 +262,17 @@ namespace Tweetinvi.Client
         /// <returns>Returns whether the user is a member of a list</returns>
         Task<bool> CheckIfUserIsMemberOfListAsync(ICheckIfUserIsMemberOfListParameters parameters);
 
-        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMemberFromListAsync(IRemoveMemberFromListParameters)"/>
         Task<ITwitterList> RemoveMemberFromListAsync(long listId, long userId);
-        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMemberFromListAsync(IRemoveMemberFromListParameters)"/>
         Task<ITwitterList> RemoveMemberFromListAsync(long listId, string username);
-        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMemberFromListAsync(IRemoveMemberFromListParameters)"/>
         Task<ITwitterList> RemoveMemberFromListAsync(long listId, IUserIdentifier user);
-        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMemberFromListAsync(IRemoveMemberFromListParameters)"/>
         Task<ITwitterList> RemoveMemberFromListAsync(ITwitterListIdentifier list, long userId);
-        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMemberFromListAsync(IRemoveMemberFromListParameters)"/>
         Task<ITwitterList> RemoveMemberFromListAsync(ITwitterListIdentifier list, string username);
-        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMemberFromListAsync(IRemoveMemberFromListParameters)"/>
         Task<ITwitterList> RemoveMemberFromListAsync(ITwitterListIdentifier list, IUserIdentifier user);
 
         /// <summary>
@@ -281,17 +281,17 @@ namespace Tweetinvi.Client
         /// </summary>
         Task<ITwitterList> RemoveMemberFromListAsync(IRemoveMemberFromListParameters parameters);
 
-        /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMembersFromListAsync(IRemoveMembersFromListParameters)"/>
         Task<ITwitterList> RemoveMembersFromListAsync(long listId, IEnumerable<long> userIds);
-        /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMembersFromListAsync(IRemoveMembersFromListParameters)"/>
         Task<ITwitterList> RemoveMembersFromListAsync(long listId, IEnumerable<string> usernames);
-        /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMembersFromListAsync(IRemoveMembersFromListParameters)"/>
         Task<ITwitterList> RemoveMembersFromListAsync(long listId, IEnumerable<IUserIdentifier> users);
-        /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMembersFromListAsync(IRemoveMembersFromListParameters)"/>
         Task<ITwitterList> RemoveMembersFromListAsync(ITwitterListIdentifier list, IEnumerable<long> userIds);
-        /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMembersFromListAsync(IRemoveMembersFromListParameters)"/>
         Task<ITwitterList> RemoveMembersFromListAsync(ITwitterListIdentifier list, IEnumerable<string> usernames);
-        /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
+        /// <inheritdoc cref="IListsClient.RemoveMembersFromListAsync(IRemoveMembersFromListParameters)"/>
         Task<ITwitterList> RemoveMembersFromListAsync(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
 
         /// <summary>
@@ -304,9 +304,9 @@ namespace Tweetinvi.Client
         // SUBSCRIBERS
         // ***********
 
-        /// <inheritdoc cref="SubscribeToList(ITwitterListIdentifier)" />
+        /// <inheritdoc cref="IListsClient.SubscribeToListAsync(ITwitterListIdentifier)" />
         Task<ITwitterList> SubscribeToListAsync(long listId);
-        /// <inheritdoc cref="SubscribeToList(ITwitterListIdentifier)" />
+        /// <inheritdoc cref="IListsClient.SubscribeToListAsync(ITwitterListIdentifier)" />
         Task<ITwitterList> SubscribeToListAsync(ITwitterListIdentifier list);
 
         /// <summary>
@@ -316,9 +316,9 @@ namespace Tweetinvi.Client
         /// <returns>The latest version of the list</returns>
         Task<ITwitterList> SubscribeToListAsync(ISubscribeToListParameters parameters);
 
-        /// <inheritdoc cref="UnsubscribeFromList(IUnsubscribeFromListParameters)" />
+        /// <inheritdoc cref="IListsClient.UnsubscribeFromListAsync(IUnsubscribeFromListParameters)" />
         Task<ITwitterList> UnsubscribeFromListAsync(long listId);
-        /// <inheritdoc cref="UnsubscribeFromList(IUnsubscribeFromListParameters)" />
+        /// <inheritdoc cref="IListsClient.UnsubscribeFromListAsync(IUnsubscribeFromListParameters)" />
         Task<ITwitterList> UnsubscribeFromListAsync(ITwitterListIdentifier list);
 
         /// <summary>
@@ -328,9 +328,9 @@ namespace Tweetinvi.Client
         /// <returns>The latest version of the list</returns>
         Task<ITwitterList> UnsubscribeFromListAsync(IUnsubscribeFromListParameters parameters);
 
-        /// <inheritdoc cref="GetListSubscribers(ITwitterListIdentifier)" />
+        /// <inheritdoc cref="IListsClient.GetListSubscribersAsync(ITwitterListIdentifier)" />
         Task<IUser[]> GetListSubscribersAsync(long listId);
-        /// <inheritdoc cref="GetListSubscribers(ITwitterListIdentifier)" />
+        /// <inheritdoc cref="IListsClient.GetListSubscribersAsync(ITwitterListIdentifier)" />
         Task<IUser[]> GetListSubscribersAsync(ITwitterListIdentifier list);
 
         /// <summary>
@@ -359,11 +359,11 @@ namespace Tweetinvi.Client
         /// <returns>An iterator the get though the lists the account subscribed to</returns>
         ITwitterIterator<ITwitterList> GetAccountListSubscriptionsIterator(IGetAccountListSubscriptionsParameters parameters);
 
-        /// <inheritdoc cref="GetUserListSubscriptions(IGetUserListSubscriptionsParameters)" />
+        /// <inheritdoc cref="IListsClient.GetUserListSubscriptionsAsync(IGetUserListSubscriptionsParameters)" />
         Task<ITwitterList[]> GetUserListSubscriptionsAsync(long userId);
-        /// <inheritdoc cref="GetUserListSubscriptions(IGetUserListSubscriptionsParameters)" />
+        /// <inheritdoc cref="IListsClient.GetUserListSubscriptionsAsync(IGetUserListSubscriptionsParameters)" />
         Task<ITwitterList[]> GetUserListSubscriptionsAsync(string username);
-        /// <inheritdoc cref="GetUserListSubscriptions(IGetUserListSubscriptionsParameters)" />
+        /// <inheritdoc cref="IListsClient.GetUserListSubscriptionsAsync(IGetUserListSubscriptionsParameters)" />
         Task<ITwitterList[]> GetUserListSubscriptionsAsync(IUserIdentifier user);
 
         /// <summary>
@@ -387,17 +387,17 @@ namespace Tweetinvi.Client
         /// <returns>An iterator the get though the lists a user subscribed to</returns>
         ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(IGetUserListSubscriptionsParameters parameters);
 
-        /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsSubscriberOfListAsync(ICheckIfUserIsSubscriberOfListParameters)" />
         Task<bool> CheckIfUserIsSubscriberOfListAsync(long listId, long userId);
-        /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsSubscriberOfListAsync(ICheckIfUserIsSubscriberOfListParameters)" />
         Task<bool> CheckIfUserIsSubscriberOfListAsync(long listId, string username);
-        /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsSubscriberOfListAsync(ICheckIfUserIsSubscriberOfListParameters)" />
         Task<bool> CheckIfUserIsSubscriberOfListAsync(long listId, IUserIdentifier user);
-        /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsSubscriberOfListAsync(ICheckIfUserIsSubscriberOfListParameters)" />
         Task<bool> CheckIfUserIsSubscriberOfListAsync(ITwitterListIdentifier list, long userId);
-        /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsSubscriberOfListAsync(ICheckIfUserIsSubscriberOfListParameters)" />
         Task<bool> CheckIfUserIsSubscriberOfListAsync(ITwitterListIdentifier list, string username);
-        /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
+        /// <inheritdoc cref="IListsClient.CheckIfUserIsSubscriberOfListAsync(ICheckIfUserIsSubscriberOfListParameters)" />
         Task<bool> CheckIfUserIsSubscriberOfListAsync(ITwitterListIdentifier list, IUserIdentifier user);
 
         /// <summary>
@@ -411,9 +411,9 @@ namespace Tweetinvi.Client
         // TWEETS
         // ***********
 
-        /// <inheritdoc cref="GetTweetsFromList(IGetTweetsFromListParameters)" />
+        /// <inheritdoc cref="IListsClient.GetTweetsFromListAsync(IGetTweetsFromListParameters)" />
         Task<ITweet[]> GetTweetsFromListAsync(long listId);
-        /// <inheritdoc cref="GetTweetsFromList(IGetTweetsFromListParameters)" />
+        /// <inheritdoc cref="IListsClient.GetTweetsFromListAsync(IGetTweetsFromListParameters)" />
         Task<ITweet[]> GetTweetsFromListAsync(ITwitterListIdentifier list);
 
         /// <summary>

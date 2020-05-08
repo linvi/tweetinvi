@@ -8,7 +8,7 @@ namespace Tweetinvi.Client
 {
     public interface IHelpClient
     {
-        /// <inheritdoc cref="GetTwitterConfiguration(IGetTwitterConfigurationParameters)"/>
+        /// <inheritdoc cref="IHelpClient.GetTwitterConfigurationAsync(IGetTwitterConfigurationParameters)"/>
         Task<ITwitterConfiguration> GetTwitterConfigurationAsync();
 
         /// <summary>
@@ -18,7 +18,7 @@ namespace Tweetinvi.Client
         /// <returns>Twitter official configuration</returns>
         Task<ITwitterConfiguration> GetTwitterConfigurationAsync(IGetTwitterConfigurationParameters parameters);
 
-        /// <inheritdoc cref="GetTwitterConfiguration(IGetTwitterConfigurationParameters)"/>
+        /// <inheritdoc cref="IHelpClient.GetTwitterConfigurationAsync(IGetTwitterConfigurationParameters)"/>
         Task<SupportedLanguage[]> GetSupportedLanguagesAsync();
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Tweetinvi.Client
         /// <returns>Twitter supported languages</returns>
         Task<SupportedLanguage[]> GetSupportedLanguagesAsync(IGetSupportedLanguagesParameters parameters);
 
-        /// <inheritdoc cref="GetPlace(IGetPlaceParameters)"/>
+        /// <inheritdoc cref="IHelpClient.GetPlaceAsync(IGetPlaceParameters)"/>
         Task<IPlace> GetPlaceAsync(string placeId);
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Tweetinvi.Client
         /// <returns>Places matching search</returns>
         Task<IPlace[]> SearchGeoAsync(IGeoSearchParameters parameters);
 
-        /// <inheritdoc cref="SearchGeoReverse(IGeoSearchReverseParameters)"/>
+        /// <inheritdoc cref="IHelpClient.SearchGeoReverseAsync(IGeoSearchReverseParameters)"/>
         Task<IPlace[]> SearchGeoReverseAsync(ICoordinates coordinates);
 
         /// <summary>

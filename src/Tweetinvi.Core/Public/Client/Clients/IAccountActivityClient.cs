@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO.Webhooks;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
@@ -16,7 +15,7 @@ namespace Tweetinvi.Client
         /// <returns>AccountActivity Request Handler</returns>
         IAccountActivityRequestHandler CreateRequestHandler();
 
-        /// <inheritdoc cref="CreateAccountActivityWebhook(ICreateAccountActivityWebhookParameters)" />
+        /// <inheritdoc cref="IAccountActivityClient.CreateAccountActivityWebhookAsync(ICreateAccountActivityWebhookParameters)" />
         Task<IWebhook> CreateAccountActivityWebhookAsync(string environment, string webhookUrl);
 
         /// <summary>
@@ -26,7 +25,7 @@ namespace Tweetinvi.Client
         /// <returns>The created webhook</returns>
         Task<IWebhook> CreateAccountActivityWebhookAsync(ICreateAccountActivityWebhookParameters parameters);
 
-        /// <inheritdoc cref="GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters)" />
+        /// <inheritdoc cref="IAccountActivityClient.GetAccountActivityWebhookEnvironmentsAsync(IGetAccountActivityWebhookEnvironmentsParameters)" />
         Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironmentsAsync();
 
         /// <summary>
@@ -36,7 +35,7 @@ namespace Tweetinvi.Client
         /// <returns>The account activity environments and their associated webhooks</returns>
         Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironmentsAsync(IGetAccountActivityWebhookEnvironmentsParameters parameters);
 
-        /// <inheritdoc cref="GetAccountActivityEnvironmentWebhooks(IGetAccountActivityEnvironmentWebhooksParameters)" />
+        /// <inheritdoc cref="IAccountActivityClient.GetAccountActivityEnvironmentWebhooksAsync(IGetAccountActivityEnvironmentWebhooksParameters)" />
         Task<IWebhook[]> GetAccountActivityEnvironmentWebhooksAsync(string environment);
 
         /// <summary>
@@ -46,7 +45,7 @@ namespace Tweetinvi.Client
         /// <returns>The account activity registered webhooks of a specific environment</returns>
         Task<IWebhook[]> GetAccountActivityEnvironmentWebhooksAsync(IGetAccountActivityEnvironmentWebhooksParameters parameters);
 
-        /// <inheritdoc cref="DeleteAccountActivityWebhook(IDeleteAccountActivityWebhookParameters)" />
+        /// <inheritdoc cref="IAccountActivityClient.DeleteAccountActivityWebhookAsync(IDeleteAccountActivityWebhookParameters)" />
         Task DeleteAccountActivityWebhookAsync(string environment, string webhookId);
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace Tweetinvi.Client
         /// </summary>
         Task DeleteAccountActivityWebhookAsync(IDeleteAccountActivityWebhookParameters parameters);
 
-        /// <inheritdoc cref="TriggerAccountActivityWebhookCRC(ITriggerAccountActivityWebhookCRCParameters)" />
+        /// <inheritdoc cref="IAccountActivityClient.TriggerAccountActivityWebhookCRCAsync(ITriggerAccountActivityWebhookCRCParameters)" />
         Task TriggerAccountActivityWebhookCRCAsync(string environment, string webhookId);
 
         /// <summary>
@@ -64,7 +63,7 @@ namespace Tweetinvi.Client
         /// </summary>
         Task TriggerAccountActivityWebhookCRCAsync(ITriggerAccountActivityWebhookCRCParameters parameters);
 
-        /// <inheritdoc cref="SubscribeToAccountActivity(ISubscribeToAccountActivityParameters)" />
+        /// <inheritdoc cref="IAccountActivityClient.SubscribeToAccountActivityAsync(ISubscribeToAccountActivityParameters)" />
         Task SubscribeToAccountActivityAsync(string environment);
 
         /// <summary>
@@ -73,7 +72,7 @@ namespace Tweetinvi.Client
         /// </summary>
         Task SubscribeToAccountActivityAsync(ISubscribeToAccountActivityParameters parameters);
 
-        /// <inheritdoc cref="CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters)" />
+        /// <inheritdoc cref="IAccountActivityClient.CountAccountActivitySubscriptionsAsync(ICountAccountActivitySubscriptionsParameters)" />
         Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptionsAsync();
 
         /// <summary>
@@ -83,7 +82,7 @@ namespace Tweetinvi.Client
         /// <returns>Count information</returns>
         Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptionsAsync(ICountAccountActivitySubscriptionsParameters parameters);
 
-        /// <inheritdoc cref="IsAccountSubscribedToAccountActivity(IIsAccountSubscribedToAccountActivityParameters)" />
+        /// <inheritdoc cref="IAccountActivityClient.IsAccountSubscribedToAccountActivityAsync(IIsAccountSubscribedToAccountActivityParameters)" />
         Task<bool> IsAccountSubscribedToAccountActivityAsync(string environment);
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace Tweetinvi.Client
         /// <returns>Whether the account is subscribed to the account activity environment</returns>
         Task<bool> IsAccountSubscribedToAccountActivityAsync(IIsAccountSubscribedToAccountActivityParameters parameters);
 
-        /// <inheritdoc cref="GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters)" />
+        /// <inheritdoc cref="IAccountActivityClient.GetAccountActivitySubscriptionsAsync(IGetAccountActivitySubscriptionsParameters)" />
         Task<IWebhookEnvironmentSubscriptions> GetAccountActivitySubscriptionsAsync(string environment);
 
         /// <summary>
@@ -103,7 +102,7 @@ namespace Tweetinvi.Client
         /// <returns>User subscriptions to account activities</returns>
         Task<IWebhookEnvironmentSubscriptions> GetAccountActivitySubscriptionsAsync(IGetAccountActivitySubscriptionsParameters parameters);
 
-        /// <inheritdoc cref="UnsubscribeFromAccountActivity(IUnsubscribeFromAccountActivityParameters)" />
+        /// <inheritdoc cref="IAccountActivityClient.UnsubscribeFromAccountActivityAsync(IUnsubscribeFromAccountActivityParameters)" />
         Task UnsubscribeFromAccountActivityAsync(string environment, long userId);
 
         /// <summary>

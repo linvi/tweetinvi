@@ -13,7 +13,7 @@ namespace Tweetinvi.Client
         /// </summary>
         ITimelineClientParametersValidator ParametersValidator { get; }
 
-        /// <inheritdoc cref="GetHomeTimeline(IGetHomeTimelineParameters)" />
+        /// <inheritdoc cref="ITimelinesClient.GetHomeTimelineAsync(IGetHomeTimelineParameters)" />
         Task<ITweet[]> GetHomeTimelineAsync();
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Tweetinvi.Client
         ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters);
 
 
-        /// <inheritdoc cref="GetMentionsTimeline(IGetMentionsTimelineParameters)" />
+        /// <inheritdoc cref="ITimelinesClient.GetMentionsTimelineAsync(IGetMentionsTimelineParameters)" />
         Task<ITweet[]> GetMentionsTimelineAsync();
 
         /// <summary>
@@ -65,13 +65,13 @@ namespace Tweetinvi.Client
         ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters);
 
 
-        /// <inheritdoc cref="GetUserTimeline(IGetUserTimelineParameters)" />
+        /// <inheritdoc cref="ITimelinesClient.GetUserTimelineAsync(IGetUserTimelineParameters)" />
         Task<ITweet[]> GetUserTimelineAsync(long userId);
 
-        /// <inheritdoc cref="GetUserTimeline(IGetUserTimelineParameters)" />
+        /// <inheritdoc cref="ITimelinesClient.GetUserTimelineAsync(IGetUserTimelineParameters)" />
         Task<ITweet[]> GetUserTimelineAsync(string username);
 
-        /// <inheritdoc cref="GetUserTimeline(IGetUserTimelineParameters)" />
+        /// <inheritdoc cref="ITimelinesClient.GetUserTimelineAsync(IGetUserTimelineParameters)" />
         Task<ITweet[]> GetUserTimelineAsync(IUserIdentifier user);
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Tweetinvi.Client
         ITwitterIterator<ITweet, long?> GetUserTimelineIterator(IGetUserTimelineParameters parameters);
 
 
-        /// <inheritdoc cref="GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters)" />
+        /// <inheritdoc cref="ITimelinesClient.GetRetweetsOfMeTimelineAsync(IGetRetweetsOfMeTimelineParameters)" />
         Task<ITweet[]> GetRetweetsOfMeTimelineAsync();
 
         /// <summary>

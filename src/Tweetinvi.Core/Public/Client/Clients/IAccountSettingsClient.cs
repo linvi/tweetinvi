@@ -15,7 +15,7 @@ namespace Tweetinvi.Client
         /// </summary>
         IAccountSettingsClientParametersValidator ParametersValidator { get; }
 
-        /// <inheritdoc cref="GetAccountSettings(IGetAccountSettingsParameters)" />
+        /// <inheritdoc cref="IAccountSettingsClient.GetAccountSettingsAsync(IGetAccountSettingsParameters)" />
         Task<IAccountSettings> GetAccountSettingsAsync();
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Tweetinvi.Client
         /// <returns>Updated profile</returns>
         Task<IAuthenticatedUser> UpdateProfileAsync(IUpdateProfileParameters parameters);
 
-        /// <inheritdoc cref="UpdateProfileImage(IUpdateProfileImageParameters)" />
+        /// <inheritdoc cref="IAccountSettingsClient.UpdateProfileImageAsync(IUpdateProfileImageParameters)" />
         Task<IUser> UpdateProfileImageAsync(byte[] binary);
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Tweetinvi.Client
         /// </summary>
         Task<IUser> UpdateProfileImageAsync(IUpdateProfileImageParameters parameters);
 
-        /// <inheritdoc cref="UpdateProfileBanner(IUpdateProfileBannerParameters)" />
+        /// <inheritdoc cref="IAccountSettingsClient.UpdateProfileBannerAsync(IUpdateProfileBannerParameters)" />
         Task UpdateProfileBannerAsync(byte[] binary);
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Tweetinvi.Client
         /// </summary>
         Task UpdateProfileBannerAsync(IUpdateProfileBannerParameters parameters);
 
-        /// <inheritdoc cref="RemoveProfileBanner(IRemoveProfileBannerParameters)" />
+        /// <inheritdoc cref="IAccountSettingsClient.RemoveProfileBannerAsync(IRemoveProfileBannerParameters)" />
         Task RemoveProfileBannerAsync();
 
         /// <summary>

@@ -11,10 +11,10 @@ namespace Tweetinvi.Client
     {
         ISearchClientParametersValidator ParametersValidator { get; }
 
-        /// <inheritdoc cref="SearchTweets(ISearchTweetsParameters)"/>
+        /// <inheritdoc cref="ISearchClient.SearchTweetsAsync(ISearchTweetsParameters)"/>
         Task<ITweet[]> SearchTweetsAsync(string query);
 
-        /// <inheritdoc cref="SearchTweetsWithMetadata(ISearchTweetsParameters)"/>
+        /// <inheritdoc cref="ISearchClient.SearchTweetsWithMetadataAsync(ISearchTweetsParameters)"/>
         Task<ITweet[]> SearchTweetsAsync(IGeoCode geoCode);
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Tweetinvi.Client
         /// <returns>Tweets matching the search</returns>
         Task<ITweet[]> SearchTweetsAsync(ISearchTweetsParameters parameters);
 
-        /// <inheritdoc cref="SearchTweetsWithMetadata(ISearchTweetsParameters)"/>
+        /// <inheritdoc cref="ISearchClient.SearchTweetsWithMetadataAsync(ISearchTweetsParameters)"/>
         Task<ISearchResults> SearchTweetsWithMetadataAsync(string query);
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Tweetinvi.Client
         /// <returns>Filtered set of tweets</returns>
         ITweet[] FilterTweets(ITweet[] tweets, OnlyGetTweetsThatAre? filter, bool tweetsMustContainGeoInformation);
 
-        /// <inheritdoc cref="SearchUsers(ISearchUsersParameters)"/>
+        /// <inheritdoc cref="ISearchClient.SearchUsersAsync(ISearchUsersParameters)"/>
         Task<IUser[]> SearchUsersAsync(string query);
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Tweetinvi.Client
         /// <returns>Iterator over the search results</returns>
         ITwitterIterator<IUser, int?> GetSearchUsersIterator(ISearchUsersParameters parameters);
 
-        /// <inheritdoc cref="CreateSavedSearch(ICreateSavedSearchParameters)"/>
+        /// <inheritdoc cref="ISearchClient.CreateSavedSearchAsync(ICreateSavedSearchParameters)"/>
         Task<ISavedSearch> CreateSavedSearchAsync(string query);
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Tweetinvi.Client
         /// <returns>Created saved search</returns>
         Task<ISavedSearch> CreateSavedSearchAsync(ICreateSavedSearchParameters parameters);
 
-        /// <inheritdoc cref="GetSavedSearch(IGetSavedSearchParameters)"/>
+        /// <inheritdoc cref="ISearchClient.GetSavedSearchAsync(IGetSavedSearchParameters)"/>
         Task<ISavedSearch> GetSavedSearchAsync(long savedSearchId);
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Tweetinvi.Client
         /// <returns>Requested saved search</returns>
         Task<ISavedSearch> GetSavedSearchAsync(IGetSavedSearchParameters parameters);
 
-        /// <inheritdoc cref="ListSavedSearches(Tweetinvi.Parameters.IListSavedSearchesParameters)"/>
+        /// <inheritdoc cref="ISearchClient.ListSavedSearchesAsync(Tweetinvi.Parameters.IListSavedSearchesParameters)"/>
         Task<ISavedSearch[]> ListSavedSearchesAsync();
 
         /// <summary>
@@ -103,10 +103,10 @@ namespace Tweetinvi.Client
         /// <returns>Account's saved searches</returns>
         Task<ISavedSearch[]> ListSavedSearchesAsync(IListSavedSearchesParameters parameters);
 
-        /// <inheritdoc cref="DestroySavedSearch(IDestroySavedSearchParameters)"/>
+        /// <inheritdoc cref="ISearchClient.DestroySavedSearchAsync(IDestroySavedSearchParameters)"/>
         Task<ISavedSearch> DestroySavedSearchAsync(long savedSearchId);
 
-        /// <inheritdoc cref="DestroySavedSearch(IDestroySavedSearchParameters)"/>
+        /// <inheritdoc cref="ISearchClient.DestroySavedSearchAsync(IDestroySavedSearchParameters)"/>
         Task<ISavedSearch> DestroySavedSearchAsync(ISavedSearch savedSearch);
 
         /// <summary>

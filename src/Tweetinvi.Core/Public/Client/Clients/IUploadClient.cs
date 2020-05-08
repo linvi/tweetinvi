@@ -7,7 +7,7 @@ namespace Tweetinvi.Client
 {
     public interface IUploadClient
     {
-        /// <inheritdoc cref="UploadBinary(IUploadParameters)" />
+        /// <inheritdoc cref="IUploadClient.UploadBinaryAsync(IUploadParameters)" />
         Task<IMedia> UploadBinaryAsync(byte[] binary);
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace Tweetinvi.Client
         /// <returns>Uploaded media</returns>
         Task<IMedia> UploadBinaryAsync(IUploadParameters parameters);
 
-        /// <inheritdoc cref="UploadTweetImage(IUploadTweetImageParameters)" />
+        /// <inheritdoc cref="IUploadClient.UploadTweetImageAsync(IUploadTweetImageParameters)" />
         Task<IMedia> UploadTweetImageAsync(byte[] binary);
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Tweetinvi.Client
         /// <returns>Uploaded media</returns>
         Task<IMedia> UploadTweetImageAsync(IUploadTweetImageParameters parameters);
 
-        /// <inheritdoc cref="UploadMessageImage(IUploadMessageImageParameters)" />
+        /// <inheritdoc cref="IUploadClient.UploadMessageImageAsync(IUploadMessageImageParameters)" />
         Task<IMedia> UploadMessageImageAsync(byte[] binary);
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Tweetinvi.Client
         /// <returns>Uploaded media</returns>
         Task<IMedia> UploadMessageImageAsync(IUploadMessageImageParameters parameters);
 
-        /// <inheritdoc cref="UploadTweetVideo(IUploadTweetVideoParameters)" />
+        /// <inheritdoc cref="IUploadClient.UploadTweetVideoAsync(IUploadTweetVideoParameters)" />
         Task<IMedia> UploadTweetVideoAsync(byte[] binary);
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Tweetinvi.Client
         /// <returns>Uploaded media</returns>
         Task<IMedia> UploadTweetVideoAsync(IUploadTweetVideoParameters parameters);
 
-        /// <inheritdoc cref="UploadMessageVideo(IUploadMessageVideoParameters)" />
+        /// <inheritdoc cref="IUploadClient.UploadMessageVideoAsync(IUploadMessageVideoParameters)" />
         Task<IMedia> UploadMessageVideoAsync(byte[] binary);
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Tweetinvi.Client
         /// <returns>Uploaded media</returns>
         Task<IMedia> UploadMessageVideoAsync(IUploadMessageVideoParameters parameters);
 
-        /// <inheritdoc cref="AddMediaMetadata(IAddMediaMetadataParameters)" />
+        /// <inheritdoc cref="IUploadClient.AddMediaMetadataAsync(IAddMediaMetadataParameters)" />
         Task AddMediaMetadataAsync(IMediaMetadata metadata);
 
         /// <summary>

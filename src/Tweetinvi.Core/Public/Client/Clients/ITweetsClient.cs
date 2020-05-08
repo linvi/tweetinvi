@@ -14,7 +14,7 @@ namespace Tweetinvi.Client
         /// </summary>
         ITweetsClientParametersValidator ParametersValidator { get; }
 
-        /// <inheritdoc cref="GetTweet(IGetTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetTweetAsync(IGetTweetParameters)" />
         Task<ITweet> GetTweetAsync(long tweetId);
 
         /// <summary>
@@ -24,9 +24,9 @@ namespace Tweetinvi.Client
         /// <returns>The tweet</returns>
         Task<ITweet> GetTweetAsync(IGetTweetParameters parameters);
 
-        /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetTweetsAsync(IGetTweetsParameters)" />
         Task<ITweet[]> GetTweetsAsync(long[] tweetIds);
-        /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetTweetsAsync(IGetTweetsParameters)" />
         Task<ITweet[]> GetTweetsAsync(ITweetIdentifier[] tweets);
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Tweetinvi.Client
         /// <returns>Requested tweets</returns>
         Task<ITweet[]> GetTweetsAsync(IGetTweetsParameters parameters);
 
-        /// <inheritdoc cref="PublishTweet(IPublishTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.PublishTweetAsync(IPublishTweetParameters)" />
         Task<ITweet> PublishTweetAsync(string text);
 
         /// <summary>
@@ -46,13 +46,13 @@ namespace Tweetinvi.Client
         /// <returns>Returns the published tweet</returns>
         Task<ITweet> PublishTweetAsync(IPublishTweetParameters parameters);
 
-        /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.DestroyTweetAsync(IDestroyTweetParameters)" />
         Task DestroyTweetAsync(long tweetId);
-        /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.DestroyTweetAsync(IDestroyTweetParameters)" />
         Task DestroyTweetAsync(ITweetIdentifier tweet);
-        /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.DestroyTweetAsync(IDestroyTweetParameters)" />
         Task DestroyTweetAsync(ITweet tweet);
-        /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.DestroyTweetAsync(IDestroyTweetParameters)" />
         Task DestroyTweetAsync(ITweetDTO tweet);
 
         /// <summary>
@@ -61,10 +61,10 @@ namespace Tweetinvi.Client
         /// </summary>
         Task DestroyTweetAsync(IDestroyTweetParameters parameters);
 
-        /// <inheritdoc cref="GetRetweets(IGetRetweetsParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetRetweetsAsync(IGetRetweetsParameters)" />
         Task<ITweet[]> GetRetweetsAsync(long tweetId);
 
-        /// <inheritdoc cref="GetRetweets(IGetRetweetsParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetRetweetsAsync(IGetRetweetsParameters)" />
         Task<ITweet[]> GetRetweetsAsync(ITweetIdentifier tweet);
 
         /// <summary>
@@ -74,9 +74,9 @@ namespace Tweetinvi.Client
         /// <returns>Retweets</returns>
         Task<ITweet[]> GetRetweetsAsync(IGetRetweetsParameters parameters);
 
-        /// <inheritdoc cref="PublishRetweet(IPublishRetweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.PublishRetweetAsync(IPublishRetweetParameters)" />
         Task<ITweet> PublishRetweetAsync(long tweetId);
-        /// <inheritdoc cref="PublishRetweet(IPublishRetweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.PublishRetweetAsync(IPublishRetweetParameters)" />
         Task<ITweet> PublishRetweetAsync(ITweetIdentifier tweet);
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace Tweetinvi.Client
         /// <returns>The retweet</returns>
         Task<ITweet> PublishRetweetAsync(IPublishRetweetParameters parameters);
 
-        /// <inheritdoc cref="DestroyRetweet(IDestroyRetweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.DestroyRetweetAsync(IDestroyRetweetParameters)" />
         Task DestroyRetweetAsync(long retweetId);
-        /// <inheritdoc cref="DestroyRetweet(IDestroyRetweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.DestroyRetweetAsync(IDestroyRetweetParameters)" />
         Task DestroyRetweetAsync(ITweetIdentifier retweet);
 
         /// <summary>
@@ -97,9 +97,9 @@ namespace Tweetinvi.Client
         /// </summary>
         Task DestroyRetweetAsync(IDestroyRetweetParameters parameters);
 
-        /// <inheritdoc cref="GetRetweeterIds(IGetRetweeterIdsParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetRetweeterIdsAsync(IGetRetweeterIdsParameters)" />
         Task<long[]> GetRetweeterIdsAsync(long tweetId);
-        /// <inheritdoc cref="GetRetweeterIds(IGetRetweeterIdsParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetRetweeterIdsAsync(IGetRetweeterIdsParameters)" />
         Task<long[]> GetRetweeterIdsAsync(ITweetIdentifier tweet);
 
         /// <summary>
@@ -121,11 +121,11 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the retweeter ids</returns>
         ITwitterIterator<long> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters);
 
-        /// <inheritdoc cref="GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetUserFavoriteTweetsAsync(IGetUserFavoriteTweetsParameters)" />
         Task<ITweet[]> GetUserFavoriteTweetsAsync(long userId);
-        /// <inheritdoc cref="GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetUserFavoriteTweetsAsync(IGetUserFavoriteTweetsParameters)" />
         Task<ITweet[]> GetUserFavoriteTweetsAsync(string username);
-        /// <inheritdoc cref="GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetUserFavoriteTweetsAsync(IGetUserFavoriteTweetsParameters)" />
         Task<ITweet[]> GetUserFavoriteTweetsAsync(IUserIdentifier user);
 
         /// <summary>
@@ -149,13 +149,13 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the favorite tweets</returns>
         ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(IGetUserFavoriteTweetsParameters parameters);
 
-        /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.FavoriteTweetAsync(IFavoriteTweetParameters)" />
         Task FavoriteTweetAsync(long tweetId);
-        /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.FavoriteTweetAsync(IFavoriteTweetParameters)" />
         Task FavoriteTweetAsync(ITweetIdentifier tweet);
-        /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.FavoriteTweetAsync(IFavoriteTweetParameters)" />
         Task FavoriteTweetAsync(ITweet tweet);
-        /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.FavoriteTweetAsync(IFavoriteTweetParameters)" />
         Task FavoriteTweetAsync(ITweetDTO tweet);
 
         /// <summary>
@@ -164,13 +164,13 @@ namespace Tweetinvi.Client
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-create </para>
         Task FavoriteTweetAsync(IFavoriteTweetParameters parameters);
 
-        /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.UnfavoriteTweetAsync(IUnfavoriteTweetParameters)" />
         Task UnfavoriteTweetAsync(long tweetId);
-        /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.UnfavoriteTweetAsync(IUnfavoriteTweetParameters)" />
         Task UnfavoriteTweetAsync(ITweetIdentifier tweet);
-        /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.UnfavoriteTweetAsync(IUnfavoriteTweetParameters)" />
         Task UnfavoriteTweetAsync(ITweet tweet);
-        /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.UnfavoriteTweetAsync(IUnfavoriteTweetParameters)" />
         Task UnfavoriteTweetAsync(ITweetDTO tweet);
 
         /// <summary>
@@ -179,10 +179,10 @@ namespace Tweetinvi.Client
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-destroy </para>
         Task UnfavoriteTweetAsync(IUnfavoriteTweetParameters parameters);
 
-        /// <inheritdoc cref="GetOEmbedTweet(IGetOEmbedTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetOEmbedTweetAsync(IGetOEmbedTweetParameters)" />
         Task<IOEmbedTweet> GetOEmbedTweetAsync(ITweetIdentifier tweet);
 
-        /// <inheritdoc cref="GetOEmbedTweet(IGetOEmbedTweetParameters)" />
+        /// <inheritdoc cref="ITweetsClient.GetOEmbedTweetAsync(IGetOEmbedTweetParameters)" />
         Task<IOEmbedTweet> GetOEmbedTweetAsync(long tweetId);
 
         /// <summary>
