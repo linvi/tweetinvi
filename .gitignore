@@ -1,6 +1,8 @@
 ﻿# My own ignores
 /tools/temp*
 /tools/TweetinviAPI/lib
+/tools/TweetinviAPI-Symbols/lib
+/tools/TweetinviAspNet/lib
 /tools/tweetinvi.certificate.p12
 /Examplinvi.Web/App_Data
 *.blob

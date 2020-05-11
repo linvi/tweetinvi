@@ -31,11 +31,6 @@ namespace xUnitinvi.TestHelpers
             return FakedObject.ExecuteRequestAsync<T>(request);
         }
 
-        public Task<byte[]> DownloadBinaryAsync(ITwitterRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task PrepareTwitterRequestAsync(ITwitterRequest request)
         {
             throw new NotImplementedException();

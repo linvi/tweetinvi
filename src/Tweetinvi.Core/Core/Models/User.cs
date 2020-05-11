@@ -243,7 +243,7 @@ namespace Tweetinvi.Core.Models
 
         public Task<Stream> GetProfileImageStreamAsync(ImageSize imageSize)
         {
-            return Client.Users.GetProfileImageStream(new GetProfileImageParameters(this)
+            return Client.Users.GetProfileImageStreamAsync(new GetProfileImageParameters(this)
             {
                 ImageSize = imageSize
             });

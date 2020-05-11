@@ -20,6 +20,9 @@ namespace Tweetinvi.Events
         int Percentage { get; }
     }
 
+    /// <summary>
+    /// Event that indicates a progress change during an upload
+    /// </summary>
     public class UploadProgressChangedEventArgs : EventArgs, IUploadProgressChanged
     {
         public UploadProgressChangedEventArgs(long numberOfBytesUploaded, long totalOfBytesToUpload)

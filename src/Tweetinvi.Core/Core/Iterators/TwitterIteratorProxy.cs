@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Iterators;
 
@@ -20,6 +22,12 @@ namespace Tweetinvi.Core.Iterators
         {
             _source = source;
             _transform = transform;
+        }
+
+        public TwitterIteratorProxy(ITwitterPageIterator<TInput, TCursor> source, Func<TInput, IEnumerable<TOutput>> transform)
+        {
+            _source = source;
+            _transform = input => transform(input).ToArray();
         }
 
         public TCursor NextCursor { get; private set; }

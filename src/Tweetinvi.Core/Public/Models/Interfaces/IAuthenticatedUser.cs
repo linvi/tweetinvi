@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Tweetinvi.Iterators;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Parameters;
 using Tweetinvi.Client;
 
@@ -48,10 +46,10 @@ namespace Tweetinvi.Models
 
         #region Timeline
 
-        /// <inheritdoc cref="ITimelinesClient.GetHomeTimeline()"/>
+        /// <inheritdoc cref="ITimelinesClient.GetHomeTimelineAsync()"/>
         Task<ITweet[]> GetHomeTimelineAsync();
 
-        /// <inheritdoc cref="ITimelinesClient.GetMentionsTimeline()"/>
+        /// <inheritdoc cref="ITimelinesClient.GetHomeTimelineAsync()"/>
         Task<ITweet[]> GetMentionsTimelineAsync();
 
         #endregion

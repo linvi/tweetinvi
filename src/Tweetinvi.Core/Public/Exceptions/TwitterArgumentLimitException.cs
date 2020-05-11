@@ -2,19 +2,22 @@
 
 namespace Tweetinvi.Exceptions
 {
+    /// <summary>
+    /// This exception is raised when you provide an invalid argument because of its size or content.
+    /// </summary>
     public class TwitterArgumentLimitException : ArgumentException
     {
         public TwitterArgumentLimitException(string argument, int limit, string limitType) : this(argument, limit, limitType, "items")
         {
         }
-        
+
         public TwitterArgumentLimitException(string argument, int limit, string limitType, string limitValueType)
         {
             Message = $"Argument {argument} was over the limit of {limit} {limitValueType}";
             ParamName = argument;
             LimitType = limitType;
         }
-        
+
         public TwitterArgumentLimitException(string argument, string message, string limitType) : base(message, argument)
         {
             LimitType = limitType;

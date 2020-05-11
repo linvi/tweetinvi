@@ -5,6 +5,9 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi.Events
 {
+    /// <summary>
+    /// Event raised to inform that a request completed its execution
+    /// </summary>
     public class AfterExecutingQueryEventArgs : QueryExecutionEventArgs
     {
         public AfterExecutingQueryEventArgs(

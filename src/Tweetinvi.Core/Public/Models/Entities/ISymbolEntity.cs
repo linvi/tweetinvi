@@ -2,7 +2,9 @@
 
 namespace Tweetinvi.Models.Entities
 {
-    // https://dev.twitter.com/overview/api/entities-in-twitter-objects#symbols
+    /// <summary>
+    /// https://dev.twitter.com/overview/api/entities-in-twitter-objects#symbols
+    /// </summary>
     public interface ISymbolEntity : IEquatable<ISymbolEntity>
     {
         /// <summary>

@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Models
 {
+    /// <summary>
+    /// User authentication request containing all information required for completing an authentication process
+    /// </summary>
     public interface IAuthenticationRequest : IReadOnlyConsumerCredentialsWithoutBearer
     {
         /// <summary>

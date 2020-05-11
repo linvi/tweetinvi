@@ -142,7 +142,7 @@ namespace Tweetinvi.Models
         bool DefaultProfileImage { get; }
 
         /// <summary>
-        /// Number of tweets this user has favourited in the account’s lifetime.
+        /// Number of tweets this user has Favorited in the account’s lifetime.
         /// </summary>
         int FavouritesCount { get; }
 
@@ -291,20 +291,20 @@ namespace Tweetinvi.Models
 
         // Timeline
 
-        /// <inheritdoc cref="ITimelinesClient.GetUserTimeline(IUserIdentifier)"/>
+        /// <inheritdoc cref="ITimelinesClient.GetUserTimelineAsync(IUserIdentifier)"/>
         Task<ITweet[]> GetUserTimelineAsync();
 
         // Get Favorites
 
-        /// <inheritdoc cref="ITweetsClient.GetUserFavoriteTweets(IUserIdentifier)"/>
+        /// <inheritdoc cref="ITweetsClient.GetUserFavoriteTweetsAsync(IUserIdentifier)"/>
         Task<ITweet[]> GetFavoriteTweetsAsync();
 
         // Lists
 
-        /// <inheritdoc cref="IListsClient.GetListsOwnedByUser(IUserIdentifier)"/>
+        /// <inheritdoc cref="IListsClient.GetListsOwnedByUserAsync(IUserIdentifier)"/>
         Task<ITwitterList[]> GetOwnedListsAsync();
 
-        /// <inheritdoc cref="IListsClient.GetUserListSubscriptions(IUserIdentifier)"/>
+        /// <inheritdoc cref="IListsClient.GetUserListSubscriptionsAsync(IUserIdentifier)"/>
         Task<ITwitterList[]> GetListSubscriptionsAsync();
 
         // Block

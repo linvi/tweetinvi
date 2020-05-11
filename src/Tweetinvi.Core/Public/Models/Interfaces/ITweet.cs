@@ -139,12 +139,12 @@ namespace Tweetinvi.Models
         ITweetEntities Entities { get; }
 
         /// <summary>
-        /// Is the tweet favourited
+        /// Is the tweet Favorited
         /// </summary>
         bool Favorited { get; }
 
         /// <summary>
-        /// Number of time the tweet has been favourited
+        /// Number of time the tweet has been Favorited
         /// </summary>
         int FavoriteCount { get; }
 

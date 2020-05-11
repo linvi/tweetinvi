@@ -55,11 +55,14 @@ namespace Tweetinvi.Models.Entities
         int[] Indices { get; set; }
 
         /// <summary>
-        /// Dimensions related with the different possible views of 
+        /// Dimensions related with the different possible views of
         /// a same Media element
         /// </summary>
         Dictionary<string, IMediaEntitySize> Sizes { get; set; }
 
+        /// <summary>
+        /// Video metadata
+        /// </summary>
         IVideoInformationEntity VideoDetails { get; set; }
     }
 }

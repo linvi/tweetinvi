@@ -9,7 +9,10 @@ namespace Tweetinvi.Events
         /// </summary>
         UploadProgressState State { get; }
     }
-    
+
+    /// <summary>
+    /// Event that indicates a progress change during a media upload
+    /// </summary>
     public class MediaUploadProgressChangedEventArgs : UploadProgressChangedEventArgs, IMediaUploadProgressChangedEventArgs
     {
         public MediaUploadProgressChangedEventArgs(UploadProgressState state, long numberOfBytesUploaded, long totalOfBytesToUpload) : base(numberOfBytesUploaded, totalOfBytesToUpload)
@@ -18,7 +21,7 @@ namespace Tweetinvi.Events
             NumberOfBytesUploaded = numberOfBytesUploaded;
             TotalOfBytesToUpload = totalOfBytesToUpload;
         }
-        
+
         public UploadProgressState State { get; }
 
     }

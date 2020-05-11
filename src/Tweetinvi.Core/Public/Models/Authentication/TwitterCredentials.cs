@@ -57,7 +57,10 @@
         {
         }
 
+        /// <inheritdoc cref="ITwitterCredentials.AccessToken" />
         public string AccessToken { get; set; }
+
+        /// <inheritdoc cref="ITwitterCredentials.AccessTokenSecret" />
         public string AccessTokenSecret { get; set; }
 
         public bool AreSetupForUserAuthentication()

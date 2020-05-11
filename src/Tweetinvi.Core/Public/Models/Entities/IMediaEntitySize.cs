@@ -5,7 +5,6 @@
     /// </summary>
     public interface IMediaEntitySize
     {
-        #region IMediaEntitySize properties
         /// <summary>
         /// Media Width
         /// </summary>
@@ -19,8 +18,6 @@
         /// <summary>
         /// How does the media has been resized
         /// </summary>
-        string Resize { get; set; } 
-
-        #endregion
+        string Resize { get; set; }
     }
 }

@@ -755,22 +755,22 @@ namespace Tweetinvi.Client
 
         #region Profile Image
 
-        public Task<System.IO.Stream> GetProfileImageStream(string url)
+        public Task<System.IO.Stream> GetProfileImageStreamAsync(string url)
         {
-            return GetProfileImageStream(new GetProfileImageParameters(url));
+            return GetProfileImageStreamAsync(new GetProfileImageParameters(url));
         }
 
-        public Task<System.IO.Stream> GetProfileImageStream(IUser user)
+        public Task<System.IO.Stream> GetProfileImageStreamAsync(IUser user)
         {
-            return GetProfileImageStream(new GetProfileImageParameters(user));
+            return GetProfileImageStreamAsync(new GetProfileImageParameters(user));
         }
 
-        public Task<System.IO.Stream> GetProfileImageStream(IUserDTO user)
+        public Task<System.IO.Stream> GetProfileImageStreamAsync(IUserDTO user)
         {
-            return GetProfileImageStream(new GetProfileImageParameters(user));
+            return GetProfileImageStreamAsync(new GetProfileImageParameters(user));
         }
 
-        public Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters)
+        public Task<System.IO.Stream> GetProfileImageStreamAsync(IGetProfileImageParameters parameters)
         {
             return _usersRequester.GetProfileImageStream(parameters);
         }

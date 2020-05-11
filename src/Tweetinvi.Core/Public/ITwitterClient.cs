@@ -20,14 +20,14 @@ namespace Tweetinvi
         IAuthClient Auth { get; }
 
         /// <summary>
-        /// Client to execute custom requests
-        /// </summary>
-        IExecuteClient Execute { get; }
-
-        /// <summary>
         /// Client to execute all actions from the help path
         /// </summary>
         IHelpClient Help { get; }
+
+        /// <summary>
+        /// Client to execute custom requests
+        /// </summary>
+        IExecuteClient Execute { get; }
 
         /// <summary>
         /// Client to execute all actions related with twitter lists
@@ -70,14 +70,14 @@ namespace Tweetinvi
         ITweetsClient Tweets { get; }
 
         /// <summary>
-        /// Client to execute all actions related with media upload
-        /// </summary>
-        IUploadClient Upload { get; }
-
-        /// <summary>
         /// Client to execute all actions related with users
         /// </summary>
         IUsersClient Users { get; }
+
+        /// <summary>
+        /// Client to execute all actions related with media upload
+        /// </summary>
+        IUploadClient Upload { get; }
 
         /// <summary>
         /// Client to execute all the actions related with webhooks
@@ -88,7 +88,6 @@ namespace Tweetinvi
         /// Execute Request and receive request results
         /// </summary>
         IRawExecutors Raw { get; }
-
 
         /// <summary>
         /// Client's settings

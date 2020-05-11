@@ -28,9 +28,9 @@ namespace Tweetinvi.Streaming
         EventHandler<TweetDeletedEvent> TweetDeleted { get; set; }
 
         /// <summary>
-        /// A Tweet has been favourited
+        /// A Tweet has been Favorited
         /// </summary>
-        EventHandler<TweetFavouritedEvent> TweetFavourited { get; set; }
+        EventHandler<TweetFavoritedEvent> TweetFavorited { get; set; }
 
         // User Events
 

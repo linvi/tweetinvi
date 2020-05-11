@@ -11,6 +11,6 @@ namespace Tweetinvi.Streams.Model.AccountActivity
         public IUserDTO User { get; set; }
 
         [JsonProperty("favorited_status")]
-        public ITweetDTO FavouritedTweet { get; set; }
+        public ITweetDTO FavoritedTweet { get; set; }
     }
 }

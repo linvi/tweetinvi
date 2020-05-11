@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Exceptions
 {
+    /// <summary>
+    /// Exception raised when providing null credentials
+    /// </summary>
     public class TwitterNullCredentialsException : TwitterInvalidCredentialsException
     {
         public TwitterNullCredentialsException() : base("You must set the credentials to use the Twitter API. (Read the exception description field for more information)")

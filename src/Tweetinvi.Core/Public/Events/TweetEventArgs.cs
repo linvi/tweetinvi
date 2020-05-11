@@ -17,6 +17,9 @@ namespace Tweetinvi.Events
         public string Json { get; }
     }
 
+    /// <summary>
+    /// Event informing that a tweet was received by a stream
+    /// </summary>
     public class TweetReceivedEventArgs : TweetEventArgs
     {
         public TweetReceivedEventArgs(ITweet tweet, string json) : base(tweet, json)
@@ -24,6 +27,9 @@ namespace Tweetinvi.Events
         }
     }
 
+    /// <summary>
+    /// Event informing that a tweet matching a stream criteria has been received
+    /// </summary>
     public class MatchedTweetReceivedEventArgs : TweetEventArgs
     {
         public MatchedTweetReceivedEventArgs(ITweet tweet, string json) : base(tweet, json)

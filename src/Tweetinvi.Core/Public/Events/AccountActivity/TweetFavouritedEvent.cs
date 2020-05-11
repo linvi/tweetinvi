@@ -3,16 +3,16 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi.Events
 {
-    public enum TweetFavouritedRaisedInResultOf
+    public enum TweetFavoritedRaisedInResultOf
     {
         /// <summary>
-        /// This case should not happen and is here in case Twitter changes when they trigger the TweetFavourited event.
+        /// This case should not happen and is here in case Twitter changes when they trigger the TweetFavorited event.
         /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
         /// </summary>
         Unknown = 0,
 
         /// <summary>
-        /// The account user favourited one of his own tweet
+        /// The account user Favorited one of his own tweet
         /// </summary>
         AccountUserFavouritingHisOwnTweet,
 
@@ -22,51 +22,51 @@ namespace Tweetinvi.Events
         AccountUserFavouritingATweetOfAnotherUser,
 
         /// <summary>
-        /// Another user favourited the tweet of the account user
+        /// Another user Favorited the tweet of the account user
         /// </summary>
         AnotherUserFavouritingATweetOfTheAccountUser,
     }
 
     /// <summary>
-    /// Event information when a tweet is favourited.
+    /// Event information when a tweet is Favorited.
     /// </summary>
-    public class TweetFavouritedEvent : BaseAccountActivityEventArgs<TweetFavouritedRaisedInResultOf>
+    public class TweetFavoritedEvent : BaseAccountActivityEventArgs<TweetFavoritedRaisedInResultOf>
     {
-        public TweetFavouritedEvent(AccountActivityEvent<Tuple<ITweet, IUser>> eventInfo) : base(eventInfo)
+        public TweetFavoritedEvent(AccountActivityEvent<Tuple<ITweet, IUser>> eventInfo) : base(eventInfo)
         {
             Tweet = eventInfo.Args.Item1;
-            FavouritedBy = eventInfo.Args.Item2;
+            FavoritedBy = eventInfo.Args.Item2;
             InResultOf = GetInResultOf();
         }
 
         /// <summary>
-        /// The tweet that got favourited
+        /// The tweet that got Favorited
         /// </summary>
         public ITweet Tweet { get; }
 
         /// <summary>
-        /// The user who favourited the tweet
+        /// The user who Favorited the tweet
         /// </summary>
-        public IUser FavouritedBy { get; }
+        public IUser FavoritedBy { get; }
 
-        private TweetFavouritedRaisedInResultOf GetInResultOf()
+        private TweetFavoritedRaisedInResultOf GetInResultOf()
         {
-            if (FavouritedBy.Id == AccountUserId && Tweet.CreatedBy.Id == AccountUserId)
+            if (FavoritedBy.Id == AccountUserId && Tweet.CreatedBy.Id == AccountUserId)
             {
-                return TweetFavouritedRaisedInResultOf.AccountUserFavouritingHisOwnTweet;
+                return TweetFavoritedRaisedInResultOf.AccountUserFavouritingHisOwnTweet;
             }
 
-            if (FavouritedBy.Id == AccountUserId)
+            if (FavoritedBy.Id == AccountUserId)
             {
-                return TweetFavouritedRaisedInResultOf.AccountUserFavouritingATweetOfAnotherUser;
+                return TweetFavoritedRaisedInResultOf.AccountUserFavouritingATweetOfAnotherUser;
             }
 
             if (Tweet.CreatedBy.Id == AccountUserId)
             {
-                return TweetFavouritedRaisedInResultOf.AnotherUserFavouritingATweetOfTheAccountUser;
+                return TweetFavoritedRaisedInResultOf.AnotherUserFavouritingATweetOfTheAccountUser;
             }
 
-            return TweetFavouritedRaisedInResultOf.Unknown;
+            return TweetFavoritedRaisedInResultOf.Unknown;
         }
     }
 }

@@ -13,6 +13,9 @@ namespace Tweetinvi.Models
         string AccessTokenSecret { get; }
     }
 
+    /// <summary>
+    /// Readonly version of twitter credentials
+    /// </summary>
     public class ReadOnlyTwitterCredentials : ReadOnlyConsumerCredentials, IReadOnlyTwitterCredentials
     {
         public ReadOnlyTwitterCredentials(string accessToken, string accessTokenSecret, IReadOnlyConsumerCredentials consumerCredentials) : base(consumerCredentials)
@@ -27,7 +30,10 @@ namespace Tweetinvi.Models
             AccessTokenSecret = source?.AccessTokenSecret;
         }
 
+        /// <inheritdoc cref="IReadOnlyTwitterCredentials.AccessToken" />
         public string AccessToken { get; }
+
+        /// <inheritdoc cref="IReadOnlyTwitterCredentials.AccessTokenSecret" />
         public string AccessTokenSecret { get; }
     }
 }

@@ -3,6 +3,9 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi.Events
 {
+    /// <summary>
+    /// Event raised to inform that a request is starting its execution
+    /// </summary>
     public class BeforeExecutingRequestEventArgs : QueryExecutionEventArgs
     {
         public BeforeExecutingRequestEventArgs(ITwitterQuery twitterQuery) : base(twitterQuery)

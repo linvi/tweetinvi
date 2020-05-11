@@ -2,6 +2,9 @@
 
 namespace Tweetinvi.Events
 {
+    /// <summary>
+    /// Twitter account event
+    /// </summary>
     public class AccountActivityEvent
     {
         public AccountActivityEvent()

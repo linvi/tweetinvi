@@ -3,6 +3,9 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi.Exceptions
 {
+    /// <summary>
+    /// Exception raised when attempting to perform operations without the proper credentials
+    /// </summary>
     public class TwitterInvalidCredentialsException : Exception
     {
 

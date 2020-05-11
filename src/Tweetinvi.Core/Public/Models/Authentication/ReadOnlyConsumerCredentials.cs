@@ -23,6 +23,9 @@ namespace Tweetinvi.Models
         string BearerToken { get; }
     }
 
+    /// <summary>
+    /// Readonly version of consumer credentials
+    /// </summary>
     public class ReadOnlyConsumerCredentials : IReadOnlyConsumerCredentials
     {
         public ReadOnlyConsumerCredentials(string consumerKey, string consumerSecret)

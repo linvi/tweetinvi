@@ -25,6 +25,9 @@ namespace Tweetinvi.Models
         bool AreSetupForApplicationAuthentication();
     }
 
+    /// <summary>
+    /// Credentials that can be used to perform operations as a specific app
+    /// </summary>
     public class ConsumerCredentials : IConsumerCredentials
     {
         public ConsumerCredentials() { }

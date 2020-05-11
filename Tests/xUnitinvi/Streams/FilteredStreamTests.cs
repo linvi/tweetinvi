@@ -14,7 +14,7 @@ namespace xUnitinvi.Streams
 {
     public class FilteredStreamTests
     {
-        private Tuple<IFilteredStream, Func<Action<string>>> InitForCatchingJsonEvents()
+        private static Tuple<IFilteredStream, Func<Action<string>>> InitForCatchingJsonEvents()
         {
             // arrange
             var fakeStreamResultGenerator = A.Fake<IStreamResultGenerator>();

@@ -51,6 +51,9 @@ namespace Tweetinvi.Exceptions
         }
     }
 
+    /// <summary>
+    /// Exception raised by the Twitter API.
+    /// </summary>
     public class TwitterException : WebException, ITwitterException
     {
         public WebException WebException { get; protected set; }

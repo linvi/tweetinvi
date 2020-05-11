@@ -7,6 +7,9 @@ namespace Tweetinvi.Exceptions
     {
     }
 
+    /// <summary>
+    /// Exception raised when Twitter did not manage to respond to your request on time.
+    /// </summary>
     public class TwitterTimeoutException : TwitterException, ITwitterTimeoutException
     {
         public TwitterTimeoutException(ITwitterRequest request)

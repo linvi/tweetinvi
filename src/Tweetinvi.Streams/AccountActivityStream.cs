@@ -44,7 +44,7 @@ namespace Tweetinvi.Streams
             // Tweets
             _events.Add("tweet_create_events", TryRaiseTweetCreatedEvents);
             _events.Add("tweet_delete_events", TryRaiseTweetDeletedEvents);
-            _events.Add("favorite_events", TryRaiseTweetFavouritedEvents);
+            _events.Add("favorite_events", TryRaiseTweetFavoritedEvents);
 
             // User
             _events.Add("follow_events", TryRaiseFollowedEvents);
@@ -64,7 +64,7 @@ namespace Tweetinvi.Streams
 
         // Tweets
         public EventHandler<TweetCreatedEvent> TweetCreated { get; set; }
-        public EventHandler<TweetFavouritedEvent> TweetFavourited { get; set; }
+        public EventHandler<TweetFavoritedEvent> TweetFavorited { get; set; }
         public EventHandler<TweetDeletedEvent> TweetDeleted { get; set; }
 
         // User Events
@@ -183,16 +183,16 @@ namespace Tweetinvi.Streams
             });
         }
 
-        private void TryRaiseTweetFavouritedEvents(string eventName, JObject jsonObjectEvent)
+        private void TryRaiseTweetFavoritedEvents(string eventName, JObject jsonObjectEvent)
         {
             var json = jsonObjectEvent.ToString();
             var favouriteTweetEvent = jsonObjectEvent[eventName];
-            var favouritedTweetEventJson = favouriteTweetEvent.ToString();
-            var favouriteEventDTOs = _jsonObjectConverter.Deserialize<AccountActivityFavouriteEventDTO[]>(favouritedTweetEventJson);
+            var FavoritedTweetEventJson = favouriteTweetEvent.ToString();
+            var favouriteEventDTOs = _jsonObjectConverter.Deserialize<AccountActivityFavouriteEventDTO[]>(FavoritedTweetEventJson);
 
             favouriteEventDTOs.ForEach(favouriteEventDTO =>
             {
-                var tweet = _factories.CreateTweet(favouriteEventDTO.FavouritedTweet);
+                var tweet = _factories.CreateTweet(favouriteEventDTO.FavoritedTweet);
                 var user = _factories.CreateUser(favouriteEventDTO.User);
 
                 var accountActivityEvent = new AccountActivityEvent<Tuple<ITweet, IUser>>(new Tuple<ITweet, IUser>(tweet, user))
@@ -202,11 +202,11 @@ namespace Tweetinvi.Streams
                     Json = json
                 };
 
-                var eventArgs = new TweetFavouritedEvent(accountActivityEvent);
+                var eventArgs = new TweetFavoritedEvent(accountActivityEvent);
 
-                this.Raise(TweetFavourited, eventArgs);
+                this.Raise(TweetFavorited, eventArgs);
 
-                if (eventArgs.InResultOf == TweetFavouritedRaisedInResultOf.Unknown)
+                if (eventArgs.InResultOf == TweetFavoritedRaisedInResultOf.Unknown)
                 {
                     this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                 }

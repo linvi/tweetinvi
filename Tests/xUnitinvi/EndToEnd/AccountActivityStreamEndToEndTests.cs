@@ -109,7 +109,7 @@ namespace xUnitinvi.EndToEnd
 
                 Assert.Equal(state.TweetCreated.Count, 1);
                 Assert.Equal(state.TweetDeleted.Count, 1);
-                Assert.Equal(state.TweetFavourited.Count, 1);
+                Assert.Equal(state.TweetFavorited.Count, 1);
 
                 Assert.Equal(state.UserFollowed.Count, 1);
                 Assert.Equal(state.UserUnfollowed.Count, 1);
@@ -140,7 +140,7 @@ namespace xUnitinvi.EndToEnd
 
             stream.TweetCreated += (sender, args) => { state.TweetCreated.Add(args); };
             stream.TweetDeleted += (sender, args) => { state.TweetDeleted.Add(args); };
-            stream.TweetFavourited += (sender, args) => { state.TweetFavourited.Add(args); };
+            stream.TweetFavorited += (sender, args) => { state.TweetFavorited.Add(args); };
 
             stream.UserFollowed += (sender, args) => { state.UserFollowed.Add(args); };
             stream.UserUnfollowed += (sender, args) => { state.UserUnfollowed.Add(args); };
@@ -165,7 +165,7 @@ namespace xUnitinvi.EndToEnd
             public List<string> EventsReceived { get; set; } = new List<string>();
             public List<TweetCreatedEvent> TweetCreated { get; set; } = new List<TweetCreatedEvent>();
             public List<TweetDeletedEvent> TweetDeleted { get; set; } = new List<TweetDeletedEvent>();
-            public List<TweetFavouritedEvent> TweetFavourited { get; set; } = new List<TweetFavouritedEvent>();
+            public List<TweetFavoritedEvent> TweetFavorited { get; set; } = new List<TweetFavoritedEvent>();
 
             public List<UserFollowedEvent> UserFollowed { get; } = new List<UserFollowedEvent>();
             public List<UserUnfollowedEvent> UserUnfollowed { get; set; } = new List<UserUnfollowedEvent>();

@@ -526,19 +526,19 @@ namespace Tweetinvi.Client
         #region Profile Image
 
         /// <inheritdoc cref="IUsersClient.GetProfileImageStreamAsync(IGetProfileImageParameters)" />
-        Task<System.IO.Stream> GetProfileImageStream(string url);
+        Task<System.IO.Stream> GetProfileImageStreamAsync(string url);
 
         /// <inheritdoc cref="IUsersClient.GetProfileImageStreamAsync(IGetProfileImageParameters)" />
-        Task<System.IO.Stream> GetProfileImageStream(IUser user);
+        Task<System.IO.Stream> GetProfileImageStreamAsync(IUser user);
 
         /// <inheritdoc cref="IUsersClient.GetProfileImageStreamAsync(IGetProfileImageParameters)" />
-        Task<System.IO.Stream> GetProfileImageStream(IUserDTO user);
+        Task<System.IO.Stream> GetProfileImageStreamAsync(IUserDTO user);
 
         /// <summary>
         /// Get the profile image of a user
         /// </summary>
         /// <returns>A stream of the image file</returns>
-        Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters);
+        Task<System.IO.Stream> GetProfileImageStreamAsync(IGetProfileImageParameters parameters);
 
         #endregion
 

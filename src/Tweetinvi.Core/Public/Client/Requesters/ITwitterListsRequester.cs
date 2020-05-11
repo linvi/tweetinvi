@@ -149,6 +149,5 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>An iterator to get through the tweets of a list</returns>
         ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetTweetsFromListIterator(IGetTweetsFromListParameters parameters);
-
     }
 }

@@ -88,7 +88,7 @@ namespace xUnitinvi.Streams
         {
             var activityStream = CreateAccountActivityStream();
 
-            var tweetFavouritedJson = @"{
+            var tweetFavoritedJson = @"{
 	            ""for_user_id"": ""100"",
 	            ""favorite_events"": [{
                   ""favorited_status"" : " + JsonTests.TWEET_TEST_JSON + @",
@@ -96,19 +96,19 @@ namespace xUnitinvi.Streams
 	            }]
             }";
 
-            var eventsReceived = new List<TweetFavouritedEvent>();
-            activityStream.TweetFavourited += (sender, args) =>
+            var eventsReceived = new List<TweetFavoritedEvent>();
+            activityStream.TweetFavorited += (sender, args) =>
             {
                 eventsReceived.Add(args);
             };
 
             // Act
-            activityStream.WebhookMessageReceived(new WebhookMessage(tweetFavouritedJson));
+            activityStream.WebhookMessageReceived(new WebhookMessage(tweetFavoritedJson));
 
             // Assert
             Assert.Equal(eventsReceived.Count, 1);
             Assert.Equal(eventsReceived[0].Tweet.CreatedBy.Id, 42);
-            Assert.Equal(eventsReceived[0].FavouritedBy.Id, 4242);
+            Assert.Equal(eventsReceived[0].FavoritedBy.Id, 4242);
         }
 
         [Fact]

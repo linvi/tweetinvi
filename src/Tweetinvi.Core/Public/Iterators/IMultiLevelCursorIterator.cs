@@ -6,6 +6,9 @@ namespace Tweetinvi.Iterators
     {
     }
 
+    /// <summary>
+    /// Allow developers to iterate over multiple endpoints transparently.
+    /// </summary>
     public interface IMultiLevelCursorIterator<TParent, TItem, TCursor>
     {
         bool Completed { get; }

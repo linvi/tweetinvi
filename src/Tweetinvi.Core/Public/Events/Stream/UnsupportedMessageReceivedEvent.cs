@@ -1,12 +1,15 @@
 ﻿namespace Tweetinvi.Events
 {
+    /// <summary>
+    /// Tweetinvi received a message that it did not understood
+    /// </summary>
     public class UnsupportedMessageReceivedEvent
     {
-        public UnsupportedMessageReceivedEvent(string json)
+        public UnsupportedMessageReceivedEvent(string message)
         {
-            JsonMessageReceived = json;
+            Message = message;
         }
 
-        public string JsonMessageReceived { get; }
+        public string Message { get; }
     }
 }

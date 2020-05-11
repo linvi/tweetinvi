@@ -24,7 +24,7 @@ namespace Examplinvi.AccountActivityEvents
 
             // Tweet events
             accountActivityStream.TweetCreated += TweetCreated;
-            accountActivityStream.TweetFavourited += TweetFavourited;
+            accountActivityStream.TweetFavorited += TweetFavorited;
             accountActivityStream.TweetDeleted += TweetDeleted;
 
              // Message events
@@ -61,7 +61,7 @@ namespace Examplinvi.AccountActivityEvents
 
             // Tweet events
             accountActivityStream.TweetCreated -= TweetCreated;
-            accountActivityStream.TweetFavourited -= TweetFavourited;
+            accountActivityStream.TweetFavorited -= TweetFavorited;
             accountActivityStream.TweetDeleted -= TweetDeleted;
 
             // Message events
@@ -97,9 +97,9 @@ namespace Examplinvi.AccountActivityEvents
             Console.WriteLine($">>> Tweet {e.TweetId} has been deleted at {e.EventDate}");
         }
 
-        private void TweetFavourited(object sender, TweetFavouritedEvent e)
+        private void TweetFavorited(object sender, TweetFavoritedEvent e)
         {
-            Console.WriteLine($">>> Tweet has been favourited by {e.FavouritedBy}:\n{e.Tweet}");
+            Console.WriteLine($">>> Tweet has been Favorited by {e.FavoritedBy}:\n{e.Tweet}");
         }
 
 
@@ -170,7 +170,7 @@ namespace Examplinvi.AccountActivityEvents
 
         private void UnmanagedEventReceived(object sender, UnsupportedMessageReceivedEvent e)
         {
-            Console.WriteLine(">>> An event that Tweetinvi is not yet capable of analyzing has been received. Please open a github issue with this message: " + e.JsonMessageReceived);
+            Console.WriteLine(">>> An event that Tweetinvi is not yet capable of analyzing has been received. Please open a github issue with this message: " + e.Message);
         }
     }
 }
