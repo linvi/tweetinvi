@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction to Authentication &mdash; Tweetinvi 5.0.0-alpha-3 documentation</title>
+  <title>Sample Stream &mdash; Tweetinvi 5.0.0-alpha-3 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="URL Redirect Authentication" href="authentication-url-redirect.html" />
-    <link rel="prev" title="Iterators" href="../twitter-api/iterators.html" /> 
+    <link rel="next" title="Twitter Labs" href="../more/twitter-labs.html" />
+    <link rel="prev" title="Streams Introduction" href="streams-introduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,15 +100,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../twitter-api/iterators.html">Iterators</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">URL Redirect Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">PIN based Authentication</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Streams</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sample Stream</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -162,13 +162,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Introduction to Authentication</li>
+      <li>Sample Stream</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/authentication/authentication.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/streams/sample-stream.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -181,13 +181,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="introduction-to-authentication">
-<h1>Introduction to Authentication<a class="headerlink" href="#introduction-to-authentication" title="Permalink to this headline">¶</a></h1>
-<p>Twitter allows developer’s application to authenticate any Twitter user. The API gives access to two different mechanisms that we will name URL redirect authentication and PIN-based authentication.</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="authentication-url-redirect.html"><span class="doc">URL redirect authentication</span></a> is better suited for Web Application.</p></li>
-<li><p><a class="reference internal" href="authentication-pin-code.html"><span class="doc">PIN based authentication</span></a> is better suited for Desktop application</p></li>
-</ul>
+  <div class="section" id="sample-stream">
+<h1>Sample Stream<a class="headerlink" href="#sample-stream" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>The sample stream returns 1% of all the public tweets published on Twitter at any time. Twitter randomly selects one tweet for every 100 tweets and publishes this Tweet in the stream.</p>
+</div></blockquote>
+<p>The sample stream supports all the <a class="reference external" href="./streams#stream-events">generic stream events</a>.<br />The <code class="docutils literal notranslate"><span class="pre">SampleStream</span></code> introduces 1 new event: <code class="docutils literal notranslate"><span class="pre">TweetReceived</span></code>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">sampleStream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateSampleStream</span><span class="p">();</span>
+<span class="n">sampleStream</span><span class="p">.</span><span class="n">TweetReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventArgs</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventArgs</span><span class="p">.</span><span class="n">Tweet</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="k">await</span> <span class="n">sampleStream</span><span class="p">.</span><span class="n">StartStreamAsync</span><span class="p">();</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -198,10 +206,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="authentication-url-redirect.html" class="btn btn-neutral float-right" title="URL Redirect Authentication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../more/twitter-labs.html" class="btn btn-neutral float-right" title="Twitter Labs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../twitter-api/iterators.html" class="btn btn-neutral float-left" title="Iterators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="streams-introduction.html" class="btn btn-neutral float-left" title="Streams Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Tweets" href="../features/tweets.html" />
+    <link rel="next" title="Tweets" href="../twitter-api/tweets.html" />
     <link rel="prev" title="Credentials in Twitter" href="credentials.html" /> 
 </head>
 
@@ -97,22 +97,27 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Features</span></p>
+<p class="caption"><span class="caption-text">Twitter API</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../features/tweets.html">Tweets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/messages.html">Messages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/users.html">Users</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/search.html">Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/users-followers-friends.html">Followers, Friends and Relationships</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/direct-api-calls.html">Direct API calls</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/upload-media.html">Media Upload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/iterators.html">Iterators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/tweets.html">Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/messages.html">Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/direct-api-calls.html">Direct API calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/iterators.html">Iterators</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Streams</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -236,7 +241,7 @@
 <blockquote>
 <div><p>Tweetinvi offers a simple approach to paging endpoints. This is called iterator.</p>
 </div></blockquote>
-<p><a class="reference internal" href="../features/iterators.html"><span class="doc">Learn more about iterators</span></a></p>
+<p><a class="reference internal" href="../twitter-api/iterators.html"><span class="doc">Learn more about iterators</span></a></p>
 <p>Find an example below with the user timeline iterator.</p>
 <div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userTimelineIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimelineIterator</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 
@@ -286,7 +291,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../features/tweets.html" class="btn btn-neutral float-right" title="Tweets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../twitter-api/tweets.html" class="btn btn-neutral float-right" title="Tweets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="credentials.html" class="btn btn-neutral float-left" title="Credentials in Twitter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

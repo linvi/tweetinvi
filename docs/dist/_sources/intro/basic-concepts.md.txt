@@ -48,7 +48,7 @@ var userTimeline = await client.Timelines.GetUserTimelineAsync("tweetinviapi");
 
 > Tweetinvi offers a simple approach to paging endpoints. This is called iterator.
 
-[Learn more about iterators](../features/iterators)
+[Learn more about iterators](../twitter-api/iterators)
 
 Find an example below with the user timeline iterator.
 

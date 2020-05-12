@@ -20,16 +20,16 @@ The goal of this library is to make life of developers as easy as possible.
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Features
+   :caption: Twitter API
 
-   features/tweets
-   features/messages
-   features/users
-   features/search
-   features/users-followers-friends
-   features/direct-api-calls
-   features/upload-media
-   features/iterators
+   twitter-api/tweets
+   twitter-api/messages
+   twitter-api/users
+   twitter-api/search
+   twitter-api/users-followers-friends
+   twitter-api/direct-api-calls
+   twitter-api/upload-media
+   twitter-api/iterators
 
 .. toctree::
    :maxdepth: 1
@@ -39,7 +39,15 @@ The goal of this library is to make life of developers as easy as possible.
    authentication/authentication
    authentication/authentication-url-redirect
    authentication/authentication-pin-code
-   
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Streams
+
+   streams/streams-introduction
+   streams/sample-stream
+
 .. toctree::
    :maxdepth: 1
    :hidden:

@@ -1,0 +1,340 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Streams Introduction &mdash; Tweetinvi 5.0.0-alpha-3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/js/custom.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Sample Stream" href="sample-stream.html" />
+    <link rel="prev" title="PIN based Authentication" href="../authentication/authentication-pin-code.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Tweetinvi
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/credentials.html">Credentials in Twitter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Twitter API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/tweets.html">Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/messages.html">Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/direct-api-calls.html">Direct API calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/iterators.html">Iterators</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Authentication</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Streams</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Streams Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-a-stream">What is a stream?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#start-pause-and-stop">Start, Pause and Stop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#should-i-use-pause-or-stop">Should I use Pause() or Stop()?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#stream-events">Stream Events</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#twitter-events">Twitter events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stream-state-events">Stream state events</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tweetinvi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Streams Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/streams/streams-introduction.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="streams-introduction">
+<h1>Streams Introduction<a class="headerlink" href="#streams-introduction" title="Permalink to this headline">¶</a></h1>
+<p>Twitter API exposes multiple type of streams. In their public API you will have access to:</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="sample-stream.html"><span class="doc">Sample Stream</span></a> is a stream of tweets returning 1% of the tweets published in the world randomly</p></li>
+</ul>
+<div class="section" id="what-is-a-stream">
+<h2>What is a stream?<a class="headerlink" href="#what-is-a-stream" title="Permalink to this headline">¶</a></h2>
+<p>A stream emit events that can be listened to. These events are triggered by messages received from Twitter.<br />You can find a list of the available events at the <a class="reference external" href="#stream-events">bottom of this page</a>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">twitterStream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateTweetStream</span><span class="p">();</span>
+<span class="n">twitterStream</span><span class="p">.</span><span class="n">EventReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="k">await</span> <span class="n">twitterStream</span><span class="p">.</span><span class="n">StartStreamAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="start-pause-and-stop">
+<h2>Start, Pause and Stop<a class="headerlink" href="#start-pause-and-stop" title="Permalink to this headline">¶</a></h2>
+<p>A stream can have 3 different states:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">StreamState.Running</span></code> - the stream is actively running and events are triggered when messages are received from Twitter. Technically, a socket is open with Twitter server until the stream stops.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StreamState.Stop</span></code> - the stream is not running</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StreamState.Pause</span></code> - the stream has been paused. The socket is still open but we are not consuming the messages sent by Twitter.</p></li>
+</ul>
+<p>When you create a stream, no connection is yet established.<br />You need to start the stream for it to open a connection and start receiving events.</p>
+<p>When you are done with the current stream, you stop it.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Here is an example showing how to stop a stream. In this case we want to stop after receiving 5 events.</span>
+
+<span class="kt">var</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">twitterStream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateTweetStream</span><span class="p">();</span>
+<span class="n">twitterStream</span><span class="p">.</span><span class="n">EventReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">==</span> <span class="m">5</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">twitterStream</span><span class="p">.</span><span class="n">StopStream</span><span class="p">();</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Complete!&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="p">++</span><span class="n">i</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// NOTE: this will complete only when `sampleStream.StopStream();` has been called</span>
+<span class="k">await</span> <span class="n">twitterStream</span><span class="p">.</span><span class="n">StartStreamAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span> 
+</pre></div>
+</div>
+<div class="section" id="should-i-use-pause-or-stop">
+<h3>Should I use Pause() or Stop()?<a class="headerlink" href="#should-i-use-pause-or-stop" title="Permalink to this headline">¶</a></h3>
+<p>The difference between a <code class="docutils literal notranslate"><span class="pre">Paused</span></code> stream and a <code class="docutils literal notranslate"><span class="pre">Stopped</span></code> stream is the socket connection.<br />When a stream is stopped, no socket connection exist.<br />When a stream is paused, a socket connection is opened but is not used.</p>
+<p>Having an open socket allow to “restart” the stream instantaneously. If the stream was stopped a connection should first be established before starting to receive the events.</p>
+<blockquote>
+<div><p>Stop() should be used when you know that you will no longer need to use the stream.
+Stop() should be used when you do not care of losing events happening during the milliseconds of connecting to Twitter.
+Pause() should be used only when you need to quickly switch between pause and running.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="stream-events">
+<h2>Stream Events<a class="headerlink" href="#stream-events" title="Permalink to this headline">¶</a></h2>
+<p>Tweetinvi offers various events to help you manage your stream and easily make sense of messages received from Twitter.</p>
+<div class="section" id="twitter-events">
+<h3>Twitter events<a class="headerlink" href="#twitter-events" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">EventReceived</span></code> - a message indicating an event was received from twitter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TweetDeleted</span></code> - a tweet was deleted on Twitter. If you store any content of that tweet in your system, you should delete it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TweetLocationInfoRemoved</span></code> - the location information of a tweet were removed. If you store the location of the tweet in your system, you should delete it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TweetWitheld</span></code> - a tweet was created but the event cannot be forwarded to your application as it has been blocked by your country.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UserWitheld</span></code> - a user matching your stream criteria performed an operation but the event cannot be forwarded to your application as it has been blocked by your country.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LimitReached</span></code> - you requested a stream that matches more than 1% of the worlwide tweets. As a consequences some of the tweets will not be forwarded to the stream.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WarningFallingBehindDetected</span></code> - your application is not consuming the messages from the stream fast enough. Failing to improve the speed of consumption will result in the stream being disconnected.</p></li>
+</ul>
+<div></div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">UnmanagedEventReceived</span></code> - an event was received but Tweetinvi does not yet understand it. If you receive such event please <a class="reference external" href="https://github.com/linvi/tweetinvi/issues/new">create an issue on github</a> with the <code class="docutils literal notranslate"><span class="pre">json</span></code> received.</p></li>
+</ul>
+</div>
+<div class="section" id="stream-state-events">
+<h3>Stream state events<a class="headerlink" href="#stream-state-events" title="Permalink to this headline">¶</a></h3>
+<p>Here is a list of events supported by Tweetinvi.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DisconnectMessageReceived</span></code> - Twitter informs you that you are being disconnecting. A reason will be provided as to why you are.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KeepAliveReceived</span></code> - Twitter emits keep alive events at regular intervals to inform that the socket is open and that if no events were received it is expected.</p></li>
+</ul>
+<div></div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">StreamStateChanged</span></code> - the state of the stream has changed (between running, paused and stopped).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StreamStarted</span></code> - the stream is started and will be emitting events when received.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StreamResumed</span></code> - the stream that was previously paused is now consuming events from Twitter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StreamPaused</span></code> - the stream is no longer consuming events sent by Twitter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StreamStopped</span></code> - the stream is no longer active. The connection has been closed.</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sample-stream.html" class="btn btn-neutral float-right" title="Sample Stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../authentication/authentication-pin-code.html" class="btn btn-neutral float-left" title="PIN based Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, linvi
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
