@@ -157,7 +157,7 @@ namespace Tweetinvi.WebLogic
                 rateLimitUpdater.QueryExecutedAsync(request.Query.Url, request.Query.TwitterCredentials, rateLimitHeaders);
             }
 
-            request.ExecutionContext.Events.RaiseAfterExecutingQuery(new AfterExecutingQueryEventArgs(request.Query, twitterResponse.Text, twitterResponse.Headers));
+            request.ExecutionContext.Events.RaiseAfterExecutingQuery(new AfterExecutingQueryEventArgs(request.Query, twitterResponse.Content, twitterResponse.Headers));
         }
 
         private void HandleException(

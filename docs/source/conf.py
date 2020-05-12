@@ -24,7 +24,7 @@ copyright = '2020, linvi'
 author = 'linvi'
 
 # The full version, including alpha/beta/rc tags
-release = '5.0' # may also be an URL
+release = '5.0.0-alpha-3'  # may also be an URL
 
 # -- General configuration ---------------------------------------------------
 
@@ -69,6 +69,8 @@ html_js_files = [
 ]
 
 # This forces a refresh of the static content on every build
+
+
 def env_get_outdated(app, env, added, changed, removed):
     return ['index']
 

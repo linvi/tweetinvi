@@ -14,12 +14,12 @@ namespace xUnitinvi.Cursor
         {
             _firstPage = new TwitterResult<long>(null)
             {
-                DataTransferObject = 42
+                Model = 42
             };
 
             _secondPage =  new TwitterResult<long>(null)
             {
-                DataTransferObject = 43
+                Model = 43
             };
 
             _getNextPage = A.Fake<Func<string, Task<ITwitterResult<long>>>>();

@@ -46,7 +46,7 @@ namespace Tweetinvi.Controllers.Upload
                 // The second parameter (false) informs Tweetinvi that you are manually awaiting the media to be ready
                 var mediaStatusTwitterResult = await _uploadQueryExecutor.GetMediaStatusAsync(media, request).ConfigureAwait(false);
 
-                mediaStatus = mediaStatusTwitterResult.DataTransferObject;
+                mediaStatus = mediaStatusTwitterResult.Model;
                 isProcessed = IsMediaProcessed(mediaStatus.ProcessingInfo);
                 timeToWait = mediaStatus.ProcessingInfo.CheckAfterInMilliseconds;
             }

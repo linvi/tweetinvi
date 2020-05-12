@@ -49,7 +49,7 @@ namespace Tweetinvi.Client
         {
             var pageIterator = _client.Raw.Search.GetSearchTweetsIterator(parameters);
             var page = await pageIterator.NextPageAsync().ConfigureAwait(false);
-            return _client.Factories.CreateSearchResult(page?.Content?.DataTransferObject);
+            return _client.Factories.CreateSearchResult(page?.Content?.Model);
         }
 
         public ITwitterIterator<ITweet, long?> GetSearchTweetsIterator(string query)
@@ -61,7 +61,7 @@ namespace Tweetinvi.Client
         {
             var pageIterator = _client.Raw.Search.GetSearchTweetsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ISearchResultsDTO>, ITweet, long?>(pageIterator,
-                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject?.TweetDTOs));
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.Model?.TweetDTOs));
         }
 
         public ITweet[] FilterTweets(ITweet[] tweets, OnlyGetTweetsThatAre? filter, bool tweetsMustContainGeoInformation)
@@ -117,7 +117,7 @@ namespace Tweetinvi.Client
         public async Task<ISavedSearch> CreateSavedSearchAsync(ICreateSavedSearchParameters parameters)
         {
             var twitterResult = await _client.Raw.Search.CreateSavedSearchAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateSavedSearch(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateSavedSearch(twitterResult?.Model);
         }
 
         public Task<ISavedSearch> GetSavedSearchAsync(long savedSearchId)
@@ -128,7 +128,7 @@ namespace Tweetinvi.Client
         public async Task<ISavedSearch> GetSavedSearchAsync(IGetSavedSearchParameters parameters)
         {
             var twitterResult = await _client.Raw.Search.GetSavedSearchAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateSavedSearch(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateSavedSearch(twitterResult?.Model);
         }
 
         public Task<ISavedSearch[]> ListSavedSearchesAsync()
@@ -139,7 +139,7 @@ namespace Tweetinvi.Client
         public async Task<ISavedSearch[]> ListSavedSearchesAsync(IListSavedSearchesParameters parameters)
         {
             var twitterResult = await _client.Raw.Search.ListSavedSearchesAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject?.Select(_client.Factories.CreateSavedSearch).ToArray();
+            return twitterResult?.Model?.Select(_client.Factories.CreateSavedSearch).ToArray();
         }
 
         public Task<ISavedSearch> DestroySavedSearchAsync(long savedSearchId)
@@ -155,7 +155,7 @@ namespace Tweetinvi.Client
         public async Task<ISavedSearch> DestroySavedSearchAsync(IDestroySavedSearchParameters parameters)
         {
             var twitterResult = await _client.Raw.Search.DestroySavedSearchAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateSavedSearch(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateSavedSearch(twitterResult?.Model);
         }
     }
 }

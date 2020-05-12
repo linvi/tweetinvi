@@ -59,7 +59,7 @@ namespace Tweetinvi.Controllers.Upload
             var twitterResult = await _twitterAccessor.ExecuteRequestAsync<IUploadInitModel>(request).ConfigureAwait(false);
             _result.Init = twitterResult;
 
-            var initModel = twitterResult?.DataTransferObject;
+            var initModel = twitterResult?.Model;
             if (initModel != null)
             {
                 _expectedBinaryLength = initParameters.TotalBinaryLength;
@@ -129,7 +129,7 @@ namespace Tweetinvi.Controllers.Upload
             request.Query.HttpMethod = HttpMethod.POST;
 
             var finalizeTwitterResult = await _twitterAccessor.ExecuteRequestAsync<UploadedMediaInfo>(request).ConfigureAwait(false);
-            var uploadedMediaInfos = finalizeTwitterResult.DataTransferObject;
+            var uploadedMediaInfos = finalizeTwitterResult.Model;
 
             UpdateMedia(uploadedMediaInfos);
 

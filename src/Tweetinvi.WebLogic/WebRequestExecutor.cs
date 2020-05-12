@@ -55,7 +55,7 @@ namespace Tweetinvi.WebLogic
                     if (stream != null)
                     {
                         result.Binary = StreamToBinary(stream);
-                        result.Text = Encoding.UTF8.GetString(result.Binary);
+                        result.Content = Encoding.UTF8.GetString(result.Binary);
                     }
 
                     return result;
@@ -118,7 +118,7 @@ namespace Tweetinvi.WebLogic
                     if (stream != null)
                     {
                         result.Binary = StreamToBinary(stream);
-                        result.Text = Encoding.UTF8.GetString(result.Binary);
+                        result.Content = Encoding.UTF8.GetString(result.Binary);
                     }
 
                     return result;

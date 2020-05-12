@@ -4,11 +4,11 @@ using Tweetinvi.Iterators;
 
 namespace Tweetinvi.Core.Iterators
 {
-    public class TwitterIteratorEnumerableResult<TItemCollection, TItem, TCursor> : ITwitterIteratorEnumerableResult<TItem, TCursor> where TItemCollection : IEnumerable<TItem>
+    public class TwitterIteratorPage<TItemCollection, TItem, TCursor> : ITwitterIteratorPage<TItem, TCursor> where TItemCollection : IEnumerable<TItem>
     {
         private readonly TItemCollection _items;
 
-        public TwitterIteratorEnumerableResult(TItemCollection items, TCursor nextCursor, bool isLastPage)
+        public TwitterIteratorPage(TItemCollection items, TCursor nextCursor, bool isLastPage)
         {
             _items = items;
             

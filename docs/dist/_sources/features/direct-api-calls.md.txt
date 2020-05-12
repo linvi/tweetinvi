@@ -12,7 +12,7 @@ var homeTimelineResult = await client.Execute.RequestAsync(request =>
     request.HttpMethod = HttpMethod.GET;
 });
 
-var jsonResponse = homeTimelineResult.RawResult;
+var jsonResponse = homeTimelineResult.Content;
 ```
 
 You can also get objects.
@@ -25,7 +25,7 @@ var result = await client.Execute.RequestAsync<TweetDTO[]>(request =>
 });
 
 // TweetDTO[]
-var tweetDtos = result.DataTransferObject;
+var tweetDtos = result.Model;
 
 // ITweet[]
 var tweets = client.Factories.CreateTweets(tweetDtos);

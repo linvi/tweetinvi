@@ -66,12 +66,12 @@ namespace Tweetinvi.Core.Web
     {
         ITwitterResponse Response { get; set; }
         ITwitterRequest Request { get; set; }
-        string RawResult { get; }
+        string Content { get; }
     }
 
-    public interface ITwitterResult<out TDTO> : ITwitterResult
+    public interface ITwitterResult<out TModel> : ITwitterResult
     {
-        TDTO DataTransferObject { get; }
+        TModel Model { get; }
     }
 
     public interface ITwitterResult<out TDTO, out TModel> : ITwitterResult<TDTO>
@@ -83,7 +83,7 @@ namespace Tweetinvi.Core.Web
     {
         public ITwitterResponse Response { get; set; }
         public ITwitterRequest Request { get; set; }
-        public string RawResult => Response?.Text;
+        public string Content => Response?.Content;
     }
 
     public class TwitterResult<TDTO> : TwitterResult, ITwitterResult<TDTO>
@@ -102,7 +102,7 @@ namespace Tweetinvi.Core.Web
             _jsonObjectConverter = jsonObjectConverter;
         }
 
-        public TDTO DataTransferObject
+        public TDTO Model
         {
             get
             {
@@ -110,7 +110,7 @@ namespace Tweetinvi.Core.Web
                 {
                     _initialized = true;
 
-                    var json = Response?.Text;
+                    var json = Response?.Content;
                     var converters = Request.ExecutionContext.Converters;
 
                     _result = _jsonObjectConverter.Deserialize<TDTO>(json, converters);
@@ -141,7 +141,7 @@ namespace Tweetinvi.Core.Web
         {
             get
             {
-                var dto = DataTransferObject;
+                var dto = Model;
 
                 if (dto == null)
                 {

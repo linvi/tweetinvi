@@ -24,7 +24,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterConfiguration> GetTwitterConfigurationAsync(IGetTwitterConfigurationParameters parameters)
         {
             var twitterResult = await _helpRequester.GetTwitterConfigurationAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return twitterResult?.Model;
         }
 
         public Task<SupportedLanguage[]> GetSupportedLanguagesAsync()
@@ -35,7 +35,7 @@ namespace Tweetinvi.Client
         public async Task<SupportedLanguage[]> GetSupportedLanguagesAsync(IGetSupportedLanguagesParameters parameters)
         {
             var twitterResult = await _helpRequester.GetSupportedLanguagesAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return twitterResult?.Model;
         }
 
         public Task<IPlace> GetPlaceAsync(string placeId)
@@ -46,13 +46,13 @@ namespace Tweetinvi.Client
         public async Task<IPlace> GetPlaceAsync(IGetPlaceParameters parameters)
         {
             var result = await _helpRequester.GetPlaceAsync(parameters).ConfigureAwait(false);
-            return result?.DataTransferObject;
+            return result?.Model;
         }
 
         public async Task<IPlace[]> SearchGeoAsync(IGeoSearchParameters parameters)
         {
             var result = await _helpRequester.SearchGeoAsync(parameters).ConfigureAwait(false);
-            return result?.DataTransferObject?.Result.Places;
+            return result?.Model?.Result.Places;
         }
 
         public Task<IPlace[]> SearchGeoReverseAsync(ICoordinates coordinates)
@@ -63,7 +63,7 @@ namespace Tweetinvi.Client
         public async Task<IPlace[]> SearchGeoReverseAsync(IGeoSearchReverseParameters parameters)
         {
             var result = await _helpRequester.SearchGeoReverseAsync(parameters).ConfigureAwait(false);
-            return result?.DataTransferObject?.Result.Places;
+            return result?.Model?.Result.Places;
         }
     }
 }

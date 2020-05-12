@@ -25,7 +25,7 @@ namespace Tweetinvi.Client
         public async Task<string> CreateBearerTokenAsync(ICreateBearerTokenParameters parameters)
         {
             var twitterResult = await _authRequester.CreateBearerTokenAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject.AccessToken;
+            return twitterResult?.Model.AccessToken;
         }
 
         public async Task InitializeClientBearerTokenAsync()
@@ -56,13 +56,13 @@ namespace Tweetinvi.Client
         public async Task<IAuthenticationRequest> RequestAuthenticationUrlAsync(IRequestAuthUrlParameters parameters)
         {
             var twitterResult = await _authRequester.RequestAuthUrlAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return twitterResult?.Model;
         }
 
         public async Task<ITwitterCredentials> RequestCredentialsAsync(IRequestCredentialsParameters parameters)
         {
             var twitterResult = await _authRequester.RequestCredentialsAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return twitterResult?.Model;
         }
 
         public Task<ITwitterCredentials> RequestCredentialsFromVerifierCodeAsync(string verifierCode, IAuthenticationRequest authenticationRequest)
@@ -88,7 +88,7 @@ namespace Tweetinvi.Client
         public async Task<InvalidateTokenResponse> InvalidateBearerTokenAsync(IInvalidateBearerTokenParameters parameters)
         {
             var twitterResult = await _authRequester.InvalidateBearerTokenAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return twitterResult?.Model;
         }
 
         public Task<InvalidateTokenResponse> InvalidateAccessTokenAsync()
@@ -99,7 +99,7 @@ namespace Tweetinvi.Client
         public async Task<InvalidateTokenResponse> InvalidateAccessTokenAsync(IInvalidateAccessTokenParameters parameters)
         {
             var twitterResult = await _authRequester.InvalidateAccessTokenAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return twitterResult?.Model;
         }
     }
 }

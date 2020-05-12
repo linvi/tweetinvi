@@ -48,8 +48,8 @@ namespace Tweetinvi.Controllers.User
 
                     return _userQueryExecutor.GetFriendIdsAsync(cursoredParameters, new TwitterRequest(request));
                 },
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
+                page => page.Model.NextCursorStr,
+                page => page.Model.NextCursorStr == "0");
 
             return twitterCursorResult;
         }
@@ -67,8 +67,8 @@ namespace Tweetinvi.Controllers.User
 
                     return _userQueryExecutor.GetFollowerIdsAsync(cursoredParameters, new TwitterRequest(request));
                 },
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
+                page => page.Model.NextCursorStr,
+                page => page.Model.NextCursorStr == "0");
 
             return twitterCursorResult;
         }
@@ -122,8 +122,8 @@ namespace Tweetinvi.Controllers.User
 
                     return _userQueryExecutor.GetUserIdsRequestingFriendshipAsync(cursoredParameters, new TwitterRequest(request));
                 },
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
+                page => page.Model.NextCursorStr,
+                page => page.Model.NextCursorStr == "0");
 
             return twitterCursorResult;
         }
@@ -141,8 +141,8 @@ namespace Tweetinvi.Controllers.User
 
                     return _userQueryExecutor.GetUserIdsYouRequestedToFollowAsync(cursoredParameters, new TwitterRequest(request));
                 },
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
+                page => page.Model.NextCursorStr,
+                page => page.Model.NextCursorStr == "0");
 
             return twitterCursorResult;
         }
@@ -176,8 +176,8 @@ namespace Tweetinvi.Controllers.User
 
                     return _userQueryExecutor.GetBlockedUserIdsAsync(cursoredParameters, new TwitterRequest(request));
                 },
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
+                page => page.Model.NextCursorStr,
+                page => page.Model.NextCursorStr == "0");
 
             return twitterCursorResult;
         }
@@ -195,8 +195,8 @@ namespace Tweetinvi.Controllers.User
 
                     return _userQueryExecutor.GetBlockedUsersAsync(cursoredParameters, new TwitterRequest(request));
                 },
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
+                page => page.Model.NextCursorStr,
+                page => page.Model.NextCursorStr == "0");
 
             return twitterCursorResult;
         }
@@ -220,8 +220,8 @@ namespace Tweetinvi.Controllers.User
 
                     return _userQueryExecutor.GetMutedUserIdsAsync(cursoredParameters, new TwitterRequest(request));
                 },
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
+                page => page.Model.NextCursorStr,
+                page => page.Model.NextCursorStr == "0");
 
             return twitterCursorResult;
         }
@@ -239,8 +239,8 @@ namespace Tweetinvi.Controllers.User
 
                     return _userQueryExecutor.GetMutedUsersAsync(cursoredParameters, new TwitterRequest(request));
                 },
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
+                page => page.Model.NextCursorStr,
+                page => page.Model.NextCursorStr == "0");
 
             return twitterCursorResult;
         }

@@ -39,7 +39,7 @@ namespace Tweetinvi.Client
         public async Task<IAuthenticatedUser> GetAuthenticatedUserAsync(IGetAuthenticatedUserParameters parameters)
         {
             var requestResult = await _usersRequester.GetAuthenticatedUserAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateAuthenticatedUser(requestResult?.DataTransferObject);
+            return _client.Factories.CreateAuthenticatedUser(requestResult?.Model);
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace Tweetinvi.Client
         public async Task<IUser> GetUserAsync(IGetUserParameters parameters)
         {
             var requestResult = await _usersRequester.GetUserAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateUser(requestResult?.DataTransferObject);
+            return _client.Factories.CreateUser(requestResult?.Model);
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace Tweetinvi.Client
             }
 
             var requestResult = await _usersRequester.GetUsersAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateUsers(requestResult?.DataTransferObject);
+            return _client.Factories.CreateUsers(requestResult?.Model);
         }
 
         #endregion
@@ -151,7 +151,7 @@ namespace Tweetinvi.Client
         public async Task<IRelationshipDetails> GetRelationshipBetweenAsync(IGetRelationshipBetweenParameters parameters)
         {
             var relationshipTwitterResult = await _usersRequester.GetRelationshipBetweenAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateRelationshipDetails(relationshipTwitterResult?.DataTransferObject);
+            return _client.Factories.CreateRelationshipDetails(relationshipTwitterResult?.Model);
         }
 
         #endregion
@@ -200,7 +200,7 @@ namespace Tweetinvi.Client
         public ITwitterIterator<long> GetFriendIdsIterator(IGetFriendIdsParameters parameters)
         {
             var twitterResultIterator = _usersRequester.GetFriendIdsIterator(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterResultIterator, dto => dto.DataTransferObject.Ids);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterResultIterator, dto => dto.Model.Ids);
         }
 
         public Task<IUser[]> GetFriendsAsync(long userId)
@@ -284,7 +284,7 @@ namespace Tweetinvi.Client
         public ITwitterIterator<long> GetFollowerIdsIterator(IGetFollowerIdsParameters parameters)
         {
             var followerIdsPageIterator = _usersRequester.GetFollowerIdsIterator(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(followerIdsPageIterator, dto => dto.DataTransferObject.Ids);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(followerIdsPageIterator, dto => dto.Model.Ids);
         }
 
         public Task<IUser[]> GetFollowersAsync(long userId)
@@ -344,7 +344,7 @@ namespace Tweetinvi.Client
         public async Task<IUser> BlockUserAsync(IBlockUserParameters parameters)
         {
             var twitterResult = await _usersRequester.BlockUserAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateUser(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateUser(twitterResult?.Model);
         }
 
         public Task<IUser> UnblockUserAsync(long userId)
@@ -365,7 +365,7 @@ namespace Tweetinvi.Client
         public async Task<IUser> UnblockUserAsync(IUnblockUserParameters parameters)
         {
             var twitterResult = await _usersRequester.UnblockUserAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateUser(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateUser(twitterResult?.Model);
         }
 
         public Task<IUser> ReportUserForSpamAsync(long userId)
@@ -386,7 +386,7 @@ namespace Tweetinvi.Client
         public async Task<IUser> ReportUserForSpamAsync(IReportUserForSpamParameters parameters)
         {
             var twitterResult = await _usersRequester.ReportUserForSpamAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateUser(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateUser(twitterResult?.Model);
         }
 
         public Task<long[]> GetBlockedUserIdsAsync()
@@ -408,7 +408,7 @@ namespace Tweetinvi.Client
         public ITwitterIterator<long> GetBlockedUserIdsIterator(IGetBlockedUserIdsParameters parameters)
         {
             var twitterCursorResult = _usersRequester.GetBlockedUserIdsIterator(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterCursorResult, dto => dto.DataTransferObject.Ids);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterCursorResult, dto => dto.Model.Ids);
         }
 
         public Task<IUser[]> GetBlockedUsersAsync()
@@ -432,7 +432,7 @@ namespace Tweetinvi.Client
             var twitterCursorResult = _usersRequester.GetBlockedUsersIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(twitterCursorResult, pageResult =>
             {
-                var userDTOs = pageResult.DataTransferObject.Users;
+                var userDTOs = pageResult.Model.Users;
                 return _client.Factories.CreateUsers(userDTOs);
             });
         }
@@ -459,7 +459,7 @@ namespace Tweetinvi.Client
         public async Task<IUser> FollowUserAsync(IFollowUserParameters parameters)
         {
             var twitterResult = await _usersRequester.FollowUserAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateUser(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateUser(twitterResult?.Model);
         }
 
         public Task<IUser> UnfollowUserAsync(long userId)
@@ -480,7 +480,7 @@ namespace Tweetinvi.Client
         public async Task<IUser> UnfollowUserAsync(IUnfollowUserParameters parameters)
         {
             var twitterResult = await _usersRequester.UnfollowUserAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateUser(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateUser(twitterResult?.Model);
         }
 
         #endregion
@@ -515,7 +515,7 @@ namespace Tweetinvi.Client
         public ITwitterIterator<long> GetUserIdsRequestingFriendshipIterator(IGetUserIdsRequestingFriendshipParameters parameters)
         {
             var iterator = _usersRequester.GetUserIdsRequestingFriendshipIterator(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.Model.Ids);
         }
 
         public Task<IUser[]> GetUsersRequestingFriendshipAsync()
@@ -566,7 +566,7 @@ namespace Tweetinvi.Client
         public ITwitterIterator<long> GetUserIdsYouRequestedToFollowIterator(IGetUserIdsYouRequestedToFollowParameters parameters)
         {
             var iterator = _usersRequester.GetUserIdsYouRequestedToFollowIterator(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.Model.Ids);
         }
 
         public Task<IUser[]> GetUsersYouRequestedToFollowAsync()
@@ -630,7 +630,7 @@ namespace Tweetinvi.Client
             }
 
             var twitterResult = await _usersRequester.GetRelationshipsWithAsync(parameters).ConfigureAwait(false);
-            var relationshipsWith = _client.Factories.CreateRelationshipStates(twitterResult?.DataTransferObject);
+            var relationshipsWith = _client.Factories.CreateRelationshipStates(twitterResult?.Model);
 
             var userRelationshipState = new UserDictionary<IRelationshipState>();
 
@@ -658,7 +658,7 @@ namespace Tweetinvi.Client
         public async Task<long[]> GetUserIdsWhoseRetweetsAreMutedAsync(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
         {
             var twitterResult = await _usersRequester.GetUserIdsWhoseRetweetsAreMutedAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return twitterResult?.Model;
         }
 
         public Task<long[]> GetMutedUserIdsAsync()
@@ -680,7 +680,7 @@ namespace Tweetinvi.Client
         public ITwitterIterator<long> GetMutedUserIdsIterator(IGetMutedUserIdsParameters parameters)
         {
             var iterator = _usersRequester.GetMutedUserIdsIterator(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.Model.Ids);
         }
 
         public Task<IUser[]> GetMutedUsersAsync()
@@ -704,7 +704,7 @@ namespace Tweetinvi.Client
             var iterator = _usersRequester.GetMutedUsersIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(iterator, pageResult =>
             {
-                var userDTOs = pageResult.DataTransferObject.Users;
+                var userDTOs = pageResult.Model.Users;
                 return _client.Factories.CreateUsers(userDTOs);
             });
         }
@@ -727,7 +727,7 @@ namespace Tweetinvi.Client
         public async Task<IUser> MuteUserAsync(IMuteUserParameters parameters)
         {
             var twitterResult = await _usersRequester.MuteUserAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateUser(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateUser(twitterResult?.Model);
         }
 
         public Task<IUser> UnmuteUserAsync(long userId)
@@ -748,7 +748,7 @@ namespace Tweetinvi.Client
         public async Task<IUser> UnmuteUserAsync(IUnmuteUserParameters parameters)
         {
             var twitterResult = await _usersRequester.UnmuteUserAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateUser(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateUser(twitterResult?.Model);
         }
 
         #endregion

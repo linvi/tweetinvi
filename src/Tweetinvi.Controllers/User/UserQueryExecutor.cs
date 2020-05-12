@@ -98,7 +98,7 @@ namespace Tweetinvi.Controllers.User
                 {
                     Request = null,
                     Response = null,
-                    DataTransferObject = new IUserDTO[0]
+                    Model = new IUserDTO[0]
                 };
 
                 return Task.FromResult(result);

@@ -18,7 +18,7 @@ namespace xUnitinvi.TestHelpers
             {
                 new TwitterResult<IIdsCursorQueryResultDTO>(null)
                 {
-                    DataTransferObject = new IdsCursorQueryResultDTO
+                    Model = new IdsCursorQueryResultDTO
                     {
                         Ids = new long[] { 42, 43 },
                         NextCursorStr = "cursor_to_page_2",
@@ -27,7 +27,7 @@ namespace xUnitinvi.TestHelpers
                 },
                 new TwitterResult<IIdsCursorQueryResultDTO>(null)
                 {
-                    DataTransferObject = new IdsCursorQueryResultDTO
+                    Model = new IdsCursorQueryResultDTO
                     {
                         Ids = new long[] { 44, 45 },
                         NextCursorStr = "0",

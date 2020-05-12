@@ -38,7 +38,7 @@ namespace Tweetinvi.Client
         public async Task<IMessage> PublishMessageAsync(IPublishMessageParameters parameters)
         {
             var twitterResult = await _messageRequester.PublishMessageAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateMessage(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateMessage(twitterResult?.Model);
         }
 
         public Task<IMessage> GetMessageAsync(long messageId)
@@ -49,7 +49,7 @@ namespace Tweetinvi.Client
         public async Task<IMessage> GetMessageAsync(IGetMessageParameters parameters)
         {
             var twitterResult = await _messageRequester.GetMessageAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateMessage(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateMessage(twitterResult?.Model);
         }
 
         public Task<IMessage[]> GetMessagesAsync()
@@ -75,7 +75,7 @@ namespace Tweetinvi.Client
             return new TwitterIteratorProxy<ITwitterResult<IMessageCursorQueryResultDTO>, IMessage>(pageIterator,
                 twitterResult =>
                 {
-                    var messageEventDtos = twitterResult.DataTransferObject.MessageEvents;
+                    var messageEventDtos = twitterResult.Model.MessageEvents;
                     var messageDtos = messageEventDtos.Select(dto =>
                     {
                         var messageDto = new MessageEventWithAppDTO
@@ -84,9 +84,9 @@ namespace Tweetinvi.Client
                         };
 
                         var appId = dto.MessageCreate.SourceAppId;
-                        if (appId != null && twitterResult.DataTransferObject.Apps != null && twitterResult.DataTransferObject.Apps.ContainsKey(appId.Value))
+                        if (appId != null && twitterResult.Model.Apps != null && twitterResult.Model.Apps.ContainsKey(appId.Value))
                         {
-                            messageDto.App = twitterResult.DataTransferObject.Apps[appId.Value];
+                            messageDto.App = twitterResult.Model.Apps[appId.Value];
                         }
 
                         return messageDto as IMessageEventWithAppDTO;

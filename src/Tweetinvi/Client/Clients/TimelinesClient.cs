@@ -43,7 +43,7 @@ namespace Tweetinvi.Client
         {
             var pageIterator = _timelinesRequester.GetHomeTimelineIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.Model));
         }
 
         public Task<ITweet[]> GetUserTimelineAsync(long userId)
@@ -87,7 +87,7 @@ namespace Tweetinvi.Client
             var pageIterator = _timelinesRequester.GetUserTimelineIterator(parameters);
 
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.Model));
         }
 
         public Task<ITweet[]> GetMentionsTimelineAsync()
@@ -110,7 +110,7 @@ namespace Tweetinvi.Client
         {
             var pageIterator = _timelinesRequester.GetMentionsTimelineIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.Model));
         }
 
         public Task<ITweet[]> GetRetweetsOfMeTimelineAsync()
@@ -135,7 +135,7 @@ namespace Tweetinvi.Client
             var pageIterator = _timelinesRequester.GetRetweetsOfMeTimelineIterator(parameters);
 
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.Model));
         }
     }
 }

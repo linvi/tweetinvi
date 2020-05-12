@@ -42,7 +42,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList> CreateListAsync(ICreateListParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.CreateListAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateTwitterList(twitterResult?.Model);
         }
 
         public Task<ITwitterList> GetListAsync(long listId)
@@ -63,7 +63,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList> GetListAsync(IGetListParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.GetListAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateTwitterList(twitterResult?.Model);
         }
 
         public Task<ITwitterList[]> GetListsSubscribedByAccountAsync()
@@ -94,13 +94,13 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList[]> GetListsSubscribedByUserAsync(IGetListsSubscribedByUserParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.GetListsSubscribedByUserAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTwitterLists(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateTwitterLists(twitterResult?.Model);
         }
 
         public async Task<ITwitterList> UpdateListAsync(IUpdateListParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.UpdateListAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateTwitterList(twitterResult?.Model);
         }
 
         public Task<ITwitterList> DestroyListAsync(long listId)
@@ -121,7 +121,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList> DestroyListAsync(IDestroyListParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.DestroyListAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateTwitterList(twitterResult?.Model);
         }
 
         public Task<ITwitterList[]> GetListsOwnedByAccountAsync()
@@ -186,7 +186,7 @@ namespace Tweetinvi.Client
             var iterator = _twitterListsRequester.GetListsOwnedByUserIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITwitterListCursorQueryResultDTO>, ITwitterList>(iterator, pageResult =>
             {
-                var listDtos = pageResult?.DataTransferObject?.TwitterLists;
+                var listDtos = pageResult?.Model?.TwitterLists;
                 return listDtos?.Select(dto => _client.Factories.CreateTwitterList(dto)).ToArray();
             });
         }
@@ -315,7 +315,7 @@ namespace Tweetinvi.Client
             var iterator = _twitterListsRequester.GetUserListMembershipsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITwitterListCursorQueryResultDTO>, ITwitterList>(iterator, pageResult =>
             {
-                var listDtos = pageResult.DataTransferObject.TwitterLists;
+                var listDtos = pageResult.Model.TwitterLists;
                 return listDtos?.Select(dto => _client.Factories.CreateTwitterList(dto)).ToArray();
             });
         }
@@ -351,7 +351,7 @@ namespace Tweetinvi.Client
             var iterator = _twitterListsRequester.GetMembersOfListIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(iterator, pageResult =>
             {
-                return _client.Factories.CreateUsers(pageResult?.DataTransferObject?.Users);
+                return _client.Factories.CreateUsers(pageResult?.Model?.Users);
             });
         }
 
@@ -438,7 +438,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList> RemoveMemberFromListAsync(IRemoveMemberFromListParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.RemoveMemberFromListAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateTwitterList(twitterResult?.Model);
         }
 
         public Task<ITwitterList> RemoveMembersFromListAsync(long listId, IEnumerable<long> userIds)
@@ -474,7 +474,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList> RemoveMembersFromListAsync(IRemoveMembersFromListParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.RemoveMembersFromListAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateTwitterList(twitterResult?.Model);
         }
 
         // ***********
@@ -494,7 +494,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList> SubscribeToListAsync(ISubscribeToListParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.SubscribeToListAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateTwitterList(twitterResult?.Model);
         }
 
         public Task<ITwitterList> UnsubscribeFromListAsync(long listId)
@@ -510,7 +510,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList> UnsubscribeFromListAsync(IUnsubscribeFromListParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.UnsubscribeFromListAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateTwitterList(twitterResult?.Model);
         }
 
         public Task<IUser[]> GetListSubscribersAsync(long listId)
@@ -544,7 +544,7 @@ namespace Tweetinvi.Client
             var pageIterator = _twitterListsRequester.GetListSubscribersIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(pageIterator, pageResult =>
             {
-                return _client.Factories.CreateUsers(pageResult?.DataTransferObject?.Users);
+                return _client.Factories.CreateUsers(pageResult?.Model?.Users);
             });
         }
 
@@ -594,7 +594,7 @@ namespace Tweetinvi.Client
             var pageIterator = _twitterListsRequester.GetUserListSubscriptionsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITwitterListCursorQueryResultDTO>, ITwitterList>(pageIterator, pageResult =>
             {
-                var twitterListDtos = pageResult.DataTransferObject.TwitterLists;
+                var twitterListDtos = pageResult.Model.TwitterLists;
                 return _client.Factories.CreateTwitterLists(twitterListDtos);
             });
         }
@@ -683,7 +683,7 @@ namespace Tweetinvi.Client
         {
             var pageIterator = _twitterListsRequester.GetTweetsFromListIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.Model));
         }
     }
 }

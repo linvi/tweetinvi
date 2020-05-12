@@ -26,7 +26,7 @@ namespace xUnitinvi.EndToEnd
                 request.HttpMethod = HttpMethod.GET;
             });
 
-            var userFromJson = _tweetinviTestClient.Json.Deserialize<IUserDTO>(twitterResult.RawResult);
+            var userFromJson = _tweetinviTestClient.Json.Deserialize<IUserDTO>(twitterResult.Content);
 
             var userTwitterResult = await _tweetinviTestClient.Execute.RequestAsync<IUserDTO>(request =>
             {
@@ -34,11 +34,11 @@ namespace xUnitinvi.EndToEnd
                 request.HttpMethod = HttpMethod.GET;
             });
 
-            var user = _tweetinviTestClient.Factories.CreateUser(userTwitterResult.DataTransferObject);
+            var user = _tweetinviTestClient.Factories.CreateUser(userTwitterResult.Model);
 
             // assert
             Assert.Equal(userFromJson.ScreenName, EndToEndTestConfig.TweetinviTest.AccountId);
-            Assert.Equal(userTwitterResult.DataTransferObject.ScreenName, EndToEndTestConfig.TweetinviTest.AccountId);
+            Assert.Equal(userTwitterResult.Model.ScreenName, EndToEndTestConfig.TweetinviTest.AccountId);
             Assert.Equal(user.ScreenName, EndToEndTestConfig.TweetinviTest.AccountId);
         }
     }

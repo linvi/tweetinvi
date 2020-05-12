@@ -82,7 +82,7 @@ namespace Tweetinvi.Client
         public async Task<IUploadedMediaInfo> GetVideoProcessingStatusAsync(IMedia media)
         {
             var twitterResult = await _uploadRequester.GetVideoProcessingStatusAsync(media).ConfigureAwait(false);
-            return twitterResult.DataTransferObject;
+            return twitterResult.Model;
         }
 
         public Task WaitForMediaProcessingToGetAllMetadataAsync(IMedia media)

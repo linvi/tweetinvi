@@ -79,6 +79,6 @@ namespace Tweetinvi.Core.Web
         Dictionary<string, IEnumerable<string>> Headers { get; set; }
 
         byte[] Binary { get; set; }
-        string Text { get; set; }
+        string Content { get; set; }
     }
 }

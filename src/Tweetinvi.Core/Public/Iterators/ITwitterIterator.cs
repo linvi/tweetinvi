@@ -16,6 +16,6 @@ namespace Tweetinvi.Iterators
     {
         TCursor NextCursor { get; }
         bool Completed { get; }
-        Task<ITwitterIteratorEnumerableResult<TItem, TCursor>> NextPageAsync();
+        Task<ITwitterIteratorPage<TItem, TCursor>> NextPageAsync();
     }
 }

@@ -35,12 +35,12 @@ namespace Tweetinvi.Controllers.Search
 
             long? getNextCursor(ITwitterResult<ISearchResultsDTO> page)
             {
-                if (page?.DataTransferObject?.SearchMetadata?.NextResults == null)
+                if (page?.Model?.SearchMetadata?.NextResults == null)
                 {
                     return null;
                 }
 
-                return page.DataTransferObject.TweetDTOs.Min(x => x.Id) - 1;
+                return page.Model.TweetDTOs.Min(x => x.Id) - 1;
             }
 
             return new TwitterPageIterator<ITwitterResult<ISearchResultsDTO>, long?>(
@@ -89,12 +89,12 @@ namespace Tweetinvi.Controllers.Search
                     var page = await _searchQueryExecutor.SearchUsersAsync(cursoredParameters, new TwitterRequest(request)).ConfigureAwait(false);
                     return new FilteredTwitterResult<UserDTO[]>(page)
                     {
-                        FilteredDTO = page.DataTransferObject.Where(x => !previousResultIds.Contains(x.Id)).ToArray()
+                        FilteredDTO = page.Model.Where(x => !previousResultIds.Contains(x.Id)).ToArray()
                     };
                 },
                 page =>
                 {
-                    if (page.DataTransferObject.Length == 0)
+                    if (page.Model.Length == 0)
                     {
                         return null;
                     }
@@ -103,7 +103,7 @@ namespace Tweetinvi.Controllers.Search
                 },
                 page =>
                 {
-                    var requestUserIds = page.DataTransferObject.Select(x => x.Id).ToArray();
+                    var requestUserIds = page.Model.Select(x => x.Id).ToArray();
                     var newItemIds = requestUserIds.Except(previousResultIds).ToArray();
 
                     foreach (var newItemId in newItemIds)
@@ -111,7 +111,7 @@ namespace Tweetinvi.Controllers.Search
                         previousResultIds.Add(newItemId);
                     }
 
-                    return newItemIds.Length == 0 || page.DataTransferObject.Length == 0;
+                    return newItemIds.Length == 0 || page.Model.Length == 0;
                 });
         }
 

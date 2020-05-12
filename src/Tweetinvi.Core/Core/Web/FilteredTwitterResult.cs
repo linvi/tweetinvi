@@ -16,8 +16,8 @@ namespace Tweetinvi.Core.Web
         {
             Request = source.Request;
             Response = source.Response;
-            DataTransferObject = source.DataTransferObject;
-            FilteredDTO = source.DataTransferObject;
+            Model = source.Model;
+            FilteredDTO = source.Model;
         }
 
         public TDTO FilteredDTO { get; set; }
@@ -29,7 +29,7 @@ namespace Tweetinvi.Core.Web
         {
             Request = source.Request;
             Response = source.Response;
-            DataTransferObject = source.DataTransferObject;
+            Model = source.Model;
             FilteredResultsDTO = filteredResultsResultDTO;
         }
 

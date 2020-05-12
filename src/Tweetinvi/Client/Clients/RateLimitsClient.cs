@@ -54,7 +54,7 @@ namespace Tweetinvi.Client
                     return await _rateLimitCacheManager.RateLimitCache.GetCredentialsRateLimitsAsync(_client.Credentials).ConfigureAwait(false);
                 case RateLimitsSource.TwitterApiOnly:
                     var twitterResult = await _helpRequester.GetRateLimitsAsync(parameters).ConfigureAwait(false);
-                    return _client.Factories.CreateRateLimits(twitterResult?.DataTransferObject);
+                    return _client.Factories.CreateRateLimits(twitterResult?.Model);
                 case RateLimitsSource.CacheOrTwitterApi:
                     return await _rateLimitCacheManager.GetCredentialsRateLimitsAsync(_client.Credentials).ConfigureAwait(false);
                 default:

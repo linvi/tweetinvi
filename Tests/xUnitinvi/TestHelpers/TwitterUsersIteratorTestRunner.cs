@@ -20,7 +20,7 @@ namespace xUnitinvi.TestHelpers
             {
                 new TwitterResult<IUserCursorQueryResultDTO>(null)
                 {
-                    DataTransferObject = new UserCursorQueryResultDTO
+                    Model = new UserCursorQueryResultDTO
                     {
                         Users = new IUserDTO[]
                         {
@@ -33,7 +33,7 @@ namespace xUnitinvi.TestHelpers
                 },
                 new TwitterResult<IUserCursorQueryResultDTO>(null)
                 {
-                    DataTransferObject = new UserCursorQueryResultDTO
+                    Model = new UserCursorQueryResultDTO
                     {
                         Users = new IUserDTO[]
                         {

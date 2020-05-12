@@ -24,7 +24,7 @@ namespace Tweetinvi.Client
         public async Task<IGetTrendsAtResult> GetPlaceTrendsAtAsync(IGetTrendsAtParameters parameters)
         {
             var twitterResult = await _client.Raw.Trends.GetPlaceTrendsAtAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject[0];
+            return twitterResult?.Model[0];
         }
 
         public Task<ITrendLocation[]> GetTrendLocationsAsync()
@@ -35,7 +35,7 @@ namespace Tweetinvi.Client
         public async Task<ITrendLocation[]> GetTrendLocationsAsync(IGetTrendsLocationParameters parameters)
         {
             var twitterResult = await _client.Raw.Trends.GetTrendLocationsAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return twitterResult?.Model;
         }
 
         public Task<ITrendLocation[]> GetTrendsLocationCloseToAsync(double latitude, double longitude)
@@ -51,7 +51,7 @@ namespace Tweetinvi.Client
         public async Task<ITrendLocation[]> GetTrendsLocationCloseToAsync(IGetTrendsLocationCloseToParameters parameters)
         {
             var twitterResult = await _client.Raw.Trends.GetTrendsLocationCloseToAsync(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return twitterResult?.Model;
         }
     }
 }

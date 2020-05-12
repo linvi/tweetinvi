@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Direct API calls &mdash; Tweetinvi 5.0 documentation</title>
+  <title>Direct API calls &mdash; Tweetinvi 5.0.0-alpha-3 documentation</title>
   
 
   
@@ -191,7 +191,7 @@
     <span class="n">request</span><span class="p">.</span><span class="n">HttpMethod</span> <span class="p">=</span> <span class="n">HttpMethod</span><span class="p">.</span><span class="n">GET</span><span class="p">;</span>
 <span class="p">});</span>
 
-<span class="kt">var</span> <span class="n">jsonResponse</span> <span class="p">=</span> <span class="n">homeTimelineResult</span><span class="p">.</span><span class="n">RawResult</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">jsonResponse</span> <span class="p">=</span> <span class="n">homeTimelineResult</span><span class="p">.</span><span class="n">Content</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>You can also get objects.</p>
@@ -202,7 +202,7 @@
 <span class="p">});</span>
 
 <span class="c1">// TweetDTO[]</span>
-<span class="kt">var</span> <span class="n">tweetDtos</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">DataTransferObject</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">tweetDtos</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">Model</span><span class="p">;</span>
 
 <span class="c1">// ITweet[]</span>
 <span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Factories</span><span class="p">.</span><span class="n">CreateTweets</span><span class="p">(</span><span class="n">tweetDtos</span><span class="p">);</span>

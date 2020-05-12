@@ -37,7 +37,7 @@ namespace Tweetinvi.Core.Iterators
 
                     return new CursorPageResult<TInput, string>
                     {
-                        Items = transform(userIdsPage.Content.DataTransferObject),
+                        Items = transform(userIdsPage.Content.Model),
                         NextCursor = userIdsPage.NextCursor,
                         IsLastPage = userIdsPage.IsLastPage
                     };

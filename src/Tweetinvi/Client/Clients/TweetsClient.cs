@@ -36,7 +36,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet> GetTweetAsync(IGetTweetParameters parameters)
         {
             var twitterResult = await _tweetsRequester.GetTweetAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTweet(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateTweet(twitterResult?.Model);
         }
 
         public Task<ITweet[]> GetTweetsAsync(long[] tweetIds)
@@ -57,7 +57,7 @@ namespace Tweetinvi.Client
             }
 
             var requestResult = await _tweetsRequester.GetTweetsAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTweets(requestResult?.DataTransferObject);
+            return _client.Factories.CreateTweets(requestResult?.Model);
         }
 
         // Tweets - Publish
@@ -70,7 +70,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet> PublishTweetAsync(IPublishTweetParameters parameters)
         {
             var requestResult = await _tweetsRequester.PublishTweetAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTweet(requestResult?.DataTransferObject);
+            return _client.Factories.CreateTweet(requestResult?.Model);
         }
 
         // Tweets - Destroy
@@ -115,7 +115,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet[]> GetRetweetsAsync(IGetRetweetsParameters parameters)
         {
             var requestResult = await _tweetsRequester.GetRetweetsAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTweets(requestResult?.DataTransferObject);
+            return _client.Factories.CreateTweets(requestResult?.Model);
         }
 
         public Task<ITweet> PublishRetweetAsync(long tweetId)
@@ -131,7 +131,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet> PublishRetweetAsync(IPublishRetweetParameters parameters)
         {
             var requestResult = await _tweetsRequester.PublishRetweetAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateTweet(requestResult?.DataTransferObject);
+            return _client.Factories.CreateTweet(requestResult?.Model);
         }
 
         public Task DestroyRetweetAsync(long retweetId)
@@ -178,7 +178,7 @@ namespace Tweetinvi.Client
         public ITwitterIterator<long> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters)
         {
             var twitterResultIterator = _tweetsRequester.GetRetweeterIdsIterator(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterResultIterator, dto => dto.DataTransferObject.Ids);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterResultIterator, dto => dto.Model.Ids);
         }
 
         public Task<ITweet[]> GetUserFavoriteTweetsAsync(long userId)
@@ -225,7 +225,7 @@ namespace Tweetinvi.Client
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(favoriteTweetsIterator,
                 twitterResult =>
                 {
-                    return twitterResult.DataTransferObject.Select(x => _client.Factories.CreateTweet(x)).ToArray();
+                    return twitterResult.Model.Select(x => _client.Factories.CreateTweet(x)).ToArray();
                 });
         }
 
@@ -308,7 +308,7 @@ namespace Tweetinvi.Client
         public async Task<IOEmbedTweet> GetOEmbedTweetAsync(IGetOEmbedTweetParameters parameters)
         {
             var twitterResult = await _tweetsRequester.GetOEmbedTweetAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateOEmbedTweet(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateOEmbedTweet(twitterResult?.Model);
         }
 
         #endregion

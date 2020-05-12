@@ -46,10 +46,10 @@ namespace Tweetinvi.Controllers.Messages
 
                     return _messageQueryExecutor.GetMessagesAsync(cursoredParameters, new TwitterRequest(request));
                 },
-                page => page.DataTransferObject.NextCursorStr,
+                page => page.Model.NextCursorStr,
                 page =>
                 {
-                    return page.DataTransferObject.NextCursorStr == "0" || string.IsNullOrEmpty(page.DataTransferObject.NextCursorStr);
+                    return page.Model.NextCursorStr == "0" || string.IsNullOrEmpty(page.Model.NextCursorStr);
                 });
         }
     }

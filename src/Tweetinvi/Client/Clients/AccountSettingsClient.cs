@@ -27,19 +27,19 @@ namespace Tweetinvi.Client
         public async Task<IAccountSettings> GetAccountSettingsAsync(IGetAccountSettingsParameters parameters)
         {
             var twitterResult = await _accountRequester.GetAccountSettingsAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateAccountSettings(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateAccountSettings(twitterResult?.Model);
         }
 
         public async Task<IAccountSettings> UpdateAccountSettingsAsync(IUpdateAccountSettingsParameters parameters)
         {
             var twitterResult = await _accountRequester.UpdateAccountSettingsAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateAccountSettings(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateAccountSettings(twitterResult?.Model);
         }
 
         public async Task<IAuthenticatedUser> UpdateProfileAsync(IUpdateProfileParameters parameters)
         {
             var twitterResult = await _accountRequester.UpdateProfileAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateAuthenticatedUser(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateAuthenticatedUser(twitterResult?.Model);
         }
 
         public Task<IUser> UpdateProfileImageAsync(byte[] binary)
@@ -50,7 +50,7 @@ namespace Tweetinvi.Client
         public async Task<IUser> UpdateProfileImageAsync(IUpdateProfileImageParameters parameters)
         {
             var twitterResult = await _accountRequester.UpdateProfileImageAsync(parameters).ConfigureAwait(false);
-            return _client.Factories.CreateUser(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateUser(twitterResult?.Model);
         }
 
         public Task UpdateProfileBannerAsync(byte[] binary)

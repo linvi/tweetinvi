@@ -23,21 +23,21 @@ namespace Tweetinvi.Core.Iterators
                 getNext,
                 page =>
                 {
-                    if (page.DataTransferObject.Length == 0)
+                    if (page.Model.Length == 0)
                     {
                         return null;
                     }
 
-                    return page.DataTransferObject?.Min(x => x.Id) - 1;
+                    return page.Model?.Min(x => x.Id) - 1;
                 },
                 page =>
                 {
                     if (parameters.ContinueMinMaxCursor == ContinueMinMaxCursor.UntilPageSizeIsDifferentFromRequested)
                     {
-                        return page.DataTransferObject.Length < parameters.PageSize;
+                        return page.Model.Length < parameters.PageSize;
                     }
 
-                    return page.DataTransferObject.Length == 0;
+                    return page.Model.Length == 0;
                 });
 
             return twitterCursorResult;
@@ -48,8 +48,8 @@ namespace Tweetinvi.Core.Iterators
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<T>>(
                 parameters.Cursor,
                 getNext,
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
+                page => page.Model.NextCursorStr,
+                page => page.Model.NextCursorStr == "0");
 
             return twitterCursorResult;
         }

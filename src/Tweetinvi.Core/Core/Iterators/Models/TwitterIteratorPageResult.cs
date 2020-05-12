@@ -15,7 +15,7 @@ namespace Tweetinvi.Core.Iterators
             TCursor nextCursor,
             bool isLastPage) : base(content, nextCursor, isLastPage)
         {
-            RawResult = content.RawResult;
+            RawResult = content.Content;
         }
 
         public string RawResult { get; }

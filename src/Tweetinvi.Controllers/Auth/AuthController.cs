@@ -42,12 +42,12 @@ namespace Tweetinvi.Controllers.Auth
 
             var requestTokenResponse = await _authQueryExecutor.RequestAuthUrlAsync(authProcessParams, request).ConfigureAwait(false);
 
-            if (string.IsNullOrEmpty(requestTokenResponse.RawResult) || requestTokenResponse.RawResult == Resources.Auth_RequestToken)
+            if (string.IsNullOrEmpty(requestTokenResponse.Content) || requestTokenResponse.Content == Resources.Auth_RequestToken)
             {
                 throw new TwitterAuthException(requestTokenResponse, "Invalid authentication response");
             }
 
-            var tokenInformation = _parseRequestUrlResponseRegex.Match(requestTokenResponse.RawResult);
+            var tokenInformation = _parseRequestUrlResponseRegex.Match(requestTokenResponse.Content);
 
             if (!bool.TryParse(tokenInformation.Groups["oauth_callback_confirmed"].Value, out var callbackConfirmed) || !callbackConfirmed)
             {
@@ -68,7 +68,7 @@ namespace Tweetinvi.Controllers.Auth
             {
                 Request = requestTokenResponse.Request,
                 Response = requestTokenResponse.Response,
-                DataTransferObject = authToken
+                Model = authToken
             };
         }
 
@@ -76,8 +76,8 @@ namespace Tweetinvi.Controllers.Auth
         {
             var twitterResult = await _authQueryExecutor.RequestCredentialsAsync(parameters, request).ConfigureAwait(false);
 
-            var oAuthToken = twitterResult.RawResult.GetURLParameter("oauth_token");
-            var oAuthTokenSecret = twitterResult.RawResult.GetURLParameter("oauth_token_secret");
+            var oAuthToken = twitterResult.Content.GetURLParameter("oauth_token");
+            var oAuthTokenSecret = twitterResult.Content.GetURLParameter("oauth_token_secret");
 
             if (oAuthToken == null || oAuthTokenSecret == null)
             {
@@ -94,7 +94,7 @@ namespace Tweetinvi.Controllers.Auth
             {
                 Request = twitterResult.Request,
                 Response = twitterResult.Response,
-                DataTransferObject = credentials
+                Model = credentials
             };
         }
 

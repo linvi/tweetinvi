@@ -45,31 +45,6 @@ namespace xUnitinvi.Integration
         }
 
         [Fact]
-        public async Task GetRateLimits_FromTwitterApiOnly_GetsResultFromTwitterAccessorAsync()
-        {
-            var expectedRateLimits = A.Fake<CredentialsRateLimitsDTO>();
-            var twitterAccessor = A.Fake<ITwitterAccessor>();
-
-            var container = new TweetinviContainer();
-            container.BeforeRegistrationCompletes += (sender, args) => { container.RegisterInstance(typeof(ITwitterAccessor), twitterAccessor); };
-            container.Initialize();
-
-            var fakeCredentials = new TwitterCredentials("consumerKey", "consumerSecret", "accessToken", "accessTokenSecret");
-            var client = new TwitterClient(fakeCredentials, new TwitterClientParameters
-            {
-                Container = container
-            });
-            A.CallTo(() => twitterAccessor.ExecuteRequestAsync<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
-                .Returns(new TwitterResult<CredentialsRateLimitsDTO> { DataTransferObject = expectedRateLimits });
-
-            // act
-            var rateLimits = await client.RateLimits.GetRateLimitsAsync(RateLimitsSource.TwitterApiOnly);
-
-            // arrange
-            Assert.Same(rateLimits.CredentialsRateLimitsDTO, expectedRateLimits);
-        }
-
-        [Fact]
         public async Task GetRateLimits_FromCacheOrTwitterApi_GetsFirstFromTwitterApiThenFromCacheAsync()
         {
             var fakeRateLimitCache = A.Fake<IRateLimitCache>();
@@ -101,7 +76,7 @@ namespace xUnitinvi.Integration
                 });
 
             A.CallTo(() => twitterAccessor.ExecuteRequestAsync<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
-                .Returns(new TwitterResult<CredentialsRateLimitsDTO> { DataTransferObject = twitterApiRateLimitsDTO });
+                .Returns(new TwitterResult<CredentialsRateLimitsDTO> { Model = twitterApiRateLimitsDTO });
 
             // act
             var rateLimits = await client.RateLimits.GetRateLimitsAsync(RateLimitsSource.CacheOrTwitterApi);
@@ -110,6 +85,31 @@ namespace xUnitinvi.Integration
             // arrange
             Assert.Same(rateLimits.CredentialsRateLimitsDTO, twitterApiRateLimitsDTO);
             Assert.Same(rateLimitsThatShouldComeCache, cacheRateLimits);
+        }
+
+        [Fact]
+        public async Task GetRateLimits_FromTwitterApiOnly_GetsResultFromTwitterAccessorAsync()
+        {
+            var expectedRateLimits = A.Fake<CredentialsRateLimitsDTO>();
+            var twitterAccessor = A.Fake<ITwitterAccessor>();
+
+            var container = new TweetinviContainer();
+            container.BeforeRegistrationCompletes += (sender, args) => { container.RegisterInstance(typeof(ITwitterAccessor), twitterAccessor); };
+            container.Initialize();
+
+            var fakeCredentials = new TwitterCredentials("consumerKey", "consumerSecret", "accessToken", "accessTokenSecret");
+            var client = new TwitterClient(fakeCredentials, new TwitterClientParameters
+            {
+                Container = container
+            });
+            A.CallTo(() => twitterAccessor.ExecuteRequestAsync<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
+                .Returns(new TwitterResult<CredentialsRateLimitsDTO> { Model = expectedRateLimits });
+
+            // act
+            var rateLimits = await client.RateLimits.GetRateLimitsAsync(RateLimitsSource.TwitterApiOnly);
+
+            // arrange
+            Assert.Same(rateLimits.CredentialsRateLimitsDTO, expectedRateLimits);
         }
     }
 }
