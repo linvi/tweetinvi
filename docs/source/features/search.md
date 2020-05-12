@@ -54,3 +54,12 @@ As a result Tweetinvi will need to perform 1 additional request to detect the co
 
 
 ## Saved Searches
+
+Twitter API offers a way to interact with users' saved searches.
+
+``` c#
+var savedSearch = await client.Search.CreateSavedSearchAsync("hello");
+var createdSavedSearch = await client.Search.GetSavedSearchAsync(savedSearch.Id);
+var mySavedSearches = await client.Search.ListSavedSearchesAsync();
+await client.Search.DestroySavedSearchAsync(savedSearch.Id);
+```

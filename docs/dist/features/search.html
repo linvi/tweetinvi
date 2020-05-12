@@ -218,6 +218,13 @@
 </div></div>
 <div class="section" id="saved-searches">
 <h2>Saved Searches<a class="headerlink" href="#saved-searches" title="Permalink to this headline">¶</a></h2>
+<p>Twitter API offers a way to interact with users’ saved searches.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">savedSearch</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">CreateSavedSearchAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">createdSavedSearch</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">GetSavedSearchAsync</span><span class="p">(</span><span class="n">savedSearch</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">mySavedSearches</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">ListSavedSearchesAsync</span><span class="p">();</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">DestroySavedSearchAsync</span><span class="p">(</span><span class="n">savedSearch</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+</pre></div>
+</div>
 </div>
 </div>
 
