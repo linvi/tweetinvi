@@ -11,8 +11,9 @@ from pathlib import Path
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--version', nargs=1, default='5.0.0')
-parser.add_argument('--pre', nargs=1, default='-alpha-2')
+parser.add_argument('--pre', nargs=1, default='-alpha-3')
 parser.add_argument('--build-version', action='store_true')
+parser.add_argument('--nuget-push', action='store_true')
 args = parser.parse_args()
 
 version = args.version
@@ -21,6 +22,21 @@ nugetVersion = version + args.pre
 if args.build_version:
     print(nugetVersion)
     sys.exit(0)
+
+
+if args.nuget_push:
+    print('This is going to publish 3 packages on nuget.org as version' +
+          nugetVersion + '. Please confirm by typing "continue"')
+    answer = input()
+    if answer == 'continue':
+        print('publishing on nuget...')
+        os.system('cd TweetinviAPI && nuget push TweetinviAPI.' + nugetVersion + '.nupkg -Source nuget.org')
+        os.system('cd TweetinviAPI-Symbols && nuget push TweetinviAPI.' + nugetVersion + '.snupkg -Source nuget.org')
+        os.system('cd TweetinviAspNet && nuget push TweetinviAPI.AspNetPlugin.' + nugetVersion + '.nupkg -Source nuget.org')
+    else:
+        print('nuget push aborted')
+    sys.exit(0)
+
 
 srcFolders = os.listdir('../src/')
 tweetinviProjects = list(filter(lambda folder: "Tweetinvi" in folder, srcFolders))
@@ -39,11 +55,13 @@ def remove_files_in(path):
     for f in files:
         os.remove(f)
 
+
 def createPath(path):
     try:
-        os.makedirs(path)    
+        os.makedirs(path)
     except FileExistsError:
-        print("Directory " , path ,  " already exists")  
+        print("Directory ", path,  " already exists")
+
 
 def update_version():
     nuspecVersionRegex = re.compile(r'<version>.*</version>')
@@ -131,8 +149,6 @@ def build_tweetinvi_nuget_package():
     tweetinviBuildFiles = os.listdir('../src/Tweetinvi/bin/release/netstandard2.0')
     tweetinviDllFiles = list(filter(re.compile(r'.*\.dll').search, tweetinviBuildFiles))
     tweetinviXmlFiles = list(filter(re.compile(r'.*\.xml').search, tweetinviBuildFiles))
-
-    
 
     for dll in tweetinviDllFiles:
         copyfile('../src/Tweetinvi/bin/release/netstandard1.4/' + dll, './TweetinviAPI/lib/netstandard1.4/' + dll)

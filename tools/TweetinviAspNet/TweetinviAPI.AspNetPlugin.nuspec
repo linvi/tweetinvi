@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>TweetinviAPI.AspNetPlugin</id>
-        <version>5.0.0-alpha-2</version>
+        <version>5.0.0-alpha-3</version>
         <title>Tweetinvi ASP.NET Plugin</title>
         <authors>Linvi</authors>
         <owners>Linvi</owners>
