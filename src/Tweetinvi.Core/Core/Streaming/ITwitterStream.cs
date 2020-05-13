@@ -118,32 +118,32 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// Languages that you want to receive. If empty all languages will be matched.
         /// </summary>
-        string[] FilteredLanguages { get; }
+        string[] LanguageFilters { get; }
 
         /// <summary>
         /// Add a language that you want the tweets to be filtered by.
         /// </summary>
-        void AddTweetLanguageFilter(string language);
+        void AddLanguageFilter(string language);
 
         /// <summary>
         /// Add a language that you want the tweets to be filtered by.
         /// </summary>
-        void AddTweetLanguageFilter(LanguageFilter language);
+        void AddLanguageFilter(LanguageFilter language);
 
         /// <summary>
         /// Tweets with the specified language will no longer be received.
         /// </summary>
-        void RemoveTweetLanguageFilter(string language);
+        void RemoveLanguageFilter(string language);
 
         /// <summary>
         /// Tweets with the specified language will no longer be received.
         /// </summary>
-        void RemoveTweetLanguageFilter(LanguageFilter language);
+        void RemoveLanguageFilter(LanguageFilter language);
 
         /// <summary>
         /// No filter on the languages will be applied.
         /// </summary>
-        void ClearTweetLanguageFilters();
+        void ClearLanguageFilters();
 
         /// <summary>
         /// Give you information regarding your connection. Twitter could let you know

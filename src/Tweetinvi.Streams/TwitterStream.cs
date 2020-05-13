@@ -163,9 +163,9 @@ namespace Tweetinvi.Streams
             queryBuilder.AddFormattedParameterToQuery(_customRequestParameters.FormattedCustomQueryParameters);
         }
 
-        public string[] FilteredLanguages => _filteredLanguages.ToArray();
+        public string[] LanguageFilters => _filteredLanguages.ToArray();
 
-        public void AddTweetLanguageFilter(string language)
+        public void AddLanguageFilter(string language)
         {
             if (!_filteredLanguages.Contains(language))
             {
@@ -173,22 +173,22 @@ namespace Tweetinvi.Streams
             }
         }
 
-        public void AddTweetLanguageFilter(LanguageFilter language)
+        public void AddLanguageFilter(LanguageFilter language)
         {
-            AddTweetLanguageFilter(language.GetLanguageCode());
+            AddLanguageFilter(language.GetLanguageCode());
         }
 
-        public void RemoveTweetLanguageFilter(string language)
+        public void RemoveLanguageFilter(string language)
         {
             _filteredLanguages.Remove(language);
         }
 
-        public void RemoveTweetLanguageFilter(LanguageFilter language)
+        public void RemoveLanguageFilter(LanguageFilter language)
         {
-            RemoveTweetLanguageFilter(language.GetLanguageCode());
+            RemoveLanguageFilter(language.GetLanguageCode());
         }
 
-        public void ClearTweetLanguageFilters()
+        public void ClearLanguageFilters()
         {
             _filteredLanguages.Clear();
         }
