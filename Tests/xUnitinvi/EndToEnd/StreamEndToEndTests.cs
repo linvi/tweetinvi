@@ -30,7 +30,7 @@ namespace xUnitinvi.EndToEnd
                 tweet = args.Tweet;
                 _logger.WriteLine("Tweet received!");
                 _logger.WriteLine(tweet.ToString());
-                stream.StopStream();
+                stream.Stop();
             };
 
             stream.EventReceived += (sender, args) => { _logger.WriteLine(args.Json); };
@@ -39,7 +39,7 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStreamAsync();
+                await stream.StartAsync();
                 _logger.WriteLine("Stream completed");
             });
 
@@ -79,7 +79,7 @@ namespace xUnitinvi.EndToEnd
                 tweet = args.Tweet;
                 _logger.WriteLine($"Tweet matched via {args.MatchOn.ToString()}");
                 _logger.WriteLine(tweet.ToString());
-                stream.StopStream();
+                stream.Stop();
             };
 
             stream.EventReceived += (sender, args) => { _logger.WriteLine(args.Json); };
@@ -88,7 +88,7 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStreamMatchingAllConditionsAsync();
+                await stream.StartMatchingAllConditionsAsync();
                 _logger.WriteLine("Stream completed");
             });
 
@@ -126,7 +126,7 @@ namespace xUnitinvi.EndToEnd
             {
                 tweet = args.Tweet;
                 _logger.WriteLine(tweet.ToString());
-                stream.StopStream();
+                stream.Stop();
             };
 
             stream.EventReceived += (sender, args) => { _logger.WriteLine(args.Json); };
@@ -135,7 +135,7 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStreamAsync("https://stream.twitter.com/1.1/statuses/sample.json");
+                await stream.StartAsync("https://stream.twitter.com/1.1/statuses/sample.json");
                 _logger.WriteLine("Stream completed");
             });
 
@@ -175,7 +175,7 @@ namespace xUnitinvi.EndToEnd
                 tweet = args.Tweet;
                 _logger.WriteLine($"Tweet matched via {args.MatchOn.ToString()}");
                 _logger.WriteLine(tweet.ToString());
-                stream.StopStream();
+                stream.Stop();
             };
 
             stream.EventReceived += (sender, args) => { _logger.WriteLine(args.Json); };
@@ -184,7 +184,7 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStreamAsync("https://stream.twitter.com/1.1/statuses/filter.json?track=twitter");
+                await stream.StartAsync("https://stream.twitter.com/1.1/statuses/filter.json?track=twitter");
                 _logger.WriteLine("Stream completed");
             });
 

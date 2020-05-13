@@ -12,6 +12,6 @@ sampleStream.TweetReceived += (sender, eventArgs) =>
     Console.WriteLine(eventArgs.Tweet);
 };
 
-await sampleStream.StartStreamAsync();
+await sampleStream.StartAsync();
 ```
 

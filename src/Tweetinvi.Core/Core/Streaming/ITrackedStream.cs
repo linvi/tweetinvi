@@ -25,6 +25,6 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// Start a stream ASYNCHRONOUSLY. The task will complete when the stream stops.
         /// </summary>
-        Task StartStreamAsync(string url);
+        Task StartAsync(string url);
     }
 }

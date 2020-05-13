@@ -62,3 +62,15 @@ blockquote {
   width: 2em;
   height: 2em;
 }
+
+.wy-table-responsive table.docutils {
+  width: 100%;
+}
+
+.wy-table-responsive table.docutils thead {
+  background-color: #c9e6fb;
+}
+
+.wy-table-responsive table.docutils tr td {
+  white-space: normal;
+}

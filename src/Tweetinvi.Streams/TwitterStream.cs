@@ -120,17 +120,17 @@ namespace Tweetinvi.Streams
         // Stream State
         public StreamState StreamState => _streamResultGenerator.StreamState;
 
-        public void ResumeStream()
+        public void Resume()
         {
             _streamResultGenerator.ResumeStream();
         }
 
-        public void PauseStream()
+        public void Pause()
         {
             _streamResultGenerator.PauseStream();
         }
 
-        public void StopStream()
+        public void Stop()
         {
             _streamResultGenerator.StopStream();
         }

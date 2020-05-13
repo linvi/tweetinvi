@@ -28,9 +28,9 @@ namespace Tweetinvi.Streams
         {
         }
 
-        public async Task StartStreamAsync()
+        public async Task StartAsync()
         {
-            await StartStreamAsync(Resources.Stream_Sample).ConfigureAwait(false);
+            await StartAsync(Resources.Stream_Sample).ConfigureAwait(false);
         }
     }
 }

@@ -103,17 +103,17 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// Resume a stopped Stream
         /// </summary>
-        void ResumeStream();
+        void Resume();
 
         /// <summary>
         /// Pause a running Stream
         /// </summary>
-        void PauseStream();
+        void Pause();
 
         /// <summary>
         /// Stop a running or paused stream
         /// </summary>
-        void StopStream();
+        void Stop();
 
         /// <summary>
         /// Languages that you want to receive. If empty all languages will be matched.

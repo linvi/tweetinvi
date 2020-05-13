@@ -34,6 +34,7 @@ release = '5.0.0-alpha-3'  # may also be an URL
 extensions = [
     "recommonmark",
     "sphinx_rtd_theme",
+    'sphinx_markdown_tables',
 ]
 
 # Add any paths that contain templates here, relative to this directory.

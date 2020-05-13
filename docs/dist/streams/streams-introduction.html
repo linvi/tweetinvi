@@ -207,7 +207,7 @@
 <span class="p">{</span>
     <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
 <span class="p">};</span>
-<span class="k">await</span> <span class="n">twitterStream</span><span class="p">.</span><span class="n">StartStreamAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">twitterStream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -230,7 +230,7 @@
     <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">==</span> <span class="m">5</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="n">twitterStream</span><span class="p">.</span><span class="n">StopStream</span><span class="p">();</span>
+        <span class="n">twitterStream</span><span class="p">.</span><span class="n">Stop</span><span class="p">();</span>
         <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Complete!&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 
@@ -238,7 +238,7 @@
 <span class="p">};</span>
 
 <span class="c1">// NOTE: this will complete only when `sampleStream.StopStream();` has been called</span>
-<span class="k">await</span> <span class="n">twitterStream</span><span class="p">.</span><span class="n">StartStreamAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span> 
+<span class="k">await</span> <span class="n">twitterStream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span> 
 </pre></div>
 </div>
 <div class="section" id="should-i-use-pause-or-stop">
@@ -257,34 +257,100 @@ Pause() should be used only when you need to quickly switch between pause and ru
 <p>Tweetinvi offers various events to help you manage your stream and easily make sense of messages received from Twitter.</p>
 <div class="section" id="twitter-events">
 <h3>Twitter events<a class="headerlink" href="#twitter-events" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">EventReceived</span></code> - a message indicating an event was received from twitter.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TweetDeleted</span></code> - a tweet was deleted on Twitter. If you store any content of that tweet in your system, you should delete it.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TweetLocationInfoRemoved</span></code> - the location information of a tweet were removed. If you store the location of the tweet in your system, you should delete it.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TweetWitheld</span></code> - a tweet was created but the event cannot be forwarded to your application as it has been blocked by your country.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">UserWitheld</span></code> - a user matching your stream criteria performed an operation but the event cannot be forwarded to your application as it has been blocked by your country.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LimitReached</span></code> - you requested a stream that matches more than 1% of the worlwide tweets. As a consequences some of the tweets will not be forwarded to the stream.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">WarningFallingBehindDetected</span></code> - your application is not consuming the messages from the stream fast enough. Failing to improve the speed of consumption will result in the stream being disconnected.</p></li>
-</ul>
-<div></div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">UnmanagedEventReceived</span></code> - an event was received but Tweetinvi does not yet understand it. If you receive such event please <a class="reference external" href="https://github.com/linvi/tweetinvi/issues/new">create an issue on github</a> with the <code class="docutils literal notranslate"><span class="pre">json</span></code> received.</p></li>
-</ul>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EventReceived</td>
+<td>A message indicating an event was received from twitter</td>
+</tr>
+<tr>
+<td>TweetDeleted</td>
+<td>A tweet was deleted on Twitter. If you store any content of that tweet in your system, you should delete it</td>
+</tr>
+<tr>
+<td>TweetLocationInfoRemoved</td>
+<td>The location information of a tweet were removed. If you store the location of the tweet in your system, you should delete it</td>
+</tr>
+<tr>
+<td>TweetWitheld</td>
+<td>A tweet was created but the event cannot be forwarded to your application as it has been blocked by your country</td>
+</tr>
+<tr>
+<td>UserWitheld</td>
+<td>A user matching your stream criteria performed an operation but the event cannot be forwarded to your application as it has been blocked by your country</td>
+</tr>
+<tr>
+<td>LimitReached</td>
+<td>You requested a stream that matches more than 1% of the worlwide tweets. As a consequences some of the tweets will not be forwarded to the stream</td>
+</tr>
+<tr>
+<td>WarningFallingBehindDetected</td>
+<td>Your application is not consuming the messages from the stream fast enough. Failing to improve the speed of consumption will result in the stream being disconnected</td>
+</tr>
+<tr>
+<td>UnmanagedEventReceived</td>
+<td>An event was received but Tweetinvi does not yet understand it. If you receive such event please <a href="https://github.com/linvi/tweetinvi/issues/new">create an issue on github</a> with the <code>json</code> received</td>
+</tr>
+</tbody>
+</table></div>
 <div class="section" id="stream-state-events">
 <h3>Stream state events<a class="headerlink" href="#stream-state-events" title="Permalink to this headline">¶</a></h3>
 <p>Here is a list of events supported by Tweetinvi.</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">DisconnectMessageReceived</span></code> - Twitter informs you that you are being disconnecting. A reason will be provided as to why you are.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">KeepAliveReceived</span></code> - Twitter emits keep alive events at regular intervals to inform that the socket is open and that if no events were received it is expected.</p></li>
-</ul>
-<div></div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">StreamStateChanged</span></code> - the state of the stream has changed (between running, paused and stopped).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">StreamStarted</span></code> - the stream is started and will be emitting events when received.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">StreamResumed</span></code> - the stream that was previously paused is now consuming events from Twitter.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">StreamPaused</span></code> - the stream is no longer consuming events sent by Twitter.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">StreamStopped</span></code> - the stream is no longer active. The connection has been closed.</p></li>
-</ul>
-</div>
+<p><strong>Twitter events</strong></p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DisconnectMessageReceived</td>
+<td>Twitter informs you that you are being disconnecting. A reason will be provided as to why you are</td>
+</tr>
+<tr>
+<td>KeepAliveReceived</td>
+<td>Twitter emits keep alive events at regular intervals to inform that the socket is open and that if no events were received it is expected</td>
+</tr>
+</tbody>
+</table><p><strong>Tweetinvi events</strong></p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StreamStateChanged</td>
+<td>The state of the stream has changed (between running, paused and stopped)</td>
+</tr>
+<tr>
+<td>StreamStarted</td>
+<td>The stream is started and will be emitting events when received</td>
+</tr>
+<tr>
+<td>StreamResumed</td>
+<td>The stream that was previously paused is now consuming events from Twitter</td>
+</tr>
+<tr>
+<td>StreamPaused</td>
+<td>The stream is no longer consuming events sent by Twitter</td>
+</tr>
+<tr>
+<td>StreamStopped</td>
+<td>The stream is no longer active. The connection has been closed</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 </div>
 

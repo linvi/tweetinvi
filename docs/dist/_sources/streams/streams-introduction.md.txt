@@ -15,7 +15,7 @@ twitterStream.EventReceived += (sender, eventReceived) =>
 {
     Console.WriteLine(eventReceived.Json);
 };
-await twitterStream.StartStreamAsync("https://stream.twitter.com/1.1/statuses/sample.json");
+await twitterStream.StartAsync("https://stream.twitter.com/1.1/statuses/sample.json");
 ```
 
 ## Start, Pause and Stop
@@ -41,7 +41,7 @@ twitterStream.EventReceived += (sender, eventReceived) =>
     Console.WriteLine(eventReceived.Json);
     if (i == 5)
     {
-        twitterStream.StopStream();
+        twitterStream.Stop();
         Console.WriteLine("Complete!");
     }
 
@@ -49,7 +49,7 @@ twitterStream.EventReceived += (sender, eventReceived) =>
 };
 
 // NOTE: this will complete only when `sampleStream.StopStream();` has been called
-await twitterStream.StartStreamAsync("https://stream.twitter.com/1.1/statuses/sample.json"); 
+await twitterStream.StartAsync("https://stream.twitter.com/1.1/statuses/sample.json"); 
 ```
 
 ### Should I use Pause() or Stop()?
@@ -70,28 +70,35 @@ Tweetinvi offers various events to help you manage your stream and easily make s
 
 ### Twitter events
 
-* `EventReceived` - a message indicating an event was received from twitter.
-* `TweetDeleted` - a tweet was deleted on Twitter. If you store any content of that tweet in your system, you should delete it.
-* `TweetLocationInfoRemoved` - the location information of a tweet were removed. If you store the location of the tweet in your system, you should delete it.
-* `TweetWitheld` - a tweet was created but the event cannot be forwarded to your application as it has been blocked by your country.
-* `UserWitheld` - a user matching your stream criteria performed an operation but the event cannot be forwarded to your application as it has been blocked by your country.
-* `LimitReached` - you requested a stream that matches more than 1% of the worlwide tweets. As a consequences some of the tweets will not be forwarded to the stream.
-* `WarningFallingBehindDetected` - your application is not consuming the messages from the stream fast enough. Failing to improve the speed of consumption will result in the stream being disconnected.
-<div></div>
-
-* `UnmanagedEventReceived` - an event was received but Tweetinvi does not yet understand it. If you receive such event please [create an issue on github](https://github.com/linvi/tweetinvi/issues/new) with the `json` received.
+| Event                        | Description                                                                                                                                                                                          |
+|------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| EventReceived                | A message indicating an event was received from twitter                                                                                                                                              |
+| TweetDeleted                 | A tweet was deleted on Twitter. If you store any content of that tweet in your system, you should delete it                                                                                          |
+| TweetLocationInfoRemoved     | The location information of a tweet were removed. If you store the location of the tweet in your system, you should delete it                                                                        |
+| TweetWitheld                 | A tweet was created but the event cannot be forwarded to your application as it has been blocked by your country                                                                                     |
+| UserWitheld                  | A user matching your stream criteria performed an operation but the event cannot be forwarded to your application as it has been blocked by your country                                             |
+| LimitReached                 | You requested a stream that matches more than 1% of the worlwide tweets. As a consequences some of the tweets will not be forwarded to the stream                                                    |
+| WarningFallingBehindDetected | Your application is not consuming the messages from the stream fast enough. Failing to improve the speed of consumption will result in the stream being disconnected                                 |
+| UnmanagedEventReceived       | An event was received but Tweetinvi does not yet understand it. If you receive such event please [create an issue on github](https://github.com/linvi/tweetinvi/issues/new) with the `json` received |
 
 ### Stream state events
 
 Here is a list of events supported by Tweetinvi.
 
-* `DisconnectMessageReceived` - Twitter informs you that you are being disconnecting. A reason will be provided as to why you are.
-* `KeepAliveReceived` - Twitter emits keep alive events at regular intervals to inform that the socket is open and that if no events were received it is expected.
-<div></div>
+**Twitter events**
 
-* `StreamStateChanged` - the state of the stream has changed (between running, paused and stopped).
-* `StreamStarted` - the stream is started and will be emitting events when received.
-* `StreamResumed` - the stream that was previously paused is now consuming events from Twitter.
-* `StreamPaused` - the stream is no longer consuming events sent by Twitter.
-* `StreamStopped` - the stream is no longer active. The connection has been closed.
+| Event                     | Description                                                                                                                               |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| DisconnectMessageReceived | Twitter informs you that you are being disconnecting. A reason will be provided as to why you are                                         |
+| KeepAliveReceived         | Twitter emits keep alive events at regular intervals to inform that the socket is open and that if no events were received it is expected |
 
+**Tweetinvi events**
+
+
+| Event              | Description                                                                |
+|--------------------|----------------------------------------------------------------------------|
+| StreamStateChanged | The state of the stream has changed (between running, paused and stopped)  |
+| StreamStarted      | The stream is started and will be emitting events when received            |
+| StreamResumed      | The stream that was previously paused is now consuming events from Twitter |
+| StreamPaused       | The stream is no longer consuming events sent by Twitter                   |
+| StreamStopped      | The stream is no longer active. The connection has been closed             |

@@ -50,7 +50,7 @@ namespace Tweetinvi.Streams.Helpers
             }
         }
 
-        public async Task StartStreamAsync(Action<string> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest)
+        public async Task StartAsync(Action<string> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest)
         {
             bool onJsonReceivedValidateCallback(string json)
             {
@@ -58,10 +58,10 @@ namespace Tweetinvi.Streams.Helpers
                 return true;
             }
 
-            await StartStreamAsync(onJsonReceivedValidateCallback, createTwitterRequest).ConfigureAwait(false);
+            await StartAsync(onJsonReceivedValidateCallback, createTwitterRequest).ConfigureAwait(false);
         }
 
-        public async Task StartStreamAsync(Func<string, bool> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest)
+        public async Task StartAsync(Func<string, bool> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest)
         {
             IStreamTask streamTask;
 

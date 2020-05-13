@@ -76,7 +76,7 @@ namespace Tweetinvi.Streams
 
         // https://dev.twitter.com/streaming/overview/connecting#stalls
         private const int STREAM_DISCONNECTED_DELAY = 90000;
-        private const int STREAM_RESUME_DELAY = 1000;
+        private const int STREAM_RESUME_DELAY = 20;
 
         private readonly Func<string, bool> _onJsonReceivedCallback;
         private readonly Func<ITwitterRequest> _createTwitterRequest;
@@ -146,11 +146,7 @@ namespace Tweetinvi.Streams
                 {
                     if (StreamState == StreamState.Pause)
                     {
-                        using (var tmpEvent = new ManualResetEvent(false))
-                        {
-                            tmpEvent.WaitOne(TimeSpan.FromMilliseconds(STREAM_RESUME_DELAY));
-                        }
-
+                        await Task.Delay(TimeSpan.FromMilliseconds(STREAM_RESUME_DELAY));
                         continue;
                     }
 
