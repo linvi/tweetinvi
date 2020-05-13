@@ -118,6 +118,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#stream-state-events">Stream state events</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#options">Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#language-filters">Language Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter-levels">Filter levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stall-warnings">Stall Warnings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tweet-mode">Tweet Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-query-parameters">Custom Query Parameters</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
@@ -237,7 +245,7 @@
     <span class="p">++</span><span class="n">i</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="c1">// NOTE: this will complete only when `sampleStream.StopStream();` has been called</span>
+<span class="c1">// NOTE: this will complete only when `sampleStream.Stop();` has been called</span>
 <span class="k">await</span> <span class="n">twitterStream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span> 
 </pre></div>
 </div>
@@ -267,35 +275,35 @@ Pause() should be used only when you need to quickly switch between pause and ru
 <tbody>
 <tr>
 <td>EventReceived</td>
-<td>A message indicating an event was received from twitter</td>
+<td>Indicates that an event was received from twitter</td>
 </tr>
 <tr>
 <td>TweetDeleted</td>
-<td>A tweet was deleted on Twitter. If you store any content of that tweet in your system, you should delete it</td>
+<td>Indicates that a tweet was deleted on Twitter. If you store any content of that tweet in your system, you should delete it</td>
 </tr>
 <tr>
 <td>TweetLocationInfoRemoved</td>
-<td>The location information of a tweet were removed. If you store the location of the tweet in your system, you should delete it</td>
+<td>Indicates that the location information of a tweet was removed. If you store the location of the tweet in your system, you should delete it</td>
 </tr>
 <tr>
 <td>TweetWitheld</td>
-<td>A tweet was created but the event cannot be forwarded to your application as it has been blocked by your country</td>
+<td>Indicates that a tweet was created but the event cannot be forwarded to your application as it has been blocked by your country</td>
 </tr>
 <tr>
 <td>UserWitheld</td>
-<td>A user matching your stream criteria performed an operation but the event cannot be forwarded to your application as it has been blocked by your country</td>
+<td>Indicates that a user matching your stream criteria performed an operation but the event cannot be forwarded to your application as the user is blocked in your country</td>
 </tr>
 <tr>
 <td>LimitReached</td>
-<td>You requested a stream that matches more than 1% of the worlwide tweets. As a consequences some of the tweets will not be forwarded to the stream</td>
+<td>Indicates that your stream criteria match more than 1% of the worlwide tweets. As a consequences some of the tweets will not be forwarded to the stream</td>
 </tr>
 <tr>
 <td>WarningFallingBehindDetected</td>
-<td>Your application is not consuming the messages from the stream fast enough. Failing to improve the speed of consumption will result in the stream being disconnected</td>
+<td>Indicates that your application is not consuming the messages from the stream fast enough. Failing to improve the speed of consumption will result in the stream being disconnected</td>
 </tr>
 <tr>
 <td>UnmanagedEventReceived</td>
-<td>An event was received but Tweetinvi does not yet understand it. If you receive such event please <a href="https://github.com/linvi/tweetinvi/issues/new">create an issue on github</a> with the <code>json</code> received</td>
+<td>Indicates that an event was received but Tweetinvi does not yet support it. If you receive such event please <a href="https://github.com/linvi/tweetinvi/issues/new">create an issue on github</a> with the <code>json</code> received</td>
 </tr>
 </tbody>
 </table></div>
@@ -351,6 +359,52 @@ Pause() should be used only when you need to quickly switch between pause and ru
 </tr>
 </tbody>
 </table></div>
+</div>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="language-filters">
+<h3>Language Filters<a class="headerlink" href="#language-filters" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to restrict the stream to only return content associated with a specific language.
+You cannot change the language while a stream is running, this has to be done before calling <code class="docutils literal notranslate"><span class="pre">StartAsync</span></code>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// add a language</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddLanguageFilter</span><span class="p">(</span><span class="n">LanguageFilter</span><span class="p">.</span><span class="n">French</span><span class="p">);</span>
+<span class="c1">// or</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddLanguageFilter</span><span class="p">(</span><span class="s">&quot;fr&quot;</span><span class="p">);</span>
+
+<span class="c1">// list filters applied to your stream</span>
+<span class="kt">var</span> <span class="n">languages</span> <span class="p">=</span> <span class="n">stream</span><span class="p">.</span><span class="n">LanguageFilters</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filter-levels">
+<h3>Filter levels<a class="headerlink" href="#filter-levels" title="Permalink to this headline">¶</a></h3>
+<p>Twitter allow to filter the tweets that could have sensitive content using the <code class="docutils literal notranslate"><span class="pre">filter_level</span></code>.</p>
+<p>You can read more about it here : https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">stream</span><span class="p">.</span><span class="n">FilterLevel</span> <span class="p">=</span> <span class="n">StreamFilterLevel</span><span class="p">.</span><span class="n">Low</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stall-warnings">
+<h3>Stall Warnings<a class="headerlink" href="#stall-warnings" title="Permalink to this headline">¶</a></h3>
+<p>Twitter can send messages relevant to the stream state. To decide to not receive such messages, you can set the <code class="docutils literal notranslate"><span class="pre">stall_warnings</span></code>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">stream</span><span class="p">.</span><span class="n">StallWarnings</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tweet-mode">
+<h3>Tweet Mode<a class="headerlink" href="#tweet-mode" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">TweetMode</span></code> can be set to define the format of tweets messages received. <a class="reference internal" href="../more/extended-tweets.html"><span class="doc">Learn more about TweetMode</span></a>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">sampleStream</span><span class="p">.</span><span class="n">TweetMode</span> <span class="p">=</span> <span class="n">TweetMode</span><span class="p">.</span><span class="n">Compat</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-query-parameters">
+<h3>Custom Query Parameters<a class="headerlink" href="#custom-query-parameters" title="Permalink to this headline">¶</a></h3>
+<p>Tweetinvi supports all the currently existing parameters from the stream API.<br />If new query parameters appear in the future you can keep using Tweetinvi via the custom query parameters.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">stream</span><span class="p">.</span><span class="n">AddCustomQueryParameter</span><span class="p">(</span><span class="s">&quot;new_location_filter&quot;</span><span class="p">,</span> <span class="s">&quot;paris&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 

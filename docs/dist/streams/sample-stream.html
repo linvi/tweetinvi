@@ -108,7 +108,10 @@
 <p class="caption"><span class="caption-text">Streams</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Sample Stream</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sample Stream</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -186,7 +189,7 @@
 <blockquote>
 <div><p>The sample stream returns 1% of all the public tweets published on Twitter at any time. Twitter randomly selects one tweet for every 100 tweets and publishes this Tweet in the stream.</p>
 </div></blockquote>
-<p>The sample stream supports all the <a class="reference external" href="./streams#stream-events">generic stream events</a>.<br />The <code class="docutils literal notranslate"><span class="pre">SampleStream</span></code> introduces 1 new event: <code class="docutils literal notranslate"><span class="pre">TweetReceived</span></code>.</p>
+<p>The sample stream supports all the generic stream functionalities. <a class="reference internal" href="streams-introduction.html"><span class="doc">Read more about streams</span></a>.</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">sampleStream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateSampleStream</span><span class="p">();</span>
 <span class="n">sampleStream</span><span class="p">.</span><span class="n">TweetReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventArgs</span><span class="p">)</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
@@ -196,6 +199,23 @@
 <span class="k">await</span> <span class="n">sampleStream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">();</span>
 </pre></div>
 </div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<p>The sample stream supports all the <a class="reference external" href="./streams-introduction#stream-events">generic stream events</a>.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Event</th>
+<th>TweetReceived</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TweetReceived</td>
+<td>Indicates that a tweet was created</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 
 
