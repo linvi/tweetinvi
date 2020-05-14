@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Twitter Labs" href="../more/twitter-labs.html" />
+    <link rel="next" title="Filtered Streams" href="filtered-stream.html" />
     <link rel="prev" title="Streams Introduction" href="streams-introduction.html" /> 
 </head>
 
@@ -85,11 +85,12 @@
               <p class="caption"><span class="caption-text">First steps</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../intro/credentials.html">Credentials in Twitter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/my-first-credentials.html">Create my first credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter API</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../twitter-api/tweets.html">Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../twitter-api/messages.html">Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../twitter-api/users.html">Users</a></li>
@@ -112,6 +113,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#events">Events</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labs-sample-stream.html">Labs Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labs-filtered-stream.html">Labs Filtered Stream</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -187,7 +191,7 @@
   <div class="section" id="sample-stream">
 <h1>Sample Stream<a class="headerlink" href="#sample-stream" title="Permalink to this headline">¶</a></h1>
 <blockquote>
-<div><p>The sample stream returns 1% of all the public tweets published on Twitter at any time. Twitter randomly selects one tweet for every 100 tweets and publishes this Tweet in the stream.</p>
+<div><p>The sample stream returns 1% of all the public tweets published on Twitter at any time. Twitter randomly selects one tweet for every 100 tweets and publishes this Tweet in the stream. (<a class="reference external" href="https://developer.twitter.com/en/docs/tweets/sample-realtime/overview/get_statuses_sample">twitter doc</a>)</p>
 </div></blockquote>
 <p>The sample stream supports all the generic stream functionalities. <a class="reference internal" href="streams-introduction.html"><span class="doc">Read more about streams</span></a>.</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">sampleStream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateSampleStream</span><span class="p">();</span>
@@ -226,7 +230,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../more/twitter-labs.html" class="btn btn-neutral float-right" title="Twitter Labs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="filtered-stream.html" class="btn btn-neutral float-right" title="Filtered Streams" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="streams-introduction.html" class="btn btn-neutral float-left" title="Streams Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

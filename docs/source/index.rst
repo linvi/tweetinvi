@@ -14,14 +14,17 @@ The goal of this library is to make life of developers as easy as possible.
    :caption: First steps
 
    intro/getting-started
-   intro/credentials
+   intro/my-first-credentials
    intro/basic-concepts
+   
+   
 
 .. toctree::
    :maxdepth: 1
    :hidden:
    :caption: Twitter API
 
+   twitter-api/credentials
    twitter-api/tweets
    twitter-api/messages
    twitter-api/users
@@ -47,6 +50,11 @@ The goal of this library is to make life of developers as easy as possible.
 
    streams/streams-introduction
    streams/sample-stream
+   streams/filtered-stream
+   
+   streams/labs-sample-stream
+   streams/labs-filtered-stream
+   
 
 .. toctree::
    :maxdepth: 1

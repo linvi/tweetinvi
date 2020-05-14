@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Credentials in Twitter &mdash; Tweetinvi 5.0.0-alpha-4 documentation</title>
+  <title>Labs Filtered Stream &mdash; Tweetinvi 5.0.0-alpha-4 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Basic Concepts" href="basic-concepts.html" />
-    <link rel="prev" title="Getting Started" href="getting-started.html" /> 
+    <link rel="next" title="Twitter Labs" href="../more/twitter-labs.html" />
+    <link rel="prev" title="Labs Sample Stream" href="labs-sample-stream.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,16 +83,14 @@
             
             
               <p class="caption"><span class="caption-text">First steps</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Credentials in Twitter</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#create-your-first-set-of-credentials">Create your first set of credentials</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="basic-concepts.html">Basic Concepts</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/my-first-credentials.html">Create my first credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter API</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../twitter-api/tweets.html">Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../twitter-api/messages.html">Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../twitter-api/users.html">Users</a></li>
@@ -109,9 +107,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Streams</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labs-sample-stream.html">Labs Sample Stream</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Labs Filtered Stream</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -165,13 +166,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Credentials in Twitter</li>
+      <li>Labs Filtered Stream</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/intro/credentials.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/streams/labs-filtered-stream.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -184,38 +185,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="credentials-in-twitter">
-<h1>Credentials in Twitter<a class="headerlink" href="#credentials-in-twitter" title="Permalink to this headline">¶</a></h1>
-<p>Twitter offers 2 types of credentials:</p>
-<ul class="simple">
-<li><p><strong>Application Credentials</strong> that let you perform operations from an application perspective. It consists of:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> CONSUMER_KEY</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> CONSUMER_SECRET</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Optional</span></code> BEARER_TOKEN (learn more <a class="reference external" href="https://developer.twitter.com/en/docs/basics/authentication/oauth-2-0">here</a>)</p></li>
-</ul>
-</li>
-<li><p><strong>User Credentials</strong> that let you perform operations from a user perspective. It consists of:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> Application Credentials (without bearer token)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> ACCESS_TOKEN</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> ACCESS_TOKEN_SECRET</p></li>
-</ul>
-</li>
-</ul>
-<div class="section" id="create-your-first-set-of-credentials">
-<h2>Create your first set of credentials<a class="headerlink" href="#create-your-first-set-of-credentials" title="Permalink to this headline">¶</a></h2>
-<div class="warning">
-If you already have credentials skip this section
-</div><ol class="simple">
-<li><p>Create a new application on https://developer.twitter.com/en/apps/create</p></li>
-<li><p>Select the <code class="docutils literal notranslate"><span class="pre">Keys</span> <span class="pre">and</span> <span class="pre">Tokens</span></code> tab</p></li>
-<li><p>Click <code class="docutils literal notranslate"><span class="pre">Generate</span></code> next to the <strong>Access token &amp; access token secret</strong></p></li>
-<li><p>Now you can find your application credentials as well as the additional credentials for authenticating as a user.</p></li>
-</ol>
-<div style="max-width:700px;"><p><img alt="../_images/credentials-twitter-page.png" src="../_images/credentials-twitter-page.png" /></p>
-</div></div>
+  <div class="section" id="labs-filtered-stream">
+<h1>Labs Filtered Stream<a class="headerlink" href="#labs-filtered-stream" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>The labs filtered stream is still in preview is likely to become a replacement of the current filter stream in the future. (<a class="reference external" href="https://developer.twitter.com/en/docs/labs/filtered-stream/overview">twitter doc</a>)</p>
+</div></blockquote>
+<p>Tweetinvi does not properly support labs yet.<br />Here is a workaround to work with the labs filtered stream v1.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// You need to use ConsumerOnly credentials to run a sample stream from labs</span>
+<span class="kt">var</span> <span class="n">appCredentials</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ConsumerOnlyCredentials</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">BearerToken</span> <span class="p">=</span> <span class="s">&quot;APP_BEARER_TOKEN&quot;</span>
+<span class="p">};</span>
+
+<span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">appCredentials</span><span class="p">);</span>
+
+<span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateTweetStream</span><span class="p">();</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">StallWarnings</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span> <span class="c1">// this is required as this parameter does not exist for this endpoint</span>
+
+<span class="n">stream</span><span class="p">.</span><span class="n">EventReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="k">await</span> <span class="n">stream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://api.twitter.com/labs/1/tweets/stream/filter&quot;</span><span class="p">);</span>
+</pre></div>
 </div>
+<div class="warning">
+Labs filtered stream only support application credentials (with a bearer token).<br/>
+<a href="../twitter-api/credentials.html#bearer-token">Learn more about Application Only Credentials</a>
+</div></div>
 
 
            </div>
@@ -225,10 +223,10 @@ If you already have credentials skip this section
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="basic-concepts.html" class="btn btn-neutral float-right" title="Basic Concepts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../more/twitter-labs.html" class="btn btn-neutral float-right" title="Twitter Labs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="getting-started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="labs-sample-stream.html" class="btn btn-neutral float-left" title="Labs Sample Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

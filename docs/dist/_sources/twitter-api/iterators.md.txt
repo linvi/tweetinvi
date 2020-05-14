@@ -18,9 +18,9 @@ Tweetinvi hides this complexity to you via `iterators`.
 
 > Iterators let you request multiple pages until no more items are available.
 
-* `NextPage()` request twitter for the next page of results
-* `NextCursor` is updated after each call to `NextPage`. It can be used to start a new request at this position.
-* `Completed` is updated after each call to `NextPage`. It is marked as true when no more results are available.
+* `NextPageAsync()` request twitter for the next page of results
+* `NextCursor` is updated after each call to `NextPageAsync`. It can be used to start a new request at this position.
+* `Completed` is updated after each call to `NextPageAsync`. It is marked as true when no more results are available.
 
 ## Iterator page
 

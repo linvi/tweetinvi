@@ -1,6 +1,6 @@
 # Sample Stream
 
-> The sample stream returns 1% of all the public tweets published on Twitter at any time. Twitter randomly selects one tweet for every 100 tweets and publishes this Tweet in the stream.
+> The sample stream returns 1% of all the public tweets published on Twitter at any time. Twitter randomly selects one tweet for every 100 tweets and publishes this Tweet in the stream. ([twitter doc](https://developer.twitter.com/en/docs/tweets/sample-realtime/overview/get_statuses_sample))
 
 The sample stream supports all the generic stream functionalities. [Read more about streams](./streams-introduction).
 

@@ -5,7 +5,7 @@ In this section we will create a simple console application that will print your
 ## Pre requisites
 
 Before starting you will need a Twitter app and some credentials.\
-[Follow these instructions](./credentials) if you don't already have some.
+[Follow these instructions](./my-first-credentials) if you don't already have credentials.
 
 ## Create a new project
 

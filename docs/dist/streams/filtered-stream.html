@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Twitter Labs &mdash; Tweetinvi 5.0.0-alpha-4 documentation</title>
+  <title>Filtered Streams &mdash; Tweetinvi 5.0.0-alpha-4 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Extended Tweets" href="extended-tweets.html" />
-    <link rel="prev" title="Labs Filtered Stream" href="../streams/labs-filtered-stream.html" /> 
+    <link rel="next" title="Labs Sample Stream" href="labs-sample-stream.html" />
+    <link rel="prev" title="Sample Stream" href="sample-stream.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -107,20 +107,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Streams</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream.html">Filtered Streams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../streams/labs-sample-stream.html">Labs Sample Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../streams/labs-filtered-stream.html">Labs Filtered Stream</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labs-sample-stream.html">Labs Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labs-filtered-stream.html">Labs Filtered Stream</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Twitter Labs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="extended-tweets.html">Extended Tweets</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
@@ -169,13 +166,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Twitter Labs</li>
+      <li>Filtered Streams</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/more/twitter-labs.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/streams/filtered-stream.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -188,23 +185,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="twitter-labs">
-<h1>Twitter Labs<a class="headerlink" href="#twitter-labs" title="Permalink to this headline">¶</a></h1>
-<p>Twitter Labs is the next version of the Twitter API.<br />Tweetinvi 5.0 does not provide a wrapper around this new version of the API.</p>
-<p>You can use the <a class="reference internal" href="../twitter-api/direct-api-calls.html"><span class="doc">direct api calls</span></a> to perform requests and parse the results on your own.</p>
-<div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// get labs api response</span>
-<span class="kt">var</span> <span class="n">getTweetResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
-<span class="p">{</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/labs/2/tweets/1138505981460193280?expansions=attachments.media_keys&amp;tweet.fields=created_at&quot;</span><span class="p">;</span>
-<span class="p">});</span>
-
-<span class="kt">var</span> <span class="n">responseContent</span> <span class="p">=</span> <span class="n">JsonConvert</span><span class="p">.</span><span class="n">DeserializeObject</span><span class="p">&lt;</span><span class="kt">dynamic</span><span class="p">&gt;(</span><span class="n">getTweetResponse</span><span class="p">.</span><span class="n">RawResult</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">tweet</span> <span class="p">=</span> <span class="n">responseContent</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
-<span class="kt">var</span> <span class="n">tweetId</span> <span class="p">=</span> <span class="n">tweet</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+  <div class="section" id="filtered-streams">
+<h1>Filtered Streams<a class="headerlink" href="#filtered-streams" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>Filtered stream return tweets matching a specific set of criteria. (<a class="reference external" href="https://developer.twitter.com/en/docs/tweets/filter-realtime/api-reference/post-statuses-filter">twitter doc</a>)</p>
+</div></blockquote>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
-</div>
 </div>
 </div>
 
@@ -216,10 +203,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="extended-tweets.html" class="btn btn-neutral float-right" title="Extended Tweets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="labs-sample-stream.html" class="btn btn-neutral float-right" title="Labs Sample Stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../streams/labs-filtered-stream.html" class="btn btn-neutral float-left" title="Labs Filtered Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="sample-stream.html" class="btn btn-neutral float-left" title="Sample Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
