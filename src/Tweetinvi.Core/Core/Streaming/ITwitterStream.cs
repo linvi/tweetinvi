@@ -149,12 +149,12 @@ namespace Tweetinvi.Core.Streaming
         /// Give you information regarding your connection. Twitter could let you know
         /// if the processing of the stream is too slow or if the connection is about to be dropped.
         /// </summary>
-        bool StallWarnings { get; set; }
+        bool? StallWarnings { get; set; }
 
         /// <summary>
         /// Filter tweets containing violence, sex or any sensible subjects.
         /// </summary>
-        StreamFilterLevel FilterLevel { get; set; }
+        StreamFilterLevel? FilterLevel { get; set; }
 
         /// <summary>
         /// Custom parameters that will be appended to the stream query url.

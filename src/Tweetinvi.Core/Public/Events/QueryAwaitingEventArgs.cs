@@ -1,4 +1,5 @@
 ﻿using System;
+using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Events

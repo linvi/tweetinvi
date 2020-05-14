@@ -13,7 +13,7 @@ namespace Tweetinvi.WebLogic
             container.RegisterType<IWebRequestExecutor, WebRequestExecutor>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterRequestHandler, TwitterRequestHandler>();
 
-            container.RegisterType<IConsumerCredentials, ConsumerCredentials>();
+            container.RegisterType<IConsumerOnlyCredentials, ConsumerOnlyCredentials>();
             container.RegisterType<ITwitterCredentials, TwitterCredentials>();
 
             container.RegisterType<IOAuthQueryParameter, OAuthQueryParameter>();

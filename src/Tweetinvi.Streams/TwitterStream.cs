@@ -149,14 +149,11 @@ namespace Tweetinvi.Streams
                 queryBuilder.AddParameterToQuery("language", languages);
             }
 
-            if (StallWarnings)
-            {
-                queryBuilder.AddParameterToQuery("stall_warnings", "true");
-            }
+            queryBuilder.AddParameterToQuery("stall_warnings", StallWarnings);
 
             if (FilterLevel != StreamFilterLevel.None)
             {
-                queryBuilder.AddParameterToQuery("filter_level", FilterLevel.ToString().ToLowerInvariant());
+                queryBuilder.AddParameterToQuery("filter_level", FilterLevel?.ToString().ToLowerInvariant());
             }
 
             queryBuilder.AddParameterToQuery("tweet_mode", TweetMode.ToString().ToLowerInvariant());
@@ -193,9 +190,9 @@ namespace Tweetinvi.Streams
             _filteredLanguages.Clear();
         }
 
-        public bool StallWarnings { get; set; }
+        public bool? StallWarnings { get; set; }
 
-        public StreamFilterLevel FilterLevel { get; set; }
+        public StreamFilterLevel? FilterLevel { get; set; }
 
         #region Custom Query Parameters
 

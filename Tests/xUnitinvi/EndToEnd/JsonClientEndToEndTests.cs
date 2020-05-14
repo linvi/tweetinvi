@@ -211,6 +211,8 @@ namespace xUnitinvi.EndToEnd
                 BearerToken = "E"
             };
 
+            var consumerCreds = new ConsumerOnlyCredentials("A2", "B2", "E2");
+
             TestSerializer<ITwitterCredentials, ITwitterCredentials>(twitterCredentials, creds =>
             {
                 Assert.Equal(twitterCredentials.AccessToken, creds.AccessToken);
@@ -218,22 +220,24 @@ namespace xUnitinvi.EndToEnd
                 Assert.Equal(twitterCredentials.BearerToken, creds.BearerToken);
             });
 
-            TestSerializer<ITwitterCredentials, IConsumerCredentials>(twitterCredentials, creds =>
+            TestSerializer<ITwitterCredentials, IConsumerOnlyCredentials>(twitterCredentials, creds =>
             {
                 Assert.Equal(twitterCredentials.ConsumerKey, creds.ConsumerKey);
                 Assert.Equal(twitterCredentials.BearerToken, creds.BearerToken);
             });
 
-            TestSerializer<IConsumerCredentials, IConsumerCredentials>(twitterCredentials, creds =>
+            TestSerializer<IConsumerOnlyCredentials, IConsumerOnlyCredentials>(consumerCreds, creds =>
             {
-                Assert.Equal(twitterCredentials.ConsumerKey, creds.ConsumerKey);
-                Assert.Equal(twitterCredentials.BearerToken, creds.BearerToken);
+                Assert.Equal(consumerCreds.ConsumerKey, creds.ConsumerKey);
+                Assert.Equal(consumerCreds.ConsumerSecret, creds.ConsumerSecret);
+                Assert.Equal(consumerCreds.BearerToken, creds.BearerToken);
             });
 
-            TestSerializer<IConsumerCredentials, ITwitterCredentials>(twitterCredentials, creds =>
+            TestSerializer<IConsumerOnlyCredentials, ITwitterCredentials>(consumerCreds, creds =>
             {
-                Assert.Equal(twitterCredentials.ConsumerKey, creds.ConsumerKey);
-                Assert.Equal(twitterCredentials.BearerToken, creds.BearerToken);
+                Assert.Equal(consumerCreds.ConsumerKey, creds.ConsumerKey);
+                Assert.Equal(consumerCreds.ConsumerSecret, creds.ConsumerSecret);
+                Assert.Equal(consumerCreds.BearerToken, creds.BearerToken);
             });
         }
 

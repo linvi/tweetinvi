@@ -1,4 +1,4 @@
-namespace Tweetinvi.Models
+namespace Tweetinvi.Core.Models.Authentication
 {
     public interface IReadOnlyTwitterCredentials : IReadOnlyConsumerCredentials
     {
@@ -18,10 +18,28 @@ namespace Tweetinvi.Models
     /// </summary>
     public class ReadOnlyTwitterCredentials : ReadOnlyConsumerCredentials, IReadOnlyTwitterCredentials
     {
-        public ReadOnlyTwitterCredentials(string accessToken, string accessTokenSecret, IReadOnlyConsumerCredentials consumerCredentials) : base(consumerCredentials)
+        public ReadOnlyTwitterCredentials(string consumerKey, string consumerSecret) : base(new ReadOnlyConsumerCredentials(consumerKey, consumerSecret))
+        {
+        }
+
+        public ReadOnlyTwitterCredentials(string consumerKey, string consumerSecret, string bearerToken) : base(new ReadOnlyConsumerCredentials(consumerKey, consumerSecret, bearerToken))
+        {
+        }
+
+        public ReadOnlyTwitterCredentials(string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret) : base(new ReadOnlyConsumerCredentials(consumerKey, consumerSecret))
         {
             AccessToken = accessToken;
             AccessTokenSecret = accessTokenSecret;
+        }
+
+        public ReadOnlyTwitterCredentials(IReadOnlyConsumerCredentials consumerCredentials, string accessToken, string accessTokenSecret) : base(consumerCredentials)
+        {
+            AccessToken = accessToken;
+            AccessTokenSecret = accessTokenSecret;
+        }
+
+        public ReadOnlyTwitterCredentials(IReadOnlyConsumerCredentials source) : base(source)
+        {
         }
 
         public ReadOnlyTwitterCredentials(IReadOnlyTwitterCredentials source) : base(source)

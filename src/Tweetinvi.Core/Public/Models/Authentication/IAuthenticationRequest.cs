@@ -1,4 +1,6 @@
-﻿namespace Tweetinvi.Models
+﻿using Tweetinvi.Core.Models.Authentication;
+
+namespace Tweetinvi.Models
 {
     /// <summary>
     /// User authentication request containing all information required for completing an authentication process

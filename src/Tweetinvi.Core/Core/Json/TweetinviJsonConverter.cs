@@ -52,9 +52,9 @@ namespace Tweetinvi.Core.Json
             Map<ITwitterList, ITwitterListDTO>(list => list.TwitterListDTO, factories.CreateTwitterList);
 
             Map<ITwitterCredentials, ITwitterCredentials>(credentials => credentials, factories.CreateTwitterCredentials);
-            Map<ITwitterCredentials, IConsumerCredentials>(credentials => new ConsumerCredentials(credentials), factories.CreateTwitterCredentials);
-            Map<IConsumerCredentials, IConsumerCredentials>(credentials => credentials, factories.CreateConsumerCredentials);
-            Map<IConsumerCredentials, ITwitterCredentials>(credentials => new TwitterCredentials(credentials), factories.CreateConsumerCredentials);
+            Map<ITwitterCredentials, IConsumerOnlyCredentials>(credentials => new ConsumerOnlyCredentials(credentials), factories.CreateTwitterCredentials);
+            Map<IConsumerOnlyCredentials, IConsumerOnlyCredentials>(credentials => credentials, factories.CreateConsumerCredentials);
+            Map<IConsumerOnlyCredentials, ITwitterCredentials>(credentials => new TwitterCredentials(credentials), factories.CreateConsumerCredentials);
 
             Map<IMedia, IMedia>(media => media, factories.CreateMedia);
             Map<IUploadedMediaInfo, IUploadedMediaInfo>(mediaInfo => mediaInfo, factories.CreateUploadedMediaInfo);

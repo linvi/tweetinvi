@@ -340,9 +340,9 @@ namespace Tweetinvi.Client.Tools
             return _jsonObjectConverter.Deserialize<TwitterCredentials>(json);
         }
 
-        public IConsumerCredentials CreateConsumerCredentials(string json)
+        public IConsumerOnlyCredentials CreateConsumerCredentials(string json)
         {
-            return _jsonObjectConverter.Deserialize<ConsumerCredentials>(json);
+            return _jsonObjectConverter.Deserialize<ConsumerOnlyCredentials>(json);
         }
 
         public IMedia CreateMedia(string json)

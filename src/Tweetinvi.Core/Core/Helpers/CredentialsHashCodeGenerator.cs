@@ -1,20 +1,24 @@
+using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Helpers
 {
     public static class CredentialsHashCodeGenerator
     {
-        public static string CreateHash(IReadOnlyConsumerCredentials credentials)
+        public static string CreateHash(IReadOnlyTwitterCredentials credentials)
         {
             var hash = $"{credentials.ConsumerKey} - {credentials.ConsumerSecret} - {credentials.BearerToken}";
-            var twitterCredentials = credentials as IReadOnlyTwitterCredentials;
+            return $"{hash} - {credentials.AccessToken}  - {credentials.AccessTokenSecret}";
+        }
 
-            if (twitterCredentials == null)
+        public static string CreateHash(IReadOnlyConsumerCredentials credentials)
+        {
+            if (credentials is IReadOnlyTwitterCredentials twitterCredentials)
             {
-                return hash;
+                return CreateHash(twitterCredentials);
             }
 
-            return $"{hash} - {twitterCredentials.AccessToken}  - {twitterCredentials.AccessTokenSecret}";
+            return $"{credentials.ConsumerKey} - {credentials.ConsumerSecret} - {credentials.BearerToken}";
         }
     }
 }

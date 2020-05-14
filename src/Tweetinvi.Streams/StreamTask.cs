@@ -125,11 +125,6 @@ namespace Tweetinvi.Streams
                 throw new TwitterNullCredentialsException();
             }
 
-            if (!_twitterRequest.Query.TwitterCredentials.AreSetupForUserAuthentication())
-            {
-                throw new TwitterInvalidCredentialsException(_twitterRequest.Query.TwitterCredentials);
-            }
-
             await RunStreamAsync().ConfigureAwait(false);
         }
 
@@ -230,7 +225,13 @@ namespace Tweetinvi.Streams
                 var twitterQuery = request.Query;
                 var uri = new Uri(twitterQuery.Url);
                 var endpoint = uri.GetEndpointURL();
-                var queryParameters = uri.Query.Remove(0, 1);
+                var queryParameters = "";
+
+                if (uri.Query.Length >  0)
+                {
+                    queryParameters = uri.Query.Remove(0, 1);
+                }
+
                 var httpMethod = new HttpMethod(twitterQuery.HttpMethod.ToString());
 
                 HttpRequestMessage httpRequestMessage;

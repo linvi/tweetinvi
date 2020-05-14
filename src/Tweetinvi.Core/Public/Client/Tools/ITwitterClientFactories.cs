@@ -143,7 +143,7 @@ namespace Tweetinvi.Client.Tools
         /// <summary>
         /// Creates consumer credentials from json
         /// </summary>
-        IConsumerCredentials CreateConsumerCredentials(string json);
+        IConsumerOnlyCredentials CreateConsumerCredentials(string json);
 
         // MEDIA
 

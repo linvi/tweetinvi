@@ -27,7 +27,7 @@ namespace Tweetinvi.Controllers
 
         public Task<ITwitterResult<IGetAccountActivityWebhookEnvironmentsResultDTO>> GetAccountActivityWebhookEnvironmentsAsync(IGetAccountActivityWebhookEnvironmentsParameters parameters, ITwitterRequest request)
         {
-            var consumerCredentials = new ConsumerCredentials(request.Query.TwitterCredentials);
+            var consumerCredentials = new ConsumerOnlyCredentials(request.Query.TwitterCredentials);
 
             request.Query.Url = _accountActivityQueryGenerator.GetAccountActivityWebhookEnvironmentsQuery(parameters);
             request.Query.HttpMethod = HttpMethod.GET;
@@ -38,7 +38,7 @@ namespace Tweetinvi.Controllers
 
         public Task<ITwitterResult<IWebhookDTO[]>> GetAccountActivityEnvironmentWebhooksAsync(IGetAccountActivityEnvironmentWebhooksParameters parameters, ITwitterRequest request)
         {
-            var consumerCredentials = new ConsumerCredentials(request.Query.TwitterCredentials);
+            var consumerCredentials = new ConsumerOnlyCredentials(request.Query.TwitterCredentials);
 
             request.Query.Url = _accountActivityQueryGenerator.GetAccountActivityEnvironmentWebhooksQuery(parameters);
             request.Query.HttpMethod = HttpMethod.GET;
@@ -70,7 +70,7 @@ namespace Tweetinvi.Controllers
 
         public Task<ITwitterResult> UnsubscribeFromAccountActivityAsync(IUnsubscribeFromAccountActivityParameters parameters, ITwitterRequest request)
         {
-            var consumerCredentials = new ConsumerCredentials(request.Query.TwitterCredentials);
+            var consumerCredentials = new ConsumerOnlyCredentials(request.Query.TwitterCredentials);
 
             request.Query.Url = _accountActivityQueryGenerator.GetUnsubscribeToAccountActivityQuery(parameters);
             request.Query.HttpMethod = HttpMethod.DELETE;
@@ -81,7 +81,7 @@ namespace Tweetinvi.Controllers
 
         public Task<ITwitterResult<IWebhookSubscriptionsCount>> CountAccountActivitySubscriptionsAsync(ICountAccountActivitySubscriptionsParameters parameters, ITwitterRequest request)
         {
-            var consumerCredentials = new ConsumerCredentials(request.Query.TwitterCredentials);
+            var consumerCredentials = new ConsumerOnlyCredentials(request.Query.TwitterCredentials);
 
             request.Query.Url = _accountActivityQueryGenerator.GetCountAccountActivitySubscriptionsQuery(parameters);
             request.Query.HttpMethod = HttpMethod.GET;
@@ -99,7 +99,7 @@ namespace Tweetinvi.Controllers
 
         public Task<ITwitterResult<IWebhookEnvironmentSubscriptionsDTO>> GetAccountActivitySubscriptionsAsync(IGetAccountActivitySubscriptionsParameters parameters, ITwitterRequest request)
         {
-            var consumerCredentials = new ConsumerCredentials(request.Query.TwitterCredentials);
+            var consumerCredentials = new ConsumerOnlyCredentials(request.Query.TwitterCredentials);
 
             request.Query.Url = _accountActivityQueryGenerator.GetAccountActivitySubscriptionsQuery(parameters);
             request.Query.HttpMethod = HttpMethod.GET;

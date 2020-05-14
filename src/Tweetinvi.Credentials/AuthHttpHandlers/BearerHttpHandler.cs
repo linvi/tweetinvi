@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.WebLogic;

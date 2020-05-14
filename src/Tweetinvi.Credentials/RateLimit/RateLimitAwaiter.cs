@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Events;
 using Tweetinvi.Models;

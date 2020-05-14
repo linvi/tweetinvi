@@ -5,6 +5,7 @@ using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
@@ -49,23 +50,23 @@ namespace Tweetinvi
 
         public ITweetinviSettings ClientSettings { get; }
 
-        public TwitterClient(IConsumerOnlyCredentials credentials) : this(credentials, new TwitterClientParameters())
-        {
-        }
-
-        public TwitterClient(IConsumerOnlyCredentials credentials, TwitterClientParameters parameters) : this(new TwitterCredentials(credentials), parameters)
+        public TwitterClient(IReadOnlyConsumerCredentials credentials) : this(new ReadOnlyTwitterCredentials(credentials), new TwitterClientParameters())
         {
         }
 
         public TwitterClient(IReadOnlyTwitterCredentials credentials) : this(credentials, new TwitterClientParameters())
         {
         }
-        
-        public TwitterClient(string consumerKey, string consumerSecret) : this(new ConsumerOnlyCredentials(consumerKey, consumerSecret), new TwitterClientParameters())
+
+        public TwitterClient(string consumerKey, string consumerSecret) : this(new ReadOnlyTwitterCredentials(consumerKey, consumerSecret), new TwitterClientParameters())
         {
         }
-        
-        public TwitterClient(string consumerKey, string consumerSecret, string accessToken, string accessSecret) : this(new TwitterCredentials(consumerKey, consumerSecret, accessToken, accessSecret), new TwitterClientParameters())
+
+        public TwitterClient(string consumerKey, string consumerSecret, string bearerToken) : this(new ReadOnlyTwitterCredentials(consumerKey, consumerSecret, bearerToken), new TwitterClientParameters())
+        {
+        }
+
+        public TwitterClient(string consumerKey, string consumerSecret, string accessToken, string accessSecret) : this(new ReadOnlyTwitterCredentials(consumerKey, consumerSecret, accessToken, accessSecret), new TwitterClientParameters())
         {
         }
 
