@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
+using Tweetinvi.Streaming;
 using Xunit;
 using Xunit.Abstractions;
 using xUnitinvi.TestHelpers;
@@ -16,7 +17,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task SampleStreamAsync()
+        public async Task SampleStream()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -63,7 +64,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task FilteredStreamAsync()
+        public async Task FilteredStream()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -108,11 +109,178 @@ namespace xUnitinvi.EndToEnd
             Assert.Null(streamStoppedEventArgs.DisconnectMessage);
             Assert.NotNull(tweet);
 
-            await Task.Delay(4000); // this is for preventing Enhance Your Calm message from Twitter
+            await Task.Delay(TimeSpan.FromSeconds(10)); // this is for preventing Enhance Your Calm message from Twitter
         }
 
         [Fact]
-        public async Task TweetStreamAsync()
+        public async Task FilteredStream_UrlMatching()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var stream = _tweetinviTestClient.Streams.CreateFilteredStream();
+            stream.AddTrack("twitter.com");
+            stream.AddTrack("facebook.com");
+            stream.AddTrack("amazon.com");
+            stream.AddTrack("apple.com");
+
+            MatchedTweetReceivedEventArgs matchedTweetEvent = null;
+
+            stream.MatchingTweetReceived += (sender, args) =>
+            {
+                matchedTweetEvent = args;
+                _logger.WriteLine($"Tweet matched via {args.MatchOn.ToString()}");
+                _logger.WriteLine(matchedTweetEvent.ToString());
+                stream.Stop();
+            };
+
+            var runStreamTask = Task.Run(async () =>
+            {
+                _logger.WriteLine("Before starting stream");
+                await stream.StartMatchingAllConditionsAsync();
+                _logger.WriteLine("Stream completed");
+            });
+
+            // it can take a while before receiving matching tweets
+            var delayTask = Task.Delay(TimeSpan.FromMinutes(2));
+            var task = await Task.WhenAny(runStreamTask, delayTask);
+
+            if (task != runStreamTask)
+            {
+                throw new TimeoutException();
+            }
+
+            Assert.Equal(matchedTweetEvent.MatchOn, MatchOn.URLEntities);
+            Assert.True(matchedTweetEvent.MatchOn == MatchOn.URLEntities|| matchedTweetEvent.QuotedTweetMatchOn == MatchOn.URLEntities);
+
+            await Task.Delay(TimeSpan.FromSeconds(10)); // this is for preventing Enhance Your Calm message from Twitter
+        }
+
+        [Fact]
+        public async Task FilteredStream_UserMentionsMatching()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var stream = _tweetinviTestClient.Streams.CreateFilteredStream();
+            stream.AddTrack("@EmmanuelMacron");
+
+            MatchedTweetReceivedEventArgs matchedTweetEvent = null;
+
+            stream.MatchingTweetReceived += (sender, args) =>
+            {
+                matchedTweetEvent = args;
+                _logger.WriteLine($"Tweet matched via {args.MatchOn.ToString()}");
+                _logger.WriteLine(matchedTweetEvent.ToString());
+                stream.Stop();
+            };
+
+            var runStreamTask = Task.Run(async () =>
+            {
+                _logger.WriteLine("Before starting stream");
+                await stream.StartMatchingAllConditionsAsync();
+                _logger.WriteLine("Stream completed");
+            });
+
+            // it can take a while before receiving matching tweets
+            var delayTask = Task.Delay(TimeSpan.FromMinutes(2));
+            var task = await Task.WhenAny(runStreamTask, delayTask);
+
+            if (task != runStreamTask)
+            {
+                throw new TimeoutException();
+            }
+
+            Assert.True(matchedTweetEvent.MatchOn == (MatchOn.TweetText | MatchOn.UserMentionEntities) || matchedTweetEvent.QuotedTweetMatchOn == (MatchOn.TweetText | MatchOn.UserMentionEntities));
+
+            await Task.Delay(TimeSpan.FromSeconds(20)); // this is for preventing Enhance Your Calm message from Twitter
+        }
+
+        [Fact]
+        public async Task FilteredStream_HashtagsMatching()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var stream = _tweetinviTestClient.Streams.CreateFilteredStream();
+            stream.AddTrack("#love");
+            stream.AddTrack("#happy");
+
+            MatchedTweetReceivedEventArgs matchedTweetEvent = null;
+
+            stream.MatchingTweetReceived += (sender, args) =>
+            {
+                matchedTweetEvent = args;
+                _logger.WriteLine($"Tweet matched via {args.MatchOn.ToString()}");
+                _logger.WriteLine(matchedTweetEvent.ToString());
+                stream.Stop();
+            };
+
+            var runStreamTask = Task.Run(async () =>
+            {
+                _logger.WriteLine("Before starting stream");
+                await stream.StartMatchingAllConditionsAsync();
+                _logger.WriteLine("Stream completed");
+            });
+
+            // it can take a while before receiving matching tweets
+            var delayTask = Task.Delay(TimeSpan.FromMinutes(2));
+            var task = await Task.WhenAny(runStreamTask, delayTask);
+
+            if (task != runStreamTask)
+            {
+                throw new TimeoutException();
+            }
+
+            Assert.True(matchedTweetEvent.MatchOn == (MatchOn.TweetText | MatchOn.HashTagEntities) || matchedTweetEvent.QuotedTweetMatchOn == (MatchOn.TweetText | MatchOn.HashTagEntities));
+
+            await Task.Delay(TimeSpan.FromSeconds(10)); // this is for preventing Enhance Your Calm message from Twitter
+        }
+
+        [Fact]
+        public async Task FilteredStream_CurrencyMatching()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var stream = _tweetinviTestClient.Streams.CreateFilteredStream();
+            stream.AddTrack("$USD");
+            stream.AddTrack("$ETH");
+            stream.AddTrack("$EUR");
+
+            MatchedTweetReceivedEventArgs matchedTweetEvent = null;
+
+            stream.MatchingTweetReceived += (sender, args) =>
+            {
+                matchedTweetEvent = args;
+                _logger.WriteLine($"Tweet matched via {args.MatchOn.ToString()}");
+                _logger.WriteLine(matchedTweetEvent.ToString());
+                stream.Stop();
+            };
+
+            var runStreamTask = Task.Run(async () =>
+            {
+                _logger.WriteLine("Before starting stream");
+                await stream.StartMatchingAllConditionsAsync();
+                _logger.WriteLine("Stream completed");
+            });
+
+            // it can take a while before receiving matching tweets
+            var delayTask = Task.Delay(TimeSpan.FromMinutes(2));
+            var task = await Task.WhenAny(runStreamTask, delayTask);
+
+            if (task != runStreamTask)
+            {
+                throw new TimeoutException();
+            }
+
+            Assert.Equal(matchedTweetEvent.MatchOn, MatchOn.TweetText | MatchOn.SymbolEntities);
+
+            await Task.Delay(TimeSpan.FromSeconds(10)); // this is for preventing Enhance Your Calm message from Twitter
+        }
+
+        [Fact]
+        public async Task TweetStream()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;

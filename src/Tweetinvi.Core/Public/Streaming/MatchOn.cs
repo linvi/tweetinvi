@@ -57,6 +57,11 @@ namespace Tweetinvi.Streaming
         /// <summary>
         /// The track matches the text contained within a user mention.
         /// </summary>
-        UserMentionEntities = 256
+        UserMentionEntities = 256,
+
+        /// <summary>
+        /// The track matches the text contained within a symbol.
+        /// </summary>
+        SymbolEntities = 512,
     }
 }

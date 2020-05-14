@@ -115,7 +115,7 @@ namespace Tweetinvi.Streams.Helpers
             // List of keywords associated with a track
             _tracksKeywordsArray = _tracksKeywords.ToArray();
             _uniqueKeywordsHashSet = new HashSet<string>();
-            
+
             for (int i = 0; i < _tracksKeywordsArray.Length; ++i)
             {
                 _uniqueKeywordsHashSet.UnionWith(_tracksKeywordsArray[i]);
@@ -148,7 +148,7 @@ namespace Tweetinvi.Streams.Helpers
                 regexBuilder.Append(@"\$");
             }
 
-            regexBuilder.Append(@"]\w+|\w+");
+            regexBuilder.Append(@"][\w\.]+|[\w\.]+");
 
             _matchingRegex = new Regex(regexBuilder.ToString(), RegexOptions.IgnoreCase);
         }
@@ -287,7 +287,7 @@ namespace Tweetinvi.Streams.Helpers
                 })
                 .Select(x => x.Value).ToArray();
         }
-        
+
         public List<Tuple<string, Action<T>>> GetMatchingTracksAndActions(string input)
         {
             lock (this)

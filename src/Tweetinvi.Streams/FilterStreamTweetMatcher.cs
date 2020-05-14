@@ -46,6 +46,7 @@ namespace Tweetinvi.Streams
             UpdateMatchesBasedOnUrlEntities(tweet, matchOn, matchingTrackAndActions, matchingTracksEventArgs, matchingQuotedTrackAndActions);
             UpdateMatchesBasedOnHashTagEntities(tweet, matchOn, matchingTrackAndActions, matchingTracksEventArgs, matchingQuotedTrackAndActions);
             UpdateMatchesBasedOnUserMentions(tweet, matchOn, matchingTrackAndActions, matchingTracksEventArgs, matchingQuotedTrackAndActions);
+            UpdateMatchesBasedOnSymbols(tweet, matchOn, matchingTrackAndActions, matchingTracksEventArgs, matchingQuotedTrackAndActions);
             UpdateMatchesBasedOnTweetLocation(tweet, matchOn, matchingLocationsAndActions, matchingTracksEventArgs, matchingQuotedLocationsAndActions);
             UpdateMatchesBasedOnTweetCreator(tweet, matchOn, matchingFollowersAndActions, matchingTracksEventArgs, matchingQuotedFollowersAndActions);
             UpdateMatchesBasedOnTweetInReplyToUser(tweet, matchOn, matchingFollowersAndActions, matchingTracksEventArgs, matchingQuotedFollowersAndActions);
@@ -176,9 +177,9 @@ namespace Tweetinvi.Streams
             {
                 var hashTags = tweet.Entities.Hashtags.Select(x => x.Text);
 
-                hashTags.ForEach(x =>
+                hashTags.ForEach(hashtag =>
                 {
-                    var tracksMatchingHashTag = _streamTrackManager.GetMatchingTracksAndActions(x);
+                    var tracksMatchingHashTag = _streamTrackManager.GetMatchingTracksAndActions($"#{hashtag}");
                     tracksMatchingHashTag.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
                     if (tracksMatchingHashTag.Count > 0)
                     {
@@ -190,9 +191,9 @@ namespace Tweetinvi.Streams
                 {
                     var quotedHashTags = tweet.QuotedTweet.Entities.Hashtags.Select(x => x.Text);
 
-                    quotedHashTags.ForEach(x =>
+                    quotedHashTags.ForEach(hashtag =>
                     {
-                        var tracksMatchingHashTag = _streamTrackManager.GetMatchingTracksAndActions(x);
+                        var tracksMatchingHashTag = _streamTrackManager.GetMatchingTracksAndActions($"#{hashtag}");
                         tracksMatchingHashTag.ForEach(t => { matchingQuotedTrackAndActions.TryAdd(t.Item1, t.Item2); });
                         if (tracksMatchingHashTag.Count > 0)
                         {
@@ -211,9 +212,9 @@ namespace Tweetinvi.Streams
                 matchOn.HasFlag(MatchOn.UserMentionEntities))
             {
                 var mentionsScreenName = tweet.Entities.UserMentions.Select(x => x.ScreenName);
-                mentionsScreenName.ForEach(x =>
+                mentionsScreenName.ForEach(username =>
                 {
-                    var tracksMatchingMentionScreenName = _streamTrackManager.GetMatchingTracksAndActions(x);
+                    var tracksMatchingMentionScreenName = _streamTrackManager.GetMatchingTracksAndActions($"@{username}");
                     tracksMatchingMentionScreenName.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
                     if (tracksMatchingMentionScreenName.Count > 0)
                     {
@@ -224,13 +225,47 @@ namespace Tweetinvi.Streams
                 if (tweet.QuotedTweet != null)
                 {
                     var quotedMentionsScreenName = tweet.QuotedTweet.Entities.UserMentions.Select(x => x.ScreenName);
-                    quotedMentionsScreenName.ForEach(x =>
+                    quotedMentionsScreenName.ForEach(username =>
                     {
-                        var tracksMatchingMentionScreenName = _streamTrackManager.GetMatchingTracksAndActions(x);
+                        var tracksMatchingMentionScreenName = _streamTrackManager.GetMatchingTracksAndActions($"@{username}");
                         tracksMatchingMentionScreenName.ForEach(t => { matchingQuotedTrackAndActions.TryAdd(t.Item1, t.Item2); });
                         if (tracksMatchingMentionScreenName.Count > 0)
                         {
                             matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.UserMentionEntities;
+                        }
+                    });
+                }
+            }
+        }
+
+        private void UpdateMatchesBasedOnSymbols(ITweet tweet, MatchOn matchOn, Dictionary<string, Action<ITweet>> matchingTrackAndActions,
+            MatchedTweetReceivedEventArgs matchingTracksEventArgs, Dictionary<string, Action<ITweet>> matchingQuotedTrackAndActions)
+        {
+            if (matchOn.HasFlag(MatchOn.Everything) ||
+                matchOn.HasFlag(MatchOn.AllEntities) ||
+                matchOn.HasFlag(MatchOn.SymbolEntities))
+            {
+                var symbols = tweet.Entities.Symbols.Select(x => x.Text);
+                symbols.ForEach(symbol =>
+                {
+                    var tracksMatchingSymbol = _streamTrackManager.GetMatchingTracksAndActions($"${symbol}");
+                    tracksMatchingSymbol.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
+                    if (tracksMatchingSymbol.Count > 0)
+                    {
+                        matchingTracksEventArgs.MatchOn |= MatchOn.SymbolEntities;
+                    }
+                });
+
+                if (tweet.QuotedTweet != null)
+                {
+                    var quotedSymbols = tweet.QuotedTweet.Entities.Symbols.Select(x => x.Text);
+                    quotedSymbols.ForEach(symbol =>
+                    {
+                        var tracksMatchingSymbol = _streamTrackManager.GetMatchingTracksAndActions($"${symbol}");
+                        tracksMatchingSymbol.ForEach(t => { matchingQuotedTrackAndActions.TryAdd(t.Item1, t.Item2); });
+                        if (tracksMatchingSymbol.Count > 0)
+                        {
+                            matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.SymbolEntities;
                         }
                     });
                 }

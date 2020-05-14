@@ -56,6 +56,20 @@ namespace xUnitinvi.Streams
         }
 
         [Fact]
+        public void Track_Url_IsMatchedCorrectly()
+        {
+            // Arrange
+            var trackManager = CreateStreamTrackManager();
+            trackManager.AddTrack("twitter.com");
+
+            // Act
+            var matchingTracks = trackManager.GetMatchingTracks("https://twitter.com");
+
+            // Assert
+            Assert.True(matchingTracks.Count == 1 && matchingTracks[0] == "twitter.com");
+        }
+
+        [Fact]
         public void Track_WithMention_IsMatchedCorrectly()
         {
             // Arrange

@@ -23,23 +23,20 @@ namespace Tweetinvi.Streams
 
     public class StreamTaskFactory : IStreamTaskFactory
     {
-        private readonly ITweetinviEvents _tweetinviEvents;
         private readonly ITwitterExceptionFactory _twitterExceptionFactory;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
 
         public StreamTaskFactory(
-            ITweetinviEvents tweetinviEvents,
             ITwitterExceptionFactory twitterExceptionFactory,
             IHttpClientWebHelper httpClientWebHelper)
         {
-            _tweetinviEvents = tweetinviEvents;
             _twitterExceptionFactory = twitterExceptionFactory;
             _httpClientWebHelper = httpClientWebHelper;
         }
 
         public IStreamTask Create(Func<string, bool> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest)
         {
-            return new StreamTask(onJsonReceivedCallback, createTwitterRequest, _tweetinviEvents, _twitterExceptionFactory, _httpClientWebHelper);
+            return new StreamTask(onJsonReceivedCallback, createTwitterRequest, _twitterExceptionFactory, _httpClientWebHelper);
         }
     }
 
@@ -80,7 +77,6 @@ namespace Tweetinvi.Streams
 
         private readonly Func<string, bool> _onJsonReceivedCallback;
         private readonly Func<ITwitterRequest> _createTwitterRequest;
-        private readonly ITweetinviEvents _tweetinviEvents;
         private readonly ITwitterExceptionFactory _twitterExceptionFactory;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
 
@@ -94,13 +90,11 @@ namespace Tweetinvi.Streams
         public StreamTask(
             Func<string, bool> onJsonReceivedCallback,
             Func<ITwitterRequest> createTwitterRequest,
-            ITweetinviEvents tweetinviEvents,
             ITwitterExceptionFactory twitterExceptionFactory,
             IHttpClientWebHelper httpClientWebHelper)
         {
             _onJsonReceivedCallback = onJsonReceivedCallback;
             _createTwitterRequest = createTwitterRequest;
-            _tweetinviEvents = tweetinviEvents;
             _twitterExceptionFactory = twitterExceptionFactory;
             _httpClientWebHelper = httpClientWebHelper;
             _isNew = true;
@@ -207,7 +201,8 @@ namespace Tweetinvi.Streams
             request.Query.Timeout = Timeout.InfiniteTimeSpan;
 
             var queryBeforeExecuteEventArgs = new BeforeExecutingRequestEventArgs(request.Query);
-            _tweetinviEvents.RaiseBeforeWaitingForQueryRateLimits(queryBeforeExecuteEventArgs);
+            request.ExecutionContext.Events.RaiseBeforeWaitingForQueryRateLimits(queryBeforeExecuteEventArgs);
+            request.ExecutionContext.Events.RaiseBeforeExecutingQuery(queryBeforeExecuteEventArgs);
 
             if (queryBeforeExecuteEventArgs.Cancel)
             {
