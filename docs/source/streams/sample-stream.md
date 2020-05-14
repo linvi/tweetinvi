@@ -18,6 +18,6 @@ await sampleStream.StartAsync();
 
 The sample stream supports all the [generic stream events](./streams-introduction#stream-events).
 
-| Event         | TweetReceived                      |
+| Event         | Description                        |
 |---------------|------------------------------------|
 | TweetReceived | Indicates that a tweet was created |

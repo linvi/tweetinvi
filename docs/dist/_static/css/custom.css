@@ -31,6 +31,36 @@ blockquote {
   background-color: rgb(255, 253, 137);
 }
 
+a.success {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+a.success:hover {
+  background-color: #32b74f;
+  border-color: #32b74f;
+}
+
+a.info {
+  color: #fff;
+  background-color: #1aa8bf;
+  border-color: #1aa8bf;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+a.info:hover {
+  background-color: #1697ad;
+  border-color: #17a2b8;
+}
+
+.note {
+  background-color: rgb(255, 253, 137);
+}
+
 .function {
   color: blue;
   font-weight: bold;

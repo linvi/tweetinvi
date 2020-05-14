@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Sample Stream &mdash; Tweetinvi 5.0.0-alpha-4 documentation</title>
+  <title>Filtered Stream - Filters &mdash; Tweetinvi 5.0.0-alpha-4 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Filtered Streams" href="filtered-stream.html" />
-    <link rel="prev" title="Streams Introduction" href="streams-introduction.html" /> 
+    <link rel="next" title="Labs Sample Stream" href="labs-sample-stream.html" />
+    <link rel="prev" title="Filtered Streams" href="filtered-stream.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -109,12 +109,14 @@
 <p class="caption"><span class="caption-text">Streams</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Sample Stream</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#events">Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Filtered Stream - Filters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#track-filter">Track Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#follow-filter">Follow Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#location-filter">Location Filter</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="filtered-stream.html">Filtered Streams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filtered-stream-filters.html">Filtered Stream - Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="labs-sample-stream.html">Labs Sample Stream</a></li>
 <li class="toctree-l1"><a class="reference internal" href="labs-filtered-stream.html">Labs Filtered Stream</a></li>
 </ul>
@@ -170,7 +172,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Sample Stream</li>
+      <li>Filtered Stream - Filters</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -187,38 +189,69 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="sample-stream">
-<h1>Sample Stream<a class="headerlink" href="#sample-stream" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="filtered-stream-filters">
+<h1>Filtered Stream - Filters<a class="headerlink" href="#filtered-stream-filters" title="Permalink to this headline">¶</a></h1>
+<p>Filtered streams allow to track tweets based on:</p>
+<ul class="simple">
+<li><p>The text content - <a class="reference external" href="#track-filter">Track Filter</a></p></li>
+<li><p>The user who published the tweet - <a class="reference external" href="#follow-filter">Follow Filter</a></p></li>
+<li><p>The location where the tweet was publushed - <a class="reference external" href="#location-filter">Location Filter</a></p></li>
+</ul>
+<div class="section" id="track-filter">
+<h2>Track Filter<a class="headerlink" href="#track-filter" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>The sample stream returns 1% of all the public tweets published on Twitter at any time. Twitter randomly selects one tweet for every 100 tweets and publishes this Tweet in the stream. (<a class="reference external" href="https://developer.twitter.com/en/docs/tweets/sample-realtime/overview/get_statuses_sample">twitter doc</a>)</p>
+<div><p>Track filters let you filter the tweets containing specific keywords.</p>
 </div></blockquote>
-<p>The sample stream supports all the generic stream functionalities. <a class="reference internal" href="streams-introduction.html"><span class="doc">Read more about streams</span></a>.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">sampleStream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateSampleStream</span><span class="p">();</span>
-<span class="n">sampleStream</span><span class="p">.</span><span class="n">TweetReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventArgs</span><span class="p">)</span> <span class="p">=&gt;</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventArgs</span><span class="p">.</span><span class="n">Tweet</span><span class="p">);</span>
-<span class="p">};</span>
-
-<span class="k">await</span> <span class="n">sampleStream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">();</span>
+<p><code class="docutils literal notranslate"><span class="pre">.AddTrack</span></code> allow you to add a track filter to your stream.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Only get tweets that contain (the keyword &quot;france&quot;)</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;france&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="section" id="events">
-<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
-<p>The sample stream supports all the <a class="reference external" href="./streams-introduction#stream-events">generic stream events</a>.</p>
-<table border="1" class="docutils">
-<thead>
-<tr>
-<th>Event</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>TweetReceived</td>
-<td>Indicates that a tweet was created</td>
-</tr>
-</tbody>
-</table></div>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Only get tweets that contain (both the keywords &quot;hello&quot; AND &quot;world&quot;)</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Only get tweets that contain: </span>
+<span class="c1">// (the keyword &quot;france&quot;) </span>
+<span class="c1">// OR </span>
+<span class="c1">// (both the keywords &quot;hello&quot; AND &quot;world&quot;)</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;france&quot;</span><span class="p">);</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Only get tweets that contain the hashtag #hello</span>
+<span class="c1">// Tweets matched by such keyword will contain a hashtag #hello under `Tweet.Entities.HashTags`</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;#hello&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Only track tweets that contain a mention to the user &quot;tweetinviapi&quot;</span>
+<span class="c1">// Tweets matched by such keyword will contain a mention @tweetinviapi under `Tweet.Entities.UserMentions`</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;@tweetinviapi&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Only track tweets that contain the currency &quot;$USD&quot;</span>
+<span class="c1">// Tweets matched by such keyword will contain a symbol USD under `Tweet.Entities.Symbols`</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;$USD&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Only track tweets that contain the currency &quot;twitter.com&quot;</span>
+<span class="c1">// Tweets matched by such keyword will contain a url &quot;https://twitter.com&quot; under `Tweet.Entities.Urls`</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;twitter.com&quot;</span><span class="p">);</span>
+
+<span class="c1">// Note that twitter documentation recommends to track &quot;twitter com&quot; (without &#39;.&#39;) instead of &quot;twitter.com&quot;.</span>
+<span class="c1">// Tracking &quot;twitter.com&quot; will not return all tweets containing twitter.com. </span>
+<span class="c1">// If you track &quot;twitter com&quot;, you will need to manually filter by checking the url entities.</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;twitter com&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Please read the <a class="reference external" href="https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters#track">Twitter documentation</a> to learn more how to build your track requests.</p>
+</div>
+<div class="section" id="follow-filter">
+<h2>Follow Filter<a class="headerlink" href="#follow-filter" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="location-filter">
+<h2>Location Filter<a class="headerlink" href="#location-filter" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -229,10 +262,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="filtered-stream.html" class="btn btn-neutral float-right" title="Filtered Streams" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="labs-sample-stream.html" class="btn btn-neutral float-right" title="Labs Sample Stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streams-introduction.html" class="btn btn-neutral float-left" title="Streams Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="filtered-stream.html" class="btn btn-neutral float-left" title="Filtered Streams" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

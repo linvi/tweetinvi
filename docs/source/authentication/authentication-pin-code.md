@@ -32,7 +32,7 @@ Process.Start(new ProcessStartInfo(authenticationRequest.AuthorizationURL)
 
 // Ask the user to enter the pin code given by Twitter
 Console.WriteLine("Please enter the code and press enter.");
-var pinCode = System.Console.ReadLine();
+var pinCode = Console.ReadLine();
 
 // With this pin code it is now possible to get the credentials back from Twitter
 var userCredentials = await appClient.Auth.RequestCredentialsFromVerifierCodeAsync(pinCode, authenticationRequest);

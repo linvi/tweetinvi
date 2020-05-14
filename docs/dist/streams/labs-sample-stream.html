@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Labs Filtered Stream" href="labs-filtered-stream.html" />
-    <link rel="prev" title="Filtered Streams" href="filtered-stream.html" /> 
+    <link rel="prev" title="Filtered Stream - Filters" href="filtered-stream-filters.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -111,6 +111,7 @@
 <li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filtered-stream-filters.html">Filtered Stream - Filters</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Labs Sample Stream</a></li>
 <li class="toctree-l1"><a class="reference internal" href="labs-filtered-stream.html">Labs Filtered Stream</a></li>
 </ul>
@@ -203,7 +204,7 @@
 
 <span class="n">stream</span><span class="p">.</span><span class="n">EventReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
-    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="k">await</span> <span class="n">stream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://api.twitter.com/labs/1/tweets/stream/sample&quot;</span><span class="p">);</span>
@@ -225,7 +226,7 @@ Labs sample stream only support application credentials (with a bearer token).<b
         <a href="labs-filtered-stream.html" class="btn btn-neutral float-right" title="Labs Filtered Stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="filtered-stream.html" class="btn btn-neutral float-left" title="Filtered Streams" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="filtered-stream-filters.html" class="btn btn-neutral float-left" title="Filtered Stream - Filters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

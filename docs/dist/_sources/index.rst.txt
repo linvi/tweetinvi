@@ -51,6 +51,7 @@ The goal of this library is to make life of developers as easy as possible.
    streams/streams-introduction
    streams/sample-stream
    streams/filtered-stream
+   streams/filtered-stream-filters
    
    streams/labs-sample-stream
    streams/labs-filtered-stream

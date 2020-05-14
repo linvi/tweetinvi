@@ -115,6 +115,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream-filters.html">Filtered Stream - Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../streams/labs-sample-stream.html">Labs Sample Stream</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../streams/labs-filtered-stream.html">Labs Filtered Stream</a></li>
 </ul>
@@ -218,7 +219,7 @@
 
 <span class="c1">// Ask the user to enter the pin code given by Twitter</span>
 <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Please enter the code and press enter.&quot;</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">pinCode</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">pinCode</span> <span class="p">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
 
 <span class="c1">// With this pin code it is now possible to get the credentials back from Twitter</span>
 <span class="kt">var</span> <span class="n">userCredentials</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestCredentialsFromVerifierCodeAsync</span><span class="p">(</span><span class="n">pinCode</span><span class="p">,</span> <span class="n">authenticationRequest</span><span class="p">);</span>

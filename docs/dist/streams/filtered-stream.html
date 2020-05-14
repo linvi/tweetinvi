@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Labs Sample Stream" href="labs-sample-stream.html" />
+    <link rel="next" title="Filtered Stream - Filters" href="filtered-stream-filters.html" />
     <link rel="prev" title="Sample Stream" href="sample-stream.html" /> 
 </head>
 
@@ -110,7 +110,13 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Filtered Streams</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Filtered Streams</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#matchingtweetreceived">MatchingTweetReceived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#events-per-filter">Events per filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="filtered-stream-filters.html">Filtered Stream - Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="labs-sample-stream.html">Labs Sample Stream</a></li>
 <li class="toctree-l1"><a class="reference internal" href="labs-filtered-stream.html">Labs Filtered Stream</a></li>
 </ul>
@@ -186,11 +192,138 @@
   <div class="section" id="filtered-streams">
 <h1>Filtered Streams<a class="headerlink" href="#filtered-streams" title="Permalink to this headline">¶</a></h1>
 <blockquote>
-<div><p>Filtered stream return tweets matching a specific set of criteria. (<a class="reference external" href="https://developer.twitter.com/en/docs/tweets/filter-realtime/api-reference/post-statuses-filter">twitter doc</a>)</p>
+<div><p>Filtered stream return tweets matching a specific set of criteria. (<a class="reference external" href="https://developer.twitter.com/en/docs/tweets/filter-realtime/api-reference/post-statuses-filter">twitter doc</a>)<br />Filtered streams support 3 type of filters, track (text content), location and users.</p>
 </div></blockquote>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span>
+<div class="available-filters" style="">
+    <a href="./filtered-stream-filters" class="success">List of available filters
+        <span class="fa fa-arrow-circle-right" style="margin-left: 10px; font-size: 17px;"></span>
+    </a>
+</div><style>
+.available-filters {
+    margin: 30px 0 30px 0;
+}
+
+@media only screen and (min-width: 1200px) {
+    .available-filters {
+        position: relative;
+        margin: 0;
+    }
+    
+    .available-filters a {
+        position: absolute; 
+        top: -75px; 
+        right: 0;
+    }
+}
+</style><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a simple stream containing only tweets with the keyword France</span>
+
+<span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateFilteredStream</span><span class="p">();</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;france&quot;</span><span class="p">);</span>
+
+<span class="n">stream</span><span class="p">.</span><span class="n">MatchingTweetReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Tweet</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="k">await</span> <span class="n">stream</span><span class="p">.</span><span class="n">StartMatchingAnyConditionAsync</span><span class="p">();</span>
 </pre></div>
 </div>
+<div class="section" id="matchingtweetreceived">
+<h2>MatchingTweetReceived<a class="headerlink" href="#matchingtweetreceived" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">MatchingTweetReceived</span></code> event contains multiple properties helping you understand why the event was triggered.</p>
+<p><code class="docutils literal notranslate"><span class="pre">MatchOn</span></code> - states which part of the tweet matched the criteria.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>MatchOn</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TweetText</td>
+<td>The text of the tweet matched at least one of the stream track filters</td>
+</tr>
+<tr>
+<td>Follower</td>
+<td>The user who created the tweet matched at least one of the stream follow filters</td>
+</tr>
+<tr>
+<td>TweetLocation</td>
+<td>The location where the tweet was published matched at least one of the stream location filters</td>
+</tr>
+<tr>
+<td>FollowerInReplyTo</td>
+<td>The tweet was published to a user matching one of the stream follow filters</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AllEntities</td>
+<td>Any of the entities matches one of the stream track filters</td>
+</tr>
+<tr>
+<td>URLEntities</td>
+<td>At least one of the tweet url entity matches one of the stream track filters</td>
+</tr>
+<tr>
+<td>HashTagEntities</td>
+<td>At least one of the tweet hashtag entity matches one of the stream track filters</td>
+</tr>
+<tr>
+<td>UserMentionEntities</td>
+<td>At least one of the tweet user mention entity matches one of the stream track filters</td>
+</tr>
+<tr>
+<td>SymbolEntities</td>
+<td>At least one of the tweet symbol entity matches one of the stream track filters</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="events-per-filter">
+<h2>Events per filter<a class="headerlink" href="#events-per-filter" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">MatchingTweetReceived</span></code> allow you to find out when a tweet matching your filters criteria was received.<br />When creating a filter you can associate a callback that will be invoked when this filter is being matched.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span> <span class="n">tweet</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// A tweet containing &#39;hello&#39; was found!</span>
+<span class="p">});</span>
+
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;bonjour&quot;</span><span class="p">,</span> <span class="n">tweet</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// A tweet containing &#39;bonjour&#39; was found!</span>
+<span class="p">});</span>
+
+<span class="n">stream</span><span class="p">.</span><span class="n">MatchingTweetReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// A tweet containing EITHER &#39;hello&#39; OR &#39;bonjour&#39; was found</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<p>The filtered stream supports all the <a class="reference external" href="./streams-introduction#stream-events">generic stream events</a>.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MatchingTweetReceived</td>
+<td>Indicates that a tweet matching the criteria you specified was created</td>
+</tr>
+<tr>
+<td>NonMatchingTweetReceived</td>
+<td>Indicates that a tweet that is <strong>not</strong> matching the criteria was received (read more below)</td>
+</tr>
+</tbody>
+</table><div class="warning"><p>NonMatchingTweetReceived can happen as the Tweetinvi library can perform additional filters that Twitter do not support.<br />This behaviour could also be caused by Tweetinvi not properly understanding your filters. If this happen please open a ticket.</p>
+</div></div>
 </div>
 
 
@@ -201,7 +334,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="labs-sample-stream.html" class="btn btn-neutral float-right" title="Labs Sample Stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="filtered-stream-filters.html" class="btn btn-neutral float-right" title="Filtered Stream - Filters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="sample-stream.html" class="btn btn-neutral float-left" title="Sample Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

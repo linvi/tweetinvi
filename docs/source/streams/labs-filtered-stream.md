@@ -19,7 +19,7 @@ stream.StallWarnings = null; // this is required as this parameter does not exis
 
 stream.EventReceived += (sender, eventReceived) =>
 {
-    System.Console.WriteLine(eventReceived.Json);
+    Console.WriteLine(eventReceived.Json);
 };
 
 await stream.StartAsync("https://api.twitter.com/labs/1/tweets/stream/filter");
