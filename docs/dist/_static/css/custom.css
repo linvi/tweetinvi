@@ -5,7 +5,6 @@
 
 details {
   margin-bottom: 20px;
-  color: blue;
 }
 
 details * {
@@ -13,6 +12,7 @@ details * {
 }
 
 details summary {
+  color: blue;
   cursor: pointer;
   outline: none;
   margin-bottom: 20px;

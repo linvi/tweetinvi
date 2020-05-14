@@ -44,10 +44,10 @@ var user = await client.Users.GetAuthenticatedUserAsync();
 Console.WriteLine(user);
 ```
 
-#### Congratulation you have finished this tutorial!
+**Congratulation you have finished this tutorial!**
 
 <details>
-<summary>Program.cs</summary>
+<summary>Source code: Program.cs</summary>
 
 ``` c#
 using System;

@@ -69,6 +69,8 @@ html_js_files = [
     'js/custom.js'
 ]
 
+html_show_sourcelink = False
+
 # This forces a refresh of the static content on every build
 
 
