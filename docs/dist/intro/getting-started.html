@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Create my first credentials" href="my-first-credentials.html" />
+    <link rel="next" title="Basic Concepts" href="basic-concepts.html" />
     <link rel="prev" title="Tweetinvi 5.0" href="../index.html" /> 
 </head>
 
@@ -91,7 +91,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#hello-twitter-world">Hello Twitter World!</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="my-first-credentials.html">Create my first credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basic-concepts.html">Basic Concepts</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter API</span></p>
@@ -195,8 +194,16 @@
 <p>In this section we will create a simple console application that will print your username.</p>
 <div class="section" id="pre-requisites">
 <h2>Pre requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h2>
-<p>Before starting you will need a Twitter app and some credentials.<br /><a class="reference internal" href="my-first-credentials.html"><span class="doc">Follow these instructions</span></a> if you don’t already have credentials.</p>
-</div>
+<p>Before starting you will need a Twitter app and a set of user credentials.<br />If you already have credentials skip this section.</p>
+<details>
+<summary>Steps to create my first credentials</summary><ol class="simple">
+<li><p>Create a new application on <a class="reference external" href="https://developer.twitter.com/en/apps/create">https://developer.twitter.com/en/apps/create</a></p></li>
+<li><p>Select the <code class="docutils literal notranslate"><span class="pre">Keys</span> <span class="pre">and</span> <span class="pre">Tokens</span></code> tab</p></li>
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">Generate</span></code> next to the <strong>Access token &amp; access token secret</strong></p></li>
+<li><p>Now you can find your application credentials as well as the additional credentials for authenticating as a user.</p></li>
+</ol>
+<div style="max-width:700px;"><p><img alt="../_images/credentials-twitter-page.png" src="../_images/credentials-twitter-page.png" /></p>
+</div></details></div>
 <div class="section" id="create-a-new-project">
 <h2>Create a new project<a class="headerlink" href="#create-a-new-project" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a new directory for the hello world application</span>
@@ -228,6 +235,11 @@ dotnet new console
 <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
 </pre></div>
 </div>
+<p>And now lets inform the world about your great achievement!</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweetAsync</span><span class="p">(</span><span class="s">&quot;Hello tweetinvi world!&quot;</span><span class="p">);</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;You published the tweet : &quot;</span> <span class="p">+</span> <span class="n">tweet</span><span class="p">);</span>
+</pre></div>
+</div>
 <p><strong>Congratulation you have finished this tutorial!</strong></p>
 <details>
 <summary>Source code: Program.cs</summary><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
@@ -247,8 +259,11 @@ dotnet new console
 
             <span class="c1">// request the user&#39;s information from Twitter API</span>
             <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUserAsync</span><span class="p">();</span>
-
             <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Hello &quot;</span> <span class="p">+</span> <span class="n">user</span><span class="p">);</span>
+
+            <span class="c1">// publish a tweet</span>
+            <span class="kt">var</span> <span class="n">tweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweetAsync</span><span class="p">(</span><span class="s">&quot;Hello tweetinvi world!&quot;</span><span class="p">);</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;You published the tweet : &quot;</span> <span class="p">+</span> <span class="n">tweet</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -265,7 +280,7 @@ dotnet new console
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="my-first-credentials.html" class="btn btn-neutral float-right" title="Create my first credentials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="basic-concepts.html" class="btn btn-neutral float-right" title="Basic Concepts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../index.html" class="btn btn-neutral float-left" title="Tweetinvi 5.0" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -4,8 +4,24 @@ In this section we will create a simple console application that will print your
 
 ## Pre requisites
 
-Before starting you will need a Twitter app and some credentials.\
-[Follow these instructions](./my-first-credentials) if you don't already have credentials.
+Before starting you will need a Twitter app and a set of user credentials.\
+If you already have credentials skip this section.
+
+<details>
+<summary>Steps to create my first credentials</summary>
+
+1. Create a new application on [https://developer.twitter.com/en/apps/create](https://developer.twitter.com/en/apps/create)
+2. Select the `Keys and Tokens` tab
+3. Click `Generate` next to the **Access token & access token secret**
+4. Now you can find your application credentials as well as the additional credentials for authenticating as a user.
+
+<div style="max-width:700px;">
+
+![](./credentials-twitter-page.png)
+
+</div>
+
+</details>
 
 ## Create a new project
 
@@ -44,6 +60,13 @@ var user = await client.Users.GetAuthenticatedUserAsync();
 Console.WriteLine(user);
 ```
 
+And now lets inform the world about your great achievement!
+
+``` c#
+var tweet = await client.Tweets.PublishTweetAsync("Hello tweetinvi world!");
+Console.WriteLine("You published the tweet : " + tweet);
+```
+
 **Congratulation you have finished this tutorial!**
 
 <details>
@@ -67,8 +90,11 @@ namespace tweetinvi_hello_world
 
             // request the user's information from Twitter API
             var user = await client.Users.GetAuthenticatedUserAsync();
-
             Console.WriteLine("Hello " + user);
+
+            // publish a tweet
+            var tweet = await client.Tweets.PublishTweetAsync("Hello tweetinvi world!");
+            Console.WriteLine("You published the tweet : " + tweet);
         }
     }
 }

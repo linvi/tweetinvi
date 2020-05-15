@@ -14,11 +14,8 @@ The goal of this library is to make life of developers as easy as possible.
    :caption: First steps
 
    intro/getting-started
-   intro/my-first-credentials
    intro/basic-concepts
    
-   
-
 .. toctree::
    :maxdepth: 1
    :hidden:
