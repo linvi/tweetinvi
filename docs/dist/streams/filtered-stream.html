@@ -111,7 +111,12 @@
 <li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Filtered Streams</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#matchingtweetreceived">MatchingTweetReceived</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#matchingtweetreceived">MatchingTweetReceived</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#matchingtweetreceived-properties">MatchingTweetReceived - Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matchingtweetreceived-matchon">MatchingTweetReceived - MatchOn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#start-stream">Start Stream</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#events-per-filter">Events per filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#events">Events</a></li>
 </ul>
@@ -198,7 +203,8 @@
     <a href="./filtered-stream-filters" class="success">List of available filters
         <span class="fa fa-arrow-circle-right" style="margin-left: 10px; font-size: 17px;"></span>
     </a>
-</div><style>
+</div><p>The sample stream supports all the generic stream functionalities. <a class="reference internal" href="streams-introduction.html"><span class="doc">Read more about streams</span></a>.</p>
+<style>
 .available-filters {
     margin: 30px 0 30px 0;
 }
@@ -230,8 +236,10 @@
 </div>
 <div class="section" id="matchingtweetreceived">
 <h2>MatchingTweetReceived<a class="headerlink" href="#matchingtweetreceived" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">MatchingTweetReceived</span></code> event contains multiple properties helping you understand why the event was triggered.</p>
-<p><code class="docutils literal notranslate"><span class="pre">MatchOn</span></code> - states which part of the tweet matched the criteria.</p>
+<p><code class="docutils literal notranslate"><span class="pre">MatchingTweetReceived</span></code> event contains multiple information helping you understand why the event was triggered.</p>
+<div class="section" id="matchingtweetreceived-properties">
+<h3>MatchingTweetReceived - Properties<a class="headerlink" href="#matchingtweetreceived-properties" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">MatchOn</span></code> - states which part of the tweet matched the filters criteria.<br /><code class="docutils literal notranslate"><span class="pre">QuotedTweetMatchOn</span></code> - states which part of the quoted tweet matched the filters criteria.</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -281,7 +289,141 @@
 <td>At least one of the tweet symbol entity matches one of the stream track filters</td>
 </tr>
 </tbody>
-</table></div>
+</table><p><code class="docutils literal notranslate"><span class="pre">MatchingTracks</span></code> - contains all the tracks that the tweet matched.<br /><code class="docutils literal notranslate"><span class="pre">MatchingFollowers</span></code> - contains all the user ids matching the followed users.<br /><code class="docutils literal notranslate"><span class="pre">MatchingLocations</span></code> - contains all the locations that the tweet matched</p>
+</div>
+<div class="section" id="matchingtweetreceived-matchon">
+<h3>MatchingTweetReceived - MatchOn<a class="headerlink" href="#matchingtweetreceived-matchon" title="Permalink to this headline">¶</a></h3>
+<p>Tweetinvi let you filter the results based on where the content was matched.<br />The <code class="docutils literal notranslate"><span class="pre">stream.MatchOn</span></code> property creates a filter and the <code class="docutils literal notranslate"><span class="pre">MatchingTweetReceived</span></code> will only be triggered if this condition is met.</p>
+<p>By default <code class="docutils literal notranslate"><span class="pre">stream.MatchOn</span></code> is set to <code class="docutils literal notranslate"><span class="pre">MatchOn.Everything</span></code>, which means that any tweet received regardless of the reason will trigger the <code class="docutils literal notranslate"><span class="pre">MatchingTweetReceived</span></code>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// configure the filtered stream to only trigger when a track was found in</span>
+<span class="c1">// EITHER the text of tweet OR in the urls of the tweet</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">MatchOn</span> <span class="p">=</span> <span class="n">MatchOn</span><span class="p">.</span><span class="n">TweetText</span> <span class="p">|</span> <span class="n">MatchOn</span><span class="p">.</span><span class="n">URLEntities</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="start-stream">
+<h2>Start Stream<a class="headerlink" href="#start-stream" title="Permalink to this headline">¶</a></h2>
+<p>Filtered stream can be started in 2 modes, <strong>ANY</strong> or <strong>ALL</strong>.<br />They define the conditions required for the <code class="docutils literal notranslate"><span class="pre">MatchingTweetReceived</span></code> event to be triggered.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th></th>
+<th>ANY</th>
+<th>ALL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trigger Conditions</td>
+<td>A tweet matches <strong>EITHER</strong> a track <strong>OR</strong> a location <strong>OR</strong> a user</td>
+<td>A tweet matches <strong>BOTH</strong> a track <strong>AND</strong> a location <strong>AND</strong> a user</td>
+</tr>
+<tr>
+<td>Invoke With</td>
+<td><code>await stream.StartMatchingAnyConditionAsync();</code></td>
+<td><code>await stream.StartMatchingAllConditionsAsync();</code></td>
+</tr>
+</tbody>
+</table><p><strong>Table comparing Any and All behaviour</strong></p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateFilteredStream</span><span class="p">();</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;france&quot;</span><span class="p">);</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddFollow</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>
+
+<span class="c1">// ANY</span>
+<span class="k">await</span> <span class="n">stream</span><span class="p">.</span><span class="n">StartMatchingAnyConditionAsync</span><span class="p">();</span>
+
+<span class="c1">// ALL</span>
+<span class="k">await</span> <span class="n">stream</span><span class="p">.</span><span class="n">StartMatchingAllConditionsAsync</span><span class="p">();</span>
+</pre></div>
+</div>
+<div id="table-any-vs-all"><table border="1" class="docutils">
+<thead>
+<tr>
+<th>Tweet Text</th>
+<th>Published By</th>
+<th>Matched by ANY</th>
+<th>Matched by ALL</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>candy</td>
+<td>UserId: 1</td>
+<td>NO</td>
+<td>NO</td>
+<td><strong>ANY and ALL</strong> are not matched as "candy" is not tracked</td>
+</tr>
+<tr>
+<td>hello</td>
+<td>UserId: 1</td>
+<td>NO</td>
+<td>NO</td>
+<td><strong>ANY and ALL</strong> are not matched as "hello" alone is not tracked, the text also need to contain "world"</td>
+</tr>
+<tr>
+<td>hello world</td>
+<td>UserId: 1</td>
+<td>YES</td>
+<td>NO</td>
+<td><strong>ANY</strong> matched as "hello" and "world" are tracked<br/><br/><strong>ALL</strong> is not matched as user id is not 42</td>
+</tr>
+<tr>
+<td>france</td>
+<td>UserId: 1</td>
+<td>YES</td>
+<td>NO</td>
+<td><strong>ANY</strong> matched as "france" is tracked<br/><br/><strong>ALL</strong> is not matched as user id is not 42</td>
+</tr>
+<tr>
+<td>hello world france</td>
+<td>UserId: 1</td>
+<td>YES</td>
+<td>NO</td>
+<td><strong>ANY</strong> matched as "hello world" and "france" are tracked<br/><br/><strong>ALL</strong> is not matched as user id is not 42</td>
+</tr>
+<tr>
+<td>candy</td>
+<td>UserId: 42</td>
+<td>YES</td>
+<td>NO</td>
+<td><strong>ANY</strong> matched as tweet comes from user 42<br/><br/><strong>ALL</strong> is not matched as "candy" is not tracked</td>
+</tr>
+<tr>
+<td>hello</td>
+<td>UserId: 42</td>
+<td>YES</td>
+<td>NO</td>
+<td><strong>ANY</strong> matched as tweet comes from user 42<br/><br/><strong>ALL</strong> is not matched as "hello" alone is not tracked</td>
+</tr>
+<tr>
+<td>hello world</td>
+<td>UserId: 42</td>
+<td>YES</td>
+<td>YES</td>
+<td><strong>ANY</strong> matched as it needed either "hello world" tracked <strong>OR</strong> the tweet to be published by user 42<br/><br/><strong>ALL</strong> matched as "hello world" is tracked <strong>AND</strong> tweet was published by user 42</td>
+</tr>
+<tr>
+<td>france</td>
+<td>UserId: 42</td>
+<td>YES</td>
+<td>YES</td>
+<td><strong>ANY</strong> matched as it needed either "france" tracked <strong>OR</strong> the tweet to be published by user 42<br/><br/><strong>ALL</strong> matched as "france" is tracked <strong>AND</strong> tweet was published by user 42</td>
+</tr>
+<tr>
+<td>hello world france</td>
+<td>UserId: 42</td>
+<td>YES</td>
+<td>YES</td>
+<td><strong>ANY</strong> matched as it needed either <code>("hello world" OR "france")</code> tracked <strong>OR</strong> the tweet to be published by user 42<br/><br/><strong>ALL</strong> matched as it needed either <code>("hello world" OR "france")</code> tracked <strong>AND</strong> tweet was published by user 42</td>
+</tr>
+</tbody>
+</table></div><script>
+    $("#table-any-vs-all td:contains('YES')").css("background-color", "#00a900").css("color", "white")
+    $("#table-any-vs-all td:contains('NO')").css("background-color", "#cc0000").css("color", "white")
+</script></div>
 <div class="section" id="events-per-filter">
 <h2>Events per filter<a class="headerlink" href="#events-per-filter" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">MatchingTweetReceived</span></code> allow you to find out when a tweet matching your filters criteria was received.<br />When creating a filter you can associate a callback that will be invoked when this filter is being matched.</p>
@@ -322,7 +464,12 @@
 <td>Indicates that a tweet that is <strong>not</strong> matching the criteria was received (read more below)</td>
 </tr>
 </tbody>
-</table><div class="warning"><p>NonMatchingTweetReceived can happen as the Tweetinvi library can perform additional filters that Twitter do not support.<br />This behaviour could also be caused by Tweetinvi not properly understanding your filters. If this happen please open a ticket.</p>
+</table><div class="warning"><p><code class="docutils literal notranslate"><span class="pre">NonMatchingTweetReceived</span></code> event can be triggered when:</p>
+<ul class="simple">
+<li><p>Your <code class="docutils literal notranslate"><span class="pre">MatchOn</span></code> stream filters has prevented this tweet from being matched</p></li>
+<li><p>Tweetinvi library can perform additional filters that Twitter do not support.</p></li>
+<li><p>Tweetinvi not properly understanding your filters. If this happen please open a ticket.</p></li>
+</ul>
 </div></div>
 </div>
 
