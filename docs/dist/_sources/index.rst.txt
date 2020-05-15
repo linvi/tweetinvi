@@ -46,6 +46,7 @@ The goal of this library is to make life of developers as easy as possible.
    :caption: Streams
 
    streams/streams-introduction
+   streams/tweet-stream
    streams/sample-stream
    streams/filtered-stream
    streams/filtered-stream-filters

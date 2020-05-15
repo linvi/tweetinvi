@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Sample Stream" href="sample-stream.html" />
+    <link rel="next" title="Tweet Stream" href="tweet-stream.html" />
     <link rel="prev" title="PIN based Authentication" href="../authentication/authentication-pin-code.html" /> 
 </head>
 
@@ -128,6 +128,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="tweet-stream.html">Tweet Stream</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filtered-stream.html">Filtered Streams</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filtered-stream-filters.html">Filtered Stream - Filters</a></li>
@@ -212,12 +213,12 @@
 <div class="section" id="what-is-a-stream">
 <h2>What is a stream?<a class="headerlink" href="#what-is-a-stream" title="Permalink to this headline">¶</a></h2>
 <p>A stream emit events that can be listened to. These events are triggered by messages received from Twitter.<br />You can find a list of the available events at the <a class="reference external" href="#stream-events">bottom of this page</a>.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">twitterStream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateTweetStream</span><span class="p">();</span>
-<span class="n">twitterStream</span><span class="p">.</span><span class="n">EventReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateTweetStream</span><span class="p">();</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">EventReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
     <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
 <span class="p">};</span>
-<span class="k">await</span> <span class="n">twitterStream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">stream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -418,7 +419,7 @@ You cannot change the language while a stream is running, this has to be done be
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="sample-stream.html" class="btn btn-neutral float-right" title="Sample Stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tweet-stream.html" class="btn btn-neutral float-right" title="Tweet Stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../authentication/authentication-pin-code.html" class="btn btn-neutral float-left" title="PIN based Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

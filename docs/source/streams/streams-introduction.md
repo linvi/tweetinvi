@@ -10,12 +10,12 @@ A stream emit events that can be listened to. These events are triggered by mess
 You can find a list of the available events at the [bottom of this page](#stream-events).
 
 ``` c#
-var twitterStream = client.Streams.CreateTweetStream();
-twitterStream.EventReceived += (sender, eventReceived) =>
+var stream = client.Streams.CreateTweetStream();
+stream.EventReceived += (sender, eventReceived) =>
 {
     Console.WriteLine(eventReceived.Json);
 };
-await twitterStream.StartAsync("https://stream.twitter.com/1.1/statuses/sample.json");
+await stream.StartAsync("https://stream.twitter.com/1.1/statuses/sample.json");
 ```
 
 ## Start, Pause and Stop
