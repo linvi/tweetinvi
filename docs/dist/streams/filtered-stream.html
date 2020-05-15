@@ -289,6 +289,7 @@
 </tr>
 </tbody>
 </table><p><code class="docutils literal notranslate"><span class="pre">MatchingTracks</span></code> - contains all the tracks that the tweet matched.<br /><code class="docutils literal notranslate"><span class="pre">MatchingFollowers</span></code> - contains all the user ids matching the followed users.<br /><code class="docutils literal notranslate"><span class="pre">MatchingLocations</span></code> - contains all the locations that the tweet matched</p>
+<p><code class="docutils literal notranslate"><span class="pre">QuotedTweetMatchingTracks</span></code> - contains all the tracks that the quoted tweet matched.<br /><code class="docutils literal notranslate"><span class="pre">QuotedTweetMatchingFollowers</span></code> - contains all the user ids included in the quoted tweet matching the followed users.<br /><code class="docutils literal notranslate"><span class="pre">QuotedTweetMatchingLocations</span></code> - contains all the locations that the quoted tweet matched</p>
 </div>
 <div class="section" id="matchingtweetreceived-matchon">
 <h3>MatchingTweetReceived - MatchOn<a class="headerlink" href="#matchingtweetreceived-matchon" title="Permalink to this headline">¶</a></h3>
@@ -434,6 +435,16 @@
 <span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;bonjour&quot;</span><span class="p">,</span> <span class="n">tweet</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
     <span class="c1">// A tweet containing &#39;bonjour&#39; was found!</span>
+<span class="p">});</span>
+
+<span class="n">stream</span><span class="p">.</span><span class="n">AddFollow</span><span class="p">(</span><span class="n">tweetinviapi</span><span class="p">,</span> <span class="n">tweet</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// A tweet was published by or related to the tweetinviapi</span>
+<span class="p">});</span>
+
+<span class="n">stream</span><span class="p">.</span><span class="n">AddLocation</span><span class="p">(</span><span class="n">centerOfNewYork</span><span class="p">,</span> <span class="n">tweet</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// A tweet was published from the middle of center of New York City</span>
 <span class="p">});</span>
 
 <span class="n">stream</span><span class="p">.</span><span class="n">MatchingTweetReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>

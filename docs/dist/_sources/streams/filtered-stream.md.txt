@@ -70,6 +70,10 @@ await stream.StartMatchingAnyConditionAsync();
 `MatchingFollowers` - contains all the user ids matching the followed users.\
 `MatchingLocations` - contains all the locations that the tweet matched
 
+`QuotedTweetMatchingTracks` - contains all the tracks that the quoted tweet matched.\
+`QuotedTweetMatchingFollowers` - contains all the user ids included in the quoted tweet matching the followed users.\
+`QuotedTweetMatchingLocations` - contains all the locations that the quoted tweet matched
+
 ### MatchingTweetReceived - MatchOn
 
 Tweetinvi let you filter the results based on where the content was matched.\
@@ -144,6 +148,16 @@ stream.AddTrack("hello", tweet =>
 stream.AddTrack("bonjour", tweet =>
 {
     // A tweet containing 'bonjour' was found!
+});
+
+stream.AddFollow(tweetinviapi, tweet =>
+{
+    // A tweet was published by or related to the tweetinviapi
+});
+
+stream.AddLocation(centerOfNewYork, tweet =>
+{
+    // A tweet was published from the middle of center of New York City
 });
 
 stream.MatchingTweetReceived += (sender, eventReceived) =>

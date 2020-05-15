@@ -8,7 +8,7 @@ Filtered streams allow to track tweets based on:
 
 ## Track Filter
 
-> Track filters let you filter the tweets containing specific keywords.
+> The track filters let you track the tweets containing specific keywords.
 
 `.AddTrack` allow you to add a track filter to your stream.
 
@@ -64,4 +64,35 @@ Please read the [Twitter documentation](https://developer.twitter.com/en/docs/tw
 
 ## Follow Filter
 
+> The follow filter let you track tweets mentioning or published by a specific user.
+
+`.AddFollow` allow you to add a follow filter to your stream.
+
+``` c#
+// Add a filter with a user id
+stream.AddFollow(783214);
+
+// or with a user
+var twitterUser = await client.Users.GetUserAsync("twitter");
+stream.AddFollow(twitterUser);
+```
+
+Please read the [Twitter documentation](https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters#follow) to learn more how to build your follow requests.
+
+
 ## Location Filter
+
+> The location filter let you track tweets created at a specific location.
+
+`.AddLocation` allow you to add a location filter to your stream.
+
+``` c#
+// Add a filter with a location
+var centerOfNewYork = new Location(new Coordinates(-74,40), new Coordinates(-73,41));
+stream.AddLocation(centerOfNewYork);
+
+// or with 2 coordinates
+stream.AddLocation(new Coordinates(-74,40), new Coordinates(-73,41));
+```
+
+Please read the [Twitter documentation](https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters#locations) to learn more how to build your location requests.

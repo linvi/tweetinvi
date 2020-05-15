@@ -199,7 +199,7 @@
 <div class="section" id="track-filter">
 <h2>Track Filter<a class="headerlink" href="#track-filter" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>Track filters let you filter the tweets containing specific keywords.</p>
+<div><p>The track filters let you track the tweets containing specific keywords.</p>
 </div></blockquote>
 <p><code class="docutils literal notranslate"><span class="pre">.AddTrack</span></code> allow you to add a track filter to your stream.</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Only get tweets that contain (the keyword &quot;france&quot;)</span>
@@ -247,9 +247,35 @@
 </div>
 <div class="section" id="follow-filter">
 <h2>Follow Filter<a class="headerlink" href="#follow-filter" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>The follow filter let you track tweets mentioning or published by a specific user.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">.AddFollow</span></code> allow you to add a follow filter to your stream.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add a filter with a user id</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddFollow</span><span class="p">(</span><span class="m">783214</span><span class="p">);</span>
+
+<span class="c1">// or with a user</span>
+<span class="kt">var</span> <span class="n">twitterUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserAsync</span><span class="p">(</span><span class="s">&quot;twitter&quot;</span><span class="p">);</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddFollow</span><span class="p">(</span><span class="n">twitterUser</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Please read the <a class="reference external" href="https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters#follow">Twitter documentation</a> to learn more how to build your follow requests.</p>
 </div>
 <div class="section" id="location-filter">
 <h2>Location Filter<a class="headerlink" href="#location-filter" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>The location filter let you track tweets created at a specific location.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">.AddLocation</span></code> allow you to add a location filter to your stream.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add a filter with a location</span>
+<span class="kt">var</span> <span class="n">centerOfNewYork</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Location</span><span class="p">(</span><span class="k">new</span> <span class="n">Coordinates</span><span class="p">(-</span><span class="m">74</span><span class="p">,</span><span class="m">40</span><span class="p">),</span> <span class="k">new</span> <span class="n">Coordinates</span><span class="p">(-</span><span class="m">73</span><span class="p">,</span><span class="m">41</span><span class="p">));</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddLocation</span><span class="p">(</span><span class="n">centerOfNewYork</span><span class="p">);</span>
+
+<span class="c1">// or with 2 coordinates</span>
+<span class="n">stream</span><span class="p">.</span><span class="n">AddLocation</span><span class="p">(</span><span class="k">new</span> <span class="n">Coordinates</span><span class="p">(-</span><span class="m">74</span><span class="p">,</span><span class="m">40</span><span class="p">),</span> <span class="k">new</span> <span class="n">Coordinates</span><span class="p">(-</span><span class="m">73</span><span class="p">,</span><span class="m">41</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Please read the <a class="reference external" href="https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters#locations">Twitter documentation</a> to learn more how to build your location requests.</p>
 </div>
 </div>
 
