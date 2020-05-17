@@ -30,5 +30,5 @@ await stream.StartAsync("https://api.twitter.com/labs/1/tweets/stream/sample");
 
 <div class="warning">
 Labs sample stream only support application credentials (with a bearer token).<br/>
-<a href="../twitter-api/credentials.html#bearer-token">Learn more about Application Only Credentials</a>
+<a href="../credentials/credentials.html#bearer-token">Learn more about Application Only Credentials</a>
 </div>

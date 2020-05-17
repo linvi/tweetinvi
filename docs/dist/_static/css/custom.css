@@ -31,6 +31,10 @@ blockquote {
   background-color: rgb(255, 253, 137);
 }
 
+.information {
+  background-color: rgb(255, 253, 137);
+}
+
 a.success {
   color: #fff;
   background-color: #28a745;
