@@ -91,9 +91,9 @@ namespace Tweetinvi
         IRawExecutors Raw { get; }
 
         /// <summary>
-        /// Client's settings
+        /// Client's config
         /// </summary>
-        ITweetinviSettings ClientSettings { get; }
+        ITweetinviSettings Config { get; }
 
         /// <summary>
         /// Client's credentials

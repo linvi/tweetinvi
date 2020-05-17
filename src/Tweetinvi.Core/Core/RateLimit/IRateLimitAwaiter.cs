@@ -4,6 +4,7 @@ using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters.RateLimitsClient;
 
 namespace Tweetinvi.Core.RateLimit
 {
@@ -26,7 +27,7 @@ namespace Tweetinvi.Core.RateLimit
         /// <summary>
         /// Wait for the credentials' rate limits to be available for the specified query.
         /// </summary>
-        Task WaitForCredentialsRateLimitAsync(string query, IReadOnlyTwitterCredentials credentials, ITwitterExecutionContext executionContext);
+        Task WaitForCredentialsRateLimitAsync(IWaitForCredentialsRateLimitParameters parameters);
 
         /// <summary>
         /// Wait for the credentials' rate limits to be available for the specified endpoint.

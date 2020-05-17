@@ -48,7 +48,7 @@ namespace Tweetinvi
             set => _credentials = new ReadOnlyTwitterCredentials(value);
         }
 
-        public ITweetinviSettings ClientSettings { get; }
+        public ITweetinviSettings Config { get; }
 
         public TwitterClient(IReadOnlyConsumerCredentials credentials) : this(new ReadOnlyTwitterCredentials(credentials), new TwitterClientParameters())
         {
@@ -73,7 +73,7 @@ namespace Tweetinvi
         public TwitterClient(IReadOnlyTwitterCredentials credentials, TwitterClientParameters parameters)
         {
             Credentials = credentials;
-            ClientSettings = parameters?.Settings ?? new TweetinviSettings();
+            Config = parameters?.Settings ?? new TweetinviSettings();
 
             if (parameters?.Container == null)
             {
@@ -207,7 +207,7 @@ namespace Tweetinvi
                 }
             };
 
-            request.ExecutionContext.InitialiseFrom(ClientSettings);
+            request.ExecutionContext.InitialiseFrom(Config);
 
             return request;
         }

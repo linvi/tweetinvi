@@ -37,7 +37,7 @@ namespace Tweetinvi.Client
             parameters ??= new CreateSampleStreamParameters();
             var customRequestParameters = _sampleStreamFactory.GenerateParameterOverrideWrapper("createSampleStreamParameters", parameters);
             var stream = _sampleStreamFactory.Create(customRequestParameters);
-            stream.TweetMode = parameters.TweetMode ?? _client.ClientSettings.TweetMode;
+            stream.TweetMode = parameters.TweetMode ?? _client.Config.TweetMode;
             return stream;
         }
 
@@ -51,7 +51,7 @@ namespace Tweetinvi.Client
             parameters ??= new CreateFilteredTweetStreamParameters();
             var customRequestParameters = _filteredStreamFactory.GenerateParameterOverrideWrapper("createFilteredTweetStreamParameters", parameters);
             var stream = _filteredStreamFactory.Create(customRequestParameters);
-            stream.TweetMode = parameters.TweetMode ?? _client.ClientSettings.TweetMode;
+            stream.TweetMode = parameters.TweetMode ?? _client.Config.TweetMode;
             return stream;
         }
 
@@ -65,7 +65,7 @@ namespace Tweetinvi.Client
             parameters ??= new CreateTweetStreamParameters();
             var customRequestParameters = _tweetStreamFactory.GenerateParameterOverrideWrapper("createTweetStreamParameters", parameters);
             var stream = _tweetStreamFactory.Create(customRequestParameters);
-            stream.TweetMode = parameters.TweetMode ?? _client.ClientSettings.TweetMode;
+            stream.TweetMode = parameters.TweetMode ?? _client.Config.TweetMode;
             return stream;
         }
 
@@ -79,7 +79,7 @@ namespace Tweetinvi.Client
             parameters ??= new CreateTrackedTweetStreamParameters();
             var customRequestParameters = _trackedStreamFactory.GenerateParameterOverrideWrapper("createTrackedTweetStreamParameters", parameters);
             var stream = _trackedStreamFactory.Create(customRequestParameters);
-            stream.TweetMode = parameters.TweetMode ?? _client.ClientSettings.TweetMode;
+            stream.TweetMode = parameters.TweetMode ?? _client.Config.TweetMode;
             return stream;
         }
     }

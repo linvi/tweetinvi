@@ -100,6 +100,8 @@ namespace xUnitinvi.EndToEnd
             await _tweetinviTestClient.Lists.AddMemberToListAsync(publicList, EndToEndTestConfig.TweetinviTest);
             await _tweetinviTestClient.Lists.AddMembersToListAsync(publicList, new[] { "bbc", "lemondefr" });
 
+            await Task.Delay(TimeSpan.FromSeconds(5));
+
             await _tweetinviClient.Lists.GetMembersOfListAsync(new GetMembersOfListParameters(publicList));
             var membersIterator = _tweetinviTestClient.Lists.GetMembersOfListIterator(new GetMembersOfListParameters(publicList)
             {
@@ -169,6 +171,8 @@ namespace xUnitinvi.EndToEnd
             var tweetinviSubscriberBeforeRemove = await _tweetinviTestClient.Lists.CheckIfUserIsSubscriberOfListAsync(publicList, EndToEndTestConfig.TweetinviApi);
 
             await _tweetinviClient.Lists.UnsubscribeFromListAsync(publicList);
+
+            await Task.Delay(TimeSpan.FromSeconds(5));
 
             var tweetinviSubscriberAfterRemove = await _tweetinviTestClient.Lists.CheckIfUserIsSubscriberOfListAsync(publicList, EndToEndTestConfig.TweetinviApi);
 

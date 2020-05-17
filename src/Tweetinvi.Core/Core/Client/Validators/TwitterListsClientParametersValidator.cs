@@ -44,7 +44,7 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListsClientRequiredParametersValidator = twitterListsClientRequiredParametersValidator;
         }
 
-        private TwitterLimits Limits => _client.ClientSettings.Limits;
+        private TwitterLimits Limits => _client.Config.Limits;
 
         public void Validate(ICreateListParameters parameters)
         {

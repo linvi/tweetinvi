@@ -44,10 +44,10 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentException("At least one of the required parameters needs to be valid (query, geocode or filter).");
             }
 
-            var maxPageSize = _client.ClientSettings.Limits.SEARCH_TWEETS_MAX_PAGE_SIZE;
+            var maxPageSize = _client.Config.Limits.SEARCH_TWEETS_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.SEARCH_TWEETS_MAX_PAGE_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(_client.Config.Limits.SEARCH_TWEETS_MAX_PAGE_SIZE), "page size");
             }
         }
 
@@ -55,10 +55,10 @@ namespace Tweetinvi.Core.Client.Validators
         {
             _searchClientRequiredParametersValidator.Validate(parameters);
 
-            var maxPageSize = _client.ClientSettings.Limits.SEARCH_USERS_MAX_PAGE_SIZE;
+            var maxPageSize = _client.Config.Limits.SEARCH_USERS_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.SEARCH_USERS_MAX_PAGE_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(_client.Config.Limits.SEARCH_USERS_MAX_PAGE_SIZE), "page size");
             }
         }
 

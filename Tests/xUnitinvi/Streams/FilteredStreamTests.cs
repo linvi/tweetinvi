@@ -51,7 +51,6 @@ namespace xUnitinvi.Streams
             var tuple = InitForCatchingJsonEvents();
             var fs = tuple.Item1;
 
-
             // act
             fs.AddTrack("raison");
 
@@ -74,13 +73,12 @@ namespace xUnitinvi.Streams
             Assert.True(matchingTweetReceived);
         }
 
-        [Fact]
+        [Fact(Skip = "#1050")]
         public async Task QuotedTweet_MatchOn_UrlEntitiesAsync()
         {
             // arrange
             var tuple = InitForCatchingJsonEvents();
             var fs = tuple.Item1;
-
 
             // act
             fs.AddTrack("twitter");

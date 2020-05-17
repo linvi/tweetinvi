@@ -5,6 +5,7 @@ using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.RateLimitsClient;
 
 namespace Tweetinvi.Client
 {
@@ -83,7 +84,19 @@ namespace Tweetinvi.Client
 
         public Task WaitForQueryRateLimitAsync(string url)
         {
-            return _rateLimitAwaiter.WaitForCredentialsRateLimitAsync(url, _client.Credentials, _client.CreateTwitterExecutionContext());
+            return WaitForQueryRateLimitAsync(url, RateLimitsSource.CacheOrTwitterApi);
+        }
+
+        public Task WaitForQueryRateLimitAsync(string url, RateLimitsSource from)
+        {
+            var credentialsRateLimitParameters = new WaitForCredentialsRateLimitParameters(url)
+            {
+                Credentials = _client.Credentials,
+                ExecutionContext = _client.CreateTwitterExecutionContext(),
+                From = from
+            };
+
+            return _rateLimitAwaiter.WaitForCredentialsRateLimitAsync(credentialsRateLimitParameters);
         }
 
         public Task WaitForQueryRateLimitAsync(IEndpointRateLimit endpointRateLimit)

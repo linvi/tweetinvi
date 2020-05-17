@@ -195,7 +195,7 @@ namespace Tweetinvi.Client.Tools
                 return null;
             }
 
-            return new Tweet(tweetDTO, _client.ClientSettings.TweetMode, _client);
+            return new Tweet(tweetDTO, _client.Config.TweetMode, _client);
         }
 
         public ITweet[] CreateTweets(IEnumerable<ITweetDTO> tweetDTOs)
@@ -210,7 +210,7 @@ namespace Tweetinvi.Client.Tools
                 return null;
             }
 
-            return new TweetWithSearchMetadata(tweetWithSearchMetadataDTO, _client.ClientSettings.TweetMode, _client);
+            return new TweetWithSearchMetadata(tweetWithSearchMetadataDTO, _client.Config.TweetMode, _client);
         }
 
         public IOEmbedTweet CreateOEmbedTweet(string json)

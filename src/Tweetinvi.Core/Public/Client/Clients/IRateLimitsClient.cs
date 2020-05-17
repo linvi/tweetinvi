@@ -41,6 +41,9 @@ namespace Tweetinvi.Client
         /// <inheritdoc cref="IRateLimitsClient.WaitForQueryRateLimitAsync(IEndpointRateLimit)" />
         Task WaitForQueryRateLimitAsync(string url);
 
+        /// <inheritdoc cref="IRateLimitsClient.WaitForQueryRateLimitAsync(IEndpointRateLimit)" />
+        Task WaitForQueryRateLimitAsync(string url, RateLimitsSource @from);
+
         /// <summary>
         /// Wait for new requests to a specific endpoint become available
         /// </summary>

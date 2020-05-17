@@ -25,7 +25,7 @@ namespace Tweetinvi.Core.Client.Validators
             _accountSettingsClientRequiredParametersValidator = accountSettingsClientRequiredParametersValidator;
         }
 
-        private TwitterLimits Limits => _client.ClientSettings.Limits;
+        private TwitterLimits Limits => _client.Config.Limits;
 
         public void Validate(IGetAccountSettingsParameters parameters)
         {

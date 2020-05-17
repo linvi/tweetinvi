@@ -78,7 +78,7 @@ namespace xUnitinvi.EndToEnd
             TweetinviEvents.SubscribeToClientEvents(client);
 
             var twitterAccessorSpy = client.CreateTwitterExecutionContext().Container.Resolve<ITwitterAccessor>() as TwitterAccessorSpy;
-            client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
+            client.Config.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
 
             // act
             var firstApplicationRateLimits = await client.RateLimits.GetEndpointRateLimitAsync("https://api.twitter.com/1.1/statuses/home_timeline.json", RateLimitsSource.TwitterApiOnly);
@@ -122,7 +122,7 @@ namespace xUnitinvi.EndToEnd
             });
             TweetinviEvents.SubscribeToClientEvents(client);
 
-            client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
+            client.Config.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
 
             // act - assert
             var rateLimits = await client.RateLimits.GetEndpointRateLimitAsync(Resources.Timeline_GetHomeTimeline);

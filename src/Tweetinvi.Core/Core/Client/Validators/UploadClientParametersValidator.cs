@@ -23,7 +23,7 @@ namespace Tweetinvi.Core.Client.Validators
             _uploadClientRequiredParametersValidator = uploadClientRequiredParametersValidator;
         }
 
-        public TwitterLimits Limits => _client.ClientSettings.Limits;
+        public TwitterLimits Limits => _client.Config.Limits;
 
         public void Validate(IUploadParameters parameters)
         {
