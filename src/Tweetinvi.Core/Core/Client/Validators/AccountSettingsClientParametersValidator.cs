@@ -38,7 +38,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (!parameters.DisplayLanguage.IsADisplayLanguage())
             {
-                throw new ArgumentException("As of 2019-10-06 this language is not supported by Twitter", $"{nameof(parameters)}.{nameof(parameters.DisplayLanguage)}");
+                throw new ArgumentException("As of 2019-10-06 this language is not supported by Twitter", $"{nameof(parameters.DisplayLanguage)}");
             }
         }
 
@@ -46,10 +46,10 @@ namespace Tweetinvi.Core.Client.Validators
         {
             _accountSettingsClientRequiredParametersValidator.Validate(parameters);
 
-            ThrowIfParameterSizeIsInvalid(parameters.Name, $"{nameof(parameters)}.{nameof(parameters.Name)}", Limits.ACCOUNT_SETTINGS_PROFILE_NAME_MAX_LENGTH);
-            ThrowIfParameterSizeIsInvalid(parameters.Description, $"{nameof(parameters)}.{nameof(parameters.Description)}", Limits.ACCOUNT_SETTINGS_PROFILE_DESCRIPTION_MAX_LENGTH);
-            ThrowIfParameterSizeIsInvalid(parameters.Location, $"{nameof(parameters)}.{nameof(parameters.Location)}", Limits.ACCOUNT_SETTINGS_PROFILE_LOCATION_MAX_LENGTH);
-            ThrowIfParameterSizeIsInvalid(parameters.WebsiteUrl, $"{nameof(parameters)}.{nameof(parameters.WebsiteUrl)}", Limits.ACCOUNT_SETTINGS_PROFILE_WEBSITE_URL_MAX_LENGTH);
+            ThrowIfParameterSizeIsInvalid(parameters.Name, $"{nameof(parameters.Name)}", Limits.ACCOUNT_SETTINGS_PROFILE_NAME_MAX_LENGTH);
+            ThrowIfParameterSizeIsInvalid(parameters.Description, $"{nameof(parameters.Description)}", Limits.ACCOUNT_SETTINGS_PROFILE_DESCRIPTION_MAX_LENGTH);
+            ThrowIfParameterSizeIsInvalid(parameters.Location, $"{nameof(parameters.Location)}", Limits.ACCOUNT_SETTINGS_PROFILE_LOCATION_MAX_LENGTH);
+            ThrowIfParameterSizeIsInvalid(parameters.WebsiteUrl, $"{nameof(parameters.WebsiteUrl)}", Limits.ACCOUNT_SETTINGS_PROFILE_WEBSITE_URL_MAX_LENGTH);
         }
 
         public void Validate(IUpdateProfileImageParameters parameters)

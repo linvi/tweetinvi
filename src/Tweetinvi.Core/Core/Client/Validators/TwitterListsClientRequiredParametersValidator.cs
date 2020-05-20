@@ -27,7 +27,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (string.IsNullOrEmpty(parameters.Name))
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Name)}");
+                throw new ArgumentNullException($"{nameof(parameters.Name)}");
             }
         }
 
@@ -213,7 +213,7 @@ namespace Tweetinvi.Core.Client.Validators
             ThrowIfListIdentifierIsNotValid(parameters.List);
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
         }
-        
+
         public void ThrowIfListIdentifierIsNotValid(ITwitterListIdentifier twitterListIdentifier)
         {
             if (twitterListIdentifier == null)

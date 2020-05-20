@@ -26,7 +26,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Query == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Query)}");
+                throw new ArgumentNullException($"{nameof(parameters.Query)}");
             }
         }
 
@@ -39,7 +39,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (string.IsNullOrEmpty(parameters.Query))
             {
-                throw new ArgumentException($"{nameof(parameters)}.{nameof(parameters.Query)}");
+                throw new ArgumentException($"{nameof(parameters.Query)}");
             }
         }
 
@@ -52,7 +52,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.SavedSearchId <= 0)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.SavedSearchId)}");
+                throw new ArgumentNullException($"{nameof(parameters.SavedSearchId)}");
             }
         }
 
@@ -73,7 +73,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.SavedSearchId <= 0)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.SavedSearchId)}");
+                throw new ArgumentNullException($"{nameof(parameters.SavedSearchId)}");
             }
         }
     }

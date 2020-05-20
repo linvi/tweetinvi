@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Binary == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Binary)}");
+                throw new ArgumentNullException($"{nameof(parameters.Binary)}");
             }
         }
 
@@ -28,10 +28,10 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
-            
+
             if (parameters.MediaId == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.MediaId)}");
+                throw new ArgumentNullException($"{nameof(parameters.MediaId)}");
             }
         }
     }

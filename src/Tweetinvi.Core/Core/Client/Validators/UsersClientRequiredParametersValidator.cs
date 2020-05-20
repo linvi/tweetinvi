@@ -36,7 +36,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Users == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Users)}");
+                throw new ArgumentNullException($"{nameof(parameters.Users)}");
             }
         }
 
@@ -47,7 +47,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters.User)}");
         }
 
         public void Validate(IGetFollowersParameters parameters)
@@ -62,7 +62,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters.User)}");
         }
 
         public void Validate(IGetFriendsParameters parameters)
@@ -77,8 +77,8 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.SourceUser, $"{nameof(parameters)}.{nameof(parameters.SourceUser)}");
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.TargetUser, $"{nameof(parameters)}.{nameof(parameters.TargetUser)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.SourceUser, $"{nameof(parameters.SourceUser)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.TargetUser, $"{nameof(parameters.TargetUser)}");
         }
 
         public void Validate(IGetProfileImageParameters parameters)
@@ -90,12 +90,12 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.ImageUrl == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.ImageUrl)}");
+                throw new ArgumentNullException($"{nameof(parameters.ImageUrl)}");
             }
 
             if (!Uri.IsWellFormedUriString(parameters.ImageUrl, UriKind.Absolute))
             {
-                throw new ArgumentException("ImageUrl has to be valid absolute url", $"{nameof(parameters)}.{nameof(parameters.ImageUrl)}");
+                throw new ArgumentException("ImageUrl has to be valid absolute url", $"{nameof(parameters.ImageUrl)}");
             }
         }
 
@@ -114,7 +114,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters.User)}");
         }
 
         public void Validate(IUnblockUserParameters parameters)
@@ -124,7 +124,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters.User)}");
         }
 
         public void Validate(IReportUserForSpamParameters parameters)
@@ -134,7 +134,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters.User)}");
         }
 
         public void Validate(IGetBlockedUserIdsParameters parameters)
@@ -160,7 +160,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters.User)}");
         }
 
         public void Validate(IUnfollowUserParameters parameters)
@@ -170,7 +170,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters.User)}");
         }
 
         public void Validate(IGetUserIdsRequestingFriendshipParameters parameters)
@@ -212,7 +212,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters.User)}");
         }
 
         public void Validate(IGetRelationshipsWithParameters parameters)
@@ -224,12 +224,12 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Users == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Users)}");
+                throw new ArgumentNullException($"{nameof(parameters.Users)}");
             }
 
             if (parameters.Users.All(user => user.Id <= 0 && string.IsNullOrEmpty(user.IdStr) && string.IsNullOrEmpty(user.ScreenName)))
             {
-                throw new ArgumentException("At least 1 valid user identifier is required.", $"{nameof(parameters)}.{nameof(parameters.Users)}");
+                throw new ArgumentException("At least 1 valid user identifier is required.", $"{nameof(parameters.Users)}");
             }
         }
 
@@ -264,7 +264,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters.User)}");
         }
 
         public void Validate(IUnmuteUserParameters parameters)
@@ -274,7 +274,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters.User)}");
         }
     }
 }

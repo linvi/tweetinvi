@@ -42,7 +42,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (string.IsNullOrEmpty(parameters.PlaceId))
             {
-                throw new ArgumentException($"{nameof(parameters)}.{nameof(parameters.PlaceId)}");
+                throw new ArgumentException($"{nameof(parameters.PlaceId)}");
             }
         }
 
@@ -63,7 +63,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Coordinates == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Coordinates)}");
+                throw new ArgumentNullException($"{nameof(parameters.Coordinates)}");
             }
         }
     }

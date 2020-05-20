@@ -39,15 +39,15 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (string.IsNullOrEmpty(parameters.VerifierCode))
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.VerifierCode)}", "If you received a null verifier code, the authentication failed");
+                throw new ArgumentNullException($"{nameof(parameters.VerifierCode)}", "If you received a null verifier code, the authentication failed");
             }
 
             if (parameters.AuthRequest == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.AuthRequest)}");
+                throw new ArgumentNullException($"{nameof(parameters.AuthRequest)}");
             }
 
-            ThrowIfInvalidConsumerCredentials($"{nameof(parameters)}.{nameof(parameters.AuthRequest)}", parameters.AuthRequest);
+            ThrowIfInvalidConsumerCredentials($"{nameof(parameters.AuthRequest)}", parameters.AuthRequest);
         }
 
         public void Validate(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)

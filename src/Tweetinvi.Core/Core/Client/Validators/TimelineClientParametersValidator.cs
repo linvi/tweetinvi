@@ -30,7 +30,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxPageSize = Limits.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE), "page size");
             }
         }
 
@@ -41,7 +41,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxPageSize = Limits.TIMELINE_USER_PAGE_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_USER_PAGE_MAX_PAGE_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_USER_PAGE_MAX_PAGE_SIZE), "page size");
             }
         }
 
@@ -52,7 +52,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxPageSize = Limits.TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE), "page size");
             }
         }
 
@@ -63,7 +63,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxPageSize = Limits.TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE), "page size");
             }
         }
     }

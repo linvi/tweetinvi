@@ -47,7 +47,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxPageSize = _client.Config.Limits.SEARCH_TWEETS_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(_client.Config.Limits.SEARCH_TWEETS_MAX_PAGE_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters.PageSize)}", maxPageSize, nameof(_client.Config.Limits.SEARCH_TWEETS_MAX_PAGE_SIZE), "page size");
             }
         }
 
@@ -58,7 +58,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxPageSize = _client.Config.Limits.SEARCH_USERS_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(_client.Config.Limits.SEARCH_USERS_MAX_PAGE_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters.PageSize)}", maxPageSize, nameof(_client.Config.Limits.SEARCH_USERS_MAX_PAGE_SIZE), "page size");
             }
         }
 

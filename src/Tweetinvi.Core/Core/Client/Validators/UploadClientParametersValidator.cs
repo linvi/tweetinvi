@@ -35,7 +35,7 @@ namespace Tweetinvi.Core.Client.Validators
                 var maxUploadSize = Limits.UPLOAD_MAX_IMAGE_SIZE;
                 if (parameters.Binary.Length > maxUploadSize)
                 {
-                    throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.Binary)}", maxUploadSize, nameof(Limits.UPLOAD_MAX_IMAGE_SIZE), "binary size");
+                    throw new TwitterArgumentLimitException($"{nameof(parameters.Binary)}", maxUploadSize, nameof(Limits.UPLOAD_MAX_IMAGE_SIZE), "binary size");
                 }
             }
 
@@ -44,7 +44,7 @@ namespace Tweetinvi.Core.Client.Validators
                 var maxUploadSize = Limits.UPLOAD_MAX_VIDEO_SIZE;
                 if (parameters.Binary.Length > maxUploadSize)
                 {
-                    throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.Binary)}", maxUploadSize, nameof(Limits.UPLOAD_MAX_VIDEO_SIZE), "binary size");
+                    throw new TwitterArgumentLimitException($"{nameof(parameters.Binary)}", maxUploadSize, nameof(Limits.UPLOAD_MAX_VIDEO_SIZE), "binary size");
                 }
             }
         }

@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (string.IsNullOrEmpty(parameters.Text))
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Text)}");
+                throw new ArgumentNullException($"{nameof(parameters.Text)}");
             }
         }
 

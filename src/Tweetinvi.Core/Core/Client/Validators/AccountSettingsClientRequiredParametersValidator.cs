@@ -6,7 +6,7 @@ namespace Tweetinvi.Core.Client.Validators
     public interface IAccountSettingsClientRequiredParametersValidator : IAccountSettingsClientParametersValidator
     {
     }
-    
+
     public class AccountSettingsClientRequiredParametersValidator : IAccountSettingsClientRequiredParametersValidator
     {
         public void Validate(IGetAccountSettingsParameters parameters)
@@ -42,7 +42,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Binary == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Binary)}");
+                throw new ArgumentNullException($"{nameof(parameters.Binary)}");
             }
         }
 
@@ -52,10 +52,10 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
-            
+
             if (parameters.Binary == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Binary)}");
+                throw new ArgumentNullException($"{nameof(parameters.Binary)}");
             }
         }
 

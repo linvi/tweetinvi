@@ -18,12 +18,12 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Environment == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.Environment)}");
+                throw new ArgumentNullException($"${nameof(parameters.Environment)}");
             }
 
             if (parameters.WebhookUrl == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.WebhookUrl)}");
+                throw new ArgumentNullException($"${nameof(parameters.WebhookUrl)}");
             }
         }
 
@@ -44,7 +44,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Environment == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.Environment)}");
+                throw new ArgumentNullException($"${nameof(parameters.Environment)}");
             }
         }
 
@@ -57,12 +57,12 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Environment == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.Environment)}");
+                throw new ArgumentNullException($"${nameof(parameters.Environment)}");
             }
 
             if (parameters.WebhookId == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.WebhookId)}");
+                throw new ArgumentNullException($"${nameof(parameters.WebhookId)}");
             }
         }
 
@@ -75,12 +75,12 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Environment == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.Environment)}");
+                throw new ArgumentNullException($"${nameof(parameters.Environment)}");
             }
 
             if (parameters.WebhookId == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.WebhookId)}");
+                throw new ArgumentNullException($"${nameof(parameters.WebhookId)}");
             }
         }
 
@@ -93,7 +93,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Environment == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.Environment)}");
+                throw new ArgumentNullException($"${nameof(parameters.Environment)}");
             }
         }
 
@@ -114,7 +114,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Environment == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.Environment)}");
+                throw new ArgumentNullException($"${nameof(parameters.Environment)}");
             }
         }
 
@@ -127,7 +127,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Environment == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.Environment)}");
+                throw new ArgumentNullException($"${nameof(parameters.Environment)}");
             }
         }
 
@@ -140,12 +140,12 @@ namespace Tweetinvi.Core.Client.Validators
 
             if (parameters.Environment == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.Environment)}");
+                throw new ArgumentNullException($"${nameof(parameters.Environment)}");
             }
 
             if (parameters.UserId <= 0)
             {
-                throw new ArgumentException($"{nameof(parameters)}.${nameof(parameters.UserId)}");
+                throw new ArgumentException($"${nameof(parameters.UserId)}");
             }
         }
     }
