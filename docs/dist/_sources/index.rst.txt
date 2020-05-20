@@ -68,6 +68,7 @@ The goal of this library is to make life of developers as easy as possible.
    :caption: Twitter Client
 
    twitter-client/twitter-client
+   twitter-client/events
 
 .. toctree::
    :maxdepth: 1

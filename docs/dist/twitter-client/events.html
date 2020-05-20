@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PIN based Authentication &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
+  <title>Twitter Client - Events &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Streams Introduction" href="../streams/streams-introduction.html" />
-    <link rel="prev" title="URL Redirect Authentication" href="authentication-url-redirect.html" /> 
+    <link rel="next" title="Twitter Labs" href="../more/twitter-labs.html" />
+    <link rel="prev" title="Twitter Client" href="twitter-client.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -105,14 +105,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../twitter-api/iterators.html">Iterators</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="authentication.html">Introduction to Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">URL Redirect Authentication</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">PIN based Authentication</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-flow">The flow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#authenticate-with-tweetinvi">Authenticate with Tweetinvi</a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Streams</span></p>
 <ul>
@@ -125,9 +121,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../streams/labs-filtered-stream.html">Labs Filtered Stream</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter Client</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-client/twitter-client.html">Twitter Client</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-client/events.html">Twitter Client - Events</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="twitter-client.html">Twitter Client</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Twitter Client - Events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#client-level-events">Client level events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#application-level-events">Application level events</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -181,7 +181,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>PIN based Authentication</li>
+      <li>Twitter Client - Events</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -198,50 +198,66 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pin-based-authentication">
-<h1>PIN based Authentication<a class="headerlink" href="#pin-based-authentication" title="Permalink to this headline">¶</a></h1>
-<p><strong>PIN based authentication</strong> is better suited for desktop applications.<br />If you are writing a web application I suggest that you use the <a class="reference internal" href="authentication-url-redirect.html"><span class="doc">URL redirect authentication</span></a>.</p>
-<div class="section" id="the-flow">
-<h2>The flow<a class="headerlink" href="#the-flow" title="Permalink to this headline">¶</a></h2>
-<p>The PIN based authentication process is quite simple.</p>
-<ol class="simple">
-<li><p>Request Twitter to provide a unique URL that enables a user to authenticate and retrieve a captcha.</p></li>
-<li><p>Ask the user to go to this URL.</p></li>
-<li><p>Twitter will ask the user to authenticate and accept the permissions requested by your Twitter application.</p></li>
-<li><p>If the user accepts, Twitter generates a PIN Code and gives it to the user.</p></li>
-<li><p>With this code, Twitter can now issue a new OAuth Token available from a WebRequest.</p></li>
-</ol>
-<p>Now let’s see how Tweetinvi simplifies this process.</p>
-</div>
-<div class="section" id="authenticate-with-tweetinvi">
-<h2>Authenticate with Tweetinvi<a class="headerlink" href="#authenticate-with-tweetinvi" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a client for your app</span>
-<span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">);</span>
+  <div class="section" id="twitter-client-events">
+<h1>Twitter Client - Events<a class="headerlink" href="#twitter-client-events" title="Permalink to this headline">¶</a></h1>
+<p>Events are here to help developers manage the lifecycle of requests but also for logging.<br />Each client will trigger its own events.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BeforeWaitingForRequestRateLimits</td>
+<td>1st event to be triggered. It is triggered as soon as a request is received.<br/>If you use a <a href="../credentials/rate-limits-handler">Rate Limit handler</a>, this event will be invoked before the handler has been invoked.</td>
+</tr>
+<tr>
+<td>BeforeExecutingRequest</td>
+<td>2nd event. It informs that the request is about to be performed.<br/>If you use a <a href="../credentials/rate-limits-handler">Rate Limit Handlers</a>, this event will be invoked after the necessary rate limits allowance has become available.</td>
+</tr>
+<tr>
+<td>AfterExecutingRequest</td>
+<td>3rd event. It informs that the request has completed (successfully or not).</td>
+</tr>
+<tr>
+<td>OnTwitterException</td>
+<td>4th event. It informs that the request resulted in an exception.</td>
+</tr>
+</tbody>
+</table><div class="section" id="client-level-events">
+<h2>Client level events<a class="headerlink" href="#client-level-events" title="Permalink to this headline">¶</a></h2>
+<p>To receive client events, you just need to subscribe to them.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">creds</span><span class="p">);</span>
 
-<span class="c1">// Start the authentication process</span>
-<span class="kt">var</span> <span class="n">authenticationRequest</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestAuthenticationUrlAsync</span><span class="p">();</span>
-
-<span class="c1">// Go to the URL so that Twitter authenticates the user and gives him a PIN code.</span>
-<span class="n">Process</span><span class="p">.</span><span class="n">Start</span><span class="p">(</span><span class="k">new</span> <span class="n">ProcessStartInfo</span><span class="p">(</span><span class="n">authenticationRequest</span><span class="p">.</span><span class="n">AuthorizationURL</span><span class="p">)</span>
+<span class="n">client</span><span class="p">.</span><span class="n">Events</span><span class="p">.</span><span class="n">BeforeExecutingRequest</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
-    <span class="n">UseShellExecute</span> <span class="p">=</span> <span class="k">true</span>
-<span class="p">});</span>
-
-<span class="c1">// Ask the user to enter the pin code given by Twitter</span>
-<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Please enter the code and press enter.&quot;</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">pinCode</span> <span class="p">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
-
-<span class="c1">// With this pin code it is now possible to get the credentials back from Twitter</span>
-<span class="kt">var</span> <span class="n">userCredentials</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestCredentialsFromVerifierCodeAsync</span><span class="p">(</span><span class="n">pinCode</span><span class="p">,</span> <span class="n">authenticationRequest</span><span class="p">);</span>
-
-<span class="c1">// You can now save those credentials or use them as followed</span>
-<span class="kt">var</span> <span class="n">userClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">userCredentials</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUserAsync</span><span class="p">();</span>
-
-<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Congratulation you have authenticated the user: &quot;</span> <span class="p">+</span> <span class="n">user</span><span class="p">);</span>
+    <span class="c1">// lets delay all operations from this client by 1 second</span>
+    <span class="n">Task</span><span class="p">.</span><span class="n">Delay</span><span class="p">(</span><span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromSeconds</span><span class="p">(</span><span class="m">1</span><span class="p">));</span>
+<span class="p">};</span>
 </pre></div>
 </div>
 </div>
+<div class="section" id="application-level-events">
+<h2>Application level events<a class="headerlink" href="#application-level-events" title="Permalink to this headline">¶</a></h2>
+<p>If you wish to monitor the multiple clients or your entire application you can use the static <code class="docutils literal notranslate"><span class="pre">TweetinviEvents</span></code> as below.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// subscribe to application level events</span>
+<span class="n">TweetinviEvents</span><span class="p">.</span><span class="n">BeforeExecutingRequest</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// application level logging</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Url</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">// For a client to be included in the application events you will need to subscribe to this client&#39;s events</span>
+<span class="n">TweetinviEvents</span><span class="p">.</span><span class="n">SubscribeToClientEvents</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="warning"><p>Remember to unsubscribe your clients from your <code class="docutils literal notranslate"><span class="pre">TweetinviEvents</span></code> when you are done with them.<br />Not doing so will result in a memory pointer still in use and will prevent the Garbage Collector to collect the client.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">TweetinviEvents</span><span class="p">.</span><span class="n">UnsubscribeFromClientEvents</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></div>
 </div>
 
 
@@ -252,10 +268,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../streams/streams-introduction.html" class="btn btn-neutral float-right" title="Streams Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../more/twitter-labs.html" class="btn btn-neutral float-right" title="Twitter Labs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="authentication-url-redirect.html" class="btn btn-neutral float-left" title="URL Redirect Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="twitter-client.html" class="btn btn-neutral float-left" title="Twitter Client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

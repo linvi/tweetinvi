@@ -15,6 +15,15 @@ var appClient = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET");
 var userClient = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 ```
 
+The clients' credentials are available under `userClient.Credentials`.\
+These credentials can be changed but my suggestion is that for each new set of credentials you create a new client.
+
+<div class="note">
+
+Note that the credentials information are copied. If you passed a credentials object, changing properties of that object, will not change the properties of the `client.Credentials`
+</div>
+
+
 ## Config
 
 The Twitter client uses a default configuration that can be changed to match your needs.

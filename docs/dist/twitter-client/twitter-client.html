@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Twitter Labs" href="../more/twitter-labs.html" />
+    <link rel="next" title="Twitter Client - Events" href="events.html" />
     <link rel="prev" title="Labs Filtered Stream" href="../streams/labs-filtered-stream.html" /> 
 </head>
 
@@ -136,6 +136,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#request-validators">Request Validators</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="events.html">Twitter Client - Events</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -218,7 +219,9 @@
 <span class="kt">var</span> <span class="n">userClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="section" id="config">
+<p>The clients’ credentials are available under <code class="docutils literal notranslate"><span class="pre">userClient.Credentials</span></code>.<br />These credentials can be changed but my suggestion is that for each new set of credentials you create a new client.</p>
+<div class="note"><p>Note that the credentials information are copied. If you passed a credentials object, changing properties of that object, will not change the properties of the <code class="docutils literal notranslate"><span class="pre">client.Credentials</span></code></p>
+</div><div class="section" id="config">
 <h2>Config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h2>
 <p>The Twitter client uses a default configuration that can be changed to match your needs.</p>
 <div class="section" id="proxy">
@@ -339,7 +342,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../more/twitter-labs.html" class="btn btn-neutral float-right" title="Twitter Labs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="events.html" class="btn btn-neutral float-right" title="Twitter Client - Events" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../streams/labs-filtered-stream.html" class="btn btn-neutral float-left" title="Labs Filtered Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
