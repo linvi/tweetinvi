@@ -120,3 +120,30 @@ catch (TwitterArgumentLimitException e)
     Console.WriteLine(e);
 }
 ```
+
+## Request Validators
+
+Tweetinvi 5.0 introduced the concept of request validators.\
+Their goal is to help developers verifying that requests parameters are valid.
+
+The `Validate` method takes parameters and throws an `ArgumentException` if any property is incorrect.
+
+``` c#
+var parameters = new GetMessagesParameters();
+
+try
+{
+    client.ParametersValidator.Validate(parameters);
+    client.Messages.ParametersValidator.Validate(parameters);
+}
+catch (TwitterArgumentLimitException limitException)
+{
+}
+catch (ArgumentException argumentException)
+{
+}
+```
+
+The `TwitterArgumentLimitException` are being thrown when a limit specified in the `client.Config.Limits` is not respected.\
+This type of error will provide additional information as to why the limit was breached.
+

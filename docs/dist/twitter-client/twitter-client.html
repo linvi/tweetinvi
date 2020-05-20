@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Request Validators" href="request-validators.html" />
+    <link rel="next" title="Twitter Labs" href="../more/twitter-labs.html" />
     <link rel="prev" title="Labs Filtered Stream" href="../streams/labs-filtered-stream.html" /> 
 </head>
 
@@ -133,9 +133,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#twitter-limits">Twitter Limits</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#request-validators">Request Validators</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="request-validators.html">Request Validators</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -306,6 +306,27 @@
 </div>
 </div>
 </div>
+<div class="section" id="request-validators">
+<h2>Request Validators<a class="headerlink" href="#request-validators" title="Permalink to this headline">¶</a></h2>
+<p>Tweetinvi 5.0 introduced the concept of request validators.<br />Their goal is to help developers verifying that requests parameters are valid.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Validate</span></code> method takes parameters and throws an <code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> if any property is incorrect.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">parameters</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GetMessagesParameters</span><span class="p">();</span>
+
+<span class="k">try</span>
+<span class="p">{</span>
+    <span class="n">client</span><span class="p">.</span><span class="n">ParametersValidator</span><span class="p">.</span><span class="n">Validate</span><span class="p">(</span><span class="n">parameters</span><span class="p">);</span>
+    <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">ParametersValidator</span><span class="p">.</span><span class="n">Validate</span><span class="p">(</span><span class="n">parameters</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">(</span><span class="n">TwitterArgumentLimitException</span> <span class="n">limitException</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">(</span><span class="n">ArgumentException</span> <span class="n">argumentException</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">TwitterArgumentLimitException</span></code> are being thrown when a limit specified in the <code class="docutils literal notranslate"><span class="pre">client.Config.Limits</span></code> is not respected.<br />This type of error will provide additional information as to why the limit was breached.</p>
+</div>
 </div>
 
 
@@ -316,7 +337,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="request-validators.html" class="btn btn-neutral float-right" title="Request Validators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../more/twitter-labs.html" class="btn btn-neutral float-right" title="Twitter Labs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../streams/labs-filtered-stream.html" class="btn btn-neutral float-left" title="Labs Filtered Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
