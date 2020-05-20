@@ -10,7 +10,7 @@ namespace Tweetinvi.Client
     public interface ITweetsClient
     {
         /// <summary>
-        /// Validate all the TweetsClient parameters
+        /// Validate all the Tweets client parameters
         /// </summary>
         ITweetsClientParametersValidator ParametersValidator { get; }
 

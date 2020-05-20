@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -8,6 +9,11 @@ namespace Tweetinvi.Client
 {
     public interface IHelpClient
     {
+        /// <summary>
+        /// Validate all the Help client parameters
+        /// </summary>
+        IHelpClientParametersValidator ParametersValidator { get; }
+
         /// <inheritdoc cref="IHelpClient.GetTwitterConfigurationAsync(IGetTwitterConfigurationParameters)"/>
         Task<ITwitterConfiguration> GetTwitterConfigurationAsync();
 

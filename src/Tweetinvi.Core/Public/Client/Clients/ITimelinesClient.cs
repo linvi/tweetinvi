@@ -9,7 +9,7 @@ namespace Tweetinvi.Client
     public interface ITimelinesClient
     {
         /// <summary>
-        /// Validate all the TimelineClient parameters
+        /// Validate all the Timelines client parameters
         /// </summary>
         ITimelineClientParametersValidator ParametersValidator { get; }
 

@@ -85,7 +85,7 @@ namespace Tweetinvi.Credentials.RateLimit
                 return TimeSpan.Zero;
             }
 
-            var timeToWaitInMs = (int) Math.Ceiling(queryRateLimit.ResetDateTimeInMilliseconds) + executionContext.RateLimitWaitFudgeMs;
+            var timeToWaitInMs = (int) Math.Ceiling(queryRateLimit.ResetDateTimeInMilliseconds) + executionContext.RateLimitWaitFudge.TotalMilliseconds;
             return TimeSpan.FromMilliseconds(timeToWaitInMs);
         }
     }

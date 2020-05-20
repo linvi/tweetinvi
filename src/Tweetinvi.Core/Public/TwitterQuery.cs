@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
@@ -84,6 +85,12 @@ namespace Tweetinvi
 
                 return diff > TimeSpan.Zero ? diff : TimeSpan.Zero;
             }
+        }
+
+        public void Initialize(ITweetinviSettings settings)
+        {
+            Timeout = settings.HttpRequestTimeout;
+            ProxyConfig = settings.ProxyConfig;
         }
 
         public override string ToString()

@@ -203,11 +203,12 @@ namespace Tweetinvi
                 Query =
                 {
                     // we are cloning here to ensure that the context will never be modified regardless of concurrency
-                    TwitterCredentials = new TwitterCredentials(Credentials)
+                    TwitterCredentials = new TwitterCredentials(Credentials),
                 }
             };
 
-            request.ExecutionContext.InitialiseFrom(Config);
+            request.Query.Initialize(Config);
+            request.ExecutionContext.Initialize(Config);
 
             return request;
         }

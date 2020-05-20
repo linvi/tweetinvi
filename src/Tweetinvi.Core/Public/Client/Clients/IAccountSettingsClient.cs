@@ -11,7 +11,7 @@ namespace Tweetinvi.Client
     public interface IAccountSettingsClient
     {
         /// <summary>
-        /// Validate all the AccountSettingsClient parameters
+        /// Validate all the AccountSettings client parameters
         /// </summary>
         IAccountSettingsClientParametersValidator ParametersValidator { get; }
 

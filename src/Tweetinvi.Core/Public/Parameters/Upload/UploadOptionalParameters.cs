@@ -36,7 +36,8 @@ namespace Tweetinvi.Parameters
         int MaxChunkSize { get; set; }
 
         /// <summary>
-        /// Timeout after which a chunk request will fail.
+        /// Timeout after which each chunk request will fail.
+        /// <para>Note that this is not a global upload timeout</para>
         /// </summary>
         TimeSpan? Timeout { get; set; }
 

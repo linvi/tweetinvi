@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -7,6 +8,11 @@ namespace Tweetinvi.Client
 {
     public interface IMessagesClient
     {
+        /// <summary>
+        /// Validate all the message client parameters
+        /// </summary>
+        IMessagesClientParametersValidator ParametersValidator { get; }
+
         /// <inheritdoc cref="IMessagesClient.PublishMessageAsync(IPublishMessageParameters)" />
         Task<IMessage> PublishMessageAsync(string text, IUserIdentifier recipient);
 

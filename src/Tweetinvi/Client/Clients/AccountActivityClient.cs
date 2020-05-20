@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -19,6 +20,8 @@ namespace Tweetinvi.Client
             _accountActivityRequester = accountActivityRequester;
             _client = client;
         }
+
+        public IAccountActivityClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         public IAccountActivityRequestHandler CreateRequestHandler()
         {

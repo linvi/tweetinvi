@@ -1,4 +1,5 @@
 ﻿using System;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Models
@@ -48,5 +49,7 @@ namespace Tweetinvi.Models
         /// Time to wait before executing the query to ensure that we have not reached the RateLimits.
         /// </summary>
         TimeSpan? TimeToWaitBeforeExecutingTheQuery { get; }
+
+        void Initialize(ITweetinviSettings settings);
     }
 }

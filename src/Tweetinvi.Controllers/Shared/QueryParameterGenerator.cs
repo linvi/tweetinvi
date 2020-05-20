@@ -117,6 +117,11 @@ namespace Tweetinvi.Controllers.Shared
 
         public void AppendTweetModeParameter(StringBuilder query, TweetMode? tweetMode)
         {
+            if (tweetMode == TweetMode.None)
+            {
+                return;
+            }
+
             query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
         }
 

@@ -33,7 +33,8 @@ namespace Tweetinvi
     public enum TweetMode
     {
         Extended = 0,
-        Compat = 1
+        Compat = 1,
+        None = 2
     }
 
     public interface ITweetinviSettings
@@ -46,12 +47,7 @@ namespace Tweetinvi
         /// <summary>
         /// Http Requests Timeout duration in milliseconds.
         /// </summary>
-        int HttpRequestTimeout { get; set; }
-
-        /// <summary>
-        /// Upload Timeout duration in milliseconds.
-        /// </summary>
-        int UploadTimeout { get; set; }
+        TimeSpan HttpRequestTimeout { get; set; }
 
         /// <summary>
         /// Solution used to track the RateLimits.
@@ -63,7 +59,7 @@ namespace Tweetinvi
         /// to be available. Required to account for timing discrepancies both within Twitter's servers and between
         /// Twitter and us.
         /// </summary>
-        int RateLimitWaitFudgeMs { get; set; }
+        TimeSpan RateLimitWaitFudge { get; set; }
 
         /// <summary>
         /// Specify whether you want your tweet to use the extended mode.
@@ -90,17 +86,16 @@ namespace Tweetinvi
         /// <summary>
         /// Initialize a setting from another one.
         /// </summary>
-        void InitialiseFrom(ITweetinviSettings other);
+        void Initialize(ITweetinviSettings other);
     }
 
     public class TweetinviSettings : ITweetinviSettings
     {
         public IProxyConfig ProxyConfig { get; set; }
-        public int HttpRequestTimeout { get; set; }
+        public TimeSpan HttpRequestTimeout { get; set; }
         public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
-        public int RateLimitWaitFudgeMs { get; set; }
+        public TimeSpan RateLimitWaitFudge { get; set; }
         public TweetMode? TweetMode { get; set; }
-        public int UploadTimeout { get; set; }
         public Func<DateTime> GetUtcDateTime { get; set; }
         public TwitterLimits Limits { get; set; }
 
@@ -108,6 +103,7 @@ namespace Tweetinvi
         {
             GetUtcDateTime = () => DateTime.UtcNow;
             Limits = new TwitterLimits();
+            HttpRequestTimeout = TimeSpan.FromSeconds(10);
         }
 
         public TweetinviSettings(ITweetinviSettings source) : this()
@@ -119,9 +115,8 @@ namespace Tweetinvi
 
             ProxyConfig = source.ProxyConfig == null || source.ProxyConfig.Address == null ? null : new ProxyConfig(source.ProxyConfig);
             HttpRequestTimeout = source.HttpRequestTimeout;
-            UploadTimeout = source.UploadTimeout;
             RateLimitTrackerMode = source.RateLimitTrackerMode;
-            RateLimitWaitFudgeMs = source.RateLimitWaitFudgeMs;
+            RateLimitWaitFudge = source.RateLimitWaitFudge;
             TweetMode = source.TweetMode;
             GetUtcDateTime = source.GetUtcDateTime;
             Converters = source.Converters;
@@ -130,13 +125,12 @@ namespace Tweetinvi
 
         public JsonConverter[] Converters { get; set; }
 
-        public void InitialiseFrom(ITweetinviSettings other)
+        public void Initialize(ITweetinviSettings other)
         {
             ProxyConfig = other.ProxyConfig;
             HttpRequestTimeout = other.HttpRequestTimeout;
-            UploadTimeout = other.UploadTimeout;
             RateLimitTrackerMode = other.RateLimitTrackerMode;
-            RateLimitWaitFudgeMs = other.RateLimitWaitFudgeMs;
+            RateLimitWaitFudge = other.RateLimitWaitFudge;
             TweetMode = other.TweetMode;
             GetUtcDateTime = other.GetUtcDateTime;
             Converters = other.Converters;

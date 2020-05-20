@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -9,6 +10,11 @@ namespace Tweetinvi.Client
     /// </summary>
     public interface IAccountActivityClient
     {
+        /// <summary>
+        /// Validate all the Account activity client parameters
+        /// </summary>
+        IAccountActivityClientParametersValidator ParametersValidator { get; }
+
         /// <summary>
         /// Creates an AccountActivity request handler that will properly route requests
         /// </summary>

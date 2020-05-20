@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -16,6 +17,8 @@ namespace Tweetinvi.Client
             _client = client;
             _authRequester = client.Raw.Auth;
         }
+
+        public IAuthClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         public Task<string> CreateBearerTokenAsync()
         {

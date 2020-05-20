@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -8,6 +9,11 @@ namespace Tweetinvi.Client
 {
     public interface IListsClient
     {
+        /// <summary>
+        /// Validate all the List client parameters
+        /// </summary>
+        ITwitterListsClientParametersValidator ParametersValidator { get; }
+
         /// <inheritdoc cref="IListsClient.CreateListAsync(ICreateListParameters)"/>
         Task<ITwitterList> CreateListAsync(string name);
 

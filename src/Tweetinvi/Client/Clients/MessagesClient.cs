@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
@@ -24,6 +25,8 @@ namespace Tweetinvi.Client
             _client = client;
             _messageRequester = messageRequester;
         }
+
+        public IMessagesClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         public Task<IMessage> PublishMessageAsync(string text, IUserIdentifier recipient)
         {

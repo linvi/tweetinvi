@@ -9,6 +9,9 @@ namespace Tweetinvi.Client
 {
     public interface ISearchClient
     {
+        /// <summary>
+        /// Validate all the Search client parameters
+        /// </summary>
         ISearchClientParametersValidator ParametersValidator { get; }
 
         /// <inheritdoc cref="ISearchClient.SearchTweetsAsync(ISearchTweetsParameters)"/>

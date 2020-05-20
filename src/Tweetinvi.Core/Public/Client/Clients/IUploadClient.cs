@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -7,6 +8,11 @@ namespace Tweetinvi.Client
 {
     public interface IUploadClient
     {
+        /// <summary>
+        /// Validate all the Upload client parameters
+        /// </summary>
+        IUploadClientParametersValidator ParametersValidator { get; }
+
         /// <inheritdoc cref="IUploadClient.UploadBinaryAsync(IUploadParameters)" />
         Task<IMedia> UploadBinaryAsync(byte[] binary);
 

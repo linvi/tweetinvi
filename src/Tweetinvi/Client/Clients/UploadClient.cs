@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -8,12 +9,16 @@ namespace Tweetinvi.Client
 {
     public class UploadClient : IUploadClient
     {
+        private readonly ITwitterClient _client;
         private readonly IUploadRequester _uploadRequester;
 
         public UploadClient(ITwitterClient client)
         {
+            _client = client;
             _uploadRequester = client.Raw.Upload;
         }
+
+        public IUploadClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         public Task<IMedia> UploadBinaryAsync(byte[] binary)
         {

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
@@ -25,6 +26,8 @@ namespace Tweetinvi.Client
             _twitterListsRequester = twitterListsRequester;
             _client = client;
         }
+
+        public ITwitterListsClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         public Task<ITwitterList> CreateListAsync(string name)
         {

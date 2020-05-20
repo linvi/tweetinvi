@@ -8,7 +8,7 @@ namespace Tweetinvi.Client
     public interface ITrendsClient
     {
         /// <summary>
-        /// Validate all the TrendsClient parameters
+        /// Validate all the Trends client parameters
         /// </summary>
         ITrendsClientParametersValidator ParametersValidator { get; }
 

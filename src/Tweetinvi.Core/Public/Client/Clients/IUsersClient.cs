@@ -11,7 +11,7 @@ namespace Tweetinvi.Client
     public interface IUsersClient
     {
         /// <summary>
-        /// Validate all the UsersClient parameters
+        /// Validate all the Users client parameters
         /// </summary>
         IUsersClientParametersValidator ParametersValidator { get; }
 
