@@ -62,6 +62,13 @@ The goal of this library is to make life of developers as easy as possible.
    streams/labs-sample-stream
    streams/labs-filtered-stream
 
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Twitter Client
+
+   twitter-client/twitter-client
+   twitter-client/request-validators
 
 .. toctree::
    :maxdepth: 1

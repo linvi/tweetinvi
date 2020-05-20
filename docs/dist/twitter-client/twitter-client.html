@@ -1,0 +1,360 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Twitter Client &mdash; Tweetinvi 5.0.0-alpha-4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/js/custom.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Request Validators" href="request-validators.html" />
+    <link rel="prev" title="Labs Filtered Stream" href="../streams/labs-filtered-stream.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Tweetinvi
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Credentials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits-handlers.html">Rate Limits Handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Twitter API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/tweets.html">Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/messages.html">Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/direct-api-calls.html">Direct API calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/iterators.html">Iterators</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Authentication</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Streams</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/tweet-stream.html">Tweet Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream-filters.html">Filtered Stream - Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-sample-stream.html">Labs Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-filtered-stream.html">Labs Filtered Stream</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Twitter Client</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Twitter Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#config">Config</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#proxy">Proxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#httprequest-timeout">HttpRequest Timeout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tweetmode">TweetMode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getutcdate">GetUtcDate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ratelimittrackermode">RateLimitTrackerMode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ratelimitwaitfudge">RateLimitWaitFudge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#twitter-limits">Twitter Limits</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="request-validators.html">Request Validators</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tweetinvi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Twitter Client</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="twitter-client">
+<h1>Twitter Client<a class="headerlink" href="#twitter-client" title="Permalink to this headline">¶</a></h1>
+<p>The Twitter client is an object centralizing all operations that can be performed via Tweetinvi.</p>
+<p>A Twitter client is associated with a specific set of credentials which you provide when creating the client.<br />All operations performed by the client will use the associated credentials.</p>
+<p>A Twitter client can be used and act as an application or as a user.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Application client</span>
+<span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">);</span>
+
+<span class="c1">// User client</span>
+<span class="kt">var</span> <span class="n">userClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="config">
+<h2>Config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h2>
+<p>The Twitter client uses a default configuration that can be changed to match your needs.</p>
+<div class="section" id="proxy">
+<h3>Proxy<a class="headerlink" href="#proxy" title="Permalink to this headline">¶</a></h3>
+<p>Configure a proxy for your application to connect to the internet.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">ProxyConfig</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ProxyConfig</span><span class="p">(</span><span class="s">&quot;my-proxy-url&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Credentials</span> <span class="p">=</span> <span class="k">new</span> <span class="n">NetworkCredential</span><span class="p">(</span><span class="s">&quot;username&quot;</span><span class="p">,</span> <span class="s">&quot;password&quot;</span><span class="p">)</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="httprequest-timeout">
+<h3>HttpRequest Timeout<a class="headerlink" href="#httprequest-timeout" title="Permalink to this headline">¶</a></h3>
+<p>You can specify the maximum duration of some operations.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">HttpRequestTimeout</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromSeconds</span><span class="p">(</span><span class="m">20</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tweetmode">
+<h3>TweetMode<a class="headerlink" href="#tweetmode" title="Permalink to this headline">¶</a></h3>
+<p>Older aplications need to use the old format of tweet objects. You can do so by specifying the <code class="docutils literal notranslate"><span class="pre">TweetMode</span></code> at a client level or per request.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// will add tweet_mode=compat for any tweet request </span>
+<span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">TweetMode</span> <span class="p">=</span> <span class="n">TweetMode</span><span class="p">.</span><span class="n">Compat</span><span class="p">;</span>
+
+<span class="c1">// https://api.twitter.com/1.1/statuses/update.json?status=hello&amp;tweet_mode=compat</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweetAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Configuring the <code class="docutils literal notranslate"><span class="pre">TweetMode</span></code> of a request parameters will take priority over the <code class="docutils literal notranslate"><span class="pre">TweetMode</span></code> value set in the client config.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">TweetMode</span> <span class="p">=</span> <span class="n">TweetMode</span><span class="p">.</span><span class="n">Compat</span><span class="p">;</span>
+
+<span class="c1">// https://api.twitter.com/1.1/statuses/update.json?status=hello&amp;tweet_mode=extended </span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweetAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">TweetMode</span> <span class="p">=</span> <span class="n">TweetMode</span><span class="p">.</span><span class="n">Extended</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">TweetMode.None</span></code> in a request parameters if you want to remove the compatibility for 1 specific rwequest.</p>
+</div>
+<div class="section" id="getutcdate">
+<h3>GetUtcDate<a class="headerlink" href="#getutcdate" title="Permalink to this headline">¶</a></h3>
+<p>Requests sent to Twitter require a signature with the current utc date included.<br />Signing a request with an invalid utc date will result in Twitter rejecting the request.<br />By default Tweetinvi will use <code class="docutils literal notranslate"><span class="pre">Date.UtcNow</span></code>.</p>
+<p>Some machines are not configured with the correct time and will result in an invalid value of <code class="docutils literal notranslate"><span class="pre">Date.UtcNow</span></code>.<br />If the machine is intentionally misconfigured, you can override how tweetinvi gets the utc date time.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">GetUtcDateTime</span> <span class="p">=</span> <span class="p">()</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// your custom logic to retrieve a utc date time</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">DateTime</span><span class="p">();</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ratelimittrackermode">
+<h3>RateLimitTrackerMode<a class="headerlink" href="#ratelimittrackermode" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">RateLimitTrackerMode</span></code> gives you pre configured solution for managing rate limits in your applications.</p>
+<p>To learn more about this config please <a class="reference internal" href="../credentials/rate-limits-handlers.html"><span class="doc">read more here</span></a>.</p>
+</div>
+<div class="section" id="ratelimitwaitfudge">
+<h3>RateLimitWaitFudge<a class="headerlink" href="#ratelimitwaitfudge" title="Permalink to this headline">¶</a></h3>
+<p>When <code class="docutils literal notranslate"><span class="pre">RateLimitTrackerMode</span></code> is enabled, this sets an additional duration to wait after the reset has completed.<br />Waiting for an additional duration help make sure that the reset has properly happened on the Twitter side.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">RateLimitWaitFudge</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromSeconds</span><span class="p">(</span><span class="m">2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="twitter-limits">
+<h3>Twitter Limits<a class="headerlink" href="#twitter-limits" title="Permalink to this headline">¶</a></h3>
+<p>TwitterLimits are used by the request validators to verify if a request you are attempting to perform is matching the limits imposed by Twitter.<br />This can involve the number of items, the size of text or specific values for numbers.</p>
+<p>Tweetinvi limits are set as per the documentation and these values might change in the future.<br />If these values do change you have the ability to change the TwitterLimits.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">Limits</span><span class="p">.</span><span class="n">MESSAGES_GET_MAX_PAGE_SIZE</span> <span class="p">=</span> <span class="m">100</span><span class="p">;</span>
+
+<span class="k">try</span>
+<span class="p">{</span>
+    <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">ParametersValidator</span><span class="p">.</span><span class="n">Validate</span><span class="p">(</span><span class="k">new</span> <span class="n">GetMessagesParameters</span>
+    <span class="p">{</span>
+        <span class="n">PageSize</span> <span class="p">=</span> <span class="m">101</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">(</span><span class="n">TwitterArgumentLimitException</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Argument parameters.PageSize was over the limit of 100 page size</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="request-validators.html" class="btn btn-neutral float-right" title="Request Validators" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../streams/labs-filtered-stream.html" class="btn btn-neutral float-left" title="Labs Filtered Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, linvi
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
