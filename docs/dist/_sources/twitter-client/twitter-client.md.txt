@@ -126,6 +126,13 @@ catch (TwitterArgumentLimitException e)
 Tweetinvi 5.0 introduced the concept of request validators.\
 Their goal is to help developers verifying that requests parameters are valid.
 
+<div class="note">
+
+Tweetinvi 5.0 no longer validates limits on parameters. This is up to the developer to do perform it if he wishes to.\
+The reason is to prevent Tweetinvi to be impacted by changes coming from changes on Twitter API.
+</div>
+
+
 The `Validate` method takes parameters and throws an `ArgumentException` if any property is incorrect.
 
 ``` c#
@@ -147,3 +154,5 @@ catch (ArgumentException argumentException)
 The `TwitterArgumentLimitException` are being thrown when a limit specified in the `client.Config.Limits` is not respected.\
 This type of error will provide additional information as to why the limit was breached.
 
+If an exception is raised for invalid reasons, please report it on github.\
+You can also change limits as you wish as explained in [Twitter Limits section](#twitter-limits).
