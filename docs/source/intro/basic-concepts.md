@@ -96,3 +96,28 @@ var frenchTweets = await client.Search.SearchTweetsAsync(new SearchTweetsParamet
     Lang = LanguageFilter.French
 });
 ```
+
+## Smart Objects
+
+Some objects like tweets expose methods.\
+When you use invoke such methods, the client which created the object will be used to perform the request.
+
+``` c#
+var tweet = await client.Tweets.GetTweetAsync(42);
+
+// DestroyAsync will be invoked via client
+await tweet.DestroyAsync();
+
+// it is the same as executing
+await client.Tweets.DestroyTweetAsync(tweet);
+```
+
+You can change the client of smart objects.
+
+``` c#
+var myNewClient = new TwitterClient("", "");
+tweet.Client = myNewClient;
+
+// DestroyAsync will be invoked via myNewClient
+await tweet.DestroyAsync();
+```

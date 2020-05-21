@@ -93,6 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#iterators">Iterators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#search">Search</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#smart-objects">Smart Objects</a></li>
 </ul>
 </li>
 </ul>
@@ -133,6 +134,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../twitter-client/twitter-client.html">Twitter Client</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../twitter-client/events.html">Twitter Client - Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-client/json.html">Json - Serialize/Deserialize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -291,6 +293,27 @@
 <span class="p">{</span>
     <span class="n">Lang</span> <span class="p">=</span> <span class="n">LanguageFilter</span><span class="p">.</span><span class="n">French</span>
 <span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="smart-objects">
+<h2>Smart Objects<a class="headerlink" href="#smart-objects" title="Permalink to this headline">¶</a></h2>
+<p>Some objects like tweets expose methods.<br />When you use invoke such methods, the client which created the object will be used to perform the request.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetTweetAsync</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>
+
+<span class="c1">// DestroyAsync will be invoked via client</span>
+<span class="k">await</span> <span class="n">tweet</span><span class="p">.</span><span class="n">DestroyAsync</span><span class="p">();</span>
+
+<span class="c1">// it is the same as executing</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">DestroyTweetAsync</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>You can change the client of smart objects.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">myNewClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="n">tweet</span><span class="p">.</span><span class="n">Client</span> <span class="p">=</span> <span class="n">myNewClient</span><span class="p">;</span>
+
+<span class="c1">// DestroyAsync will be invoked via myNewClient</span>
+<span class="k">await</span> <span class="n">tweet</span><span class="p">.</span><span class="n">DestroyAsync</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>

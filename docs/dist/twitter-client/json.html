@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Labs Filtered Stream &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
+  <title>Json - Serialize/Deserialize &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Twitter Client" href="../twitter-client/twitter-client.html" />
-    <link rel="prev" title="Labs Sample Stream" href="labs-sample-stream.html" /> 
+    <link rel="next" title="Twitter Labs" href="../more/twitter-labs.html" />
+    <link rel="prev" title="Twitter Client - Events" href="events.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -111,20 +111,24 @@
 <li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Streams</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tweet-stream.html">Tweet Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filtered-stream.html">Filtered Streams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filtered-stream-filters.html">Filtered Stream - Filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="labs-sample-stream.html">Labs Sample Stream</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Labs Filtered Stream</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/tweet-stream.html">Tweet Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream-filters.html">Filtered Stream - Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-sample-stream.html">Labs Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-filtered-stream.html">Labs Filtered Stream</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter Client</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-client/twitter-client.html">Twitter Client</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-client/events.html">Twitter Client - Events</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-client/json.html">Json - Serialize/Deserialize</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="twitter-client.html">Twitter Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="events.html">Twitter Client - Events</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Json - Serialize/Deserialize</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#json">Json</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#factories">Factories</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -178,7 +182,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Labs Filtered Stream</li>
+      <li>Json - Serialize/Deserialize</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -195,35 +199,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="labs-filtered-stream">
-<h1>Labs Filtered Stream<a class="headerlink" href="#labs-filtered-stream" title="Permalink to this headline">¶</a></h1>
-<blockquote>
-<div><p>The labs filtered stream is still in preview is likely to become a replacement of the current filter stream in the future. (<a class="reference external" href="https://developer.twitter.com/en/docs/labs/filtered-stream/overview">twitter doc</a>)</p>
-</div></blockquote>
-<p>Tweetinvi does not properly support labs yet.<br />Here is a workaround to work with the labs filtered stream v1.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// You need to use ConsumerOnly credentials to run a sample stream from labs</span>
-<span class="kt">var</span> <span class="n">appCredentials</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ConsumerOnlyCredentials</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">BearerToken</span> <span class="p">=</span> <span class="s">&quot;APP_BEARER_TOKEN&quot;</span>
-<span class="p">};</span>
-
-<span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">appCredentials</span><span class="p">);</span>
-
-<span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateTweetStream</span><span class="p">();</span>
-<span class="n">stream</span><span class="p">.</span><span class="n">StallWarnings</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span> <span class="c1">// this is required as this parameter does not exist for this endpoint</span>
-
-<span class="n">stream</span><span class="p">.</span><span class="n">EventReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
-<span class="p">};</span>
-
-<span class="k">await</span> <span class="n">stream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://api.twitter.com/labs/1/tweets/stream/filter&quot;</span><span class="p">);</span>
+  <div class="section" id="json-serialize-deserialize">
+<h1>Json - Serialize/Deserialize<a class="headerlink" href="#json-serialize-deserialize" title="Permalink to this headline">¶</a></h1>
+<p>The process of serialization transforms an object into a string.<br />The process of deserialization transforms a string into an object.</p>
+<div class="section" id="json">
+<h2>Json<a class="headerlink" href="#json" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">TwitterClient.Json</span></code> contains 2 methods that let you manipulate Tweetinvi objects as json.<br />The serializer supports all tweetinvi objects and arrays of such objects.</p>
+<p>To serialize any Tweetinvi object you can use <code class="docutils literal notranslate"><span class="pre">client.Json.Serialize</span></code>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">ITweet</span> <span class="n">tweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetTweetAsync</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>
+<span class="kt">string</span> <span class="n">json</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Json</span><span class="p">.</span><span class="n">Serialize</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="warning">
-Labs filtered stream only support application credentials (with a bearer token).<br/>
-<a href="../credentials/credentials.html#bearer-token">Learn more about Application Only Credentials</a>
+<p>You can do the reverse operation with <code class="docutils literal notranslate"><span class="pre">client.Json.Deserialize</span></code>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">ITweet</span> <span class="n">deserializedTweet</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Json</span><span class="p">.</span><span class="n">Deserialize</span><span class="p">&lt;</span><span class="n">ITweet</span><span class="p">&gt;(</span><span class="n">json</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="note"><p>Remember the concept of <a class="reference external" href="./intro/basic-concepts#smart-objects">smart objects</a>.<br />It also applies to deserialized objects.</p>
+<p>It means that all actions performed from that object will be executed through the client which created it.</p>
 </div></div>
+<div class="section" id="factories">
+<h2>Factories<a class="headerlink" href="#factories" title="Permalink to this headline">¶</a></h2>
+<p>Factories are similar to <code class="docutils literal notranslate"><span class="pre">Json</span></code> but provide user friendly methods to create Tweetinvi objects.<br />They usually can take as a parameter either a json string or a Data Transfer Object (DTO).</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// from serialized json</span>
+<span class="n">ITweet</span> <span class="n">tweet</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Factories</span><span class="p">.</span><span class="n">CreateTweet</span><span class="p">(</span><span class="n">json</span><span class="p">);</span>
+
+<span class="c1">// from a dto</span>
+<span class="n">ITweetDTO</span> <span class="n">dto</span> <span class="p">=</span> <span class="n">tweet</span><span class="p">.</span><span class="n">TweetDTO</span><span class="p">;</span>
+<span class="n">ITweet</span> <span class="n">recreatedTweet</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Factories</span><span class="p">.</span><span class="n">CreateTweet</span><span class="p">(</span><span class="n">dto</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
 
 
            </div>
@@ -233,10 +239,10 @@ Labs filtered stream only support application credentials (with a bearer token).
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../twitter-client/twitter-client.html" class="btn btn-neutral float-right" title="Twitter Client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../more/twitter-labs.html" class="btn btn-neutral float-right" title="Twitter Labs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="labs-sample-stream.html" class="btn btn-neutral float-left" title="Labs Sample Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="events.html" class="btn btn-neutral float-left" title="Twitter Client - Events" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

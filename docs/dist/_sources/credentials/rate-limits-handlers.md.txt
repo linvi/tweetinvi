@@ -34,7 +34,7 @@ Using `GetRateLimitsAsync`, `GetEndpointRateLimitAsync` and `WaitForQueryRateLim
 
 <div class="note">
 
-[Lear more about the Rate Limits API](./rate-limits)
+[Learn more about the Rate Limits API](./rate-limits)
 </div>
 
 
