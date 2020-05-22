@@ -10,7 +10,7 @@ namespace Tweetinvi.Core.Events
         void UnsubscribeFromClientEvents(ITwitterClient client);
     }
 
-    public class TweetinviEvents : TwitterClientEvents, ITweetinviEvents
+    public class TweetinviGlobalEvents : TwitterClientEvents, ITweetinviEvents
     {
         public void SubscribeToClientEvents(ITwitterClient client)
         {

@@ -54,6 +54,9 @@ namespace Tweetinvi.Client
         /// <inheritdoc cref="IAccountActivityClient.DeleteAccountActivityWebhookAsync(IDeleteAccountActivityWebhookParameters)" />
         Task DeleteAccountActivityWebhookAsync(string environment, string webhookId);
 
+        /// <inheritdoc cref="IAccountActivityClient.DeleteAccountActivityWebhookAsync(IDeleteAccountActivityWebhookParameters)" />
+        Task DeleteAccountActivityWebhookAsync(string environment, IWebhook webhook);
+
         /// <summary>
         /// Remove the specified account activity webhook
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#delete-account-activity-all-env-name-webhooks-webhook-id </para>

@@ -66,6 +66,11 @@ namespace Tweetinvi.Client
             return DeleteAccountActivityWebhookAsync(new DeleteAccountActivityWebhookParameters(environment, webhookId));
         }
 
+        public Task DeleteAccountActivityWebhookAsync(string environment, IWebhook webhook)
+        {
+            return DeleteAccountActivityWebhookAsync(new DeleteAccountActivityWebhookParameters(environment, webhook.Id));
+        }
+
         public Task DeleteAccountActivityWebhookAsync(IDeleteAccountActivityWebhookParameters parameters)
         {
             return _accountActivityRequester.DeleteAccountActivityWebhookAsync(parameters);
