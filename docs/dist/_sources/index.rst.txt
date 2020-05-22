@@ -51,6 +51,16 @@ The goal of this library is to make life of developers as easy as possible.
 .. toctree::
    :maxdepth: 1
    :hidden:
+   :caption: Account Activity
+
+   account-activity/account-activity
+   account-activity/account-activity-with-aspnet
+   account-activity/account-activity-with-http-server
+   account-activity/account-activity-subscriptions
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
    :caption: Streams
 
    streams/streams-introduction

@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Account Activity &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/js/custom.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Account Activity with AspNet" href="account-activity-with-aspnet.html" />
+    <link rel="prev" title="PIN based Authentication" href="../authentication/authentication-pin-code.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Tweetinvi
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Credentials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits-handlers.html">Rate Limits Handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Twitter API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/tweets.html">Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/messages.html">Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/direct-api-calls.html">Direct API calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/iterators.html">Iterators</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Authentication</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Account Activity</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Account Activity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-a-webhook">What is a webhook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aspnetplugin">AspNetPlugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ngrok">Ngrok</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-webhooks">List Webhooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#twitter-requests-handler">Twitter requests handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#register-a-twitter-webhook">Register a Twitter Webhook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deregister-a-twitter-webhook">Deregister a Twitter Webhook</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-with-aspnet.html">Account Activity with AspNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-with-http-server.html">Account Activity with HttpServer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-subscriptions.html">Account Activity - Subscriptions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Streams</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/tweet-stream.html">Tweet Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream-filters.html">Filtered Stream - Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-sample-stream.html">Labs Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-filtered-stream.html">Labs Filtered Stream</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Twitter Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-client/twitter-client.html">Twitter Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-client/events.html">Twitter Client - Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-client/json.html">Json - Serialize/Deserialize</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tweetinvi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Account Activity</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="account-activity">
+<h1>Account Activity<a class="headerlink" href="#account-activity" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>Account Activities let you track actions performed by a user in live.<br />For example Account Activity will trigger an event when a user publishes a tweet, reads a message, likes a tweet…</p>
+</div></blockquote>
+<p>It is Twitter replacement of the old User Stream.<br />Differently from the user stream, Account Activity uses Webhooks.</p>
+<p>You can learn more as to what Account Activities offer on <a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/overview">twitter documentation</a>.</p>
+<div class="warning"><p>Account Activities api is restricted to premium accounts.</p>
+<ul class="simple">
+<li><p>You need to request access to a premium Twitter account. You can register to get such an account on <a class="reference external" href="https://developer.twitter.com/en/apply">https://developer.twitter.com/en/apply</a></p></li>
+<li><p>After you have been approved you will be able to go to <a class="reference external" href="https://developer.twitter.com/en/account/environments">Dev Environments</a>.</p></li>
+<li><p>There you will be able to create a free <code class="docutils literal notranslate"><span class="pre">Account</span> <span class="pre">Activity</span> <span class="pre">API</span> <span class="pre">Sandbox</span></code> environment.</p></li>
+</ul>
+</div><div class="section" id="what-is-a-webhook">
+<h2>What is a webhook<a class="headerlink" href="#what-is-a-webhook" title="Permalink to this headline">¶</a></h2>
+<p>Similar to polling, webhooks provide your application a way of consuming new event data from an endpoint.<br />However, instead of sending repeated requests for new events, you provide the endpoint with a URL, which your application monitors.<br />Whenever a new event occurs within the endpoint app, it posts the event data to your specified URL, updating your application in real-time.</p>
+<p>In Twitter, you register your application url to a webhook environment.<br />When your application url has been registered, Twitter will send user events to this url.</p>
+</div>
+<div class="section" id="aspnetplugin">
+<h2>AspNetPlugin<a class="headerlink" href="#aspnetplugin" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">TweetinviAPI.AspNetPlugin</span></code> package offers additional tools to work with webhooks.</p>
+<ul class="simple">
+<li><p>It can split requests coming from Twitter and requests coming from actual users.</p></li>
+<li><p>It can automatically route <code class="docutils literal notranslate"><span class="pre">HttpRequest</span></code> to let Tweetinvi respond on its own.</p></li>
+<li><p>It provides an AspNet middleware to automatically route the <code class="docutils literal notranslate"><span class="pre">HttpRequest</span></code>.</p></li>
+</ul>
+<p>Install the <code class="docutils literal notranslate"><span class="pre">AspNetPlugin</span></code>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>dotnet add package TweetinviAPI.AspNetPlugin
+</pre></div>
+</div>
+<p>If your project targets .NETCore version &gt;= 3.0, your project will need to have a <code class="docutils literal notranslate"><span class="pre">FrameworkReference</span></code> into your dependencies <code class="docutils literal notranslate"><span class="pre">&lt;ItemGroup&gt;</span></code>, next to <code class="docutils literal notranslate"><span class="pre">PackageReference</span></code>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;ItemGroup&gt;</span>
+    <span class="nt">&lt;FrameworkReference</span> <span class="na">Include=</span><span class="s">&quot;Microsoft.AspNetCore.App&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;PackageReference</span> <span class="na">Include=</span><span class="s">&quot;TweetinviAPI&quot;</span> <span class="na">Version=</span><span class="s">&quot;5.0.0&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;PackageReference</span> <span class="na">Include=</span><span class="s">&quot;TweetinviAPI.AspNetPlugin&quot;</span> <span class="na">Version=</span><span class="s">&quot;5.0.0&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/ItemGroup&gt;</span>
+</pre></div>
+</div>
+<details>
+<summary>Example.csproj</summary><div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Project</span> <span class="na">Sdk=</span><span class="s">&quot;Microsoft.NET.Sdk&quot;</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;PropertyGroup&gt;</span>
+    <span class="nt">&lt;OutputType&gt;</span>Exe<span class="nt">&lt;/OutputType&gt;</span>
+    <span class="nt">&lt;TargetFramework&gt;</span>netcoreapp3.1<span class="nt">&lt;/TargetFramework&gt;</span>
+    <span class="nt">&lt;RootNamespace&gt;</span>tweetinvi_hello_world<span class="nt">&lt;/RootNamespace&gt;</span>
+  <span class="nt">&lt;/PropertyGroup&gt;</span>
+
+  <span class="nt">&lt;ItemGroup&gt;</span>
+    <span class="nt">&lt;FrameworkReference</span> <span class="na">Include=</span><span class="s">&quot;Microsoft.AspNetCore.App&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;PackageReference</span> <span class="na">Include=</span><span class="s">&quot;TweetinviAPI&quot;</span> <span class="na">Version=</span><span class="s">&quot;5.0.0&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;PackageReference</span> <span class="na">Include=</span><span class="s">&quot;TweetinviAPI.AspNetPlugin&quot;</span> <span class="na">Version=</span><span class="s">&quot;5.0.0&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/ItemGroup&gt;</span>
+
+<span class="nt">&lt;/Project&gt;</span>
+</pre></div>
+</div>
+</details><div class="note"><p>In the future will be done automatically when properly supported by nuget (<a class="reference external" href="https://github.com/NuGet/Home/issues/9592">issue</a>).</p>
+</div><p>Finally in your code you will need to register the plugin. This needs to be done before a client you use for webhooks is created.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">Plugins</span><span class="p">.</span><span class="n">Add</span><span class="p">&lt;</span><span class="n">AspNetPlugin</span><span class="p">&gt;();</span>
+
+<span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">creds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ngrok">
+<h2>Ngrok<a class="headerlink" href="#ngrok" title="Permalink to this headline">¶</a></h2>
+<p>To develop the application you will need to access your machine from a public facing https url.</p>
+<p>Different solutions offer this, but I have been using <a class="reference external" href="https://ngrok.com/">Ngrok</a> and I liked its simplicity.<br />To use it, you will need to create an account, download the binary and execute the command <code class="docutils literal notranslate"><span class="pre">ngrok</span> <span class="pre">http</span> <span class="pre">8042</span></code>.<br />Ngrok will generate a unique https url which will be redirected to the <code class="docutils literal notranslate"><span class="pre">http://localhost:8042</span></code>.</p>
+<p>This operation will give you a list of public url endpoints that you can use to register a webhook on Twitter.<br />When <a class="reference external" href="#register-a-twitter-webhook">registering your application url</a> you will need to use the <code class="docutils literal notranslate"><span class="pre">https</span></code> endpoint.</p>
+</div>
+<div class="section" id="list-webhooks">
+<h2>List Webhooks<a class="headerlink" href="#list-webhooks" title="Permalink to this headline">¶</a></h2>
+<p>Twitter offer different <code class="docutils literal notranslate"><span class="pre">environments</span></code> to run webhooks.<br />An environment can be linked with 1 or multiple webhooks.</p>
+<p>You can list your environments and their associated webhooks.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// This requires applications credentials with a bearer token</span>
+<span class="kt">var</span> <span class="n">environments</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">GetAccountActivityWebhookEnvironmentsAsync</span><span class="p">();</span>
+
+<span class="c1">// the sandbox environment is available within the free tier</span>
+<span class="kt">var</span> <span class="n">sandboxEnvironment</span> <span class="p">=</span> <span class="n">environments</span><span class="p">.</span><span class="n">Single</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">Name</span> <span class="p">==</span> <span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
+
+<span class="c1">// registered webhooks url are available in the Webhooks collection</span>
+<span class="kt">var</span> <span class="n">registeredWebhooks</span> <span class="p">=</span> <span class="n">sandboxEnvironment</span><span class="p">.</span><span class="n">Webhooks</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="note"><p>At this stage we have not yet registered our application url so <code class="docutils literal notranslate"><span class="pre">registeredWebhooks</span></code> will be empty.</p>
+</div><p>You can also request webhooks of a specific environment.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">webhooks</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">GetAccountActivityEnvironmentWebhooksAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="twitter-requests-handler">
+<h2>Twitter requests handler<a class="headerlink" href="#twitter-requests-handler" title="Permalink to this headline">¶</a></h2>
+<p>To reduce the complexity of Account Activity, Tweetinvi offers ways to automatically handle requests coming to your http/aspnet server.</p>
+<p>Pick the approach the most appropriate to your needs:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th></th>
+<th>Project type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="./account-activity-with-http-server">Http Server</a></td>
+<td>Console/Desktop Application</td>
+<td>Help you handle http requests and automatically handle requests coming from Twitter</td>
+</tr>
+<tr>
+<td><a href="./account-activity-with-aspnet">AspNet Server</a></td>
+<td>AspNet Application</td>
+<td>Configure AspNet to route incoming requests and automtically handle requests coming from Twitter</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="register-a-twitter-webhook">
+<h2>Register a Twitter Webhook<a class="headerlink" href="#register-a-twitter-webhook" title="Permalink to this headline">¶</a></h2>
+<p>During the registration process of a webhook url, Twitter will send an http request to your webhook url.<br />This request is called a CRC request. Twitter expect your application to send a response containing a special authentication token.</p>
+<p>If you use the <a class="reference external" href="#twitter-requests-handler">Tweetinvi request handler</a>, the response to the CRC request will be done automatically for you.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// request to register your url - a crc challenge will be received by your http server</span>
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">CreateAccountActivityWebhookAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">,</span> <span class="s">&quot;https://my-webook-url.ngrok.io&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This request will only be successful if Twitter receives the expected response from your server.</p>
+</div>
+<div class="section" id="deregister-a-twitter-webhook">
+<h2>Deregister a Twitter Webhook<a class="headerlink" href="#deregister-a-twitter-webhook" title="Permalink to this headline">¶</a></h2>
+<p>Twitter restricts the number of webhooks url to which it will send the events.<br />In the case of the sandbox environment this is limited 1 unique url.</p>
+<p>To remove a webhook from Twitter:</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">DeleteAccountActivityWebhookAsync</span><span class="p">(</span><span class="s">&quot;WEBHOOK_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s">&quot;WEBHOOK_ID&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// quick solution to clean your sandbox environment</span>
+<span class="kt">var</span> <span class="n">webhooks</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">GetAccountActivityEnvironmentWebhooksAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">webhooks</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">DeleteAccountActivityWebhookAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">,</span> <span class="n">webhooks</span><span class="p">[</span><span class="m">0</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="account-activity-with-aspnet.html" class="btn btn-neutral float-right" title="Account Activity with AspNet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../authentication/authentication-pin-code.html" class="btn btn-neutral float-left" title="PIN based Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, linvi
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -108,3 +108,12 @@ a.info:hover {
 .wy-table-responsive table.docutils tr td {
   white-space: normal;
 }
+
+.wy-menu-vertical a {
+  line-height: 12px;
+}
+
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption {
+  margin: 6px 0 0 0;
+}
