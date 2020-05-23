@@ -115,7 +115,11 @@
 <li class="toctree-l1"><a class="reference internal" href="account-activity.html">Account Activity</a></li>
 <li class="toctree-l1"><a class="reference internal" href="account-activity-with-aspnet.html">Account Activity with AspNet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="account-activity-with-http-server.html">Account Activity with HttpServer</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Account Activity - Subscriptions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Account Activity - Subscriptions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subscribe-a-user">Subscribe a user</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#check-subscriptions">Check subscriptions</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Streams</span></p>
 <ul>
@@ -204,6 +208,45 @@
             
   <div class="section" id="account-activity-subscriptions">
 <h1>Account Activity - Subscriptions<a class="headerlink" href="#account-activity-subscriptions" title="Permalink to this headline">¶</a></h1>
+<p>Once you have a <a class="reference external" href="./account-activity#register-a-twitter-webhook">regitered your webhook</a> server, we can start receiving events for specific users.</p>
+<p>In the examples below we will subscribe to the sandbox environment.</p>
+<div class="section" id="subscribe-a-user">
+<h2>Subscribe a user<a class="headerlink" href="#subscribe-a-user" title="Permalink to this headline">¶</a></h2>
+<p>Lets assume the <code class="docutils literal notranslate"><span class="pre">userClient</span></code> is associated with the twitter user <code class="docutils literal notranslate"><span class="pre">bob42</span></code>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">SubscribeToAccountActivityAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The webhook will now receive all the events related to the <code class="docutils literal notranslate"><span class="pre">bob42</span></code> user.</p>
+<div class="warning"><p><strong>IMPORTANT -</strong>
+It takes some time for twitter to save the changes and you might not receive events straight away.<br />You can expect to receive events at most after 30 seconds.</p>
+</div><p>To unsubscribe a user.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">UnsubscribeFromAccountActivityAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">,</span> <span class="n">USER_ID</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="check-subscriptions">
+<h2>Check subscriptions<a class="headerlink" href="#check-subscriptions" title="Permalink to this headline">¶</a></h2>
+<p>You can verify users subscribed to your webhook environment.<br />All activities of a subscribed user will be notified to your webhook application.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// requires application credentials</span>
+<span class="kt">var</span> <span class="n">environmentState</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">GetAccountActivitySubscriptionsAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">subscriptions</span> <span class="p">=</span> <span class="n">environmentState</span><span class="p">.</span><span class="n">Subscriptions</span><span class="p">;</span>
+
+<span class="c1">// Get the user ids subscribed to your webhook</span>
+<span class="kt">var</span> <span class="n">userId</span> <span class="p">=</span> <span class="n">subscriptions</span><span class="p">[</span><span class="m">0</span><span class="p">].</span><span class="n">UserId</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Check if a specific user is subscribed to your webhook environment.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// check if the user associated with `userClient` is subscribed to the sandbox environment</span>
+<span class="kt">var</span> <span class="n">subscribed</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">IsAccountSubscribedToAccountActivityAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The number of users who can be simultaneously connected to a webhook is limited and depends of your Twitter plan.<br />To verify if you are going to reach the limit you can use the count endpoint.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">subscription</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">CountAccountActivitySubscriptionsAsync</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">current</span> <span class="p">=</span> <span class="n">subscription</span><span class="p">.</span><span class="n">SubscriptionsCount</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">maxAvailable</span> <span class="p">=</span> <span class="n">subscription</span><span class="p">.</span><span class="n">ProvisionedCount</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
