@@ -86,7 +86,7 @@ namespace Tweetinvi.Models
         [TwitterEndpoint("https://api.twitter.com/1.1/direct_messages/events/list.json")]
         IEndpointRateLimit DirectMessagesListLimit { get; }
 
-        // FAVOURITES
+        // FAVORITES
         [TwitterEndpoint("https://api.twitter.com/1.1/favorites/list.json")]
         IEndpointRateLimit FavoritesListLimit { get; }
 

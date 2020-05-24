@@ -80,7 +80,7 @@ namespace Tweetinvi.Core.Models
         public IEndpointRateLimit DirectMessagesShowLimit => CredentialsRateLimitsDTO?.Resources?.DirectMessagesRateLimits["/direct_messages/events/show"];
         public IEndpointRateLimit DirectMessagesListLimit => CredentialsRateLimitsDTO?.Resources?.DirectMessagesRateLimits["/direct_messages/events/list"];
 
-        // Favourites
+        // Favorites
         public IEndpointRateLimit FavoritesListLimit => CredentialsRateLimitsDTO?.Resources?.FavoritesRateLimits["/favorites/list"];
 
         // Feedback

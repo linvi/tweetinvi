@@ -85,7 +85,7 @@ namespace Tweetinvi.Streaming
         /// <summary>
         /// A user has read a message from the account user
         /// </summary>
-        EventHandler<UserReadMessageConversationEvent> UserReadMessage { get; set; }
+        EventHandler<UserReadMessageConversationEvent> UserReadMessageConversation { get; set; }
 
         // Permissions
 

@@ -263,7 +263,7 @@ namespace Tweetinvi.Models
 
         #endregion
 
-        #region Favourites
+        #region Favorites
 
         /// <summary>
         /// Favorites the tweet
@@ -271,7 +271,7 @@ namespace Tweetinvi.Models
         Task FavoriteAsync();
 
         /// <summary>
-        /// Remove the tweet from favourites
+        /// Remove the tweet from favorites
         /// </summary>
         Task UnfavoriteAsync();
 

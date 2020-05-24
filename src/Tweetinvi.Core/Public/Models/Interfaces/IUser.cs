@@ -144,7 +144,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Number of tweets this user has Favorited in the account’s lifetime.
         /// </summary>
-        int FavouritesCount { get; }
+        int FavoritesCount { get; }
 
         /// <summary>
         /// The number of public lists that this user is a member of.

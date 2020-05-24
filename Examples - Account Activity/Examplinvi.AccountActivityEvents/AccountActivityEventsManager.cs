@@ -32,7 +32,7 @@ namespace Examplinvi.AccountActivityEvents
             accountActivityStream.MessageSent += MessageSent;
 
             accountActivityStream.UserIsTypingMessage += UserIsTypingMessage;
-            accountActivityStream.UserReadMessage += UserReadMessage;
+            accountActivityStream.UserReadMessageConversation += UserReadMessage;
 
             // User events
             accountActivityStream.UserFollowed += FollowedUser;
@@ -69,7 +69,7 @@ namespace Examplinvi.AccountActivityEvents
             accountActivityStream.MessageSent -= MessageSent;
 
             accountActivityStream.UserIsTypingMessage -= UserIsTypingMessage;
-            accountActivityStream.UserReadMessage -= UserReadMessage;
+            accountActivityStream.UserReadMessageConversation -= UserReadMessage;
 
             // User events
             accountActivityStream.UserFollowed -= FollowedUser;

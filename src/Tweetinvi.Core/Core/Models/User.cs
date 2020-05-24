@@ -109,7 +109,7 @@ namespace Tweetinvi.Core.Models
 
         public bool DefaultProfileImage => UserDTO.DefaultProfileImage;
 
-        public int FavouritesCount => UserDTO.FavoritesCount ?? 0;
+        public int FavoritesCount => UserDTO.FavoritesCount ?? 0;
 
         public int ListedCount => UserDTO.ListedCount ?? 0;
 

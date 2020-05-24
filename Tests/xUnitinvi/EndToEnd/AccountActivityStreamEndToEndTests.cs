@@ -155,7 +155,7 @@ namespace xUnitinvi.EndToEnd
             stream.MessageSent += (sender, args) => { state.MessageSent.Add(args); };
 
             stream.UserIsTypingMessage += (sender, args) => { state.UserTypingMessage.Add(args); };
-            stream.UserReadMessage += (sender, args) => { state.UserReadMessage.Add(args); };
+            stream.UserReadMessageConversation += (sender, args) => { state.UserReadMessage.Add(args); };
 
             stream.UnexpectedExceptionThrown += (sender, args) => { state.UnexpectedException.Add(args); };
         }

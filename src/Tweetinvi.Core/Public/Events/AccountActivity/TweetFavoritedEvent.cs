@@ -14,17 +14,17 @@ namespace Tweetinvi.Events
         /// <summary>
         /// The account user Favorited one of his own tweet
         /// </summary>
-        AccountUserFavouritingHisOwnTweet,
+        AccountUserFavoritingHisOwnTweet,
 
         /// <summary>
         /// The account user facourited a tweet of another user
         /// </summary>
-        AccountUserFavouritingATweetOfAnotherUser,
+        AccountUserFavoritingATweetOfAnotherUser,
 
         /// <summary>
         /// Another user Favorited the tweet of the account user
         /// </summary>
-        AnotherUserFavouritingATweetOfTheAccountUser,
+        AnotherUserFavoritingATweetOfTheAccountUser,
     }
 
     /// <summary>
@@ -53,17 +53,17 @@ namespace Tweetinvi.Events
         {
             if (FavoritedBy.Id == AccountUserId && Tweet.CreatedBy.Id == AccountUserId)
             {
-                return TweetFavoritedRaisedInResultOf.AccountUserFavouritingHisOwnTweet;
+                return TweetFavoritedRaisedInResultOf.AccountUserFavoritingHisOwnTweet;
             }
 
             if (FavoritedBy.Id == AccountUserId)
             {
-                return TweetFavoritedRaisedInResultOf.AccountUserFavouritingATweetOfAnotherUser;
+                return TweetFavoritedRaisedInResultOf.AccountUserFavoritingATweetOfAnotherUser;
             }
 
             if (Tweet.CreatedBy.Id == AccountUserId)
             {
-                return TweetFavoritedRaisedInResultOf.AnotherUserFavouritingATweetOfTheAccountUser;
+                return TweetFavoritedRaisedInResultOf.AnotherUserFavoritingATweetOfTheAccountUser;
             }
 
             return TweetFavoritedRaisedInResultOf.Unknown;

@@ -14,7 +14,7 @@ namespace Tweetinvi.Events
         /// <summary>
         /// The account user has Unmuted another user
         /// </summary>
-        AccountUserMutingAnotherUser,
+        AccountUserUnmutingAnotherUser,
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ namespace Tweetinvi.Events
         {
             if (UnmutedBy.Id == AccountUserId)
             {
-                return UserUnmutedRaisedInResultOf.AccountUserMutingAnotherUser;
+                return UserUnmutedRaisedInResultOf.AccountUserUnmutingAnotherUser;
             }
 
             return UserUnmutedRaisedInResultOf.Unknown;

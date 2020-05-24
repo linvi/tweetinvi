@@ -5,7 +5,7 @@
         /// <summary>
         /// The tweet was deleted by another user
         /// </summary>
-        AnotherPersonDeletedATweet = 0,
+        AnotherUserDeletedATweet = 0,
 
         /// <summary>
         /// The tweet was deleted by the account user.
@@ -43,7 +43,7 @@
                 return TweetDeletedRaisedInResultOf.AccountUserDeletingOneOfHisTweets;
             }
 
-            return TweetDeletedRaisedInResultOf.AnotherPersonDeletedATweet;
+            return TweetDeletedRaisedInResultOf.AnotherUserDeletedATweet;
         }
     }
 }

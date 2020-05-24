@@ -123,7 +123,7 @@ namespace Tweetinvi.Controllers.Tweet
             return _twitterAccessor.ExecuteRequestAsync<ITweetDTO>(request);
         }
 
-        // Favourite Tweet
+        // Favorite Tweet
         public Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweetsAsync(IGetUserFavoriteTweetsParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetFavoriteTweetsQuery(parameters, request.ExecutionContext.TweetMode);

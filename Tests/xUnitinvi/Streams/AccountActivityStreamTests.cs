@@ -1032,7 +1032,7 @@ namespace xUnitinvi.Streams
 			}";
 
             var eventsReceived = new List<UserReadMessageConversationEvent>();
-            activityStream.UserReadMessage += (sender, args) =>
+            activityStream.UserReadMessageConversation += (sender, args) =>
             {
                 eventsReceived.Add(args);
             };

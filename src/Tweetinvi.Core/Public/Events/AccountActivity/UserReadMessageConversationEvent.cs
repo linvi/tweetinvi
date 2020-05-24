@@ -13,7 +13,7 @@ namespace Tweetinvi.Events
         /// <summary>
         /// Another user has read a message sent by the account user
         /// </summary>
-        AnotherUserReadingMessageConversationWithAccountUser,
+        AnotherUserReadingConversation,
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ namespace Tweetinvi.Events
         {
             if (UserWhoReadTheMessageConversation.Id != AccountUserId && UserWhoWroteTheMessage.Id == AccountUserId)
             {
-                return UserReadMessageConversationInResultOf.AnotherUserReadingMessageConversationWithAccountUser;
+                return UserReadMessageConversationInResultOf.AnotherUserReadingConversation;
             }
 
             return UserReadMessageConversationInResultOf.Unknown;

@@ -202,7 +202,7 @@ namespace Tweetinvi.Client
             return (await iterator.NextPageAsync().ConfigureAwait(false)).ToArray();
         }
 
-        #region Favourite Tweets
+        #region Favorite Tweets
 
         public ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(long userId)
         {

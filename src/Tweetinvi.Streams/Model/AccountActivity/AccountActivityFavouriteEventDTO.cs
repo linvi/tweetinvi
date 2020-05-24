@@ -3,7 +3,7 @@ using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Streams.Model.AccountActivity
 {
-    public class AccountActivityFavouriteEventDTO
+    public class AccountActivityFavoriteEventDTO
     {
         public string Id { get; set; }
 

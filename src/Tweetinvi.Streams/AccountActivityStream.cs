@@ -81,7 +81,7 @@ namespace Tweetinvi.Streams
         public EventHandler<MessageReceivedEvent> MessageReceived { get; set; }
         public EventHandler<MessageSentEvent> MessageSent { get; set; }
         public EventHandler<UserIsTypingMessageEvent> UserIsTypingMessage { get; set; }
-        public EventHandler<UserReadMessageConversationEvent> UserReadMessage { get; set; }
+        public EventHandler<UserReadMessageConversationEvent> UserReadMessageConversation { get; set; }
 
         // Others
         public EventHandler<UnsupportedMessageReceivedEvent> UnsupportedEventReceived { get; set; }
@@ -186,14 +186,14 @@ namespace Tweetinvi.Streams
         private void TryRaiseTweetFavoritedEvents(string eventName, JObject jsonObjectEvent)
         {
             var json = jsonObjectEvent.ToString();
-            var favouriteTweetEvent = jsonObjectEvent[eventName];
-            var FavoritedTweetEventJson = favouriteTweetEvent.ToString();
-            var favouriteEventDTOs = _jsonObjectConverter.Deserialize<AccountActivityFavouriteEventDTO[]>(FavoritedTweetEventJson);
+            var favoriteTweetEvent = jsonObjectEvent[eventName];
+            var FavoritedTweetEventJson = favoriteTweetEvent.ToString();
+            var favoriteEventDTOs = _jsonObjectConverter.Deserialize<AccountActivityFavoriteEventDTO[]>(FavoritedTweetEventJson);
 
-            favouriteEventDTOs.ForEach(favouriteEventDTO =>
+            favoriteEventDTOs.ForEach(favoriteEventDTO =>
             {
-                var tweet = _factories.CreateTweet(favouriteEventDTO.FavoritedTweet);
-                var user = _factories.CreateUser(favouriteEventDTO.User);
+                var tweet = _factories.CreateTweet(favoriteEventDTO.FavoritedTweet);
+                var user = _factories.CreateUser(favoriteEventDTO.User);
 
                 var accountActivityEvent = new AccountActivityEvent<Tuple<ITweet, IUser>>(new Tuple<ITweet, IUser>(tweet, user))
                 {
@@ -505,7 +505,7 @@ namespace Tweetinvi.Streams
 
                 var eventArgs = new UserReadMessageConversationEvent(activityEvent, sender, recipient, messageConversationReadEvent.LastReadEventId);
 
-                this.Raise(UserReadMessage, eventArgs);
+                this.Raise(UserReadMessageConversation, eventArgs);
 
                 if (eventArgs.InResultOf == UserReadMessageConversationInResultOf.Unknown)
                 {

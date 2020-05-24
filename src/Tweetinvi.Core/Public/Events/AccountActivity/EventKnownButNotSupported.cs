@@ -6,16 +6,16 @@
     /// </summary>
     public class EventKnownButNotSupported
     {
-        public EventKnownButNotSupported(string fullJson, BaseAccountActivityEventArgs accountActivityEventArgs)
+        public EventKnownButNotSupported(string json, BaseAccountActivityEventArgs accountActivityEventArgs)
         {
-            FullJson = fullJson;
+            Json = json;
             EventArgs = accountActivityEventArgs;
         }
 
         /// <summary>
         /// The json object that Tweetinvi could not fully understand
         /// </summary>
-        public string FullJson { get; }
+        public string Json { get; }
 
         public BaseAccountActivityEventArgs EventArgs { get; }
     }

@@ -471,7 +471,7 @@ namespace Tweetinvi.Controllers.Properties
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/favorites/list.json?{0}&amp;count={1}.
         /// </summary>
-        public static string User_GetFavourites = "https://api.twitter.com/1.1/favorites/list.json?";
+        public static string User_GetFavorites = "https://api.twitter.com/1.1/favorites/list.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/followers/ids.json?.
