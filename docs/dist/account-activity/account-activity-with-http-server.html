@@ -207,6 +207,7 @@
 <h1>Account Activity - HttpServer<a class="headerlink" href="#account-activity-httpserver" title="Permalink to this headline">¶</a></h1>
 <p>During the registration process of a webhook url, Twitter will send an http request to your webhook url.<br />This request is called a CRC request. Twitter expect your application to send a response containing a special authentication token.</p>
 <p>Tweetinvi offer a <code class="docutils literal notranslate"><span class="pre">RequestHandler</span></code> that checks all incoming http requests to your server.<br />When the <code class="docutils literal notranslate"><span class="pre">RequestHandler</span></code> identifies that a request should be handled by Tweetinvi (like the CRC request), tweetinvi will take care of the response for you.</p>
+<p>In addition the <code class="docutils literal notranslate"><span class="pre">RequestHandler</span></code> will filter and route the twitter requests containing user events.</p>
 <details>
 <summary>SimpleHttpServer.cs</summary><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>

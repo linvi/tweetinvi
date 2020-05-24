@@ -113,7 +113,10 @@
 <p class="caption"><span class="caption-text">Account Activity</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="account-activity.html">Account Activity</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Account Activity - AspNet</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Account Activity - AspNet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="account-activity-with-http-server.html">Account Activity - HttpServer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="account-activity-subscriptions.html">Account Activity - Subscriptions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="account-activity-events.html">Account Activity - Stream/Events</a></li>
@@ -205,6 +208,73 @@
             
   <div class="section" id="account-activity-aspnet">
 <h1>Account Activity - AspNet<a class="headerlink" href="#account-activity-aspnet" title="Permalink to this headline">¶</a></h1>
+<p>During the registration process of a webhook url, Twitter will send an http request to your webhook url.<br />This request is called a CRC request. Twitter expect your application to send a response containing a special authentication token.</p>
+<p>Tweetinvi offer a <code class="docutils literal notranslate"><span class="pre">RequestHandler</span></code> that checks all incoming http requests to your server.<br />When the <code class="docutils literal notranslate"><span class="pre">RequestHandler</span></code> identifies that a request should be handled by Tweetinvi (like the CRC request), tweetinvi will take care of the response for you.</p>
+<p>In addition the <code class="docutils literal notranslate"><span class="pre">RequestHandler</span></code> will filter and route the twitter requests containing user events.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// I suggest you use a client that contains both a bearer token and an access token</span>
+<span class="kt">var</span> <span class="n">credentials</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterCredentials</span><span class="p">(</span><span class="s">&quot;CONSUMER_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">BearerToken</span> <span class="p">=</span> <span class="s">&quot;BEARER_TOKEN&quot;</span>
+<span class="p">};</span>
+
+<span class="kt">var</span> <span class="n">requestHandler</span> <span class="p">=</span> <span class="n">webhookClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">CreateRequestHandler</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">config</span> <span class="p">=</span> <span class="k">new</span> <span class="n">WebhookMiddlewareConfiguration</span><span class="p">(</span><span class="n">AccountActivityRequestHandler</span><span class="p">);</span>
+
+<span class="c1">// Use Tweetinvi AspNet middleware</span>
+<span class="n">app</span><span class="p">.</span><span class="n">UseTweetinviWebhooks</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Startup.cs</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Startup</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="n">IAccountActivityRequestHandler</span> <span class="n">AccountActivityRequestHandler</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="n">ITwitterClient</span> <span class="n">WebhookClient</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">public</span> <span class="nf">Startup</span><span class="p">(</span><span class="n">IConfiguration</span> <span class="n">configuration</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Configuration</span> <span class="p">=</span> <span class="n">configuration</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">IConfiguration</span> <span class="n">Configuration</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span> <span class="n">services</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">services</span><span class="p">.</span><span class="n">AddControllers</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">Configure</span><span class="p">(</span><span class="n">IApplicationBuilder</span> <span class="n">app</span><span class="p">,</span> <span class="n">IWebHostEnvironment</span> <span class="n">env</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// webhook initialization</span>
+        <span class="n">Plugins</span><span class="p">.</span><span class="n">Add</span><span class="p">&lt;</span><span class="n">AspNetPlugin</span><span class="p">&gt;();</span>
+
+        <span class="kt">var</span> <span class="n">credentials</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterCredentials</span><span class="p">(</span><span class="s">&quot;CONSUMER_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">BearerToken</span> <span class="p">=</span> <span class="s">&quot;BEARER_TOKEN&quot;</span>
+        <span class="p">};</span>
+
+        <span class="n">WebhookClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">credentials</span><span class="p">);</span>
+        <span class="n">AccountActivityRequestHandler</span> <span class="p">=</span> <span class="n">WebhookClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">CreateRequestHandler</span><span class="p">();</span>
+        <span class="kt">var</span> <span class="n">config</span> <span class="p">=</span> <span class="k">new</span> <span class="n">WebhookMiddlewareConfiguration</span><span class="p">(</span><span class="n">AccountActivityRequestHandler</span><span class="p">);</span>
+
+        <span class="n">app</span><span class="p">.</span><span class="n">UseTweetinviWebhooks</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+        <span class="c1">// aspnet initialization</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">env</span><span class="p">.</span><span class="n">IsDevelopment</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="n">app</span><span class="p">.</span><span class="n">UseDeveloperExceptionPage</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="n">app</span><span class="p">.</span><span class="n">UseHttpsRedirection</span><span class="p">();</span>
+        <span class="n">app</span><span class="p">.</span><span class="n">UseRouting</span><span class="p">();</span>
+        <span class="n">app</span><span class="p">.</span><span class="n">UseAuthorization</span><span class="p">();</span>
+        <span class="n">app</span><span class="p">.</span><span class="n">UseEndpoints</span><span class="p">(</span><span class="n">endpoints</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">MapControllers</span><span class="p">();</span> <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 

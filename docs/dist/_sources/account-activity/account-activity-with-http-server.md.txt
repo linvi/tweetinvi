@@ -6,6 +6,8 @@ This request is called a CRC request. Twitter expect your application to send a 
 Tweetinvi offer a `RequestHandler` that checks all incoming http requests to your server.\
 When the `RequestHandler` identifies that a request should be handled by Tweetinvi (like the CRC request), tweetinvi will take care of the response for you.
 
+In addition the `RequestHandler` will filter and route the twitter requests containing user events.
+
 <details>
 <summary>SimpleHttpServer.cs</summary>
 
