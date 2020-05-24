@@ -1,4 +1,4 @@
-# Account Activity with HttpServer
+# Account Activity - HttpServer
 
 During the registration process of a webhook url, Twitter will send an http request to your webhook url.\
 This request is called a CRC request. Twitter expect your application to send a response containing a special authentication token.

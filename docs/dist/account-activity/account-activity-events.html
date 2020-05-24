@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Account Activity - Stream/Events &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/js/custom.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Streams Introduction" href="../streams/streams-introduction.html" />
+    <link rel="prev" title="Account Activity - Subscriptions" href="account-activity-subscriptions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Tweetinvi
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Credentials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits-handlers.html">Rate Limits Handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Twitter API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/tweets.html">Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/messages.html">Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/direct-api-calls.html">Direct API calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/iterators.html">Iterators</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Authentication</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Account Activity</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="account-activity.html">Account Activity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-with-aspnet.html">Account Activity - AspNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-with-http-server.html">Account Activity - HttpServer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-subscriptions.html">Account Activity - Subscriptions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Account Activity - Stream/Events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#account-activity-stream">Account Activity Stream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#events-properties">Events - Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Streams</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/tweet-stream.html">Tweet Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream-filters.html">Filtered Stream - Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-sample-stream.html">Labs Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-filtered-stream.html">Labs Filtered Stream</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Twitter Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-client/twitter-client.html">Twitter Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-client/events.html">Twitter Client - Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-client/json.html">Json - Serialize/Deserialize</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tweetinvi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Account Activity - Stream/Events</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="account-activity-stream-events">
+<h1>Account Activity - Stream/Events<a class="headerlink" href="#account-activity-stream-events" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>Now that users are subscribed to our webhook, Twitter will send events (through http requests) related to the subscribed users to our server.<br />These events will be raised by the <a class="reference internal" href="#"><span class="doc">Account Activity Stream</span></a>.<br />We will use this stream and watch for specific events to take actions.</p>
+</div></blockquote>
+<div class="section" id="account-activity-stream">
+<h2>Account Activity Stream<a class="headerlink" href="#account-activity-stream" title="Permalink to this headline">¶</a></h2>
+<p>To start listening to events coming from a user we will create an Account Activity Stream.<br />This stream will raise events when the webhook receives a request from Twitter for this specific user.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// the USER_ID specified must have been register for receiving the events</span>
+<span class="kt">var</span> <span class="n">accountActivityStream</span> <span class="p">=</span> <span class="n">accountActivityHandler</span><span class="p">.</span><span class="n">GetAccountActivityStream</span><span class="p">(</span><span class="n">USER_ID</span><span class="p">,</span> <span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
+
+<span class="c1">// we can now subscribe to various events from the stream</span>
+<span class="n">accountActivityStream</span><span class="p">.</span><span class="n">TweetCreated</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">tweetCreatedEvent</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;A tweet was created by USER_ID or a tweet mentioning USER_ID&quot;</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="events-properties">
+<h2>Events - Properties<a class="headerlink" href="#events-properties" title="Permalink to this headline">¶</a></h2>
+<p>Account Activity EventArgs contain information that explain what happened and why.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Json</td>
+<td>The raw content of the http request</td>
+</tr>
+<tr>
+<td><strong>InResultOf</strong></td>
+<td>Informs of the reason that caused the event to occur</td>
+</tr>
+<tr>
+<td>EventDate</td>
+<td>Date when the event was received</td>
+</tr>
+<tr>
+<td>AccountUserId</td>
+<td>For which user this event is for</td>
+</tr>
+</tbody>
+</table><div class="note"><p><code class="docutils literal notranslate"><span class="pre">InResultOf</span></code> varies depending on the type of event. Each of the possibilities are listed in the section below.</p>
+</div></div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EventReceived</td>
+<td>Twitter sent an event to the application, it is up for you to make sense out of it</td>
+</tr>
+</tbody>
+</table><div class="wy-table-responsive account-activity-events">
+    <table class="docutils">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>InResultOf</th>
+                <th>Properties</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <b>TweetCreated</b><br/><br/>
+                    A tweet related to the subscribed user has been created
+                </td>
+                <td>
+                    <b>TweetCreatedRaisedInResultOf</b>
+                    <ul>
+                        <li>AccountUserCreatingATweet</li>
+                        <li>AnotherUserReplyingToAccountUser</li>
+                        <li>AnotherUserMentioningTheAccountUser</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Tweet</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>TweetDeleted</b><br/><br/>
+                    A tweet related to the subscribed user has been deleted
+                </td>
+                <td>
+                    <b>TweetDeletedRaisedInResultOf</b>
+                    <ul>
+                        <li>AccountUserDeletingOneOfHisTweets</li>
+                        <li>AnotherUserDeletedATweet</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>TweetId</li>
+                        <li>UserId</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>TweetFavorited</b><br/><br/>
+                    A tweet related to the subscribed user was favorited
+                </td>
+                <td>
+                    <b>TweetFavoritedRaisedInResultOf</b>
+                    <ul>
+                        <li>AccountUserFavoritingHisOwnTweet</li>
+                        <li>AccountUserFavoritingATweetOfAnotherUser</li>
+                        <li>AnotherUserFavoritingATweetOfTheAccountUser</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Tweet</li>
+                        <li>FavoritedBy</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>
+                    <b>UserFollowed</b><br/><br/>
+                    The subscribed user followed or was followed by another user
+                </td>
+                <td>
+                    <b>UserFollowedRaisedInResultOf</b>
+                    <ul>
+                        <li>AccountUserFollowingAnotherUser</li>
+                        <li>AnotherUserFollowingAccountUser</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>FollowedBy</li>
+                        <li>FollowedUser</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>UserUnfollowed</b><br/><br/>
+                    The subscribed user stopped following another user
+                </td>
+                <td>
+                    <b>UserUnfollowedRaisedInResultOf</b>
+                    <ul>
+                        <li>AccountUserUnfollowingAnotherUser</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>UnfollowedBy</li>
+                        <li>UnfollowedUser</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>UserBlocked</b><br/><br/>
+                    The subscribed user blocked another user
+                </td>
+                <td>
+                    <b>UserBlockedRaisedInResultOf</b>
+                    <ul>
+                        <li>AccountUserBlockingAnotherUser</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>BlockedBy</li>
+                        <li>BlockedUser</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>UserUnblocked</b><br/><br/>
+                    The subscribed user unblocked another user
+                </td>
+                <td>
+                    <b>UserUnblockedRaisedInResultOf</b>
+                    <ul>
+                        <li>AccountUserUnblockingAnotherUser</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>UnblockedBy</li>
+                        <li>UnblockedUser</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>UserMuted</b><br/><br/>
+                    The subscribed user muted another user
+                </td>
+                <td>
+                    <b>UserMutedRaisedInResultOf</b>
+                    <ul>
+                        <li>AccountUserMutingAnotherUser</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>MutedBy</li>
+                        <li>MutedUser</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>UserUnmuted</b><br/><br/>
+                    The subscribed user muted another user
+                </td>
+                <td>
+                    <b>UserUnmutedRaisedInResultOf</b>
+                    <ul>
+                        <li>AccountUserUnmutingAnotherUser</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>UnmutedBy</li>
+                        <li>UnmutedUser</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>
+                    <b>MessageReceived</b><br/><br/>
+                    The subscribed user received a message
+                </td>
+                <td>
+                    <b>MessageReceivedInResultOf</b>
+                    <ul>
+                        <li>AccountUserReceivingAMessage</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Message</li>
+                        <li>Sender</li>
+                        <li>Recipient</li>
+                        <li>App</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>MessageSent</b><br/><br/>
+                    The subscribed user sent a message
+                </td>
+                <td>
+                    <b>MessageSentInResultOf</b>
+                    <ul>
+                        <li>AccountUserSendingAMessage</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Message</li>
+                        <li>Sender</li>
+                        <li>Recipient</li>
+                        <li>App</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>UserIsTypingMessage</b><br/><br/>
+                    The subscribed user is currently typing a message
+                </td>
+                <td>
+                    <b>UserIsTypingMessageInResultOf</b>
+                    <ul>
+                        <li>AnotherUserTypingAMessageToAccountUser</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>TypingTo</li>
+                        <li>TypingUser</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>UserReadMessageConversation</b><br/><br/>
+                    A user read the latest message of a conversation with the subscribed user
+                </td>
+                <td>
+                    <b>UserReadMessageConversationInResultOf</b>
+                    <ul>
+                        <li>AnotherUserReadingConversation</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>UserWhoWroteTheMessage</li>
+                        <li>UserWhoReadTheMessageConversation</li>
+                        <li>LastReadEventId</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>
+                    <b>UserRevokedAppPermissions</b><br/><br/>
+                    The subscribed user revoked the application permissions.<br/>The user is now unsubsribed from the webhook
+                </td>
+                <td>
+                    <b>UserRevokedAppPermissionsInResultOf</b>
+                    <ul>
+                        <li>AccountUserRemovingAppPermissions</li>
+                        <li>Unknown</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>AppId</li>
+                        <li>UserId</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div><p><strong>Special events</strong></p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UnsupportedEventReceived</td>
+<td>The event is not yet supported. Please open a ticket</td>
+</tr>
+<tr>
+<td>EventKnownButNotFullySupportedReceived</td>
+<td>The event is supported but Tweetinvi could not understand why the event was received</td>
+</tr>
+<tr>
+<td>UnexpectedExceptionThrown</td>
+<td>Something went wrong while processing an event</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../streams/streams-introduction.html" class="btn btn-neutral float-right" title="Streams Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="account-activity-subscriptions.html" class="btn btn-neutral float-left" title="Account Activity - Subscriptions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, linvi
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

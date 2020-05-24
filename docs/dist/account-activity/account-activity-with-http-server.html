@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Account Activity with HttpServer &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
+  <title>Account Activity - HttpServer &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
   
 
   
@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Account Activity - Subscriptions" href="account-activity-subscriptions.html" />
-    <link rel="prev" title="Account Activity with AspNet" href="account-activity-with-aspnet.html" /> 
+    <link rel="prev" title="Account Activity - AspNet" href="account-activity-with-aspnet.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -113,9 +113,10 @@
 <p class="caption"><span class="caption-text">Account Activity</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="account-activity.html">Account Activity</a></li>
-<li class="toctree-l1"><a class="reference internal" href="account-activity-with-aspnet.html">Account Activity with AspNet</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Account Activity with HttpServer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-with-aspnet.html">Account Activity - AspNet</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Account Activity - HttpServer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="account-activity-subscriptions.html">Account Activity - Subscriptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-events.html">Account Activity - Stream/Events</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Streams</span></p>
 <ul>
@@ -185,7 +186,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Account Activity with HttpServer</li>
+      <li>Account Activity - HttpServer</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -202,8 +203,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="account-activity-with-httpserver">
-<h1>Account Activity with HttpServer<a class="headerlink" href="#account-activity-with-httpserver" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="account-activity-httpserver">
+<h1>Account Activity - HttpServer<a class="headerlink" href="#account-activity-httpserver" title="Permalink to this headline">¶</a></h1>
 <p>During the registration process of a webhook url, Twitter will send an http request to your webhook url.<br />This request is called a CRC request. Twitter expect your application to send a response containing a special authentication token.</p>
 <p>Tweetinvi offer a <code class="docutils literal notranslate"><span class="pre">RequestHandler</span></code> that checks all incoming http requests to your server.<br />When the <code class="docutils literal notranslate"><span class="pre">RequestHandler</span></code> identifies that a request should be handled by Tweetinvi (like the CRC request), tweetinvi will take care of the response for you.</p>
 <details>
@@ -306,7 +307,7 @@
         <a href="account-activity-subscriptions.html" class="btn btn-neutral float-right" title="Account Activity - Subscriptions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="account-activity-with-aspnet.html" class="btn btn-neutral float-left" title="Account Activity with AspNet" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="account-activity-with-aspnet.html" class="btn btn-neutral float-left" title="Account Activity - AspNet" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

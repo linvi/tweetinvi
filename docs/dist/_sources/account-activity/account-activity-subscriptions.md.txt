@@ -1,6 +1,6 @@
 # Account Activity - Subscriptions
 
-Once you have a [regitered your webhook](./account-activity#register-a-twitter-webhook) server, we can start receiving events for specific users.
+Once you have a [regitered your webhook](./account-activity#webhooks-register) server, we can start receiving events for specific users.
 
 In the examples below we will subscribe to the sandbox environment.
 

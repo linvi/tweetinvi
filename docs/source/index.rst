@@ -57,6 +57,7 @@ The goal of this library is to make life of developers as easy as possible.
    account-activity/account-activity-with-aspnet
    account-activity/account-activity-with-http-server
    account-activity/account-activity-subscriptions
+   account-activity/account-activity-events
 
 .. toctree::
    :maxdepth: 1

@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Account Activity with AspNet" href="account-activity-with-aspnet.html" />
+    <link rel="next" title="Account Activity - AspNet" href="account-activity-with-aspnet.html" />
     <link rel="prev" title="PIN based Authentication" href="../authentication/authentication-pin-code.html" /> 
 </head>
 
@@ -113,18 +113,21 @@
 <p class="caption"><span class="caption-text">Account Activity</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Account Activity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-account-activity">What is account activity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#what-is-a-webhook">What is a webhook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#aspnetplugin">AspNetPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ngrok">Ngrok</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#list-webhooks">List Webhooks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#twitter-requests-handler">Twitter requests handler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#register-a-twitter-webhook">Register a Twitter Webhook</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#deregister-a-twitter-webhook">Deregister a Twitter Webhook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#webhooks-requests-handler">Webhooks - Requests handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#webhooks-register">Webhooks - Register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#webhooks-list">Webhooks - List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#webhooks-delete">Webhooks - Delete</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="account-activity-with-aspnet.html">Account Activity with AspNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="account-activity-with-http-server.html">Account Activity with HttpServer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-with-aspnet.html">Account Activity - AspNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-with-http-server.html">Account Activity - HttpServer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="account-activity-subscriptions.html">Account Activity - Subscriptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="account-activity-events.html">Account Activity - Stream/Events</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Streams</span></p>
 <ul>
@@ -216,6 +219,19 @@
 <blockquote>
 <div><p>Account Activities let you track actions performed by a user in live.<br />For example Account Activity will trigger an event when a user publishes a tweet, reads a message, likes a tweet…</p>
 </div></blockquote>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Account Activity is a large topic that we will cover in multiple pages.<br />Account Activity is a way to receive live events about actions performed by a Twitter user.</p>
+<p>To receive such events, Twitter uses <a class="reference external" href="#what-is-a-webhook">Webhooks</a>. Behind a webhook url is a server processing requests.<br />Tweetinvi offers <a class="reference external" href="#webhooks-requests-handler">request handlers</a> which will automatically filter and respond to requests coming from Twitter.<br />There are <a class="reference external" href="#webhooks-requests-handler">2 ways of using handlers</a>, through a <a class="reference internal" href="account-activity-with-aspnet.html"><span class="doc">middleware for AspNet</span></a> or by <a class="reference internal" href="account-activity-with-http-server.html"><span class="doc">manually feeding the handlers with a Http server request</span></a>.</p>
+<p>Once the webhook application is running with the request handler, you need to <a class="reference external" href="#webhooks-register">register your webhook url</a> to Twitter so that Twitter knows which url it should send the events to.</p>
+<p>Twitter now know where to send events but does not know yet which which users the application should monitor.<br />We need to <a class="reference internal" href="account-activity-subscriptions.html"><span class="doc">subscribe users to the webhook</span></a>.</p>
+<p>Now that users are subscribed to our webhook, Twitter will send events (through http requests) related to the subscribed users to our server.<br />These events will be raised by the <a class="reference internal" href="account-activity-events.html"><span class="doc">Account Activity Stream</span></a>.<br />We will use this stream and watch for specific events to take actions.</p>
+</div>
+<div class="section" id="what-is-account-activity">
+<h2>What is account activity<a class="headerlink" href="#what-is-account-activity" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Account Activities let you track actions performed by a user in live.<br />For example Account Activity will trigger an event when a user publishes a tweet, reads a message, likes a tweet…</p>
+</div></blockquote>
 <p>It is Twitter replacement of the old User Stream.<br />Differently from the user stream, Account Activity uses Webhooks.</p>
 <p>You can learn more as to what Account Activities offer on <a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/overview">twitter documentation</a>.</p>
 <div class="warning"><p>Account Activities api is restricted to premium accounts.</p>
@@ -224,7 +240,8 @@
 <li><p>After you have been approved you will be able to go to <a class="reference external" href="https://developer.twitter.com/en/account/environments">Dev Environments</a>.</p></li>
 <li><p>There you will be able to create a free <code class="docutils literal notranslate"><span class="pre">Account</span> <span class="pre">Activity</span> <span class="pre">API</span> <span class="pre">Sandbox</span></code> environment.</p></li>
 </ul>
-</div><div class="section" id="what-is-a-webhook">
+</div></div>
+<div class="section" id="what-is-a-webhook">
 <h2>What is a webhook<a class="headerlink" href="#what-is-a-webhook" title="Permalink to this headline">¶</a></h2>
 <p>Similar to polling, webhooks provide your application a way of consuming new event data from an endpoint.<br />However, instead of sending repeated requests for new events, you provide the endpoint with a URL, which your application monitors.<br />Whenever a new event occurs within the endpoint app, it posts the event data to your specified URL, updating your application in real-time.</p>
 <p>In Twitter, you register your application url to a webhook environment.<br />When your application url has been registered, Twitter will send user events to this url.</p>
@@ -277,32 +294,12 @@
 </div>
 <div class="section" id="ngrok">
 <h2>Ngrok<a class="headerlink" href="#ngrok" title="Permalink to this headline">¶</a></h2>
-<p>To develop the application you will need to access your machine from a public facing https url.</p>
+<p>Your webhook application will need to publicly accessible through a https url.<br />When developing, making your localhost publicly accessible can be complicated. Ngrok comes to help you.</p>
 <p>Different solutions offer this, but I have been using <a class="reference external" href="https://ngrok.com/">Ngrok</a> and I liked its simplicity.<br />To use it, you will need to create an account, download the binary and execute the command <code class="docutils literal notranslate"><span class="pre">ngrok</span> <span class="pre">http</span> <span class="pre">8042</span></code>.<br />Ngrok will generate a unique https url which will be redirected to the <code class="docutils literal notranslate"><span class="pre">http://localhost:8042</span></code>.</p>
-<p>This operation will give you a list of public url endpoints that you can use to register a webhook on Twitter.<br />When <a class="reference external" href="#register-a-twitter-webhook">registering your application url</a> you will need to use the <code class="docutils literal notranslate"><span class="pre">https</span></code> endpoint.</p>
+<p>This operation will give you a list of public url endpoints that you can use to register a webhook on Twitter.<br />When <a class="reference external" href="#webhooks-register">registering your application url</a> you will need to use the <code class="docutils literal notranslate"><span class="pre">https</span></code> endpoint.</p>
 </div>
-<div class="section" id="list-webhooks">
-<h2>List Webhooks<a class="headerlink" href="#list-webhooks" title="Permalink to this headline">¶</a></h2>
-<p>Twitter offer different <code class="docutils literal notranslate"><span class="pre">environments</span></code> to run webhooks.<br />An environment can be linked with 1 or multiple webhooks.</p>
-<p>You can list your environments and their associated webhooks.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// This requires applications credentials with a bearer token</span>
-<span class="kt">var</span> <span class="n">environments</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">GetAccountActivityWebhookEnvironmentsAsync</span><span class="p">();</span>
-
-<span class="c1">// the sandbox environment is available within the free tier</span>
-<span class="kt">var</span> <span class="n">sandboxEnvironment</span> <span class="p">=</span> <span class="n">environments</span><span class="p">.</span><span class="n">Single</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">Name</span> <span class="p">==</span> <span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
-
-<span class="c1">// registered webhooks url are available in the Webhooks collection</span>
-<span class="kt">var</span> <span class="n">registeredWebhooks</span> <span class="p">=</span> <span class="n">sandboxEnvironment</span><span class="p">.</span><span class="n">Webhooks</span><span class="p">;</span>
-</pre></div>
-</div>
-<div class="note"><p>At this stage we have not yet registered our application url so <code class="docutils literal notranslate"><span class="pre">registeredWebhooks</span></code> will be empty.</p>
-</div><p>You can also request webhooks of a specific environment.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">webhooks</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">GetAccountActivityEnvironmentWebhooksAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="twitter-requests-handler">
-<h2>Twitter requests handler<a class="headerlink" href="#twitter-requests-handler" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="webhooks-requests-handler">
+<h2>Webhooks - Requests handler<a class="headerlink" href="#webhooks-requests-handler" title="Permalink to this headline">¶</a></h2>
 <p>To reduce the complexity of Account Activity, Tweetinvi offers ways to automatically handle requests coming to your http/aspnet server.</p>
 <p>Pick the approach the most appropriate to your needs:</p>
 <table border="1" class="docutils">
@@ -326,18 +323,37 @@
 </tr>
 </tbody>
 </table></div>
-<div class="section" id="register-a-twitter-webhook">
-<h2>Register a Twitter Webhook<a class="headerlink" href="#register-a-twitter-webhook" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="webhooks-register">
+<h2>Webhooks - Register<a class="headerlink" href="#webhooks-register" title="Permalink to this headline">¶</a></h2>
+<p>Twitter offer different <code class="docutils literal notranslate"><span class="pre">environments</span></code> to run webhooks.<br />An environment can be linked with 1 or multiple webhooks.</p>
 <p>During the registration process of a webhook url, Twitter will send an http request to your webhook url.<br />This request is called a CRC request. Twitter expect your application to send a response containing a special authentication token.</p>
-<p>If you use the <a class="reference external" href="#twitter-requests-handler">Tweetinvi request handler</a>, the response to the CRC request will be done automatically for you.</p>
+<p>If you use the <a class="reference external" href="#webhooks-requests-handler">Tweetinvi request handler</a>, the response to the CRC request will be done automatically for you.</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// request to register your url - a crc challenge will be received by your http server</span>
 <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">CreateAccountActivityWebhookAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">,</span> <span class="s">&quot;https://my-webook-url.ngrok.io&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>This request will only be successful if Twitter receives the expected response from your server.</p>
 </div>
-<div class="section" id="deregister-a-twitter-webhook">
-<h2>Deregister a Twitter Webhook<a class="headerlink" href="#deregister-a-twitter-webhook" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="webhooks-list">
+<h2>Webhooks - List<a class="headerlink" href="#webhooks-list" title="Permalink to this headline">¶</a></h2>
+<p>You can list your environments and their associated webhooks.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// This requires applications credentials with a bearer token</span>
+<span class="kt">var</span> <span class="n">environments</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">GetAccountActivityWebhookEnvironmentsAsync</span><span class="p">();</span>
+
+<span class="c1">// the sandbox environment is available within the free tier</span>
+<span class="kt">var</span> <span class="n">sandboxEnvironment</span> <span class="p">=</span> <span class="n">environments</span><span class="p">.</span><span class="n">Single</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">Name</span> <span class="p">==</span> <span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
+
+<span class="c1">// registered webhooks url are available in the Webhooks collection</span>
+<span class="kt">var</span> <span class="n">registeredWebhooks</span> <span class="p">=</span> <span class="n">sandboxEnvironment</span><span class="p">.</span><span class="n">Webhooks</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>You can also request webhooks of a specific environment.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">webhooks</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">GetAccountActivityEnvironmentWebhooksAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="webhooks-delete">
+<h2>Webhooks - Delete<a class="headerlink" href="#webhooks-delete" title="Permalink to this headline">¶</a></h2>
 <p>Twitter restricts the number of webhooks url to which it will send the events.<br />In the case of the sandbox environment this is limited 1 unique url.</p>
 <p>To remove a webhook from Twitter:</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">DeleteAccountActivityWebhookAsync</span><span class="p">(</span><span class="s">&quot;WEBHOOK_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s">&quot;WEBHOOK_ID&quot;</span><span class="p">);</span>
@@ -362,7 +378,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="account-activity-with-aspnet.html" class="btn btn-neutral float-right" title="Account Activity with AspNet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="account-activity-with-aspnet.html" class="btn btn-neutral float-right" title="Account Activity - AspNet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../authentication/authentication-pin-code.html" class="btn btn-neutral float-left" title="PIN based Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
