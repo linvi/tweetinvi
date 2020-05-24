@@ -112,6 +112,8 @@ var favoriteTweetsIterator = client.Tweets.GetUserFavoriteTweetsIterator("tweeti
 
 ## OEmbed Tweets
 
+> Twitter can generate HTML for you so that you can display a tweet on your website as it would appear on twitter.
+
 You can generate oembed tweets from Tweetinvi. If you want to learn more please read [Twitter documentation](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed).
 
 ``` c#
