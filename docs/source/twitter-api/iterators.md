@@ -34,7 +34,7 @@ Tweetinvi hides this complexity to you via `iterators`.
 
 ``` c#
 var timelineTweets = new List<ITweet>();
-var timelineIterator = client.Timelines.GetHomeTimelineIterator();
+var timelineIterator = userClient.Timelines.GetHomeTimelineIterator();
 
 while (!timelineIterator.Completed)
 {
@@ -95,7 +95,7 @@ var friendIdsIterator = client.Users.GetFollowerIdsIterator(new GetFollowerIdsPa
 * `ContinueMinMaxCursor` defines when the cursor is considered complete. By default it will be considered complete when 0 results are being returned.
 
 ``` c#
-var timelineIterator = client.Timelines.GetHomeTimelineIterator(new GetHomeTimelineParameters()
+var timelineIterator = userClient.Timelines.GetHomeTimelineIterator(new GetHomeTimelineParameters()
 {
     MaxId = 410984184018409,
     SinceId = 3109841840184091,

@@ -242,7 +242,7 @@
 }
 </style><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a simple stream containing only tweets with the keyword France</span>
 
-<span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateFilteredStream</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateFilteredStream</span><span class="p">();</span>
 <span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;france&quot;</span><span class="p">);</span>
 
 <span class="n">stream</span><span class="p">.</span><span class="n">MatchingTweetReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
@@ -346,7 +346,7 @@
 </tr>
 </tbody>
 </table><p><strong>Table comparing Any and All behaviour</strong></p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateFilteredStream</span><span class="p">();</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateFilteredStream</span><span class="p">();</span>
 <span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;france&quot;</span><span class="p">);</span>
 <span class="n">stream</span><span class="p">.</span><span class="n">AddTrack</span><span class="p">(</span><span class="s">&quot;hello world&quot;</span><span class="p">);</span>
 <span class="n">stream</span><span class="p">.</span><span class="n">AddFollow</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>

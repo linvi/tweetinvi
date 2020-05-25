@@ -16,7 +16,7 @@ In this mode you will need to catch `TwitterException` to detect when the rate l
 ``` c#
 try
 {
-    var tweetinviUser = await client.Users.GetUserAsync("tweetinviapi");
+    var tweetinviUser = await userClient.Users.GetUserAsync("tweetinviapi");
 }
 catch (TwitterException e) 
 {

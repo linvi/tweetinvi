@@ -212,11 +212,11 @@
 <h1>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="user-search">
 <h2>User Search<a class="headerlink" href="#user-search" title="Permalink to this headline">¶</a></h2>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchUsersAsync</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">);</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchUsersAsync</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">);</span>
 
 <span class="c1">// or</span>
 
-<span class="kt">var</span> <span class="n">usersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">GetSearchUsersIterator</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">usersIterator</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">GetSearchUsersIterator</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div><div class="warning" style="padding-bottom: 1px"><p>User search paging of Twitter API does not behave the same as other Twitter API endpoint (including tweet search).</p>
@@ -246,10 +246,10 @@
 <div class="section" id="saved-searches">
 <h2>Saved Searches<a class="headerlink" href="#saved-searches" title="Permalink to this headline">¶</a></h2>
 <p>Twitter API offers a way to interact with users’ saved searches.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">savedSearch</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">CreateSavedSearchAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">createdSavedSearch</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">GetSavedSearchAsync</span><span class="p">(</span><span class="n">savedSearch</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">mySavedSearches</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">ListSavedSearchesAsync</span><span class="p">();</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">DestroySavedSearchAsync</span><span class="p">(</span><span class="n">savedSearch</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">savedSearch</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">CreateSavedSearchAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">createdSavedSearch</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">GetSavedSearchAsync</span><span class="p">(</span><span class="n">savedSearch</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">mySavedSearches</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">ListSavedSearchesAsync</span><span class="p">();</span>
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">DestroySavedSearchAsync</span><span class="p">(</span><span class="n">savedSearch</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>

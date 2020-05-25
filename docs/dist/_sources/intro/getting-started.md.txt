@@ -49,21 +49,21 @@ Now we just need to modify the `Main` function of `Program.cs`
 ``` c#
 static async Task Main(string[] args)
 {
-    var client = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+    var userClient = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 }
 ```
 
 Now lets print your username!
 
 ``` c#
-var user = await client.Users.GetAuthenticatedUserAsync();
+var user = await userClient.Users.GetAuthenticatedUserAsync();
 Console.WriteLine(user);
 ```
 
 And now lets inform the world about your great achievement!
 
 ``` c#
-var tweet = await client.Tweets.PublishTweetAsync("Hello tweetinvi world!");
+var tweet = await userClient.Tweets.PublishTweetAsync("Hello tweetinvi world!");
 Console.WriteLine("You published the tweet : " + tweet);
 ```
 
@@ -86,14 +86,14 @@ namespace tweetinvi_hello_world
         static async Task Main(string[] args)
         {
             // we create a client with your user's credentials
-            var client = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            var userClient = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 
             // request the user's information from Twitter API
-            var user = await client.Users.GetAuthenticatedUserAsync();
+            var user = await userClient.Users.GetAuthenticatedUserAsync();
             Console.WriteLine("Hello " + user);
 
             // publish a tweet
-            var tweet = await client.Tweets.PublishTweetAsync("Hello tweetinvi world!");
+            var tweet = await userClient.Tweets.PublishTweetAsync("Hello tweetinvi world!");
             Console.WriteLine("You published the tweet : " + tweet);
         }
     }

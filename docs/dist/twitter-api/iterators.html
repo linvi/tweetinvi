@@ -252,7 +252,7 @@
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">timelineTweets</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ITweet</span><span class="p">&gt;();</span>
-<span class="kt">var</span> <span class="n">timelineIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimelineIterator</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">timelineIterator</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimelineIterator</span><span class="p">();</span>
 
 <span class="k">while</span> <span class="p">(!</span><span class="n">timelineIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
 <span class="p">{</span>
@@ -313,7 +313,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">long?</span> <span class="pre">MaxId</span></code> defines the maximum id that can be returned by Twitter</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ContinueMinMaxCursor</span></code> defines when the cursor is considered complete. By default it will be considered complete when 0 results are being returned.</p></li>
 </ul>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">timelineIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimelineIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetHomeTimelineParameters</span><span class="p">()</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">timelineIterator</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimelineIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetHomeTimelineParameters</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="n">MaxId</span> <span class="p">=</span> <span class="m">410984184018409</span><span class="p">,</span>
     <span class="n">SinceId</span> <span class="p">=</span> <span class="m">3109841840184091</span><span class="p">,</span>

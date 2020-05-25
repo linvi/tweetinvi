@@ -6,10 +6,10 @@ From a user account perspective another user can either be a follower or a perso
 
 ``` c#
 // follow a user
-await client.Users.FollowUserAsync("tweetinviapi");
+await userClient.Users.FollowUserAsync("tweetinviapi");
 
 // stop following a user
-await client.Users.UnfollowUserAsync(42);
+await userClient.Users.UnfollowUserAsync(42);
 ```
 
 ## List Friends
@@ -65,9 +65,9 @@ var followersIterator = client.Users.GetFollowersIterator(new GetFollowersParame
 <div class="iterator-available">
 
 ``` c#
-var userIdsYouRequestedToFollow = await client.Users.GetUserIdsYouRequestedToFollowAsync();
+var userIdsYouRequestedToFollow = await userClient.Users.GetUserIdsYouRequestedToFollowAsync();
 // or
-var userIdsYouRequestedToFollowIterator = client.Users.GetUserIdsYouRequestedToFollowIterator();
+var userIdsYouRequestedToFollowIterator = userClient.Users.GetUserIdsYouRequestedToFollowIterator();
 ```
 </div>
 
@@ -76,9 +76,9 @@ Tweetinvi can fetch populated user objects by performing a set of additional req
 <div class="iterator-available">
 
 ``` c#
-var usersYouRequestedToFollow = await client.Users.GetUsersYouRequestedToFollowAsync();
+var usersYouRequestedToFollow = await userClient.Users.GetUsersYouRequestedToFollowAsync();
 // or
-var usersYouRequestedToFollowIterator = client.Users.GetUsersYouRequestedToFollowIterator();
+var usersYouRequestedToFollowIterator = userClient.Users.GetUsersYouRequestedToFollowIterator();
 ```
 </div>
 
@@ -89,9 +89,9 @@ var usersYouRequestedToFollowIterator = client.Users.GetUsersYouRequestedToFollo
 <div class="iterator-available">
 
 ``` c#
-var userIdsRequestingFriendship = await client.Users.GetUserIdsRequestingFriendshipAsync();
+var userIdsRequestingFriendship = await userClient.Users.GetUserIdsRequestingFriendshipAsync();
 // or
-var userIdsRequestingFriendshipIterator = client.Users.GetUserIdsRequestingFriendshipIterator();
+var userIdsRequestingFriendshipIterator = userClient.Users.GetUserIdsRequestingFriendshipIterator();
 ```
 </div>
 
@@ -100,9 +100,9 @@ Tweetinvi can fetch populated user objects by performing a set of additional req
 <div class="iterator-available">
 
 ``` c#
-var userRequestingFriendship = await client.Users.GetUsersRequestingFriendshipAsync();
+var userRequestingFriendship = await userClient.Users.GetUsersRequestingFriendshipAsync();
 // or
-var usersRequestingFriendshipIterator = client.Users.GetUsersRequestingFriendshipIterator();
+var usersRequestingFriendshipIterator = userClient.Users.GetUsersRequestingFriendshipIterator();
 ```
 </div>
 
@@ -111,7 +111,7 @@ var usersRequestingFriendshipIterator = client.Users.GetUsersRequestingFriendshi
 > Details of relationships between 2 users.
 
 ``` c#
-var relationship = await client.Users.GetRelationshipBetweenAsync("source_user", "target_user");
+var relationship = await userClient.Users.GetRelationshipBetweenAsync("source_user", "target_user");
 // You can for example check if you
 var canSourceSendDirectMessagesToTarget = relationship.CanSendDirectMessage;
 ```
@@ -119,14 +119,14 @@ var canSourceSendDirectMessagesToTarget = relationship.CanSendDirectMessage;
 List the relationships between the client's authenticated user and a list of users.
 
 ``` c#
-var relationships = await client.Users.GetRelationshipsWithAsync(new [] { "target_user" });
+var relationships = await userClient.Users.GetRelationshipsWithAsync(new [] { "target_user" });
 var userSentAFollowingRequest = relationships[0].FollowingRequested;
 ```
 
 Updated relationship state between the authenticated user and a target user.
 
 ``` c#
-await client.Users.UpdateRelationshipAsync(new UpdateRelationshipParameters("target_user")
+await userClient.Users.UpdateRelationshipAsync(new UpdateRelationshipParameters("target_user")
 {
     EnableRetweets = true,
     EnableDeviceNotifications = true

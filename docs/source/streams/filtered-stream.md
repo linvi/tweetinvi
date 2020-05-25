@@ -33,7 +33,7 @@ The sample stream supports all the generic stream functionalities. [Read more ab
 ``` c#
 // Create a simple stream containing only tweets with the keyword France
 
-var stream = client.Streams.CreateFilteredStream();
+var stream = userClient.Streams.CreateFilteredStream();
 stream.AddTrack("france");
 
 stream.MatchingTweetReceived += (sender, eventReceived) =>
@@ -100,7 +100,7 @@ They define the conditions required for the `MatchingTweetReceived` event to be 
 **Table comparing Any and All behaviour**
 
 ``` c#
-var stream = client.Streams.CreateFilteredStream();
+var stream = userClient.Streams.CreateFilteredStream();
 stream.AddTrack("france");
 stream.AddTrack("hello world");
 stream.AddFollow(42);

@@ -56,7 +56,7 @@ Older aplications need to use the old format of tweet objects. You can do so by 
 client.Config.TweetMode = TweetMode.Compat;
 
 // https://api.twitter.com/1.1/statuses/update.json?status=hello&tweet_mode=compat
-await client.Tweets.PublishTweetAsync("hello");
+await userClient.Tweets.PublishTweetAsync("hello");
 ```
 
 Configuring the `TweetMode` of a request parameters will take priority over the `TweetMode` value set in the client config.
@@ -65,7 +65,7 @@ Configuring the `TweetMode` of a request parameters will take priority over the 
 client.Config.TweetMode = TweetMode.Compat;
 
 // https://api.twitter.com/1.1/statuses/update.json?status=hello&tweet_mode=extended 
-await client.Tweets.PublishTweetAsync(new PublishTweetParameters("hello")
+await userClient.Tweets.PublishTweetAsync(new PublishTweetParameters("hello")
 {
     TweetMode = TweetMode.Extended
 });

@@ -5,6 +5,12 @@ Twitter offers 2 types of credentials and twitter documentation specifies the ty
 * [**Application Credentials**](#application-credentials) that let you perform operations from an application perspective.
 * [**User Credentials**](#user-credentials) that let you perform operations from a user perspective.
 
+The documentation will use the following rules regarding the credentials:
+
+* `appClient` indicates that the endpoint requires Application Credentials (with or without bearer token)
+* `userClient` indicates that the endpoint requires User Credentials
+* `client` indicates that the endpoint requires either application or user credentials.
+
 ## Application Credentials 
 
 Twitter applications can perform requests on their own.\

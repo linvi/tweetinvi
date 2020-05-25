@@ -3,15 +3,15 @@
 ## Create, Read, Delete
 
 ``` c#
-var tweet = await client.Tweets.PublishTweetAsync("My first tweet with Tweetinvi!");
+var tweet = await userClient.Tweets.PublishTweetAsync("My first tweet with Tweetinvi!");
 var publishedTweet = await client.Tweets.GetTweetAsync(tweet.Id);
-await client.Tweets.DestroyTweetAsync(tweet);
+await userClient.Tweets.DestroyTweetAsync(tweet);
 ```
 
 Tweets are not just text, here are [various additional metadata](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update) you can add to your tweets.
 
 ``` c#
-var fullTweet = await client.Tweets.PublishTweetAsync(new PublishTweetParameters("A complex tweet from Tweetinvi")
+var fullTweet = await userClient.Tweets.PublishTweetAsync(new PublishTweetParameters("A complex tweet from Tweetinvi")
 {
     Coordinates = new Coordinates(37.7821120598956, -122.400612831116),
     DisplayExactCoordinates = true,
@@ -28,10 +28,10 @@ var fullTweet = await client.Tweets.PublishTweetAsync(new PublishTweetParameters
 
 ``` c#
 // publish a retweet
-var retweet = await client.Tweets.PublishRetweetAsync(tweet);
+var retweet = await userClient.Tweets.PublishRetweetAsync(tweet);
 
 // destroy the retweet
-await client.Tweets.DestroyRetweetAsync(retweet);
+await userClient.Tweets.DestroyRetweetAsync(retweet);
 ```
 
 <div class="iterator-available">
@@ -49,13 +49,13 @@ var retweeterIdsIterator = client.Tweets.GetRetweeterIdsIterator(tweet);
 
 ``` c#
 // reply to a tweet
-var reply = await client.Tweets.PublishTweetAsync(new PublishTweetParameters("here is a great reply")
+var reply = await userClient.Tweets.PublishTweetAsync(new PublishTweetParameters("here is a great reply")
 {
     InReplyToTweet = tweet
 });
 
 // remove the same way as you would delete a tweet
-await client.Tweets.DestroyTweetAsync(reply);
+await userClient.Tweets.DestroyTweetAsync(reply);
 ```
 
 ## Publish with Media
@@ -68,8 +68,8 @@ You can attach images, gif and videos that you uploaded to your tweets.
 
 ``` c#
 var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-var uploadedImage = await client.Upload.UploadTweetImageAsync(tweetinviLogoBinary);
-var tweetWithImage = await client.Tweets.PublishTweetAsync(new PublishTweetParameters("Tweet with an image")
+var uploadedImage = await userClient.Upload.UploadTweetImageAsync(tweetinviLogoBinary);
+var tweetWithImage = await userClient.Tweets.PublishTweetAsync(new PublishTweetParameters("Tweet with an image")
 {
     Medias = { uploadedImage }
 });
@@ -79,12 +79,12 @@ var tweetWithImage = await client.Tweets.PublishTweetAsync(new PublishTweetParam
 
 ``` c#
 var videoBinary = File.ReadAllBytes("./video.mp4");
-var uploadedVideo = await client.Upload.UploadTweetVideoAsync(videoBinary);
+var uploadedVideo = await userClient.Upload.UploadTweetVideoAsync(videoBinary);
 
 // IMPORTANT: you need to wait for Twitter to process the video
-await client.Upload.WaitForMediaProcessingToGetAllMetadataAsync(uploadedVideo);
+await userClient.Upload.WaitForMediaProcessingToGetAllMetadataAsync(uploadedVideo);
 
-var tweetWithVideo = await client.Tweets.PublishTweetAsync(new PublishTweetParameters("tweet with media")
+var tweetWithVideo = await userClient.Tweets.PublishTweetAsync(new PublishTweetParameters("tweet with media")
 {
     Medias = { uploadedVideo }
 });
@@ -94,18 +94,18 @@ var tweetWithVideo = await client.Tweets.PublishTweetAsync(new PublishTweetParam
 
 ``` c#
 // favorite
-await client.Tweets.FavoriteTweetAsync(tweet);
+await userClient.Tweets.FavoriteTweetAsync(tweet);
 // remove
-await client.Tweets.UnfavoriteTweetAsync(tweet);
+await userClient.Tweets.UnfavoriteTweetAsync(tweet);
 ```
 
 <div class="iterator-available">
 
 ``` c#
 // get user favourites
-var favouritedTweets = await client.Tweets.GetUserFavoriteTweetsAsync("tweetinviapi");
+var favouritedTweets = await userClient.Tweets.GetUserFavoriteTweetsAsync("tweetinviapi");
 // or
-var favoriteTweetsIterator = client.Tweets.GetUserFavoriteTweetsIterator("tweetinviapi");
+var favoriteTweetsIterator = userClient.Tweets.GetUserFavoriteTweetsIterator("tweetinviapi");
 ```
 
 </div>

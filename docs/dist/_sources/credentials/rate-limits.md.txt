@@ -61,6 +61,13 @@ var endpointRateLimit = await client.RateLimits.GetEndpointRateLimitAsync(url);
 var endpointRateLimit = await client.RateLimits.GetEndpointRateLimitAsync(url, RateLimitsSource.CacheOrTwitterApi);
 ```
 
+<div class="note">
+
+Note that rate limits for Application credentials are different than for User credentials.\
+As some endpoints are not accessible through application credentials, attempting to access it will return null.
+</div>
+
+
 ## Wait for endpoint allowance
 
 `RateLimits.WaitForQueryRateLimitAsync()` waits the necessary time for the rate limits allowances to become available.

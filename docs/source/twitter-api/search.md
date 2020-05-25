@@ -5,11 +5,11 @@
 <div class="iterator-available">
 
 ``` c#
-var users = await client.Search.SearchUsersAsync("tweetinvi");
+var users = await userClient.Search.SearchUsersAsync("tweetinvi");
 
 // or
 
-var usersIterator = client.Search.GetSearchUsersIterator("tweetinvi");
+var usersIterator = userClient.Search.GetSearchUsersIterator("tweetinvi");
 ```
 </div>
 
@@ -58,8 +58,8 @@ As a result Tweetinvi will need to perform 1 additional request to detect the co
 Twitter API offers a way to interact with users' saved searches.
 
 ``` c#
-var savedSearch = await client.Search.CreateSavedSearchAsync("hello");
-var createdSavedSearch = await client.Search.GetSavedSearchAsync(savedSearch.Id);
-var mySavedSearches = await client.Search.ListSavedSearchesAsync();
-await client.Search.DestroySavedSearchAsync(savedSearch.Id);
+var savedSearch = await userClient.Search.CreateSavedSearchAsync("hello");
+var createdSavedSearch = await userClient.Search.GetSavedSearchAsync(savedSearch.Id);
+var mySavedSearches = await userClient.Search.ListSavedSearchesAsync();
+await userClient.Search.DestroySavedSearchAsync(savedSearch.Id);
 ```

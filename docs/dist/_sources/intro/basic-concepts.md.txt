@@ -1,6 +1,8 @@
 # Basic Concepts
 
-In this page we will review the most commonly used functionality.
+Lets review the most commonly used functionality.
+
+
 
 ## TwitterClient
 
@@ -14,11 +16,23 @@ var appClient = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET");
 var userClient = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 ```
 
+[Learn more about the the differences between app an user credentials](../credentials/credentials)
+
+<div class="note">
+
+The documentation will use the following rules regarding the credentials:
+
+* `appClient` indicates that the endpoint requires Application Credentials (with or without bearer token)
+* `userClient` indicates that the endpoint requires User Credentials
+* `client` indicates that the endpoint requires either application or user credentials.
+
+</div>
+
 ## Users
 
 ``` c#
 // Get the authenticated user
-var authenticatedUser = await client.Users.GetAuthenticatedUserAsync();
+var authenticatedUser = await userClient.Users.GetAuthenticatedUserAsync();
 
 // Get a specific user
 var user = await client.Users.GetUserAsync("tweetinviapi");
@@ -28,7 +42,7 @@ var user = await client.Users.GetUserAsync("tweetinviapi");
 
 ``` c#
 // Publish a tweet
-var publishedTweet = await client.Tweets.PublishTweetAsync("Hello Tweetinvi!");
+var publishedTweet = await userClient.Tweets.PublishTweetAsync("Hello Tweetinvi!");
 
 // Get tweet by id
 var tweet = await client.Tweets.GetTweetAsync(publishedTweet.Id);
@@ -38,7 +52,7 @@ var tweet = await client.Tweets.GetTweetAsync(publishedTweet.Id);
 
 ``` c#
 // Get the tweets available on the user's home page
-var homeTimeline = await client.Timelines.GetHomeTimelineAsync();
+var homeTimeline = await userClient.Timelines.GetHomeTimelineAsync();
 
 // Get tweets from a specific user
 var userTimeline = await client.Timelines.GetUserTimelineAsync("tweetinviapi");
@@ -74,7 +88,7 @@ Console.WriteLine("We have now retrieved all the tweets!");
 var tweets = await client.Search.SearchTweetsAsync("hello");
 
 // Search users
-var users = await client.Search.SearchUsersAsync("tweetinviapi");
+var users = await userClient.Search.SearchUsersAsync("tweetinviapi");
 ```
 
 ## Parameters
@@ -106,16 +120,18 @@ When you use invoke such methods, the client which created the object will be us
 var tweet = await client.Tweets.GetTweetAsync(42);
 
 // DestroyAsync will be invoked via client
+// if client has app credentials, the operation will fail
+// if client has the user credentials of the user who created the tweet, the operation will pass
 await tweet.DestroyAsync();
 
 // it is the same as executing
-await client.Tweets.DestroyTweetAsync(tweet);
+await userClient.Tweets.DestroyTweetAsync(tweet);
 ```
 
 You can change the client of smart objects.
 
 ``` c#
-var myNewClient = new TwitterClient("", "");
+var myNewClient = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 tweet.Client = myNewClient;
 
 // DestroyAsync will be invoked via myNewClient

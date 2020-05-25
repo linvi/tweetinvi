@@ -257,14 +257,14 @@
 <span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">TweetMode</span> <span class="p">=</span> <span class="n">TweetMode</span><span class="p">.</span><span class="n">Compat</span><span class="p">;</span>
 
 <span class="c1">// https://api.twitter.com/1.1/statuses/update.json?status=hello&amp;tweet_mode=compat</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweetAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweetAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Configuring the <code class="docutils literal notranslate"><span class="pre">TweetMode</span></code> of a request parameters will take priority over the <code class="docutils literal notranslate"><span class="pre">TweetMode</span></code> value set in the client config.</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">TweetMode</span> <span class="p">=</span> <span class="n">TweetMode</span><span class="p">.</span><span class="n">Compat</span><span class="p">;</span>
 
 <span class="c1">// https://api.twitter.com/1.1/statuses/update.json?status=hello&amp;tweet_mode=extended </span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweetAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweetAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">TweetMode</span> <span class="p">=</span> <span class="n">TweetMode</span><span class="p">.</span><span class="n">Extended</span>
 <span class="p">});</span>

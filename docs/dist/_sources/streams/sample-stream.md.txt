@@ -5,7 +5,7 @@
 The sample stream supports all the generic stream functionalities. [Read more about streams](./streams-introduction).
 
 ``` c#
-var sampleStream = client.Streams.CreateSampleStream();
+var sampleStream = userClient.Streams.CreateSampleStream();
 sampleStream.TweetReceived += (sender, eventArgs) =>
 {
     Console.WriteLine(eventArgs.Tweet);
