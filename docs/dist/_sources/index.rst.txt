@@ -38,6 +38,7 @@ The goal of this library is to make life of developers as easy as possible.
    twitter-api/direct-api-calls
    twitter-api/upload-media
    twitter-api/iterators
+   twitter-api/help
 
 .. toctree::
    :maxdepth: 1

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Direct API calls &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
+  <title>Help &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Media Upload" href="upload-media.html" />
-    <link rel="prev" title="Search" href="search.html" /> 
+    <link rel="next" title="Introduction to Authentication" href="../authentication/authentication.html" />
+    <link rel="prev" title="Iterators" href="iterators.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,14 +100,14 @@
 <li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
 <li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Direct API calls</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#going-further">Going further</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="direct-api-calls.html">Direct API calls</a></li>
 <li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Help</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#places">Places</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#twitter-configuration">Twitter configuration</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
 <ul>
@@ -191,7 +191,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Direct API calls</li>
+      <li>Help</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -208,49 +208,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="direct-api-calls">
-<h1>Direct API calls<a class="headerlink" href="#direct-api-calls" title="Permalink to this headline">¶</a></h1>
-<p>Tweetinvi offers a simple approach to calling the Twitter api directly.<br />Tweetinvi will take care of setting up the headers for you, you take care of the query!</p>
-<div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">homeTimelineResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
+  <div class="section" id="help">
+<h1>Help<a class="headerlink" href="#help" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>The help api provide some endpoints that let you retrieve different resources from Twitter.</p>
+</div></blockquote>
+<div class="section" id="places">
+<h2>Places<a class="headerlink" href="#places" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get a place by id</span>
+<span class="kt">var</span> <span class="n">place</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Help</span><span class="p">.</span><span class="n">GetPlaceAsync</span><span class="p">(</span><span class="s">&quot;df51dec6f4ee2b2c&quot;</span><span class="p">);</span>
+
+<span class="c1">// Search for places</span>
+<span class="kt">var</span> <span class="n">places</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Help</span><span class="p">.</span><span class="n">SearchGeoAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">GeoSearchParameters</span>
 <span class="p">{</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/1.1/statuses/home_timeline.json&quot;</span><span class="p">;</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">HttpMethod</span> <span class="p">=</span> <span class="n">HttpMethod</span><span class="p">.</span><span class="n">GET</span><span class="p">;</span>
+    <span class="n">Query</span> <span class="p">=</span> <span class="s">&quot;Toronto&quot;</span>
 <span class="p">});</span>
 
-<span class="kt">var</span> <span class="n">jsonResponse</span> <span class="p">=</span> <span class="n">homeTimelineResult</span><span class="p">.</span><span class="n">Content</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>You can also get objects.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">&lt;</span><span class="n">TweetDTO</span><span class="p">[]&gt;(</span><span class="n">request</span> <span class="p">=&gt;</span>
-<span class="p">{</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/1.1/statuses/home_timeline.json&quot;</span><span class="p">;</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">HttpMethod</span> <span class="p">=</span> <span class="n">HttpMethod</span><span class="p">.</span><span class="n">GET</span><span class="p">;</span>
-<span class="p">});</span>
-
-<span class="c1">// TweetDTO[]</span>
-<span class="kt">var</span> <span class="n">tweetDtos</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">Model</span><span class="p">;</span>
-
-<span class="c1">// ITweet[]</span>
-<span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Factories</span><span class="p">.</span><span class="n">CreateTweets</span><span class="p">(</span><span class="n">tweetDtos</span><span class="p">);</span>
+<span class="c1">// Search by coordinates</span>
+<span class="kt">var</span> <span class="n">places</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Help</span><span class="p">.</span><span class="n">SearchGeoReverseAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">Coordinates</span><span class="p">(</span><span class="m">37.781157</span><span class="p">,</span> <span class="p">-</span><span class="m">122.398720</span><span class="p">));</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="going-further">
-<h2>Going further<a class="headerlink" href="#going-further" title="Permalink to this headline">¶</a></h2>
-<p>Some requests (like the premium api) will require additional customization like setting the authentication.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Example using basic authentication</span>
-
-<span class="kt">var</span> <span class="n">username</span> <span class="p">=</span> <span class="s">&quot;Your username&quot;</span><span class="p">;</span>
-<span class="kt">var</span> <span class="n">password</span> <span class="p">=</span> <span class="s">&quot;Your password&quot;</span><span class="p">;</span>
-<span class="kt">var</span> <span class="n">basicAuthContent</span> <span class="p">=</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToBase64String</span><span class="p">(</span><span class="n">ASCIIEncoding</span><span class="p">.</span><span class="n">ASCII</span><span class="p">.</span><span class="n">GetBytes</span><span class="p">(</span><span class="n">username</span> <span class="p">+</span> <span class="s">&quot;:&quot;</span> <span class="p">+</span> <span class="n">password</span><span class="p">));</span>
-
-<span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
-<span class="p">{</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://....&quot;</span><span class="p">;</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">CustomHeaders</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&quot;Authorization&quot;</span><span class="p">,</span> <span class="s">&quot;Basic &quot;</span> <span class="p">+</span> <span class="n">basicAuthContent</span><span class="p">);</span>
-<span class="p">});</span>
+<div class="section" id="twitter-configuration">
+<h2>Twitter configuration<a class="headerlink" href="#twitter-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Twitter has some variables, like the size of urls within a tweet or the maximum size of uploads.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">configuration</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Help</span><span class="p">.</span><span class="n">GetTwitterConfigurationAsync</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Twitter ui supports a limited set of languages.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">languages</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Help</span><span class="p">.</span><span class="n">GetSupportedLanguagesAsync</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -264,10 +250,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="upload-media.html" class="btn btn-neutral float-right" title="Media Upload" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../authentication/authentication.html" class="btn btn-neutral float-right" title="Introduction to Authentication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="search.html" class="btn btn-neutral float-left" title="Search" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="iterators.html" class="btn btn-neutral float-left" title="Iterators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
