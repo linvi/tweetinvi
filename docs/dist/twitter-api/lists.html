@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Lists &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/js/custom.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Tweetinvi
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Credentials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits-handlers.html">Rate Limits Handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Twitter API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="direct-api-calls.html">Direct API calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Authentication</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Account Activity</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../account-activity/account-activity.html">Account Activity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../account-activity/account-activity-with-aspnet.html">Account Activity - AspNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../account-activity/account-activity-with-http-server.html">Account Activity - HttpServer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../account-activity/account-activity-subscriptions.html">Account Activity - Subscriptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../account-activity/account-activity-events.html">Account Activity - Stream/Events</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Streams</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/tweet-stream.html">Tweet Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream-filters.html">Filtered Stream - Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-sample-stream.html">Labs Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-filtered-stream.html">Labs Filtered Stream</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Twitter Client</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-client/twitter-client.html">Twitter Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-client/events.html">Twitter Client - Events</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-client/json.html">Json - Serialize/Deserialize</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tweetinvi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Lists</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lists">
+<h1>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>Lists group users so that users can read feeds of tweets only coming from the list’s users.</p>
+</div></blockquote>
+<div class="section" id="create-read-update-delete">
+<h2>Create, Read, Update, Delete<a class="headerlink" href="#create-read-update-delete" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">createdList</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">CreateListAsync</span><span class="p">(</span><span class="s">&quot;LIST_NAME&quot;</span><span class="p">);</span>
+
+<span class="kt">var</span> <span class="n">list</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetListAsync</span><span class="p">(</span><span class="n">createdList</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+
+<span class="kt">var</span> <span class="n">updatedList</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">UpdateListAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">UpdateListParameters</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Name</span> <span class="p">=</span> <span class="s">&quot;NEW_NAME&quot;</span>
+<span class="p">});</span>
+
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">DestroyListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="memberships">
+<h2>Memberships<a class="headerlink" href="#memberships" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Members of a lists are users whose tweets will be part of the list feed</p>
+</div></blockquote>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add members</span>
+<span class="kt">var</span> <span class="n">updatedList</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">AddMemberToListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">updatedList</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">AddMembersToListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="k">new</span> <span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;tweetinviapi&quot;</span><span class="p">,</span> <span class="s">&quot;twitter&quot;</span> <span class="p">});</span>
+
+<span class="c1">// Remove members</span>
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">RemoveMemberFromListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="s">&quot;twitter&quot;</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">RemoveMembersFromListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="k">new</span> <span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;twitter&quot;</span><span class="p">,</span> <span class="s">&quot;facebook&quot;</span> <span class="p">});</span>
+</pre></div>
+</div>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Retrieve the members of a list</span>
+<span class="kt">var</span> <span class="n">members</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetMembersOfListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+
+<span class="c1">// Lists the authenticated user has been added to</span>
+<span class="kt">var</span> <span class="n">lists</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetAccountListMembershipsAsync</span><span class="p">();</span>
+
+<span class="c1">// Lists a specific user has been added to</span>
+<span class="kt">var</span> <span class="n">lists</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetUserListMembershipsAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, linvi
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
