@@ -9,6 +9,16 @@
 ``` sh
 cd docs
 make github
+
+# Run documentation locally
+http-server .
+```
+
+# Commit
+
+``` sh
+make commit
+git push
 ```
 
 # Live Update

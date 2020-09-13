@@ -35,6 +35,7 @@ The goal of this library is to make life of developers as easy as possible.
    twitter-api/users
    twitter-api/users-followers-friends
    twitter-api/search
+   twitter-api/lists
    twitter-api/direct-api-calls
    twitter-api/upload-media
    twitter-api/iterators

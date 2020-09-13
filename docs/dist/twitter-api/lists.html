@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lists &mdash; Tweetinvi 5.0.0-alpha-5 documentation</title>
+  <title>Lists &mdash; Tweetinvi 5.0.0-alpha-7 documentation</title>
   
 
   
@@ -37,7 +37,9 @@
 
     
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Direct API calls" href="direct-api-calls.html" />
+    <link rel="prev" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -94,12 +96,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter API</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
 <li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lists</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-read-update-delete">Create, Read, Update, Delete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#memberships">Memberships</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subscriptions">Subscriptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ownerships">Ownerships</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="direct-api-calls.html">Direct API calls</a></li>
 <li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
@@ -239,14 +248,50 @@
 <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">RemoveMembersFromListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="k">new</span> <span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;twitter&quot;</span><span class="p">,</span> <span class="s">&quot;facebook&quot;</span> <span class="p">});</span>
 </pre></div>
 </div>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Retrieve the members of a list</span>
-<span class="kt">var</span> <span class="n">members</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetMembersOfListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get members of a list</span>
+<span class="kt">var</span> <span class="n">members</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetMembersOfListAsync</span><span class="p">(</span><span class="n">lists</span><span class="p">[</span><span class="m">0</span><span class="p">]);</span>
 
-<span class="c1">// Lists the authenticated user has been added to</span>
+<span class="c1">// Get lists the authenticated user is a member of</span>
 <span class="kt">var</span> <span class="n">lists</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetAccountListMembershipsAsync</span><span class="p">();</span>
 
-<span class="c1">// Lists a specific user has been added to</span>
+<span class="c1">// Get lists a user is a member of</span>
 <span class="kt">var</span> <span class="n">lists</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetUserListMembershipsAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="subscriptions">
+<h2>Subscriptions<a class="headerlink" href="#subscriptions" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Subscribers are users following a list.</p>
+</div></blockquote>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Subscribe to a list</span>
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">SubscribeToListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+
+<span class="c1">// Unsubscribe from a list</span>
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">UnsubscribeFromListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get the subscribers of a list</span>
+<span class="kt">var</span> <span class="n">subsribers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetListSubscribersAsync</span><span class="p">(</span><span class="n">lists</span><span class="p">[</span><span class="m">0</span><span class="p">])</span>
+
+<span class="c1">// Get the lists the authenticated user is subscribed to</span>
+<span class="kt">var</span> <span class="n">subscriptionLists</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetUserListMembershipsAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+
+<span class="c1">// Get the lists a user is subscribed to</span>
+<span class="kt">var</span> <span class="n">subscriptionLists</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetUserListMembershipsAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="ownerships">
+<h2>Ownerships<a class="headerlink" href="#ownerships" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Account can own lists that they manage.</p>
+</div></blockquote>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get lists owned by the authenticated user</span>
+<span class="kt">var</span> <span class="n">lists</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetListsOwnedByAccountAsync</span><span class="p">();</span>
+
+<span class="c1">// Get lists owned by a specific user</span>
+<span class="kt">var</span> <span class="n">lists</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetListsOwnedByUserAsync</span><span class="p">(</span><span class="n">authenticatedUser</span><span class="p">);</span>
 </pre></div>
 </div>
 </div></div>
@@ -257,6 +302,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="direct-api-calls.html" class="btn btn-neutral float-right" title="Direct API calls" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="search.html" class="btn btn-neutral float-left" title="Search" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
