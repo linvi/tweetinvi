@@ -1,6 +1,7 @@
 using System;
 using Tweetinvi;
 using Tweetinvi.Controllers.Search;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.Enum;
@@ -39,7 +40,7 @@ namespace xUnitinvi.ClientActions.Search
             };
 
             // act
-            var url = _searchQueryGenerator.GetSearchTweetsQuery(parameters, null);
+            var url = _searchQueryGenerator.GetSearchTweetsQuery(parameters, ComputedTweetMode.Extended);
 
             // assert
             Assert.Equal(url, "https://api.twitter.com/1.1/search/tweets.json?q=plop&geocode=42%2C43%2C44km" +
@@ -69,7 +70,7 @@ namespace xUnitinvi.ClientActions.Search
             };
 
             // act
-            var url = _searchQueryGenerator.GetSearchTweetsQuery(parameters, null);
+            var url = _searchQueryGenerator.GetSearchTweetsQuery(parameters, ComputedTweetMode.Extended);
 
             // assert
             Assert.Equal(url, "https://api.twitter.com/1.1/search/tweets.json?q=plop%20filter%3Asafe&geocode=42%2C43%2C44km" +

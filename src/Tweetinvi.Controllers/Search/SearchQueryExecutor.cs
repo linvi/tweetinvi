@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -30,7 +31,7 @@ namespace Tweetinvi.Controllers.Search
 
         public Task<ITwitterResult<ISearchResultsDTO>> SearchTweetsAsync(ISearchTweetsParameters parameters, ITwitterRequest request)
         {
-            request.Query.Url = _searchQueryGenerator.GetSearchTweetsQuery(parameters, request.ExecutionContext.TweetMode);
+            request.Query.Url = _searchQueryGenerator.GetSearchTweetsQuery(parameters, new ComputedTweetMode(parameters, request));
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequestAsync<ISearchResultsDTO>(request);
         }

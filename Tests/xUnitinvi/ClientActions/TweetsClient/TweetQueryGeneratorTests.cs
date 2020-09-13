@@ -46,7 +46,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             };
 
             // Act
-            var result = queryGenerator.GetTweetQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetTweetQuery(parameters, ComputedTweetMode.Extended);
 
             // Assert
             Assert.Equal(result,
@@ -96,7 +96,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             };
 
             // Act
-            var result = queryGenerator.GetPublishTweetQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetPublishTweetQuery(parameters, ComputedTweetMode.Extended);
 
             // Assert
             var url = "https://api.twitter.com/1.1/statuses/update.json?status=hello&auto_populate_reply_metadata=true&" +
@@ -124,7 +124,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             };
 
             // Act
-            var result = queryGenerator.GetFavoriteTweetsQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetFavoriteTweetsQuery(parameters, ComputedTweetMode.Extended);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/favorites/list.json?user_id=42&include_entities=true" +
@@ -145,7 +145,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             };
 
             // Act
-            var result = queryGenerator.GetRetweetsQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetRetweetsQuery(parameters, ComputedTweetMode.Extended);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweets/42.json?count=12&trim_user=true&tweet_mode=extended&hello=world");
@@ -164,7 +164,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             };
 
             // Act
-            var result = queryGenerator.GetPublishRetweetQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetPublishRetweetQuery(parameters, ComputedTweetMode.Extended);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweet/42.json?trim_user=true&tweet_mode=extended&hello=world");
@@ -183,7 +183,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             };
 
             // Act
-            var result = queryGenerator.GetDestroyRetweetQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetDestroyRetweetQuery(parameters, ComputedTweetMode.Extended);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/unretweet/42.json?trim_user=true&tweet_mode=extended&hello=world");

@@ -7,7 +7,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id
     /// </summary>
-    public interface IPublishTweetParameters : ICustomRequestParameters
+    public interface IPublishTweetParameters : ICustomRequestParameters, ITweetModeParameter
     {
         /// <summary>
         /// Message to publish as a tweet
@@ -100,11 +100,6 @@ namespace Tweetinvi.Parameters
         /// Associate an ads card with the Tweet using the card_uri value from any ads card response.
         /// </summary>
         string CardUri { get; set; }
-
-        /// <summary>
-        /// Decide whether to use Extended or Compat mode
-        /// </summary>
-        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc/>

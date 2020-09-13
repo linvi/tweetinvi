@@ -42,7 +42,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
 
-            A.CallTo(() => _fakeTweetQueryGenerator.GetTweetQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTweetQueryGenerator.GetTweetQuery(parameters, It.IsAny<ComputedTweetMode>())).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -65,7 +65,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
 
-            A.CallTo(() => _fakeTweetQueryGenerator.GetPublishTweetQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTweetQueryGenerator.GetPublishTweetQuery(parameters, It.IsAny<ComputedTweetMode>())).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -88,7 +88,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            A.CallTo(() => _fakeTweetQueryGenerator.GetFavoriteTweetsQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTweetQueryGenerator.GetFavoriteTweetsQuery(parameters, It.IsAny<ComputedTweetMode>())).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act
@@ -111,7 +111,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            A.CallTo(() => _fakeTweetQueryGenerator.GetRetweetsQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTweetQueryGenerator.GetRetweetsQuery(parameters, It.IsAny<ComputedTweetMode>())).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act
@@ -134,7 +134,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
 
-            A.CallTo(() => _fakeTweetQueryGenerator.GetPublishRetweetQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTweetQueryGenerator.GetPublishRetweetQuery(parameters, It.IsAny<ComputedTweetMode>())).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -157,7 +157,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
 
-            A.CallTo(() => _fakeTweetQueryGenerator.GetDestroyRetweetQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTweetQueryGenerator.GetDestroyRetweetQuery(parameters, It.IsAny<ComputedTweetMode>())).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO>(request)).Returns(expectedResult);
 
             // Act

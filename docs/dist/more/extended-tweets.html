@@ -239,11 +239,18 @@
 </div>
 <div class="section" id="tweet-mode">
 <h2>Tweet Mode<a class="headerlink" href="#tweet-mode" title="Permalink to this headline">¶</a></h2>
-<p>Twitter introduced a <code class="docutils literal notranslate"><span class="pre">TweetMode</span></code> that is either <code class="docutils literal notranslate"><span class="pre">compat</span></code> or <code class="docutils literal notranslate"><span class="pre">extended</span></code>. To make it simpler for developers, they will be able to set this value directly from the <code class="docutils literal notranslate"><span class="pre">TweetinviConfig</span></code> for the lifetime of a thread of for the entire application.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">TweetinviConfig</span><span class="p">.</span><span class="n">CurrentThreadSettings</span><span class="p">.</span><span class="n">TweetMode</span> <span class="p">=</span> <span class="n">TweetMode</span><span class="p">.</span><span class="n">Extended</span><span class="p">;</span>
+<p>Twitter introduced a <code class="docutils literal notranslate"><span class="pre">TweetMode</span></code> parameter that is either <code class="docutils literal notranslate"><span class="pre">compat</span></code> or <code class="docutils literal notranslate"><span class="pre">extended</span></code>. Wherever this parameter has been documented, you will be able to set its value from the request parameters. You can also change the value at a client level. By default the client’s <code class="docutils literal notranslate"><span class="pre">TweetMode</span></code> is <code class="docutils literal notranslate"><span class="pre">extended</span></code>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// You can modify this setting per client</span>
+<span class="n">userClient</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">TweetMode</span> <span class="p">=</span> <span class="n">TweetMode</span><span class="p">.</span><span class="n">Compat</span><span class="p">;</span>
+
+<span class="c1">// or set it directly in a request parameter</span>
+<span class="kt">var</span> <span class="n">getTimelineParameters</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GetUserTimelineParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">TweetMode</span> <span class="p">=</span> <span class="n">TweetMode</span><span class="p">.</span><span class="n">Extended</span>
+<span class="p">};</span>
 </pre></div>
 </div>
-<p>Note that by default this value will be null. When not set, Tweetinvi will not add the <code class="docutils literal notranslate"><span class="pre">tweet_mode</span></code> parameter to any of the endpoints that can use it.</p>
+<p>When set to <code class="docutils literal notranslate"><span class="pre">null</span></code>, Tweetinvi will not add the <code class="docutils literal notranslate"><span class="pre">tweet_mode</span></code> parameter to the request url.</p>
 <p>In addition to this, the <code class="docutils literal notranslate"><span class="pre">auto_populate_reply_metadata</span></code> and <code class="docutils literal notranslate"><span class="pre">exclude_reply_user_ids</span></code> has been added to the <code class="docutils literal notranslate"><span class="pre">PublishTweetOptionalParameters</span></code> class.</p>
 </div>
 <div class="section" id="tweet-parts">

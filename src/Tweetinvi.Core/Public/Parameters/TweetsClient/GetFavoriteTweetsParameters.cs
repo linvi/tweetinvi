@@ -5,7 +5,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list
     /// </summary>
-    public interface IGetUserFavoriteTweetsParameters : IMinMaxQueryParameters
+    public interface IGetUserFavoriteTweetsParameters : IMinMaxQueryParameters, ITweetModeParameter
     {
         /// <summary>
         /// The user from whom you want to get the favorite tweets
@@ -16,11 +16,6 @@ namespace Tweetinvi.Parameters
         /// Include the tweet entities
         /// </summary>
         bool? IncludeEntities { get; set; }
-
-        /// <summary>
-        /// Decide whether to use Extended or Compat mode
-        /// </summary>
-        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc cref="IGetUserFavoriteTweetsParameters" />

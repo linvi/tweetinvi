@@ -4,16 +4,16 @@ namespace Tweetinvi.Core.QueryGenerators
 {
     public interface ITweetQueryGenerator
     {
-        string GetTweetQuery(IGetTweetParameters parameters, TweetMode? requestTweetMode);
-        string GetTweetsQuery(IGetTweetsParameters parameters, TweetMode? tweetMode);
-        string GetPublishTweetQuery(IPublishTweetParameters parameters, TweetMode? requestTweetMode);
-        string GetDestroyTweetQuery(IDestroyTweetParameters parameters, TweetMode? requestTweetMode);
+        string GetTweetQuery(IGetTweetParameters parameters, ComputedTweetMode tweetMode);
+        string GetTweetsQuery(IGetTweetsParameters parameters, ComputedTweetMode tweetMode);
+        string GetPublishTweetQuery(IPublishTweetParameters parameters, ComputedTweetMode tweetMode);
+        string GetDestroyTweetQuery(IDestroyTweetParameters parameters, ComputedTweetMode tweetMode);
 
-        string GetFavoriteTweetsQuery(IGetUserFavoriteTweetsParameters parameters, TweetMode? requestTweetMode);
+        string GetFavoriteTweetsQuery(IGetUserFavoriteTweetsParameters parameters, ComputedTweetMode tweetMode);
 
-        string GetRetweetsQuery(IGetRetweetsParameters parameters, TweetMode? requestTweetMode);
-        string GetPublishRetweetQuery(IPublishRetweetParameters parameters, TweetMode? requestTweetMode);
-        string GetDestroyRetweetQuery(IDestroyRetweetParameters parameters, TweetMode? requestTweetMode);
+        string GetRetweetsQuery(IGetRetweetsParameters parameters, ComputedTweetMode tweetMode);
+        string GetPublishRetweetQuery(IPublishRetweetParameters parameters, ComputedTweetMode tweetMode);
+        string GetDestroyRetweetQuery(IDestroyRetweetParameters parameters, ComputedTweetMode tweetMode);
         string GetRetweeterIdsQuery(IGetRetweeterIdsParameters parameters);
 
         string GetCreateFavoriteTweetQuery(IFavoriteTweetParameters parameters);

@@ -306,7 +306,10 @@ namespace Tweetinvi.Core.Extensions
                     stringValue = doubleValue.Value.ToString(CultureInfo.InvariantCulture);
                 }
 
-                AddParameterToQuery(queryBuilder, parameterName, stringValue.ToLowerInvariant());
+                if (stringValue != null)
+                {
+                    AddParameterToQuery(queryBuilder, parameterName, stringValue.ToLowerInvariant());
+                }
             }
             else
             {
@@ -317,7 +320,10 @@ namespace Tweetinvi.Core.Extensions
                     stringValue = ((double) (object) parameterValue).ToString(CultureInfo.InvariantCulture);
                 }
 
-                AddParameterToQuery(queryBuilder, parameterName, stringValue.ToLowerInvariant());
+                if (stringValue != null)
+                {
+                    AddParameterToQuery(queryBuilder, parameterName, stringValue.ToLowerInvariant());
+                }
             }
         }
 

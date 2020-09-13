@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using Tweetinvi.Controllers.Properties;
+using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -11,7 +13,6 @@ namespace Tweetinvi.Controllers.Shared
         void AppendCursorParameters(StringBuilder query, ICursorQueryParameters parameters);
 
         string GenerateLanguageParameter(Language? language);
-        void AppendTweetModeParameter(StringBuilder query, TweetMode? tweetMode);
         string GenerateTweetIdentifier(ITweetIdentifier tweetId);
 
         string GenerateAdditionalRequestParameters(string additionalParameters, bool existingParameters = true);
@@ -19,7 +20,7 @@ namespace Tweetinvi.Controllers.Shared
         string GenerateOEmbedThemeParameter(OEmbedTweetTheme? theme);
 
         void AddMinMaxQueryParameters(StringBuilder query, IMinMaxQueryParameters parameters);
-        void AddTimelineParameters(StringBuilder query, ITimelineRequestParameters parameters, TweetMode? requestTweetMode);
+        void AddTimelineParameters(StringBuilder query, ITimelineRequestParameters parameters, ComputedTweetMode tweetMode);
     }
 
     public class QueryParameterGenerator : IQueryParameterGenerator
@@ -115,16 +116,6 @@ namespace Tweetinvi.Controllers.Shared
             return languageParameter;
         }
 
-        public void AppendTweetModeParameter(StringBuilder query, TweetMode? tweetMode)
-        {
-            if (tweetMode == TweetMode.None)
-            {
-                return;
-            }
-
-            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
-        }
-
         public string GenerateCursorParameter(string cursor)
         {
             return string.IsNullOrEmpty(cursor) ? "" : string.Format(Resources.QueryParameter_Cursor, cursor);
@@ -152,12 +143,12 @@ namespace Tweetinvi.Controllers.Shared
             query.AddParameterToQuery("max_id", parameters.MaxId);
         }
 
-        public void AddTimelineParameters(StringBuilder query, ITimelineRequestParameters parameters, TweetMode? requestTweetMode)
+        public void AddTimelineParameters(StringBuilder query, ITimelineRequestParameters parameters, ComputedTweetMode tweetMode)
         {
             AddMinMaxQueryParameters(query, parameters);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
-            AppendTweetModeParameter(query, parameters.TweetMode ?? requestTweetMode);
+            query.AddParameterToQuery("tweet_mode", tweetMode);
         }
 
         public string GenerateOEmbedAlignmentParameter(OEmbedTweetAlignment? alignment)

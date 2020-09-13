@@ -2,6 +2,7 @@
 using FakeItEasy;
 using Tweetinvi;
 using Tweetinvi.Controllers.Timeline;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -40,7 +41,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            A.CallTo(() => _fakeTimelineQueryGenerator.GetHomeTimelineQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTimelineQueryGenerator.GetHomeTimelineQuery(parameters, It.IsAny<ComputedTweetMode>())).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act
@@ -63,7 +64,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            A.CallTo(() => _fakeTimelineQueryGenerator.GetMentionsTimelineQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTimelineQueryGenerator.GetMentionsTimelineQuery(parameters, It.IsAny<ComputedTweetMode>())).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act
@@ -86,7 +87,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            A.CallTo(() => _fakeTimelineQueryGenerator.GetUserTimelineQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTimelineQueryGenerator.GetUserTimelineQuery(parameters, It.IsAny<ComputedTweetMode>())).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act
@@ -109,7 +110,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            A.CallTo(() => _fakeTimelineQueryGenerator.GetRetweetsOfMeTimelineQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTimelineQueryGenerator.GetRetweetsOfMeTimelineQuery(parameters, It.IsAny<ComputedTweetMode>())).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act

@@ -1,6 +1,6 @@
 ﻿namespace Tweetinvi.Parameters
 {
-    public interface ITimelineRequestParameters : IMinMaxQueryParameters
+    public interface ITimelineRequestParameters : IMinMaxQueryParameters, ITweetModeParameter
     {
         /// <summary>
         /// If set to true, the creator property (IUser) will only contain the id.
@@ -11,11 +11,6 @@
         /// Include tweet entities.
         /// </summary>
         bool? IncludeEntities { get; set; }
-
-        /// <summary>
-        /// Decide whether to use Extended or Compat mode
-        /// </summary>
-        TweetMode? TweetMode { get; set; }
     }
 
     public abstract class TimelineRequestParameters : MinMaxQueryParameters, ITimelineRequestParameters
@@ -28,6 +23,7 @@
         {
             TrimUser = source?.TrimUser;
             IncludeEntities = source?.IncludeEntities;
+            TweetMode = source?.TweetMode;
         }
 
         /// <inheritdoc/>

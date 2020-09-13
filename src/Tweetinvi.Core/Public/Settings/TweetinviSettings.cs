@@ -104,6 +104,7 @@ namespace Tweetinvi
             GetUtcDateTime = () => DateTime.UtcNow;
             Limits = new TwitterLimits();
             HttpRequestTimeout = TimeSpan.FromSeconds(10);
+            TweetMode = Tweetinvi.TweetMode.Extended;
         }
 
         public TweetinviSettings(ITweetinviSettings source) : this()

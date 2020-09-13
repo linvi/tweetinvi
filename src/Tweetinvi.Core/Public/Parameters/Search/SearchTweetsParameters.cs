@@ -8,7 +8,7 @@ namespace Tweetinvi.Parameters
     /// For more information read : https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets
     /// <para>Learn more about query here : https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators</para>
     /// </summary>
-    public interface ISearchTweetsParameters : IMinMaxQueryParameters
+    public interface ISearchTweetsParameters : IMinMaxQueryParameters, ITweetModeParameter
     {
         /// <summary>
         /// Query to search tweets.
@@ -65,11 +65,6 @@ namespace Tweetinvi.Parameters
         /// Include tweet entities.
         /// </summary>
         bool? IncludeEntities { get; set; }
-
-        /// <summary>
-        /// Define whether you want to use the Tweet extended or compatibility mode
-        /// </summary>
-        TweetMode? TweetMode { get; set; }
     }
 
     /// <summary>

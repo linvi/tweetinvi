@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -37,7 +38,7 @@ namespace Tweetinvi.Controllers.Timeline
         // Home Timeline
         public Task<ITwitterResult<ITweetDTO[]>> GetHomeTimelineAsync(IGetHomeTimelineParameters parameters, ITwitterRequest request)
         {
-            var query = _timelineQueryGenerator.GetHomeTimelineQuery(parameters, request.ExecutionContext.TweetMode);
+            var query = _timelineQueryGenerator.GetHomeTimelineQuery(parameters, new ComputedTweetMode(parameters, request));
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
@@ -45,7 +46,7 @@ namespace Tweetinvi.Controllers.Timeline
 
         public Task<ITwitterResult<ITweetDTO[]>> GetUserTimelineAsync(IGetUserTimelineParameters parameters, ITwitterRequest request)
         {
-            var query = _timelineQueryGenerator.GetUserTimelineQuery(parameters, request.ExecutionContext.TweetMode);
+            var query = _timelineQueryGenerator.GetUserTimelineQuery(parameters, new ComputedTweetMode(parameters, request));
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
@@ -54,7 +55,7 @@ namespace Tweetinvi.Controllers.Timeline
         // Mention Timeline
         public Task<ITwitterResult<ITweetDTO[]>> GetMentionsTimelineAsync(IGetMentionsTimelineParameters parameters, ITwitterRequest request)
         {
-            var query = _timelineQueryGenerator.GetMentionsTimelineQuery(parameters, request.ExecutionContext.TweetMode);
+            var query = _timelineQueryGenerator.GetMentionsTimelineQuery(parameters, new ComputedTweetMode(parameters, request));
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
@@ -63,7 +64,7 @@ namespace Tweetinvi.Controllers.Timeline
         // Retweets of Me Timeline
         public Task<ITwitterResult<ITweetDTO[]>> GetRetweetsOfMeTimelineAsync(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request)
         {
-            var query = _timelineQueryGenerator.GetRetweetsOfMeTimelineQuery(parameters, request.ExecutionContext.TweetMode);
+            var query = _timelineQueryGenerator.GetRetweetsOfMeTimelineQuery(parameters, new ComputedTweetMode(parameters, request));
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);

@@ -5,7 +5,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-retweet-id
     /// </summary>
-    public interface IPublishRetweetParameters : ICustomRequestParameters
+    public interface IPublishRetweetParameters : ICustomRequestParameters, ITweetModeParameter
     {
         /// <summary>
         /// The tweet identifier you want to retweet
@@ -16,11 +16,6 @@ namespace Tweetinvi.Parameters
         /// Tweets author object will not be populated when set to true
         /// </summary>
         bool? TrimUser { get; set; }
-
-        /// <summary>
-        /// Decide whether to use Extended or Compat mode
-        /// </summary>
-        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc/>

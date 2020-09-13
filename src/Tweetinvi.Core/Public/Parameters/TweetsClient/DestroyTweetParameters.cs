@@ -5,7 +5,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-destroy-id
     /// </summary>
-    public interface IDestroyTweetParameters : ICustomRequestParameters
+    public interface IDestroyTweetParameters : ICustomRequestParameters, ITweetModeParameter
     {
         /// <summary>
         /// The identifier of the tweet you want to destroy
@@ -16,11 +16,6 @@ namespace Tweetinvi.Parameters
         /// If set to true, the creator property (IUser) will only contain the id.
         /// </summary>
         bool? TrimUser { get; set; }
-
-        /// <summary>
-        /// Decide whether to use Extended or Compat mode
-        /// </summary>
-        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc/>

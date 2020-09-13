@@ -44,7 +44,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             };
 
             // Act
-            var result = queryGenerator.GetHomeTimelineQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetHomeTimelineQuery(parameters, ComputedTweetMode.Extended);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/home_timeline.json?count=44&since_id=43&max_id=42" +
@@ -69,7 +69,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             };
 
             // Act
-            var result = queryGenerator.GetMentionsTimelineQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetMentionsTimelineQuery(parameters, ComputedTweetMode.Extended);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/mentions_timeline.json?count=44&since_id=43&max_id=42" +
@@ -96,7 +96,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             };
 
             // Act
-            var result = queryGenerator.GetUserTimelineQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetUserTimelineQuery(parameters, ComputedTweetMode.Extended);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=linvi&count=44&since_id=43&max_id=42" +
@@ -121,7 +121,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             };
 
             // Act
-            var result = queryGenerator.GetRetweetsOfMeTimelineQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetRetweetsOfMeTimelineQuery(parameters, ComputedTweetMode.Extended);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweets_of_me.json?count=44&since_id=43&max_id=42" +

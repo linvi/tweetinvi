@@ -4,6 +4,7 @@ using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.Enum;
@@ -12,7 +13,7 @@ namespace Tweetinvi.Controllers.Search
 {
     public interface ISearchQueryGenerator
     {
-        string GetSearchTweetsQuery(ISearchTweetsParameters parameters, TweetMode? requestTweetMode);
+        string GetSearchTweetsQuery(ISearchTweetsParameters parameters, ComputedTweetMode tweetMode);
 
         string GetSearchUsersQuery(ISearchUsersParameters parameters);
         string GetCreateSavedSearchQuery(ICreateSavedSearchParameters parameters);
@@ -34,7 +35,7 @@ namespace Tweetinvi.Controllers.Search
             _searchQueryParameterGenerator = searchQueryParameterGenerator;
         }
 
-        public string GetSearchTweetsQuery(ISearchTweetsParameters parameters, TweetMode? requestTweetMode)
+        public string GetSearchTweetsQuery(ISearchTweetsParameters parameters, ComputedTweetMode tweetMode)
         {
             var query = new StringBuilder(Resources.Search_SearchTweets);
 
@@ -50,8 +51,8 @@ namespace Tweetinvi.Controllers.Search
             query.AddFormattedParameterToQuery(_searchQueryParameterGenerator.GenerateSinceParameter(parameters.Since));
             query.AddFormattedParameterToQuery(_searchQueryParameterGenerator.GenerateUntilParameter(parameters.Until));
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("tweet_mode", tweetMode);
 
-            _queryParameterGenerator.AppendTweetModeParameter(query, parameters.TweetMode ?? requestTweetMode);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();

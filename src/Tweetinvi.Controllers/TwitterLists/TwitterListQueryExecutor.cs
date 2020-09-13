@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -182,7 +183,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public Task<ITwitterResult<ITweetDTO[]>> GetTweetsFromListAsync(IGetTweetsFromListParameters parameters, ITwitterRequest request)
         {
-            request.Query.Url = _listsQueryGenerator.GetTweetsFromListQuery(parameters, request.ExecutionContext.TweetMode);
+            request.Query.Url = _listsQueryGenerator.GetTweetsFromListQuery(parameters, new ComputedTweetMode(parameters, request));
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequestAsync<ITweetDTO[]>(request);
         }

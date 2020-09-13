@@ -5,7 +5,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets-id
     /// </summary>
-    public interface IGetRetweetsParameters : ICustomRequestParameters
+    public interface IGetRetweetsParameters : ICustomRequestParameters, ITweetModeParameter
     {
         /// <summary>
         /// The identifier of the tweet you want to retrieve
@@ -21,11 +21,6 @@ namespace Tweetinvi.Parameters
         /// Specifies the number of records to retrieve.
         /// </summary>
         int PageSize { get; set; }
-
-        /// <summary>
-        /// Decide whether to use Extended or Compat mode
-        /// </summary>
-        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc/>

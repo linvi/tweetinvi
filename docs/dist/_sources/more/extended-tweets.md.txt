@@ -30,13 +30,20 @@ IExtendedTweet tweet.ExtendedTweet;
 
 ## Tweet Mode
 
-Twitter introduced a `TweetMode` that is either `compat` or `extended`. To make it simpler for developers, they will be able to set this value directly from the `TweetinviConfig` for the lifetime of a thread of for the entire application.
+Twitter introduced a `TweetMode` parameter that is either `compat` or `extended`. Wherever this parameter has been documented, you will be able to set its value from the request parameters. You can also change the value at a client level. By default the client's `TweetMode` is `extended`.
 
 ``` c#
-TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
+// You can modify this setting per client
+userClient.Config.TweetMode = TweetMode.Compat;
+
+// or set it directly in a request parameter
+var getTimelineParameters = new GetUserTimelineParameters("tweetinviapi")
+{
+    TweetMode = TweetMode.Extended
+};
 ```
 
-Note that by default this value will be null. When not set, Tweetinvi will not add the `tweet_mode` parameter to any of the endpoints that can use it.
+When set to `null`, Tweetinvi will not add the `tweet_mode` parameter to the request url.
 
 In addition to this, the `auto_populate_reply_metadata` and `exclude_reply_user_ids` has been added to the `PublishTweetOptionalParameters` class.
 

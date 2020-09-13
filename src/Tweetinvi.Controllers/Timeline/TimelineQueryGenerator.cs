@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
+using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Parameters;
@@ -9,14 +10,14 @@ namespace Tweetinvi.Controllers.Timeline
 {
     public interface ITimelineQueryGenerator
     {
-        string GetHomeTimelineQuery(IGetHomeTimelineParameters parameters, TweetMode? tweetMode);
-        string GetUserTimelineQuery(IGetUserTimelineParameters parameters, TweetMode? requestTweetMode);
+        string GetHomeTimelineQuery(IGetHomeTimelineParameters parameters, ComputedTweetMode tweetMode);
+        string GetUserTimelineQuery(IGetUserTimelineParameters parameters, ComputedTweetMode tweetMode);
 
         // Mention Timeline
-        string GetMentionsTimelineQuery(IGetMentionsTimelineParameters getMentionsTimelineParameters, TweetMode? tweetMode);
+        string GetMentionsTimelineQuery(IGetMentionsTimelineParameters getMentionsTimelineParameters, ComputedTweetMode tweetMode);
 
         // Retweets of Me Timeline
-        string GetRetweetsOfMeTimelineQuery(IGetRetweetsOfMeTimelineParameters parameters, TweetMode? requestTweetMode);
+        string GetRetweetsOfMeTimelineQuery(IGetRetweetsOfMeTimelineParameters parameters, ComputedTweetMode tweetMode);
     }
 
     public class TimelineQueryGenerator : ITimelineQueryGenerator
@@ -33,11 +34,11 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Home Timeline
-        public string GetHomeTimelineQuery(IGetHomeTimelineParameters parameters, TweetMode? requestTweetMode)
+        public string GetHomeTimelineQuery(IGetHomeTimelineParameters parameters, ComputedTweetMode tweetMode)
         {
             var query = new StringBuilder(Resources.Timeline_GetHomeTimeline);
 
-            _queryParameterGenerator.AddTimelineParameters(query, parameters, requestTweetMode);
+            _queryParameterGenerator.AddTimelineParameters(query, parameters, tweetMode);
 
             query.AddParameterToQuery("exclude_replies", parameters.ExcludeReplies);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
@@ -46,13 +47,13 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // User Timeline
-        public string GetUserTimelineQuery(IGetUserTimelineParameters parameters, TweetMode? requestTweetMode)
+        public string GetUserTimelineQuery(IGetUserTimelineParameters parameters, ComputedTweetMode tweetMode)
         {
             var query = new StringBuilder(Resources.Timeline_GetUserTimeline);
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
 
-            _queryParameterGenerator.AddTimelineParameters(query, parameters, requestTweetMode);
+            _queryParameterGenerator.AddTimelineParameters(query, parameters, tweetMode);
 
             query.AddParameterToQuery("exclude_replies", parameters.ExcludeReplies);
             query.AddParameterToQuery("include_rts", parameters.IncludeRetweets);
@@ -62,22 +63,22 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Mentions Timeline
-        public string GetMentionsTimelineQuery(IGetMentionsTimelineParameters parameters, TweetMode? requestTweetMode)
+        public string GetMentionsTimelineQuery(IGetMentionsTimelineParameters parameters, ComputedTweetMode tweetMode)
         {
             var query = new StringBuilder(Resources.Timeline_GetMentionsTimeline);
 
-            _queryParameterGenerator.AddTimelineParameters(query, parameters, requestTweetMode);
+            _queryParameterGenerator.AddTimelineParameters(query, parameters, tweetMode);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
         // Retweets of Me Timeline
-        public string GetRetweetsOfMeTimelineQuery(IGetRetweetsOfMeTimelineParameters parameters, TweetMode? requestTweetMode)
+        public string GetRetweetsOfMeTimelineQuery(IGetRetweetsOfMeTimelineParameters parameters, ComputedTweetMode tweetMode)
         {
             var query = new StringBuilder(Resources.Timeline_GetRetweetsOfMeTimeline);
 
-            _queryParameterGenerator.AddTimelineParameters(query, parameters, requestTweetMode);
+            _queryParameterGenerator.AddTimelineParameters(query, parameters, tweetMode);
 
             query.AddParameterToQuery("include_user_entities", parameters.IncludeUserEntities);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);

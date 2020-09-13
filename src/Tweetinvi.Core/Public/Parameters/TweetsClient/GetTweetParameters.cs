@@ -5,7 +5,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id
     /// </summary>
-    public interface IGetTweetParameters : ICustomRequestParameters
+    public interface IGetTweetParameters : ICustomRequestParameters, ITweetModeParameter
     {
         /// <summary>
         /// The identifier of the tweet you want to retrieve
@@ -36,11 +36,6 @@ namespace Tweetinvi.Parameters
         /// Tweet's card uri will be included when set to true
         /// </summary>
         bool? IncludeCardUri { get; set; }
-
-        /// <summary>
-        /// Decide whether to use Extended or Compat mode
-        /// </summary>
-        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc/>
