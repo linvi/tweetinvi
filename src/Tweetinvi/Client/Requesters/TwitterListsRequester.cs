@@ -6,6 +6,7 @@ using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -65,6 +66,15 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequestAsync(request => _twitterListController.DestroyListAsync(parameters, request));
         }
 
+        public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsOwnedByAccountIterator(IGetListsOwnedByAccountParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _twitterListController.GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(parameters), request);
+        }
+
         public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters)
         {
             _validator.Validate(parameters);
@@ -92,6 +102,15 @@ namespace Tweetinvi.Client.Requesters
                 var twitterResult = await _twitterListController.AddMembersToListAsync(parameters, request).ConfigureAwait(false);
                 return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTwitterList(dto));
             });
+        }
+
+        public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetAccountListMembershipsIterator(IGetAccountListMembershipsParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _twitterListController.GetUserListMembershipsIterator(new GetUserListMembershipsParameters(parameters), request);
         }
 
         public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetUserListMembershipsIterator(IGetUserListMembershipsParameters parameters)
@@ -150,6 +169,15 @@ namespace Tweetinvi.Client.Requesters
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _twitterListController.GetListSubscribersIterator(parameters, request);
 
+        }
+
+        public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetAccountListSubscriptionsIterator(IGetAccountListSubscriptionsParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _twitterListController.GetUserListSubscriptionsIterator(new GetUserListSubscriptionsParameters(parameters), request);
         }
 
         public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetUserListSubscriptionsIterator(IGetUserListSubscriptionsParameters parameters)

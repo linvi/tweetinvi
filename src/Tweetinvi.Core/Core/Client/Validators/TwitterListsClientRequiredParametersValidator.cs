@@ -6,7 +6,6 @@ namespace Tweetinvi.Core.Client.Validators
 {
     public interface ITwitterListsClientRequiredParametersValidator : ITwitterListsClientParametersValidator
     {
-
     }
 
     public class TwitterListsClientRequiredParametersValidator : ITwitterListsClientRequiredParametersValidator
@@ -67,6 +66,14 @@ namespace Tweetinvi.Core.Client.Validators
             }
 
             ThrowIfListIdentifierIsNotValid(parameters.List);
+        }
+
+        public void Validate(IGetListsOwnedByAccountParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
         }
 
         public void Validate(IGetListsOwnedByUserParameters parameters)
@@ -162,6 +169,14 @@ namespace Tweetinvi.Core.Client.Validators
             ThrowIfListIdentifierIsNotValid(parameters.List);
         }
 
+        public void Validate(IGetAccountListMembershipsParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+        }
+
         // SUBSCRIBERS
         public void Validate(ISubscribeToListParameters parameters)
         {
@@ -191,6 +206,14 @@ namespace Tweetinvi.Core.Client.Validators
             }
 
             ThrowIfListIdentifierIsNotValid(parameters.List);
+        }
+
+        public void Validate(IGetAccountListSubscriptionsParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
         }
 
         public void Validate(IGetUserListSubscriptionsParameters parameters)

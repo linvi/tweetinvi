@@ -358,12 +358,25 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to get through the subscribers of the list</returns>
         ITwitterIterator<IUser> GetListSubscribersIterator(IGetListSubscribersParameters parameters);
 
+        /// <inheritdoc cref="GetAccountListSubscriptionsAsync(IGetAccountListSubscriptionsParameters)" />
+        Task<ITwitterList[]> GetAccountListSubscriptionsAsync();
+
+        /// <summary>
+        /// Returns the lists the account subscribed to
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions </para>
+        /// </summary>
+        /// <returns>Lists the authenticated user is subscribed to</returns>
+        Task<ITwitterList[]> GetAccountListSubscriptionsAsync(IGetAccountListSubscriptionsParameters parameters);
+
+        /// <inheritdoc cref="GetAccountListSubscriptionsIterator(IGetAccountListSubscriptionsParameters)" />
+        ITwitterIterator<ITwitterList>  GetAccountListSubscriptionsIterator();
+
         /// <summary>
         /// Returns the lists the account subscribed to
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions </para>
         /// </summary>
         /// <returns>An iterator the get though the lists the account subscribed to</returns>
-        ITwitterIterator<ITwitterList> GetAccountListSubscriptionsIterator(IGetAccountListSubscriptionsParameters parameters);
+        ITwitterIterator<ITwitterList>  GetAccountListSubscriptionsIterator(IGetAccountListSubscriptionsParameters parameters);
 
         /// <inheritdoc cref="IListsClient.GetUserListSubscriptionsAsync(IGetUserListSubscriptionsParameters)" />
         Task<ITwitterList[]> GetUserListSubscriptionsAsync(long userId);

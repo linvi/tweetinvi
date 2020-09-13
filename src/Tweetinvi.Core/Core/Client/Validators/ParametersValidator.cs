@@ -243,6 +243,11 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListsClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IGetListsOwnedByAccountParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IGetListsOwnedByUserParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
@@ -288,6 +293,11 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListsClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IGetAccountListMembershipsParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(ISubscribeToListParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
@@ -299,6 +309,11 @@ namespace Tweetinvi.Core.Client.Validators
         }
 
         public void Validate(IGetListSubscribersParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetAccountListSubscriptionsParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
         }

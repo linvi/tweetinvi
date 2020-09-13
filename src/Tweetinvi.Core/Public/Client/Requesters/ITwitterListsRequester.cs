@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -46,10 +47,17 @@ namespace Tweetinvi.Client.Requesters
         Task<ITwitterResult<ITwitterListDTO>> DestroyListAsync(IDestroyListParameters parameters);
 
         /// <summary>
+        /// Get the lists owned by the authenticated user
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships </para>
+        /// <returns>An iterator over the lists owned by the authenticated user</returns>
+        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsOwnedByAccountIterator(IGetListsOwnedByAccountParameters parameters);
+
+        /// <summary>
         /// Get the lists owned by a user or an account
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships </para>
-        /// <returns>An iterator over the lists owned by the user or account</returns>
+        /// <returns>An iterator over the lists owned by the user</returns>
         ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters);
 
         // MEMBERS
@@ -67,6 +75,13 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing the list</returns>
         Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMembersToListAsync(IAddMembersToListParameters parameters);
+
+        /// <summary>
+        /// Get the lists the authenticated user is a member of
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships </para>
+        /// <returns>An iterator over the lists a user is a member of</returns>
+        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetAccountListMembershipsIterator(IGetAccountListMembershipsParameters parameters);
 
         /// <summary>
         /// Get the lists a user is a member of
@@ -127,10 +142,17 @@ namespace Tweetinvi.Client.Requesters
         ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetListSubscribersIterator(IGetListSubscribersParameters parameters);
 
         /// <summary>
+        /// Returns the lists the authenticated user is subscribed to
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions </para>
+        /// </summary>
+        /// <returns>An iterator the get through the lists the authenticated user is subscribed to</returns>
+        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetAccountListSubscriptionsIterator(IGetAccountListSubscriptionsParameters parameters);
+
+        /// <summary>
         /// Returns the lists a user subscribed to
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions </para>
         /// </summary>
-        /// <returns>An iterator the get though the lists a user subscribed to</returns>
+        /// <returns>An iterator the get through the lists a user subscribed to</returns>
         ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetUserListSubscriptionsIterator(IGetUserListSubscriptionsParameters parameters);
 
         /// <summary>
