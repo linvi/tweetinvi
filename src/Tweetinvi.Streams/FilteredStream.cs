@@ -276,10 +276,12 @@ namespace Tweetinvi.Streams
 
         public void AddFollow(IUserIdentifier user, Action<ITweet> userPublishedTweet = null)
         {
-            if (user != null && user.Id > 0)
+            if (user == null || user.Id <= 0)
             {
-                AddFollow(user.Id, userPublishedTweet);
+                throw new Exception("Follow parameter only accept user ids, user names cannot be used.");
             }
+
+            AddFollow(user.Id, userPublishedTweet);
         }
 
         public void RemoveFollow(long userId)
