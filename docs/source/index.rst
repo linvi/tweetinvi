@@ -89,6 +89,7 @@ The goal of this library is to make life of developers as easy as possible.
    :hidden:
    :caption: More
 
+   more/exceptions
    more/twitter-labs
    more/extended-tweets
    4.0-to-5.0

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PIN based Authentication &mdash; Tweetinvi 5.0.0-alpha-8 documentation</title>
+  <title>Exceptions &mdash; Tweetinvi 5.0.0-alpha-8 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Account Activity" href="../account-activity/account-activity.html" />
-    <link rel="prev" title="URL Redirect Authentication" href="authentication-url-redirect.html" /> 
+    <link rel="next" title="Twitter Labs" href="twitter-labs.html" />
+    <link rel="prev" title="Json - Serialize/Deserialize" href="../twitter-client/json.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -109,14 +109,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../twitter-api/help.html">Help</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="authentication.html">Introduction to Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">URL Redirect Authentication</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">PIN based Authentication</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-flow">The flow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#authenticate-with-tweetinvi">Authenticate with Tweetinvi</a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Account Activity</span></p>
 <ul>
@@ -143,10 +139,16 @@
 <li class="toctree-l1"><a class="reference internal" href="../twitter-client/json.html">Json - Serialize/Deserialize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../more/exceptions.html">Exceptions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Exceptions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#common-exceptions">Common exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#properties">Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-exceptions">Other exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-handle-an-exception">How to handle an exception?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extended-tweets.html">Extended Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
@@ -196,7 +198,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>PIN based Authentication</li>
+      <li>Exceptions</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -213,47 +215,54 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pin-based-authentication">
-<h1>PIN based Authentication<a class="headerlink" href="#pin-based-authentication" title="Permalink to this headline">¶</a></h1>
-<p><strong>PIN based authentication</strong> is better suited for desktop applications.<br />If you are writing a web application I suggest that you use the <a class="reference internal" href="authentication-url-redirect.html"><span class="doc">URL redirect authentication</span></a>.</p>
-<div class="section" id="the-flow">
-<h2>The flow<a class="headerlink" href="#the-flow" title="Permalink to this headline">¶</a></h2>
-<p>The PIN based authentication process is quite simple.</p>
-<ol class="simple">
-<li><p>Request Twitter to provide a unique URL that enables a user to authenticate and retrieve a captcha.</p></li>
-<li><p>Ask the user to go to this URL.</p></li>
-<li><p>Twitter will ask the user to authenticate and accept the permissions requested by your Twitter application.</p></li>
-<li><p>If the user accepts, Twitter generates a PIN Code and gives it to the user.</p></li>
-<li><p>With this code, Twitter can now issue a new OAuth Token available from a WebRequest.</p></li>
-</ol>
-<p>Now let’s see how Tweetinvi simplifies this process.</p>
+  <div class="section" id="exceptions">
+<h1>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h1>
+<p>Tweetinvi 5.0 changes the way to manage exceptions. The old <code class="docutils literal notranslate"><span class="pre">TweetinviConfig.SwallowWebExceptions</span></code> no longer exists and devevelopers will now be expected to handle exceptions.</p>
+<p>Tweetinvi does the work of understanding why Twitter failed for you and present the errors in a unified and simple to use format.</p>
+<p>You will find below a list of exceptions that can happen in Tweetinvi.</p>
+<div class="section" id="common-exceptions">
+<h2>Common exceptions<a class="headerlink" href="#common-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>The 2 types of exception below are recommended to be catched.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TwitterException</span></code> - It means that Twitter sent a failure response. Tweetinvi will share all the data sent by Twitter. In <strong>ALMOST all the cases</strong> Tweetinvi will not act based on errors and you as developers will need to take care of Exceptions. ALMOST all the cases as some operations from Twitter actually return 400+ status code to inform that an operation succeeded but the response is “No”, in such case Twitter will analyse the error, if it is an excepted failure tweetinvi will handle if for you and will send you the results.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TwitterAuthException</span></code> - This happen when something goes wrong during the <a class="reference internal" href="../authentication/authentication.html"><span class="doc">authentication process</span></a>. This type of exception only occurs for methods located under <code class="docutils literal notranslate"><span class="pre">client.Auth</span></code>.</p></li>
+</ul>
 </div>
-<div class="section" id="authenticate-with-tweetinvi">
-<h2>Authenticate with Tweetinvi<a class="headerlink" href="#authenticate-with-tweetinvi" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a client for your app</span>
-<span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">);</span>
-
-<span class="c1">// Start the authentication process</span>
-<span class="kt">var</span> <span class="n">authenticationRequest</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestAuthenticationUrlAsync</span><span class="p">();</span>
-
-<span class="c1">// Go to the URL so that Twitter authenticates the user and gives him a PIN code.</span>
-<span class="n">Process</span><span class="p">.</span><span class="n">Start</span><span class="p">(</span><span class="k">new</span> <span class="n">ProcessStartInfo</span><span class="p">(</span><span class="n">authenticationRequest</span><span class="p">.</span><span class="n">AuthorizationURL</span><span class="p">)</span>
+<div class="section" id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.ToString()</span></code> displays a developer friendly error message as followed:</p></li>
+</ul>
+<blockquote>
+<div><p>— Date : 09/14/2020 01:01:50<br />URL : https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true<br />Code : 401<br />Error documentation description : Unauthorized -  Authentication credentials were missing or incorrect.<br />Error message : https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true request failed.<br />Could not authenticate you. (32)</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">StatusCode</span></code> of the http request that was sent to Twitter</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">URL</span></code> sent to Twitter</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TwitterDescription</span></code> is a single line explanation of what has gone wrong in the request</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TwitterExceptionInfos</span></code> is a collection of errors that happened when processing the request</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Request</span></code> object containing all the information associated with the execution of the http request</p></li>
+</ul>
+</div>
+<div class="section" id="other-exceptions">
+<h2>Other exceptions<a class="headerlink" href="#other-exceptions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> - This exception is raised when executing an action with required parameters that are invalid. Tweetinvi won’t even try to run the request because it knows that it will fail. Apart if you pass null for input values you should never have such an exception and can freely not catch it. - Such exceptions could be raised in the form of TwitterArgumentLimitException because of attempting to provide inputs that are too high (e.g. count parameter of 500 while the max value is 200); Tweetinvi parameters are always configured by default with the maximum value for all parameters so you should not need to change this.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TwitterInvalidCredentialsException</span></code> - This exception is raised if some of the properties in the client Credentials are null while they are required.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TwitterTimeoutException</span></code> - It means that the operation was too long. This can happen on very slow networks or when Twitter actually have backend issues. This is pretty rare and you might not be interested to catch this specifc exception. Note that it is actually inherits from <code class="docutils literal notranslate"><span class="pre">TwitterException</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="how-to-handle-an-exception">
+<h2>How to handle an exception?<a class="headerlink" href="#how-to-handle-an-exception" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// some code to illustrate how to catch Tweetinvi exceptions.</span>
+<span class="k">try</span>
 <span class="p">{</span>
-    <span class="n">UseShellExecute</span> <span class="p">=</span> <span class="k">true</span>
-<span class="p">});</span>
-
-<span class="c1">// Ask the user to enter the pin code given by Twitter</span>
-<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Please enter the code and press enter.&quot;</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">pinCode</span> <span class="p">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
-
-<span class="c1">// With this pin code it is now possible to get the credentials back from Twitter</span>
-<span class="kt">var</span> <span class="n">userCredentials</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestCredentialsFromVerifierCodeAsync</span><span class="p">(</span><span class="n">pinCode</span><span class="p">,</span> <span class="n">authenticationRequest</span><span class="p">);</span>
-
-<span class="c1">// You can now save those credentials or use them as followed</span>
-<span class="kt">var</span> <span class="n">userClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">userCredentials</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUserAsync</span><span class="p">();</span>
-
-<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Congratulation you have authenticated the user: &quot;</span> <span class="p">+</span> <span class="n">user</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUserAsync</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">(</span><span class="n">TwitterException</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -267,10 +276,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../account-activity/account-activity.html" class="btn btn-neutral float-right" title="Account Activity" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="twitter-labs.html" class="btn btn-neutral float-right" title="Twitter Labs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="authentication-url-redirect.html" class="btn btn-neutral float-left" title="URL Redirect Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../twitter-client/json.html" class="btn btn-neutral float-left" title="Json - Serialize/Deserialize" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
