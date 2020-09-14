@@ -26,6 +26,6 @@ namespace Tweetinvi.Exceptions
         public override string Message { get; }
         public override string ParamName { get; }
         public string LimitType { get; }
-        public string Note => $"Limits can be changed in the TwitterClient.ExecutionContext.Limits.{ParamName}";
+        public string Note => $"Limits can be changed in the client.Config.Limits.{LimitType}";
     }
 }
