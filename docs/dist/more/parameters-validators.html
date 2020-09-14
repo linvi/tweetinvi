@@ -38,7 +38,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="License" href="license.html" />
+    <link rel="next" title="Tweetinvi Container" href="tweetinvi-container.html" />
     <link rel="prev" title="Extended Tweets" href="extended-tweets.html" /> 
 </head>
 
@@ -144,10 +144,8 @@
 <li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="twitter-labs.html">Twitter Labs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extended-tweets.html">Extended Tweets</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters Validators</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#twitter-limits">Twitter Limits</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters Validators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tweetinvi-container.html">Tweetinvi Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="help.html">Help and Feedback</a></li>
 </ul>
@@ -215,8 +213,8 @@
             
   <div class="section" id="parameters-validators">
 <h1>Parameters Validators<a class="headerlink" href="#parameters-validators" title="Permalink to this headline">¶</a></h1>
-<p>When passing a parameter to a request, Tweetinvi will check that the required parameters have been properly configured.<br />If the required parameters are not properly configured, Tweetinvi will throw an <code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> before even trying to execute the request.</p>
-<p>Twitter has various restrictions on its request parameters.</p>
+<p>When passing a parameter to a request, Tweetinvi will check that the <strong>required</strong> parameters have been properly configured.<br />If the <strong>required</strong> parameters are not properly configured, Tweetinvi will throw an <code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> before even trying to execute the request.</p>
+<p>Though optional parameters are not validated and can have different type of restrictions including:</p>
 <ul class="simple">
 <li><p>Length</p></li>
 <li><p>Value</p></li>
@@ -238,27 +236,13 @@
     <span class="c1">// You will receive a message looking like: &quot;Argument PageSize was over the limit of 5000 page size&quot;</span>
     <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
 <span class="p">}</span>
-</pre></div>
-</div>
-<div class="section" id="twitter-limits">
-<h2>Twitter Limits<a class="headerlink" href="#twitter-limits" title="Permalink to this headline">¶</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">TwitterArgumentLimitException</span></code> is an <code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> that was caused because a limit was not respected.<br />Because such limits are subject to change Tweetinvi offer you a way to modify these limits so that you do not receive an <code class="docutils literal notranslate"><span class="pre">Exception</span></code> when the api changes.</p>
-<p><code class="docutils literal notranslate"><span class="pre">TwitterArgumentLimitException</span></code> contains 2 interesting properties:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Note</span></code> explains how to modify the limit value (e.g. “Limits can be changed in the TwitterClient.ExecutionContext.Limits.ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE”).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">LimitType</span></code> gives you the type of limit that you have breached (e.g. “ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE”)</p></li>
-</ul>
-<p>Here is how to modify a limit.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">userClient</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">Limits</span><span class="p">.</span><span class="n">ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE</span> <span class="p">=</span> <span class="m">10000</span><span class="p">;</span>
-
-<span class="c1">// now no exception will be raised by the validator</span>
-<span class="n">userClient</span><span class="p">.</span><span class="n">ParametersValidator</span><span class="p">.</span><span class="n">Validate</span><span class="p">(</span><span class="k">new</span> <span class="n">GetBlockedUsersParameters</span>
+<span class="k">catch</span> <span class="p">(</span><span class="n">ArgumentException</span> <span class="n">argumentException</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">PageSize</span> <span class="p">=</span> <span class="m">10000</span>
-<span class="p">});</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">TwitterArgumentLimitException</span></code> are being thrown when a limit specified in the <code class="docutils literal notranslate"><span class="pre">client.Config.Limits</span></code> is not respected.<br />This type of error will provide additional information as to why the limit was breached.</p>
+<p>If an exception is raised for invalid reasons, please report it on github.<br />You can also change limits as you wish as explained in <a class="reference external" href="../twitter-client/twitter-client#twitter-limits">Twitter Limits</a>.</p>
 </div>
 
 
@@ -269,7 +253,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tweetinvi-container.html" class="btn btn-neutral float-right" title="Tweetinvi Container" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="extended-tweets.html" class="btn btn-neutral float-left" title="Extended Tweets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

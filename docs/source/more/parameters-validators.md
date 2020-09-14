@@ -1,9 +1,9 @@
 # Parameters Validators
 
-When passing a parameter to a request, Tweetinvi will check that the required parameters have been properly configured.\
-If the required parameters are not properly configured, Tweetinvi will throw an `ArgumentException` before even trying to execute the request.
+When passing a parameter to a request, Tweetinvi will check that the **required** parameters have been properly configured.\
+If the **required** parameters are not properly configured, Tweetinvi will throw an `ArgumentException` before even trying to execute the request.
 
-Twitter has various restrictions on its request parameters.
+Though optional parameters are not validated and can have different type of restrictions including:
 
 * Length
 * Value
@@ -28,26 +28,13 @@ catch (TwitterArgumentLimitException e) // this extends ArgumentException
     // You will receive a message looking like: "Argument PageSize was over the limit of 5000 page size"
     Console.WriteLine(e.Message);
 }
-```
-
-## Twitter Limits
-
-`TwitterArgumentLimitException` is an `ArgumentException` that was caused because a limit was not respected.\
-Because such limits are subject to change Tweetinvi offer you a way to modify these limits so that you do not receive an `Exception` when the api changes.
-
-`TwitterArgumentLimitException` contains 2 interesting properties:
-
-* `Note` explains how to modify the limit value (e.g. "Limits can be changed in the TwitterClient.ExecutionContext.Limits.ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE").
-* `LimitType` gives you the type of limit that you have breached (e.g. "ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE")
-
-Here is how to modify a limit.
-
-``` c#
-userClient.Config.Limits.ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE = 10000;
-
-// now no exception will be raised by the validator
-userClient.ParametersValidator.Validate(new GetBlockedUsersParameters
+catch (ArgumentException argumentException)
 {
-    PageSize = 10000
-});
+}
 ```
+
+The `TwitterArgumentLimitException` are being thrown when a limit specified in the `client.Config.Limits` is not respected.\
+This type of error will provide additional information as to why the limit was breached.
+
+If an exception is raised for invalid reasons, please report it on github.\
+You can also change limits as you wish as explained in [Twitter Limits](../twitter-client/twitter-client#twitter-limits).

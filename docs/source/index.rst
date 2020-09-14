@@ -94,6 +94,7 @@ The goal of this library is to make life of developers as easy as possible.
    more/twitter-labs
    more/extended-tweets
    more/parameters-validators
+   more/tweetinvi-container
    more/license
    more/help
 

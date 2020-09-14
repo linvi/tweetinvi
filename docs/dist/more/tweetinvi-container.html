@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Rate Limits Handlers &mdash; Tweetinvi 5.0.0-alpha-8 documentation</title>
+  <title>Tweetinvi Container &mdash; Tweetinvi 5.0.0-alpha-8 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Rate Limits API" href="rate-limits.html" />
-    <link rel="prev" title="Credentials" href="credentials.html" /> 
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Parameters Validators" href="parameters-validators.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,15 +90,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Credentials</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Rate Limits Handlers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#default-handler">Default Handler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#track-and-await-handler">Track and Await Handler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#track-only-handler">Track Only Handler</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="rate-limits.html">Rate Limits API</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits-handlers.html">Rate Limits Handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter API</span></p>
 <ul>
@@ -145,14 +140,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../twitter-client/json.html">Json - Serialize/Deserialize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../more/exceptions.html">Exceptions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/parameters-validators.html">Parameters Validators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/tweetinvi-container.html">Tweetinvi Container</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/help.html">Help and Feedback</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters-validators.html">Parameters Validators</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tweetinvi Container</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Help and Feedback</a></li>
 </ul>
 
             
@@ -199,7 +197,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Rate Limits Handlers</li>
+      <li>Tweetinvi Container</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -216,65 +214,47 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="rate-limits-handlers">
-<h1>Rate Limits Handlers<a class="headerlink" href="#rate-limits-handlers" title="Permalink to this headline">¶</a></h1>
-<p>Application credentials and User credentials can access a variety of endpoints.<br />Each of these endpoints can be accessed a limited number of times.</p>
-<blockquote>
-<div><p>For example a set of user credentials can perform 180 searches in 15 minutes intervals. If you try to do more than 180 searches in the 15 minutes timeframe the REST API will raise an exception.</p>
-</div></blockquote>
-<div class="section" id="default-handler">
-<h2>Default Handler<a class="headerlink" href="#default-handler" title="Permalink to this headline">¶</a></h2>
-<p>By default, a <code class="docutils literal notranslate"><span class="pre">TwitterClient</span></code> do not track the rate limits.<br />It means that when a endpoint is out of limits, executing a request on that endpoint will result in a <code class="docutils literal notranslate"><span class="pre">TwitterException</span></code>.</p>
-<p>In this mode you will need to catch <code class="docutils literal notranslate"><span class="pre">TwitterException</span></code> to detect when the rate limits allowances have exhausted.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">try</span>
+  <div class="section" id="tweetinvi-container">
+<h1>Tweetinvi Container<a class="headerlink" href="#tweetinvi-container" title="Permalink to this headline">¶</a></h1>
+<p><strong>IMPORTANT</strong> : this page is for very advance use cases and is not recommended if you are not sure of what you are doing.</p>
+<p>Tweetinvi offer developers ways to change any logic in its flow by overriding a component registration.<br />When you do so, the newly registered component will be used instead of the default Tweetinvi implementation.</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>Lets assume you wanted to change the implementation of the <code class="docutils literal notranslate"><span class="pre">TwitterRequestHandler</span></code> so that you can add your own logs.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyRequestHandler</span> <span class="p">:</span> <span class="n">ITwitterRequestHandler</span>
 <span class="p">{</span>
-    <span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="k">catch</span> <span class="p">(</span><span class="n">TwitterException</span> <span class="n">e</span><span class="p">)</span> 
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="m">429</span><span class="p">)</span> 
+    <span class="k">private</span> <span class="n">ITwitterRequestHandler</span> <span class="n">_tweetinviRequestHandler</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">MyRequestHandler</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="c1">// Rate limits allowance have been exhausted - do your custom handling</span>
+        <span class="n">_tweetinviRequestHandler</span> <span class="p">=</span> <span class="n">TweetinviContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">&lt;</span><span class="n">ITwitterRequestHandler</span><span class="p">&gt;();</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">ITwitterResponse</span><span class="p">&gt;</span> <span class="n">ExecuteQueryAsync</span><span class="p">(</span><span class="n">ITwitterRequest</span> <span class="n">request</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// My custom logic :)</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">Query</span><span class="p">.</span><span class="n">Url</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">_tweetinviRequestHandler</span><span class="p">.</span><span class="n">ExecuteQueryAsync</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
-</div>
-<p>In this mode you will need to use the Rate Limits API.<br />Using <code class="docutils literal notranslate"><span class="pre">GetRateLimitsAsync</span></code>, <code class="docutils literal notranslate"><span class="pre">GetEndpointRateLimitAsync</span></code> and <code class="docutils literal notranslate"><span class="pre">WaitForQueryRateLimitAsync</span></code> should help you handling the rate limits on your own.</p>
-<div class="note"><p><a class="reference internal" href="rate-limits.html"><span class="doc">Learn more about the Rate Limits API</span></a></p>
-</div></div>
-<div class="section" id="track-and-await-handler">
-<h2>Track and Await Handler<a class="headerlink" href="#track-and-await-handler" title="Permalink to this headline">¶</a></h2>
-<p>When using the <code class="docutils literal notranslate"><span class="pre">TrackAndAwait</span></code> rate limits mode will automatically handle the time when requests are being invoked.</p>
-<ul class="simple">
-<li><p>Tweetinvi will regularly request twitter for the current state of the credentials rate limits.</p></li>
-<li><p>Tweetinvi will perform some offline tracking of the rate limits to optimise the number of calls to twitter.</p></li>
-<li><p>When performing a request:</p>
-<ul>
-<li><p>If the allowance for a specific endpoint <strong>is not empty</strong>, Tweetinvi will run the request immediately.</p></li>
-<li><p>If the allowance for a specific endpoint <strong>is empty</strong>, Tweetinvi will automatically wait and schedule when the operation will be executed.</p></li>
-</ul>
-</li>
-</ul>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// enable track and await</span>
-<span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">RateLimitTrackerMode</span> <span class="p">=</span> <span class="n">RateLimitTrackerMode</span><span class="p">.</span><span class="n">TrackAndAwait</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="track-only-handler">
-<h2>Track Only Handler<a class="headerlink" href="#track-only-handler" title="Permalink to this headline">¶</a></h2>
-<p>When using the <code class="docutils literal notranslate"><span class="pre">TrackOnly</span></code> rate limits mode will automatically handle the time when requests are being invoked.<br /><code class="docutils literal notranslate"><span class="pre">TrackOnly</span></code> works almost like <code class="docutils literal notranslate"><span class="pre">TrackAndAwait</span></code> apart from the fact that it will always execute requests immediately.</p>
-<ul class="simple">
-<li><p>Tweetinvi will regularly request twitter for the current state of the credentials rate limits.</p></li>
-<li><p>Tweetinvi will perform some offline tracking of the rate limits to optimise the number of calls to twitter.</p></li>
-<li><p>When performing a request:</p>
-<ul>
-<li><p>If the allowance for a specific endpoint <strong>is not empty</strong>, Tweetinvi will run the request immediately.</p></li>
-<li><p><strong>If the stock of requests for a specific endpoint <strong>is empty</strong>, Tweetinvi will run the request immediately.</strong></p></li>
-</ul>
-</li>
-</ul>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// enable track only</span>
-<span class="n">client</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">RateLimitTrackerMode</span> <span class="p">=</span> <span class="n">RateLimitTrackerMode</span><span class="p">.</span><span class="n">TrackOnly</span><span class="p">;</span>
+
+<span class="c1">// 1. Create a custom container</span>
+<span class="kt">var</span> <span class="n">container</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Tweetinvi</span><span class="p">.</span><span class="n">Injectinvi</span><span class="p">.</span><span class="n">TweetinviContainer</span><span class="p">();</span>
+<span class="n">container</span><span class="p">.</span><span class="n">BeforeRegistrationCompletes</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="c1">// 2. Register your own code logic</span>
+    <span class="n">container</span><span class="p">.</span><span class="n">RegisterInstance</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="n">ITwitterRequestHandler</span><span class="p">),</span> <span class="k">new</span> <span class="n">MyRequestHandler</span><span class="p">());</span>
+<span class="p">};</span>
+<span class="c1">// 3. Initialise the container</span>
+<span class="n">container</span><span class="p">.</span><span class="n">Initialize</span><span class="p">();</span>
+
+<span class="c1">// 4. Pass the container to the client</span>
+<span class="kt">var</span> <span class="n">userClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">creds</span><span class="p">,</span> <span class="k">new</span> <span class="n">TwitterClientParameters</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Container</span> <span class="p">=</span> <span class="n">container</span>
+<span class="p">});</span>
+
+<span class="c1">// Any request executed by the userClient will now use `MyRequestHandler` implementation</span>
 </pre></div>
 </div>
 </div>
@@ -288,10 +268,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="rate-limits.html" class="btn btn-neutral float-right" title="Rate Limits API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="credentials.html" class="btn btn-neutral float-left" title="Credentials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="parameters-validators.html" class="btn btn-neutral float-left" title="Parameters Validators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

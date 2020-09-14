@@ -146,7 +146,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#twitter-limits">Twitter Limits</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#request-validators">Request Validators</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="events.html">Twitter Client - Events</a></li>
@@ -158,6 +157,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../more/parameters-validators.html">Parameters Validators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/tweetinvi-container.html">Tweetinvi Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../more/license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../more/help.html">Help and Feedback</a></li>
 </ul>
@@ -324,29 +324,6 @@
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="request-validators">
-<h2>Request Validators<a class="headerlink" href="#request-validators" title="Permalink to this headline">¶</a></h2>
-<p>Tweetinvi 5.0 introduced the concept of request validators.<br />Their goal is to help developers verifying that requests parameters are valid.</p>
-<div class="note"><p>Tweetinvi 5.0 no longer validates limits on parameters. This is up to the developer to do perform it if he wishes to.<br />The reason is to prevent Tweetinvi to be impacted by changes coming from changes on Twitter API.</p>
-</div><p>The <code class="docutils literal notranslate"><span class="pre">Validate</span></code> method takes parameters and throws an <code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> if any property is incorrect.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">parameters</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GetMessagesParameters</span><span class="p">();</span>
-
-<span class="k">try</span>
-<span class="p">{</span>
-    <span class="n">client</span><span class="p">.</span><span class="n">ParametersValidator</span><span class="p">.</span><span class="n">Validate</span><span class="p">(</span><span class="n">parameters</span><span class="p">);</span>
-    <span class="n">client</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">ParametersValidator</span><span class="p">.</span><span class="n">Validate</span><span class="p">(</span><span class="n">parameters</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="k">catch</span> <span class="p">(</span><span class="n">TwitterArgumentLimitException</span> <span class="n">limitException</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="p">}</span>
-<span class="k">catch</span> <span class="p">(</span><span class="n">ArgumentException</span> <span class="n">argumentException</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">TwitterArgumentLimitException</span></code> are being thrown when a limit specified in the <code class="docutils literal notranslate"><span class="pre">client.Config.Limits</span></code> is not respected.<br />This type of error will provide additional information as to why the limit was breached.</p>
-<p>If an exception is raised for invalid reasons, please report it on github.<br />You can also change limits as you wish as explained in <a class="reference external" href="#twitter-limits">Twitter Limits section</a>.</p>
 </div>
 </div>
 
