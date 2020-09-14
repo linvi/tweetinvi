@@ -104,7 +104,9 @@
 <li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lists.html">Lists</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Direct API calls</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#factories">Factories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#execute">Execute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raw-clients">Raw Clients</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#going-further">Going further</a></li>
 </ul>
 </li>
@@ -217,8 +219,13 @@
   <div class="section" id="direct-api-calls">
 <h1>Direct API calls<a class="headerlink" href="#direct-api-calls" title="Permalink to this headline">¶</a></h1>
 <p>Tweetinvi offers a simple approach to calling the Twitter api directly.<br />Tweetinvi will take care of setting up the headers for you, you take care of the query!</p>
-<div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="factories">
+<h2>Factories<a class="headerlink" href="#factories" title="Permalink to this headline">¶</a></h2>
+<p>In order to transform the response into a Tweetinvi object you can use the <code class="docutils literal notranslate"><span class="pre">TwitterClient.Factories</span></code> which contains tenth of helper methods to let you create any object you can think of. Factories support creating objects by parsing <code class="docutils literal notranslate"><span class="pre">JSON</span></code> blobs as well as creating objects from Data Transfer Objects (DTO).</p>
+</div>
+<div class="section" id="execute">
+<h2>Execute<a class="headerlink" href="#execute" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Execute</span></code> client let you pass any request url, http method and http content and take care of executing the request for you.</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">homeTimelineResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
     <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/1.1/statuses/home_timeline.json&quot;</span><span class="p">;</span>
@@ -240,6 +247,21 @@
 
 <span class="c1">// ITweet[]</span>
 <span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Factories</span><span class="p">.</span><span class="n">CreateTweets</span><span class="p">(</span><span class="n">tweetDtos</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="raw-clients">
+<h2>Raw Clients<a class="headerlink" href="#raw-clients" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Raw</span> <span class="pre">clients</span></code> offer to developers a similar api as the <code class="docutils literal notranslate"><span class="pre">TwitterClient</span></code>. You pass parameters and Tweetinvi computes the query.<br />The main difference is that you will receive the raw response from Twitter instead of a model.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">twitterResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Raw</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUserAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">GetAuthenticatedUserParameters</span><span class="p">());</span>
+<span class="kt">var</span> <span class="n">statusCode</span> <span class="p">=</span> <span class="n">twitterResult</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">StatusCode</span><span class="p">;</span>
+
+<span class="kt">var</span> <span class="n">json</span> <span class="p">=</span> <span class="n">twitterResult</span><span class="p">.</span><span class="n">Content</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">authenticatedUser</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Factories</span><span class="p">.</span><span class="n">CreateAuthenticatedUser</span><span class="p">(</span><span class="n">json</span><span class="p">);</span>
+
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">userDTO</span> <span class="p">=</span> <span class="n">twitterResult</span><span class="p">.</span><span class="n">Model</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">authenticatedUser</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Factories</span><span class="p">.</span><span class="n">CreateAuthenticatedUser</span><span class="p">(</span><span class="n">userDTO</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
