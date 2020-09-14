@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Help &mdash; Tweetinvi 5.0.0-alpha-8 documentation</title>
+  <title>Parameters Validators &mdash; Tweetinvi 5.0.0-alpha-8 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Introduction to Authentication" href="../authentication/authentication.html" />
-    <link rel="prev" title="Trends" href="trends.html" /> 
+    <link rel="next" title="Migrate from 4.0 to 5.0" href="../4.0-to-5.0.html" />
+    <link rel="prev" title="Extended Tweets" href="extended-tweets.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -96,22 +96,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter API</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
-<li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
-<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lists.html">Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="direct-api-calls.html">Direct API calls</a></li>
-<li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="trends.html">Trends</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Help</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#places">Places</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#twitter-configuration">Twitter configuration</a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/tweets.html">Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/messages.html">Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/lists.html">Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/direct-api-calls.html">Direct API calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/iterators.html">Iterators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/trends.html">Trends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../twitter-api/help.html">Help</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
 <ul>
@@ -144,11 +140,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../twitter-client/json.html">Json - Serialize/Deserialize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../more/exceptions.html">Exceptions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/parameters-validators.html">Parameters Validators</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters Validators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#twitter-limits">Twitter Limits</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
@@ -198,7 +197,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Help</li>
+      <li>Parameters Validators</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -215,35 +214,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="help">
-<h1>Help<a class="headerlink" href="#help" title="Permalink to this headline">¶</a></h1>
-<blockquote>
-<div><p>The help api provide some endpoints that let you retrieve different resources from Twitter.</p>
-</div></blockquote>
-<div class="section" id="places">
-<h2>Places<a class="headerlink" href="#places" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get a place by id</span>
-<span class="kt">var</span> <span class="n">place</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Help</span><span class="p">.</span><span class="n">GetPlaceAsync</span><span class="p">(</span><span class="s">&quot;df51dec6f4ee2b2c&quot;</span><span class="p">);</span>
-
-<span class="c1">// Search for places</span>
-<span class="kt">var</span> <span class="n">places</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Help</span><span class="p">.</span><span class="n">SearchGeoAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">GeoSearchParameters</span>
+  <div class="section" id="parameters-validators">
+<h1>Parameters Validators<a class="headerlink" href="#parameters-validators" title="Permalink to this headline">¶</a></h1>
+<p>When passing a parameter to a request, Tweetinvi will check that the required parameters have been properly configured.<br />If the required parameters are not properly configured, Tweetinvi will throw an <code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> before even trying to execute the request.</p>
+<p>Twitter has various restrictions on its request parameters.</p>
+<ul class="simple">
+<li><p>Length</p></li>
+<li><p>Value</p></li>
+<li><p>Enums</p></li>
+<li><p>Limits</p></li>
+<li><p>…</p></li>
+</ul>
+<p>By default Tweetinvi will <strong>not</strong> prevent you from executing a query with invalid parameters. The reason being that such restrictions might change in the future and we do not want to release a new version of Tweetinvi every time Twitter changes their limits.</p>
+<p>To help you discover and understand these restrictions we have been through the documentation. The <code class="docutils literal notranslate"><span class="pre">ParametersValidators</span></code> verifies that both the required and optional parameters are valid. If any of them is not valid, an <code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> will be raised.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span> <span class="k">try</span>
 <span class="p">{</span>
-    <span class="n">Query</span> <span class="p">=</span> <span class="s">&quot;Toronto&quot;</span>
-<span class="p">});</span>
+    <span class="n">userClient</span><span class="p">.</span><span class="n">ParametersValidator</span><span class="p">.</span><span class="n">Validate</span><span class="p">(</span><span class="k">new</span> <span class="n">GetBlockedUsersParameters</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">PageSize</span> <span class="p">=</span> <span class="m">10000</span> <span class="c1">// Maximum is 5000</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">(</span><span class="n">TwitterArgumentLimitException</span> <span class="n">e</span><span class="p">)</span> <span class="c1">// this extends ArgumentException</span>
+<span class="p">{</span>
+    <span class="c1">// You will receive a message looking like: &quot;Argument PageSize was over the limit of 5000 page size&quot;</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="twitter-limits">
+<h2>Twitter Limits<a class="headerlink" href="#twitter-limits" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">TwitterArgumentLimitException</span></code> is an <code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> that was caused because a limit was not respected.<br />Because such limits are subject to change Tweetinvi offer you a way to modify these limits so that you do not receive an <code class="docutils literal notranslate"><span class="pre">Exception</span></code> when the api changes.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TwitterArgumentLimitException</span></code> contains 2 interesting properties:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Note</span></code> explains how to modify the limit value (e.g. “Limits can be changed in the TwitterClient.ExecutionContext.Limits.ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE”).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LimitType</span></code> gives you the type of limit that you have breached (e.g. “ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE”)</p></li>
+</ul>
+<p>Here is how to modify a limit.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="n">userClient</span><span class="p">.</span><span class="n">Config</span><span class="p">.</span><span class="n">Limits</span><span class="p">.</span><span class="n">ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE</span> <span class="p">=</span> <span class="m">10000</span><span class="p">;</span>
 
-<span class="c1">// Search by coordinates</span>
-<span class="kt">var</span> <span class="n">places</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Help</span><span class="p">.</span><span class="n">SearchGeoReverseAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">Coordinates</span><span class="p">(</span><span class="m">37.781157</span><span class="p">,</span> <span class="p">-</span><span class="m">122.398720</span><span class="p">));</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="twitter-configuration">
-<h2>Twitter configuration<a class="headerlink" href="#twitter-configuration" title="Permalink to this headline">¶</a></h2>
-<p>Twitter has some variables, like the size of urls within a tweet or the maximum size of uploads.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">configuration</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Help</span><span class="p">.</span><span class="n">GetTwitterConfigurationAsync</span><span class="p">();</span>
-</pre></div>
-</div>
-<p>Twitter ui supports a limited set of languages.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">languages</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Help</span><span class="p">.</span><span class="n">GetSupportedLanguagesAsync</span><span class="p">();</span>
+<span class="c1">// now no exception will be raised by the validator</span>
+<span class="n">userClient</span><span class="p">.</span><span class="n">ParametersValidator</span><span class="p">.</span><span class="n">Validate</span><span class="p">(</span><span class="k">new</span> <span class="n">GetBlockedUsersParameters</span>
+<span class="p">{</span>
+    <span class="n">PageSize</span> <span class="p">=</span> <span class="m">10000</span>
+<span class="p">});</span>
 </pre></div>
 </div>
 </div>
@@ -257,10 +270,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../authentication/authentication.html" class="btn btn-neutral float-right" title="Introduction to Authentication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../4.0-to-5.0.html" class="btn btn-neutral float-right" title="Migrate from 4.0 to 5.0" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="trends.html" class="btn btn-neutral float-left" title="Trends" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="extended-tweets.html" class="btn btn-neutral float-left" title="Extended Tweets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
