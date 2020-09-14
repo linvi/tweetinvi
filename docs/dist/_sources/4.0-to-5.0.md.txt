@@ -1,3 +1,0 @@
-# Migrate from 4.0 to 5.0
-
-Hello

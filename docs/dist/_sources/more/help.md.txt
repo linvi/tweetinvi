@@ -1,13 +1,10 @@
-Help and Feedback
-=================
+# Help and Feedback
 
-Repository
-^^^^^^^^^^
+## Repository
 
 You can find Tweetinvi on github at : https://github.com/linvi/tweetinvi/.
 
-Questions
-^^^^^^^^^
+## Questions
 
 If you have any question try the following sources:
 
@@ -15,7 +12,6 @@ If you have any question try the following sources:
 * [Tweetinvi Gitter](https://gitter.im/linvi/tweetinvi)
 * [Github issues](https://github.com/linvi/tweetinvi/issues)
 
-Report a bug
-^^^^^^^^^^^^
+## Report a bug
 
 Please report all bugs on github : https://github.com/linvi/tweetinvi/issues

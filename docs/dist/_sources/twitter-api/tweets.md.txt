@@ -21,6 +21,8 @@ var fullTweet = await userClient.Tweets.PublishTweetAsync(new PublishTweetParame
 });
 ```
 
+## Extended Tweets
+
 > Tweets are created by default with `tweet_mode` set to `extended`. You can change this in all parameters associated with tweets.\
 > [Learn more about extended mode](../more/extended-tweets)
 

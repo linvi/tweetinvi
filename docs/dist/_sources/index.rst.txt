@@ -94,7 +94,6 @@ The goal of this library is to make life of developers as easy as possible.
    more/twitter-labs
    more/extended-tweets
    more/parameters-validators
-   4.0-to-5.0
-   license
-   help
+   more/license
+   more/help
 

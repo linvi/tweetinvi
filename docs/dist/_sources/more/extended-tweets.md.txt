@@ -6,6 +6,25 @@ These tweets are different because the length of the text no longer include the 
 
 You can learn more about the changes of Extended Tweets at [https://dev.twitter.com/overview/api/upcoming-changes-to-tweets](https://dev.twitter.com/overview/api/upcoming-changes-to-tweets).
 
+## Tweet Mode
+
+Twitter introduced a `TweetMode` parameter that is either `compat` or `extended`. Wherever this parameter has been documented, you will be able to set its value from the request parameters. You can also change the value at a client level. By default the client's `TweetMode` is `extended`.
+
+``` c#
+// You can modify this setting per client
+userClient.Config.TweetMode = TweetMode.Compat;
+
+// or set it directly in a request parameter
+var getTimelineParameters = new GetUserTimelineParameters("tweetinviapi")
+{
+    TweetMode = TweetMode.Extended
+};
+```
+
+When set to `null`, Tweetinvi will not add the `tweet_mode` parameter to the request url.
+
+In addition to this, the `auto_populate_reply_metadata` and `exclude_reply_user_ids` has been added to the `PublishTweetOptionalParameters` class.
+
 ## Extended Tweet Properties
 
 `ITweet` includes new properties that you can use to extract the information from an extended tweet.
@@ -27,25 +46,6 @@ int[] tweet.DisplayTextRange;
 // Contains all the information specific to extended tweets
 IExtendedTweet tweet.ExtendedTweet;  
 ```
-
-## Tweet Mode
-
-Twitter introduced a `TweetMode` parameter that is either `compat` or `extended`. Wherever this parameter has been documented, you will be able to set its value from the request parameters. You can also change the value at a client level. By default the client's `TweetMode` is `extended`.
-
-``` c#
-// You can modify this setting per client
-userClient.Config.TweetMode = TweetMode.Compat;
-
-// or set it directly in a request parameter
-var getTimelineParameters = new GetUserTimelineParameters("tweetinviapi")
-{
-    TweetMode = TweetMode.Extended
-};
-```
-
-When set to `null`, Tweetinvi will not add the `tweet_mode` parameter to the request url.
-
-In addition to this, the `auto_populate_reply_metadata` and `exclude_reply_user_ids` has been added to the `PublishTweetOptionalParameters` class.
 
 ## Tweet parts
 
