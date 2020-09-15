@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Parameters Validators &mdash; Tweetinvi 5.0.0-alpha-8 documentation</title>
+  <title>Timelines &mdash; Tweetinvi 5.0.0-alpha-8 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Tweetinvi Container" href="tweetinvi-container.html" />
-    <link rel="prev" title="Extended Tweets" href="extended-tweets.html" /> 
+    <link rel="next" title="Users" href="users.html" />
+    <link rel="prev" title="Tweets" href="tweets.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -96,19 +96,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter API</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/tweets.html">Tweets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/timelines.html">Timelines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users.html">Users</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/users-followers-friends.html">Followers, Friends and Relationships</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/messages.html">Messages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/search.html">Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/lists.html">Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/direct-api-calls.html">Direct API calls</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/upload-media.html">Media Upload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/iterators.html">Iterators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/trends.html">Trends</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api/help.html">Help</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Timelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#home-timeline">Home Timeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-timeline">User Timeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mentions-timeline">Mentions Timeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#retweets-of-me-timeline">Retweets Of Me Timeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lists.html">Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="direct-api-calls.html">Direct API calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trends.html">Trends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
 <ul>
@@ -141,14 +147,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../twitter-client/json.html">Json - Serialize/Deserialize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="twitter-labs.html">Twitter Labs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extended-tweets.html">Extended Tweets</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters Validators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tweetinvi-container.html">Tweetinvi Container</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="help.html">Help and Feedback</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../more/exceptions.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/parameters-validators.html">Parameters Validators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/tweetinvi-container.html">Tweetinvi Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../more/help.html">Help and Feedback</a></li>
 </ul>
 
             
@@ -195,7 +201,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Parameters Validators</li>
+      <li>Timelines</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -212,38 +218,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="parameters-validators">
-<h1>Parameters Validators<a class="headerlink" href="#parameters-validators" title="Permalink to this headline">¶</a></h1>
-<p>When passing a parameter to a request, Tweetinvi will check that the <strong>required</strong> parameters have been properly configured.<br />If the <strong>required</strong> parameters are not properly configured, Tweetinvi will throw an <code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> before even trying to execute the request.</p>
-<p>Though optional parameters are not validated and can have different type of restrictions including:</p>
-<ul class="simple">
-<li><p>Length</p></li>
-<li><p>Value</p></li>
-<li><p>Enums</p></li>
-<li><p>Limits</p></li>
-<li><p>…</p></li>
-</ul>
-<p>By default Tweetinvi will <strong>not</strong> prevent you from executing a query with invalid parameters. The reason being that such restrictions might change in the future and we do not want to release a new version of Tweetinvi every time Twitter changes their limits.</p>
-<p>To help you discover and understand these restrictions we have been through the documentation. The <code class="docutils literal notranslate"><span class="pre">ParametersValidators</span></code> verifies that both the required and optional parameters are valid. If any of them is not valid, an <code class="docutils literal notranslate"><span class="pre">ArgumentException</span></code> will be raised.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span> <span class="k">try</span>
-<span class="p">{</span>
-    <span class="n">userClient</span><span class="p">.</span><span class="n">ParametersValidator</span><span class="p">.</span><span class="n">Validate</span><span class="p">(</span><span class="k">new</span> <span class="n">GetBlockedUsersParameters</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="n">PageSize</span> <span class="p">=</span> <span class="m">10000</span> <span class="c1">// Maximum is 5000</span>
-    <span class="p">});</span>
-<span class="p">}</span>
-<span class="k">catch</span> <span class="p">(</span><span class="n">TwitterArgumentLimitException</span> <span class="n">e</span><span class="p">)</span> <span class="c1">// this extends ArgumentException</span>
-<span class="p">{</span>
-    <span class="c1">// You will receive a message looking like: &quot;Argument PageSize was over the limit of 5000 page size&quot;</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="k">catch</span> <span class="p">(</span><span class="n">ArgumentException</span> <span class="n">argumentException</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="p">}</span>
+  <div class="section" id="timelines">
+<h1>Timelines<a class="headerlink" href="#timelines" title="Permalink to this headline">¶</a></h1>
+<p>Timelines represent a collection of tweets.</p>
+<div class="section" id="home-timeline">
+<h2>Home Timeline<a class="headerlink" href="#home-timeline" title="Permalink to this headline">¶</a></h2>
+<p>The Home timeline contains the tweets available on the authenticated user’s home page.</p>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get the tweets available on the user&#39;s home page</span>
+<span class="kt">var</span> <span class="n">homeTimelineTweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimelineAsync</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">TwitterArgumentLimitException</span></code> are being thrown when a limit specified in the <code class="docutils literal notranslate"><span class="pre">client.Config.Limits</span></code> is not respected.<br />This type of error will provide additional information as to why the limit was breached.</p>
-<p>If an exception is raised for invalid reasons, please report it on github.<br />You can also change limits as you wish as explained in <a class="reference external" href="../twitter-client/twitter-client#twitter-limits">Twitter Limits</a>.</p>
+</div></div>
+<div class="section" id="user-timeline">
+<h2>User Timeline<a class="headerlink" href="#user-timeline" title="Permalink to this headline">¶</a></h2>
+<p>A User timeline contains the tweets shown on a user’s page.</p>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get tweets from a specific user</span>
+<span class="kt">var</span> <span class="n">userTimelineTweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimelineAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="mentions-timeline">
+<h2>Mentions Timeline<a class="headerlink" href="#mentions-timeline" title="Permalink to this headline">¶</a></h2>
+<p>The Mentions timeline contains tweets where the authenticated user has recently been mentioned (tweet containing the <code class="docutils literal notranslate"><span class="pre">&#64;username</span></code>).</p>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">mentionsTimeline</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetMentionsTimelineAsync</span><span class="p">();</span>
+</pre></div>
+</div>
+</div></div>
+<div class="section" id="retweets-of-me-timeline">
+<h2>Retweets Of Me Timeline<a class="headerlink" href="#retweets-of-me-timeline" title="Permalink to this headline">¶</a></h2>
+<p>The RetweetsOfMe timeline contains the most recent Tweets authored by the authenticated user that have been retweeted by others.</p>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">retweetsOfMeTimeline</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetRetweetsOfMeTimelineAsync</span><span class="p">();</span>
+</pre></div>
+</div>
+</div></div>
 </div>
 
 
@@ -254,10 +261,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tweetinvi-container.html" class="btn btn-neutral float-right" title="Tweetinvi Container" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="users.html" class="btn btn-neutral float-right" title="Users" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="extended-tweets.html" class="btn btn-neutral float-left" title="Extended Tweets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tweets.html" class="btn btn-neutral float-left" title="Tweets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

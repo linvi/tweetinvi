@@ -31,9 +31,10 @@ The goal of this library is to make life of developers as easy as possible.
    :caption: Twitter API
 
    twitter-api/tweets
-   twitter-api/messages
+   twitter-api/timelines
    twitter-api/users
    twitter-api/users-followers-friends
+   twitter-api/messages
    twitter-api/search
    twitter-api/lists
    twitter-api/direct-api-calls
