@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Tweetinvi.Core.Extensions;
@@ -15,6 +16,8 @@ namespace Tweetinvi.Streams.Helpers
     public class StreamTrackManager<T> : IStreamTrackManager<T>
     {
         private bool _refreshTracking;
+        // ReSharper disable once StaticMemberInGenericType
+        private static readonly Regex _matchWordRegex = new Regex(@"\w+", RegexOptions.Compiled);
 
         // Stores the entire track
 
@@ -241,6 +244,11 @@ namespace Tweetinvi.Streams.Helpers
 
             var matchingKeywords = GetMatchingKeywords(input);
 
+            // var linkParser = new Regex(@"\b(?:https?://|www\.)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            // var rawString = "house home go www.monstermmorpg.com nice hospital http://www.monstermmorpg.com this is incorrect url http://www.monstermmorpg.commerged continue";
+            // foreach(Match m in linkParser.Matches(rawString))
+            //     MessageBox.Show(m.Value);
+
             var result = new List<Tuple<string, Action<T>>>();
             for (int i = 0; i < _tracksKeywordsArray.Length; ++i)
             {
@@ -250,8 +258,8 @@ namespace Tweetinvi.Streams.Helpers
                     if (_tracksKeywordsArray[i][j][0] != '#' && _tracksKeywordsArray[i][j][0] != '$')
                     {
                         isMatching = matchingKeywords.Contains(_tracksKeywordsArray[i][j]) ||
-                                     matchingKeywords.Contains(string.Format("#{0}", _tracksKeywordsArray[i][j])) ||
-                                     matchingKeywords.Contains(string.Format("{0}", _tracksKeywordsArray[i][j]));
+                                     matchingKeywords.Contains($"#{_tracksKeywordsArray[i][j]}") ||
+                                     matchingKeywords.Contains($"{_tracksKeywordsArray[i][j]}");
                     }
                     else
                     {
@@ -272,7 +280,7 @@ namespace Tweetinvi.Streams.Helpers
 
         private string[] GetMatchingKeywords(string input)
         {
-            return _matchingRegex
+            var matchingWordsWithUrlSupport = _matchingRegex
                 .Matches(input.ToLower())
                 .OfType<Match>()
                 .Where(match =>
@@ -286,6 +294,14 @@ namespace Tweetinvi.Streams.Helpers
                     return _uniqueKeywordsHashSet.Contains(match.Value);
                 })
                 .Select(x => x.Value).ToArray();
+
+            var matchingWords = _matchWordRegex
+                .Matches(input.ToLower())
+                .OfType<Match>()
+                .Where(match => _uniqueKeywordsHashSet.Contains(match.Value))
+                .Select(x => x.Value).ToArray();
+
+            return matchingWordsWithUrlSupport.Union(matchingWords).ToArray();
         }
 
         public List<Tuple<string, Action<T>>> GetMatchingTracksAndActions(string input)

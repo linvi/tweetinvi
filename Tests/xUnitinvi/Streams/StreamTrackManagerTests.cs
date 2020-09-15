@@ -70,6 +70,36 @@ namespace xUnitinvi.Streams
         }
 
         [Fact]
+        public void Track_UrlContent_IsMatchedCorrectly()
+        {
+            // Arrange
+            var trackManager = CreateStreamTrackManager();
+            trackManager.AddTrack("twitter");
+
+            // Act
+            var matchingTracks = trackManager.GetMatchingTracks("https://twitter.com");
+
+            // Assert
+            Assert.True(matchingTracks.Count == 1 && matchingTracks[0] == "twitter");
+        }
+
+        [Fact]
+        public void Track_2MatchingKeywords()
+        {
+            // Arrange
+            var trackManager = CreateStreamTrackManager();
+            trackManager.AddTrack("twitter");
+            trackManager.AddTrack("hello");
+            trackManager.AddTrack("super");
+
+            // Act
+            var matchingTracks = trackManager.GetMatchingTracks("hello https://twitter.com hello");
+
+            // Assert
+            Assert.True(matchingTracks.Count == 2 && matchingTracks.Contains("twitter") && matchingTracks.Contains("hello"));
+        }
+
+        [Fact]
         public void Track_WithMention_IsMatchedCorrectly()
         {
             // Arrange
