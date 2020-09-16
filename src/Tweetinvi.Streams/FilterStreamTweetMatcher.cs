@@ -32,327 +32,311 @@ namespace Tweetinvi.Streams
 
         public MatchedTweetReceivedEventArgs GetMatchingTweetEventArgsAndRaiseMatchingElements(ITweet tweet, string json, MatchOn matchOn)
         {
-            var matchingTracksEventArgs = new MatchedTweetReceivedEventArgs(tweet, json);
+            var result = new MatchedTweetReceivedEventArgs(tweet, json);
 
-            var matchingTrackAndActions = new Dictionary<string, Action<ITweet>>();
-            var matchingLocationsAndActions = new Dictionary<ILocation, Action<ITweet>>();
-            var matchingFollowersAndActions = new Dictionary<long, Action<ITweet>>();
+            var trackMatcherConfig = new FilteredStreamMatcherConfig<string>(matchOn);
+            var locationMatcherConfig = new FilteredStreamMatcherConfig<ILocation>(matchOn);
+            var followersMatcherConfig = new FilteredStreamMatcherConfig<long>(matchOn);
 
-            var matchingQuotedTrackAndActions = new Dictionary<string, Action<ITweet>>();
-            var matchingQuotedLocationsAndActions = new Dictionary<ILocation, Action<ITweet>>();
-            var matchingQuotedFollowersAndActions = new Dictionary<long, Action<ITweet>>();
+            UpdateMatchesBasedOnTweetText(tweet, trackMatcherConfig, result);
+            UpdateMatchesBasedOnUrlEntities(tweet, trackMatcherConfig, result);
+            UpdateMatchesBasedOnHashTagEntities(tweet, trackMatcherConfig, result);
+            UpdateMatchesBasedOnUserMentions(tweet, trackMatcherConfig, result);
+            UpdateMatchesBasedOnSymbols(tweet, trackMatcherConfig, result);
+            UpdateMatchesBasedOnTweetLocation(tweet, locationMatcherConfig, result);
+            UpdateMatchesBasedOnTweetCreator(tweet, followersMatcherConfig, result);
+            UpdateMatchesBasedOnTweetInReplyToUser(tweet, followersMatcherConfig, result);
 
-            UpdateMatchesBasedOnTweetText(tweet, matchOn, matchingTrackAndActions, matchingTracksEventArgs, matchingQuotedTrackAndActions);
-            UpdateMatchesBasedOnUrlEntities(tweet, matchOn, matchingTrackAndActions, matchingTracksEventArgs, matchingQuotedTrackAndActions);
-            UpdateMatchesBasedOnHashTagEntities(tweet, matchOn, matchingTrackAndActions, matchingTracksEventArgs, matchingQuotedTrackAndActions);
-            UpdateMatchesBasedOnUserMentions(tweet, matchOn, matchingTrackAndActions, matchingTracksEventArgs, matchingQuotedTrackAndActions);
-            UpdateMatchesBasedOnSymbols(tweet, matchOn, matchingTrackAndActions, matchingTracksEventArgs, matchingQuotedTrackAndActions);
-            UpdateMatchesBasedOnTweetLocation(tweet, matchOn, matchingLocationsAndActions, matchingTracksEventArgs, matchingQuotedLocationsAndActions);
-            UpdateMatchesBasedOnTweetCreator(tweet, matchOn, matchingFollowersAndActions, matchingTracksEventArgs, matchingQuotedFollowersAndActions);
-            UpdateMatchesBasedOnTweetInReplyToUser(tweet, matchOn, matchingFollowersAndActions, matchingTracksEventArgs, matchingQuotedFollowersAndActions);
+            result.MatchingTracks = trackMatcherConfig.TweetMatchingTrackAndActions.Select(x => x.Key).ToArray();
+            result.MatchingLocations = locationMatcherConfig.TweetMatchingTrackAndActions.Select(x => x.Key).ToArray();
+            result.MatchingFollowers = followersMatcherConfig.TweetMatchingTrackAndActions.Select(x => x.Key).ToArray();
 
-            var matchingTracks = matchingTrackAndActions.Select(x => x.Key).ToArray();
-            var matchingLocations = matchingLocationsAndActions.Select(x => x.Key).ToArray();
-            var matchingFollowers = matchingFollowersAndActions.Select(x => x.Key).ToArray();
+            result.RetweetMatchingTracks = trackMatcherConfig.RetweetMatchingTrackAndActions.Select(x => x.Key).ToArray();
+            result.RetweetMatchingLocations = locationMatcherConfig.RetweetMatchingTrackAndActions.Select(x => x.Key).ToArray();
+            result.RetweetMatchingFollowers = followersMatcherConfig.RetweetMatchingTrackAndActions.Select(x => x.Key).ToArray();
 
-            matchingTracksEventArgs.MatchingTracks = matchingTracks;
-            matchingTracksEventArgs.MatchingLocations = matchingLocations;
-            matchingTracksEventArgs.MatchingFollowers = matchingFollowers;
+            result.QuotedTweetMatchingTracks = trackMatcherConfig.QuotedTweetMatchingTrackAndActions.Select(x => x.Key).ToArray();
+            result.QuotedTweetMatchingLocations = locationMatcherConfig.QuotedTweetMatchingTrackAndActions.Select(x => x.Key).ToArray();
+            result.QuotedTweetMatchingFollowers = followersMatcherConfig.QuotedTweetMatchingTrackAndActions.Select(x => x.Key).ToArray();
 
-            var matchingQuotedTracks = matchingQuotedTrackAndActions.Select(x => x.Key).ToArray();
-            var matchingQuotedLocations = matchingQuotedLocationsAndActions.Select(x => x.Key).ToArray();
-            var matchingQuotedFollowers = matchingQuotedFollowersAndActions.Select(x => x.Key).ToArray();
+            CallMultipleActions(tweet, trackMatcherConfig.GetAllMatchingTracks().Select(x => x.Value));
+            CallMultipleActions(tweet, locationMatcherConfig.GetAllMatchingTracks().Select(x => x.Value));
+            CallMultipleActions(tweet, followersMatcherConfig.GetAllMatchingTracks().Select(x => x.Value));
 
-            matchingTracksEventArgs.QuotedTweetMatchingTracks = matchingQuotedTracks;
-            matchingTracksEventArgs.QuotedTweetMatchingLocations = matchingQuotedLocations;
-            matchingTracksEventArgs.QuotedTweetMatchingFollowers = matchingQuotedFollowers;
-
-            var allMatchingTracks = matchingTrackAndActions.MergeWith(matchingQuotedTrackAndActions);
-            var allMatchingLocations = matchingLocationsAndActions.MergeWith(matchingQuotedLocationsAndActions);
-            var allMatchingFollowers = matchingFollowersAndActions.MergeWith(matchingQuotedFollowersAndActions);
-
-            CallMultipleActions(tweet, allMatchingTracks.Select(x => x.Value));
-            CallMultipleActions(tweet, allMatchingLocations.Select(x => x.Value));
-            CallMultipleActions(tweet, allMatchingFollowers.Select(x => x.Value));
-
-            return matchingTracksEventArgs;
+            return result;
         }
 
         // Update Event Args
-        private void UpdateMatchesBasedOnTweetText(ITweet tweet, MatchOn matchOn, Dictionary<string, Action<ITweet>> matchingTrackAndActions,
-            MatchedTweetReceivedEventArgs matchingTracksEventArgs, Dictionary<string, Action<ITweet>> matchingQuotedTrackAndActions)
+        private void UpdateMatchesBasedOnTweetText(ITweet tweet, FilteredStreamMatcherConfig<string> config, MatchedTweetReceivedEventArgs result)
         {
-            if (matchOn.HasFlag(MatchOn.Everything) ||
-                matchOn.HasFlag(MatchOn.TweetText))
+            if (config.MatchOn.HasFlag(MatchOn.Everything) ||
+                config.MatchOn.HasFlag(MatchOn.TweetText))
             {
-                var tracksMatchingTweetText = _streamTrackManager.GetMatchingTracksAndActions(tweet.FullText);
-                tracksMatchingTweetText.ForEach(x => { matchingTrackAndActions.TryAdd(x.Item1, x.Item2); });
-                if (tracksMatchingTweetText.Count > 0)
+                GetMatchingTracksInTweetText(tweet, config.TweetMatchingTrackAndActions, () => result.MatchOn |= MatchOn.TweetText);
+
+                if (tweet.RetweetedTweet != null)
                 {
-                    matchingTracksEventArgs.MatchOn |= MatchOn.TweetText;
+                    GetMatchingTracksInTweetText(tweet.RetweetedTweet, config.RetweetMatchingTrackAndActions, () => result.RetweetMatchOn |= MatchOn.TweetText);
                 }
 
                 if (tweet.QuotedTweet != null)
                 {
-                    var tracksMatchingQuotedTweetText = _streamTrackManager.GetMatchingTracksAndActions(tweet.QuotedTweet.FullText);
-                    tracksMatchingQuotedTweetText.ForEach(x => { matchingQuotedTrackAndActions.TryAdd(x.Item1, x.Item2); });
-                    if (tracksMatchingQuotedTweetText.Count > 0)
-                    {
-                        matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.TweetText;
-                    }
+                    GetMatchingTracksInTweetText(tweet.QuotedTweet, config.QuotedTweetMatchingTrackAndActions, () => result.QuotedTweetMatchOn |= MatchOn.TweetText);
                 }
             }
         }
 
-        private void UpdateMatchesBasedOnUrlEntities(
+        private void GetMatchingTracksInTweetText(ITweet tweet, Dictionary<string, Action<ITweet>> matchingTrackAndActions, Action onTrackFound)
+        {
+            var tracksMatchingTweetText = _streamTrackManager.GetMatchingTracksAndActions(tweet.FullText);
+            tracksMatchingTweetText.ForEach(x => { matchingTrackAndActions.TryAdd(x.Item1, x.Item2); });
+            if (tracksMatchingTweetText.Count > 0)
+            {
+                onTrackFound();
+            }
+        }
+
+        private void UpdateMatchesBasedOnUrlEntities(ITweet tweet, FilteredStreamMatcherConfig<string> config, MatchedTweetReceivedEventArgs result)
+        {
+            if (config.MatchOn.HasFlag(MatchOn.Everything) ||
+                config.MatchOn.HasFlag(MatchOn.AllEntities) ||
+                config.MatchOn.HasFlag(MatchOn.URLEntities))
+            {
+                GetMatchingTracksInTweetUrls(tweet, config.TweetMatchingTrackAndActions, () => result.MatchOn |= MatchOn.URLEntities);
+
+                if (tweet.RetweetedTweet != null)
+                {
+                    GetMatchingTracksInTweetUrls(tweet.RetweetedTweet, config.RetweetMatchingTrackAndActions, () => result.RetweetMatchOn |= MatchOn.URLEntities);
+                }
+
+                if (tweet.QuotedTweet != null)
+                {
+                    GetMatchingTracksInTweetUrls(tweet.QuotedTweet, config.QuotedTweetMatchingTrackAndActions, () => result.QuotedTweetMatchOn |= MatchOn.URLEntities);
+                }
+            }
+        }
+
+        private void GetMatchingTracksInTweetUrls(
             ITweet tweet,
-            MatchOn matchOn,
             Dictionary<string, Action<ITweet>> matchingTrackAndActions,
-            MatchedTweetReceivedEventArgs matchingTracksEventArgs,
-            Dictionary<string, Action<ITweet>> matchingQuotedTrackAndActions)
+            Action onTrackFound)
         {
-            if (matchOn.HasFlag(MatchOn.Everything) ||
-                matchOn.HasFlag(MatchOn.AllEntities) ||
-                matchOn.HasFlag(MatchOn.URLEntities))
+            var expandedUrls = tweet.Entities.Urls.Select(x => x.ExpandedURL);
+            expandedUrls = expandedUrls.Union(tweet.Entities.Medias.Select(x => x.ExpandedURL));
+            expandedUrls.ForEach(x =>
             {
-                var expandedUrls = tweet.Entities.Urls.Select(x => x.ExpandedURL);
-                expandedUrls = expandedUrls.Union(tweet.Entities.Medias.Select(x => x.ExpandedURL));
-                expandedUrls.ForEach(x =>
+                var tracksMatchingExpandedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
+                tracksMatchingExpandedURL.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
+                if (tracksMatchingExpandedURL.Count > 0)
                 {
-                    var tracksMatchingExpandedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
-                    tracksMatchingExpandedURL.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
-                    if (tracksMatchingExpandedURL.Count > 0)
-                    {
-                        matchingTracksEventArgs.MatchOn |= MatchOn.URLEntities;
-                    }
-                });
+                    onTrackFound();
+                }
+            });
 
-                var displayedUrls = tweet.Entities.Urls.Select(x => x.DisplayedURL);
-                displayedUrls = displayedUrls.Union(tweet.Entities.Medias.Select(x => x.DisplayURL));
-                displayedUrls.ForEach(x =>
+            var displayedUrls = tweet.Entities.Urls.Select(x => x.DisplayedURL);
+            displayedUrls = displayedUrls.Union(tweet.Entities.Medias.Select(x => x.DisplayURL));
+            displayedUrls.ForEach(x =>
+            {
+                var tracksMatchingDisplayedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
+                tracksMatchingDisplayedURL.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
+                if (tracksMatchingDisplayedURL.Count > 0)
                 {
-                    var tracksMatchingDisplayedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
-                    tracksMatchingDisplayedURL.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
-                    if (tracksMatchingDisplayedURL.Count > 0)
-                    {
-                        matchingTracksEventArgs.MatchOn |= MatchOn.URLEntities;
-                    }
-                });
+                    onTrackFound();
+                }
+            });
+        }
+
+        private void UpdateMatchesBasedOnHashTagEntities(ITweet tweet, FilteredStreamMatcherConfig<string> config, MatchedTweetReceivedEventArgs result)
+        {
+            if (config.MatchOn.HasFlag(MatchOn.Everything) ||
+                config.MatchOn.HasFlag(MatchOn.AllEntities) ||
+                config.MatchOn.HasFlag(MatchOn.HashTagEntities))
+            {
+                GetMatchingTracksInHashTags(tweet, config.TweetMatchingTrackAndActions, () => result.MatchOn |= MatchOn.HashTagEntities);
+
+                if (tweet.RetweetedTweet != null)
+                {
+                    GetMatchingTracksInHashTags(tweet.RetweetedTweet, config.RetweetMatchingTrackAndActions, () => result.RetweetMatchOn |= MatchOn.HashTagEntities);
+                }
 
                 if (tweet.QuotedTweet != null)
                 {
-                    var quotedTweetExpandedUrls = tweet.QuotedTweet.Entities.Urls.Select(x => x.ExpandedURL);
-                    quotedTweetExpandedUrls = quotedTweetExpandedUrls.Union(tweet.QuotedTweet.Entities.Medias.Select(x => x.ExpandedURL));
-                    quotedTweetExpandedUrls.ForEach(x =>
-                    {
-                        var tracksMatchingExpandedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
-                        tracksMatchingExpandedURL.ForEach(t => { matchingQuotedTrackAndActions.TryAdd(t.Item1, t.Item2); });
-                        if (tracksMatchingExpandedURL.Count > 0)
-                        {
-                            matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.URLEntities;
-                        }
-                    });
-
-                    var quotedTweetDisplayedUrls = tweet.QuotedTweet.Entities.Urls.Select(x => x.DisplayedURL);
-                    quotedTweetDisplayedUrls = quotedTweetDisplayedUrls.Union(tweet.QuotedTweet.Entities.Medias.Select(x => x.DisplayURL));
-                    quotedTweetDisplayedUrls.ForEach(x =>
-                    {
-                        var tracksMatchingDisplayedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
-                        tracksMatchingDisplayedURL.ForEach(t => { matchingQuotedTrackAndActions.TryAdd(t.Item1, t.Item2); });
-                        if (tracksMatchingDisplayedURL.Count > 0)
-                        {
-                            matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.URLEntities;
-                        }
-                    });
+                    GetMatchingTracksInHashTags(tweet.QuotedTweet, config.QuotedTweetMatchingTrackAndActions, () => result.QuotedTweetMatchOn |= MatchOn.HashTagEntities);
                 }
             }
         }
 
-        private void UpdateMatchesBasedOnHashTagEntities(ITweet tweet, MatchOn matchOn, Dictionary<string, Action<ITweet>> matchingTrackAndActions,
-           MatchedTweetReceivedEventArgs matchingTracksEventArgs, Dictionary<string, Action<ITweet>> matchingQuotedTrackAndActions)
+        private void GetMatchingTracksInHashTags(ITweet tweet, Dictionary<string, Action<ITweet>> matchingTrackAndActions, Action onTrackFound)
         {
-            if (matchOn.HasFlag(MatchOn.Everything) ||
-                matchOn.HasFlag(MatchOn.AllEntities) ||
-                matchOn.HasFlag(MatchOn.HashTagEntities))
-            {
-                var hashTags = tweet.Entities.Hashtags.Select(x => x.Text);
+            var hashTags = tweet.Entities.Hashtags.Select(x => x.Text);
 
-                hashTags.ForEach(hashtag =>
+            hashTags.ForEach(hashtag =>
+            {
+                var tracksMatchingHashTag = _streamTrackManager.GetMatchingTracksAndActions($"#{hashtag.ToLowerInvariant()}");
+                tracksMatchingHashTag.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
+                if (tracksMatchingHashTag.Count > 0)
                 {
-                    var tracksMatchingHashTag = _streamTrackManager.GetMatchingTracksAndActions($"#{hashtag}");
-                    tracksMatchingHashTag.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
-                    if (tracksMatchingHashTag.Count > 0)
-                    {
-                        matchingTracksEventArgs.MatchOn |= MatchOn.HashTagEntities;
-                    }
-                });
+                    onTrackFound();
+                }
+            });
+        }
+
+        private void UpdateMatchesBasedOnUserMentions(ITweet tweet, FilteredStreamMatcherConfig<string> config, MatchedTweetReceivedEventArgs result)
+        {
+            if (config.MatchOn.HasFlag(MatchOn.Everything) ||
+                config.MatchOn.HasFlag(MatchOn.AllEntities) ||
+                config.MatchOn.HasFlag(MatchOn.UserMentionEntities))
+            {
+                GetMatchingTracksInUserMentions(tweet, config.TweetMatchingTrackAndActions, () => result.MatchOn |= MatchOn.UserMentionEntities);
+
+                if (tweet.RetweetedTweet != null)
+                {
+                    GetMatchingTracksInUserMentions(tweet.RetweetedTweet, config.RetweetMatchingTrackAndActions, () => result.RetweetMatchOn |= MatchOn.UserMentionEntities);
+                }
 
                 if (tweet.QuotedTweet != null)
                 {
-                    var quotedHashTags = tweet.QuotedTweet.Entities.Hashtags.Select(x => x.Text);
-
-                    quotedHashTags.ForEach(hashtag =>
-                    {
-                        var tracksMatchingHashTag = _streamTrackManager.GetMatchingTracksAndActions($"#{hashtag}");
-                        tracksMatchingHashTag.ForEach(t => { matchingQuotedTrackAndActions.TryAdd(t.Item1, t.Item2); });
-                        if (tracksMatchingHashTag.Count > 0)
-                        {
-                            matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.HashTagEntities;
-                        }
-                    });
+                    GetMatchingTracksInUserMentions(tweet.QuotedTweet, config.QuotedTweetMatchingTrackAndActions, () => result.QuotedTweetMatchOn |= MatchOn.UserMentionEntities);
                 }
             }
         }
 
-        private void UpdateMatchesBasedOnUserMentions(ITweet tweet, MatchOn matchOn, Dictionary<string, Action<ITweet>> matchingTrackAndActions,
-           MatchedTweetReceivedEventArgs matchingTracksEventArgs, Dictionary<string, Action<ITweet>> matchingQuotedTrackAndActions)
+        private void GetMatchingTracksInUserMentions(ITweet tweet, Dictionary<string, Action<ITweet>> matchingTrackAndActions, Action onTrackFound)
         {
-            if (matchOn.HasFlag(MatchOn.Everything) ||
-                matchOn.HasFlag(MatchOn.AllEntities) ||
-                matchOn.HasFlag(MatchOn.UserMentionEntities))
+            var mentionsScreenName = tweet.Entities.UserMentions.Select(x => x.ScreenName);
+            mentionsScreenName.ForEach(username =>
             {
-                var mentionsScreenName = tweet.Entities.UserMentions.Select(x => x.ScreenName);
-                mentionsScreenName.ForEach(username =>
+                var tracksMatchingMentionScreenName = _streamTrackManager.GetMatchingTracksAndActions($"@{username.ToLowerInvariant()}");
+                tracksMatchingMentionScreenName.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
+                if (tracksMatchingMentionScreenName.Count > 0)
                 {
-                    var tracksMatchingMentionScreenName = _streamTrackManager.GetMatchingTracksAndActions($"@{username}");
-                    tracksMatchingMentionScreenName.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
-                    if (tracksMatchingMentionScreenName.Count > 0)
-                    {
-                        matchingTracksEventArgs.MatchOn |= MatchOn.UserMentionEntities;
-                    }
-                });
+                    onTrackFound();
+                }
+            });
+        }
+
+        private void UpdateMatchesBasedOnSymbols(ITweet tweet, FilteredStreamMatcherConfig<string> config, MatchedTweetReceivedEventArgs result)
+        {
+            if (config.MatchOn.HasFlag(MatchOn.Everything) ||
+                config.MatchOn.HasFlag(MatchOn.AllEntities) ||
+                config.MatchOn.HasFlag(MatchOn.SymbolEntities))
+            {
+                GetMatchingTracksInSymbols(tweet, config.TweetMatchingTrackAndActions, () => result.MatchOn |= MatchOn.SymbolEntities);
+
+                if (tweet.RetweetedTweet != null)
+                {
+                    GetMatchingTracksInSymbols(tweet.RetweetedTweet, config.RetweetMatchingTrackAndActions, () => result.RetweetMatchOn |= MatchOn.SymbolEntities);
+                }
 
                 if (tweet.QuotedTweet != null)
                 {
-                    var quotedMentionsScreenName = tweet.QuotedTweet.Entities.UserMentions.Select(x => x.ScreenName);
-                    quotedMentionsScreenName.ForEach(username =>
-                    {
-                        var tracksMatchingMentionScreenName = _streamTrackManager.GetMatchingTracksAndActions($"@{username}");
-                        tracksMatchingMentionScreenName.ForEach(t => { matchingQuotedTrackAndActions.TryAdd(t.Item1, t.Item2); });
-                        if (tracksMatchingMentionScreenName.Count > 0)
-                        {
-                            matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.UserMentionEntities;
-                        }
-                    });
+                    GetMatchingTracksInSymbols(tweet.QuotedTweet, config.QuotedTweetMatchingTrackAndActions, () => result.QuotedTweetMatchOn |= MatchOn.SymbolEntities);
                 }
             }
         }
 
-        private void UpdateMatchesBasedOnSymbols(ITweet tweet, MatchOn matchOn, Dictionary<string, Action<ITweet>> matchingTrackAndActions,
-            MatchedTweetReceivedEventArgs matchingTracksEventArgs, Dictionary<string, Action<ITweet>> matchingQuotedTrackAndActions)
+        private void GetMatchingTracksInSymbols(ITweet tweet, Dictionary<string, Action<ITweet>> matchingTrackAndActions, Action onTrackFound)
         {
-            if (matchOn.HasFlag(MatchOn.Everything) ||
-                matchOn.HasFlag(MatchOn.AllEntities) ||
-                matchOn.HasFlag(MatchOn.SymbolEntities))
+            var symbols = tweet.Entities.Symbols.Select(x => x.Text);
+            symbols.ForEach(symbol =>
             {
-                var symbols = tweet.Entities.Symbols.Select(x => x.Text);
-                symbols.ForEach(symbol =>
+                var tracksMatchingSymbol = _streamTrackManager.GetMatchingTracksAndActions($"${symbol.ToLowerInvariant()}");
+                tracksMatchingSymbol.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
+                if (tracksMatchingSymbol.Count > 0)
                 {
-                    var tracksMatchingSymbol = _streamTrackManager.GetMatchingTracksAndActions($"${symbol}");
-                    tracksMatchingSymbol.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
-                    if (tracksMatchingSymbol.Count > 0)
-                    {
-                        matchingTracksEventArgs.MatchOn |= MatchOn.SymbolEntities;
-                    }
-                });
+                    onTrackFound();
+                }
+            });
+        }
+
+        private void UpdateMatchesBasedOnTweetLocation(ITweet tweet, FilteredStreamMatcherConfig<ILocation> config, MatchedTweetReceivedEventArgs result)
+        {
+            if (config.MatchOn.HasFlag(MatchOn.Everything) ||
+                config.MatchOn.HasFlag(MatchOn.TweetLocation))
+            {
+                GetMatchingLocations(tweet, config.TweetMatchingTrackAndActions, () => result.MatchOn |= MatchOn.TweetLocation);
+
+                if (tweet.RetweetedTweet != null)
+                {
+                    GetMatchingLocations(tweet.RetweetedTweet, config.RetweetMatchingTrackAndActions, () => result.RetweetMatchOn |= MatchOn.TweetLocation);
+                }
 
                 if (tweet.QuotedTweet != null)
                 {
-                    var quotedSymbols = tweet.QuotedTweet.Entities.Symbols.Select(x => x.Text);
-                    quotedSymbols.ForEach(symbol =>
-                    {
-                        var tracksMatchingSymbol = _streamTrackManager.GetMatchingTracksAndActions($"${symbol}");
-                        tracksMatchingSymbol.ForEach(t => { matchingQuotedTrackAndActions.TryAdd(t.Item1, t.Item2); });
-                        if (tracksMatchingSymbol.Count > 0)
-                        {
-                            matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.SymbolEntities;
-                        }
-                    });
+                    GetMatchingLocations(tweet.QuotedTweet, config.QuotedTweetMatchingTrackAndActions, () => result.QuotedTweetMatchOn |= MatchOn.TweetLocation);
                 }
             }
         }
 
-        private void UpdateMatchesBasedOnTweetLocation(ITweet tweet, MatchOn matchOn, Dictionary<ILocation, Action<ITweet>> matchingLocationAndActions,
-            MatchedTweetReceivedEventArgs matchingTracksEventArgs, Dictionary<ILocation, Action<ITweet>> matchingQuotedLocationAndActions)
+        private void GetMatchingLocations(ITweet tweet, Dictionary<ILocation, Action<ITweet>> matchingLocationAndActions, Action onTrackFound)
         {
-            if (matchOn.HasFlag(MatchOn.Everything) ||
-                matchOn.HasFlag(MatchOn.TweetLocation))
+            var matchedLocations = GetMatchedLocations(tweet).ToArray();
+            matchedLocations.ForEach(x => { matchingLocationAndActions.TryAdd(x.Key, x.Value); });
+            if (matchedLocations.Length > 0)
             {
-                var matchedLocations = GetMatchedLocations(tweet).ToArray();
-                matchedLocations.ForEach(x => { matchingLocationAndActions.TryAdd(x.Key, x.Value); });
-                if (matchedLocations.Length > 0)
+                onTrackFound();
+            }
+        }
+
+        private void UpdateMatchesBasedOnTweetCreator(ITweet tweet, FilteredStreamMatcherConfig<long> config, MatchedTweetReceivedEventArgs result)
+        {
+            if (config.MatchOn.HasFlag(MatchOn.Everything) ||
+                config.MatchOn.HasFlag(MatchOn.Follower))
+            {
+                GetMatchingFollowersBasedOnTweetCreator(tweet, config.TweetMatchingTrackAndActions, () => result.MatchOn |= MatchOn.Follower);
+
+                if (tweet.RetweetedTweet != null)
                 {
-                    matchingTracksEventArgs.MatchOn |= MatchOn.TweetLocation;
+                    GetMatchingFollowersBasedOnTweetCreator(tweet.RetweetedTweet, config.RetweetMatchingTrackAndActions, () => result.RetweetMatchOn |= MatchOn.Follower);
                 }
 
                 if (tweet.QuotedTweet != null)
                 {
-                    var quotedMatchedLocations = GetMatchedLocations(tweet.QuotedTweet).ToArray();
-                    quotedMatchedLocations.ForEach(x => { matchingQuotedLocationAndActions.TryAdd(x.Key, x.Value); });
-                    if (quotedMatchedLocations.Length > 0)
-                    {
-                        matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.TweetLocation;
-                    }
+                    GetMatchingFollowersBasedOnTweetCreator(tweet.QuotedTweet, config.QuotedTweetMatchingTrackAndActions, () => result.QuotedTweetMatchOn |= MatchOn.Follower);
                 }
             }
         }
 
-        private void UpdateMatchesBasedOnTweetCreator(ITweet tweet, MatchOn matchOn, Dictionary<long, Action<ITweet>> matchingFollowersAndActions,
-           MatchedTweetReceivedEventArgs matchingTracksEventArgs, Dictionary<long, Action<ITweet>> matchingQuotedFollowersAndActions)
+        private void GetMatchingFollowersBasedOnTweetCreator(ITweet tweet, Dictionary<long, Action<ITweet>> matchingFollowersAndActions, Action onTrackFound)
         {
-            if (matchOn.HasFlag(MatchOn.Everything) ||
-                matchOn.HasFlag(MatchOn.Follower))
-            {
-                var userId = tweet.CreatedBy?.Id;
-                Action<ITweet> actionToExecuteWhenMatchingFollower;
+            var userId = tweet.CreatedBy?.Id;
+            Action<ITweet> actionToExecuteWhenMatchingFollower;
 
-                if (userId != null && _followingUserIds.TryGetValue(userId, out actionToExecuteWhenMatchingFollower))
+            if (userId != null && _followingUserIds.TryGetValue(userId, out actionToExecuteWhenMatchingFollower))
+            {
+                matchingFollowersAndActions.TryAdd(userId.Value, actionToExecuteWhenMatchingFollower);
+                onTrackFound();
+            }
+        }
+
+        private void UpdateMatchesBasedOnTweetInReplyToUser(ITweet tweet, FilteredStreamMatcherConfig<long> config, MatchedTweetReceivedEventArgs result)
+        {
+            if (config.MatchOn.HasFlag(MatchOn.Everything) ||
+                config.MatchOn.HasFlag(MatchOn.FollowerInReplyTo))
+            {
+                GetMatchingFollowersBasedOnTweetReply(tweet, config.TweetMatchingTrackAndActions, () => result.MatchOn |= MatchOn.FollowerInReplyTo);
+
+                if (tweet.RetweetedTweet != null)
                 {
-                    matchingFollowersAndActions.TryAdd(userId.Value, actionToExecuteWhenMatchingFollower);
-                    matchingTracksEventArgs.MatchOn |= MatchOn.Follower;
+                    GetMatchingFollowersBasedOnTweetReply(tweet.RetweetedTweet, config.RetweetMatchingTrackAndActions, () => result.RetweetMatchOn |= MatchOn.FollowerInReplyTo);
                 }
 
                 if (tweet.QuotedTweet != null)
                 {
-                    var quotedTweetCreatorId = tweet.QuotedTweet.CreatedBy?.Id;
-                    Action<ITweet> actionToExecuteWhenMatchingFollowerFromQuotedTweet;
-
-                    if (quotedTweetCreatorId != null && _followingUserIds.TryGetValue(quotedTweetCreatorId, out actionToExecuteWhenMatchingFollowerFromQuotedTweet))
-                    {
-                        matchingQuotedFollowersAndActions.TryAdd(quotedTweetCreatorId.Value, actionToExecuteWhenMatchingFollowerFromQuotedTweet);
-                        matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.Follower;
-                    }
+                    GetMatchingFollowersBasedOnTweetReply(tweet.QuotedTweet, config.QuotedTweetMatchingTrackAndActions, () => result.QuotedTweetMatchOn |= MatchOn.FollowerInReplyTo);
                 }
             }
         }
 
-        private void UpdateMatchesBasedOnTweetInReplyToUser(ITweet tweet, MatchOn matchOn,
-           Dictionary<long, Action<ITweet>> matchingFollowersAndActions, MatchedTweetReceivedEventArgs matchingTracksEventArgs,
-           Dictionary<long, Action<ITweet>> matchingQuotedFollowersAndActions)
+        private void GetMatchingFollowersBasedOnTweetReply(ITweet tweet, Dictionary<long, Action<ITweet>> matchingFollowersAndActions, Action onFollowersFound)
         {
-            if (matchOn.HasFlag(MatchOn.Everything) ||
-                matchOn.HasFlag(MatchOn.FollowerInReplyTo))
+            var userId = tweet.InReplyToUserId;
+            Action<ITweet> actionToExecuteWhenMatchingFollower;
+
+            if (userId != null && _followingUserIds.TryGetValue(userId, out actionToExecuteWhenMatchingFollower))
             {
-                var userId = tweet.InReplyToUserId;
-                Action<ITweet> actionToExecuteWhenMatchingFollower;
-
-                if (userId != null && _followingUserIds.TryGetValue(userId, out actionToExecuteWhenMatchingFollower))
-                {
-                    matchingFollowersAndActions.TryAdd(userId.Value, actionToExecuteWhenMatchingFollower);
-                    matchingTracksEventArgs.MatchOn |= MatchOn.FollowerInReplyTo;
-                }
-
-                if (tweet.QuotedTweet != null)
-                {
-                    var quotedTweetCreatorId = tweet.QuotedTweet.InReplyToUserId;
-                    Action<ITweet> actionToExecuteWhenMatchingFollowerFromQuotedTweet;
-
-                    if (quotedTweetCreatorId != null && _followingUserIds.TryGetValue(quotedTweetCreatorId, out actionToExecuteWhenMatchingFollowerFromQuotedTweet))
-                    {
-                        matchingQuotedFollowersAndActions.TryAdd(quotedTweetCreatorId.Value, actionToExecuteWhenMatchingFollowerFromQuotedTweet);
-                        matchingTracksEventArgs.QuotedTweetMatchOn |= MatchOn.FollowerInReplyTo;
-                    }
-                }
+                matchingFollowersAndActions.TryAdd(userId.Value, actionToExecuteWhenMatchingFollower);
+                onFollowersFound();
             }
         }
 

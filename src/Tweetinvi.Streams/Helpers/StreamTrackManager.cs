@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Tweetinvi.Core.Extensions;
@@ -52,8 +51,8 @@ namespace Tweetinvi.Streams.Helpers
 
             if (_tracks.Count < MaxTracks)
             {
-                string lowerTrack = track.ToLower();
-                string[] trackSplit = lowerTrack.Split(' ');
+                var lowerTrack = track.ToLowerInvariant();
+                var trackSplit = lowerTrack.Split(' ');
 
                 lock (this) // Not allowed to add multiple at the same time
                 {
@@ -70,7 +69,7 @@ namespace Tweetinvi.Streams.Helpers
 
         public void RemoveTrack(string track)
         {
-            string lowerTrack = track.ToLower();
+            string lowerTrack = track.ToLowerInvariant();
 
             lock (this) // Not allowed to remove multiple at the same time
             {
@@ -90,7 +89,7 @@ namespace Tweetinvi.Streams.Helpers
 
         public bool ContainsTrack(string track)
         {
-            return _tracks.Keys.Contains(track.ToLower());
+            return _tracks.Keys.Contains(track.ToLowerInvariant());
         }
 
         public void ClearTracks()
@@ -281,7 +280,7 @@ namespace Tweetinvi.Streams.Helpers
         private string[] GetMatchingKeywords(string input)
         {
             var matchingWordsWithUrlSupport = _matchingRegex
-                .Matches(input.ToLower())
+                .Matches(input.ToLowerInvariant())
                 .OfType<Match>()
                 .Where(match =>
                 {
@@ -296,7 +295,7 @@ namespace Tweetinvi.Streams.Helpers
                 .Select(x => x.Value).ToArray();
 
             var matchingWords = _matchWordRegex
-                .Matches(input.ToLower())
+                .Matches(input.ToLowerInvariant())
                 .OfType<Match>()
                 .Where(match => _uniqueKeywordsHashSet.Contains(match.Value))
                 .Select(x => x.Value).ToArray();

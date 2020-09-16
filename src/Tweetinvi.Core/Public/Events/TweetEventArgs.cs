@@ -41,6 +41,11 @@ namespace Tweetinvi.Events
         public long[] MatchingFollowers { get; set; }
         public MatchOn MatchOn { get; set; }
 
+        public string[] RetweetMatchingTracks { get; set; }
+        public ILocation[] RetweetMatchingLocations { get; set; }
+        public long[] RetweetMatchingFollowers { get; set; }
+        public MatchOn RetweetMatchOn { get; set; }
+
         public string[] QuotedTweetMatchingTracks { get; set; }
         public ILocation[] QuotedTweetMatchingLocations { get; set; }
         public long[] QuotedTweetMatchingFollowers { get; set; }

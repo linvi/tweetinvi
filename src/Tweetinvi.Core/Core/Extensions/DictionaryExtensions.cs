@@ -34,7 +34,7 @@ namespace Tweetinvi.Core.Extensions
             }
         }
 
-        public static IDictionary<T1, T2> MergeWith<T1, T2>(this Dictionary<T1, T2> source, Dictionary<T1, T2> other)
+        public static Dictionary<T1, T2> MergeWith<T1, T2>(this Dictionary<T1, T2> source, Dictionary<T1, T2> other)
         {
             var dictionaries = new[] { source, other };
             return dictionaries.SelectMany(dict => dict)

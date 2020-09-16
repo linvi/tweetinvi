@@ -49,7 +49,6 @@ namespace Tweetinvi.Streams
             IStreamResultGenerator streamResultGenerator,
             ITwitterClientFactories factories,
             ICreateFilteredTweetStreamParameters createFilteredTweetStreamParameters)
-
             : base(client, streamTrackManager,
                 jsonObjectConverter,
                 jObjectStaticWrapper,
@@ -109,9 +108,15 @@ namespace Tweetinvi.Streams
 
                 var isQuotedTweetMatching = quotedTweetMatchingTracks.Length != 0 || quotedTweetMatchingLocations.Length != 0 || quotedTweetMatchingFollowers.Length != 0;
 
+                var retweetMatchingTracks = matchingTracksEvenArgs.RetweetMatchingTracks;
+                var retweetMatchingLocations = matchingTracksEvenArgs.RetweetMatchingLocations;
+                var retweetMatchingFollowers = matchingTracksEvenArgs.RetweetMatchingFollowers;
+
+                var isRetweetMatching = retweetMatchingTracks.Length != 0 || retweetMatchingLocations.Length != 0 || retweetMatchingFollowers.Length != 0;
+
                 RaiseTweetReceived(matchingTracksEvenArgs);
 
-                if (isTweetMatching || isQuotedTweetMatching)
+                if (isTweetMatching || isQuotedTweetMatching || isRetweetMatching)
                 {
                     RaiseMatchingTweetReceived(matchingTracksEvenArgs);
                 }
@@ -157,13 +162,19 @@ namespace Tweetinvi.Streams
                 var matchingLocations = matchingTracksEvenArgs.MatchingLocations;
                 var matchingFollowers = matchingTracksEvenArgs.MatchingFollowers;
 
+                var retweetMatchingTracks = matchingTracksEvenArgs.RetweetMatchingTracks;
+                var retweetMatchingLocations = matchingTracksEvenArgs.RetweetMatchingLocations;
+                var retweetMatchingFollowers = matchingTracksEvenArgs.RetweetMatchingFollowers;
+
                 var quotedTweetMatchingTracks = matchingTracksEvenArgs.QuotedTweetMatchingTracks;
                 var quotedTweetMatchingLocations = matchingTracksEvenArgs.QuotedTweetMatchingLocations;
                 var quotedTweetMatchingFollowers = matchingTracksEvenArgs.QuotedTweetMatchingFollowers;
 
                 RaiseTweetReceived(matchingTracksEvenArgs);
 
-                if (DoestTheTweetMatchAllConditions(tweet, matchingTracks, matchingLocations, matchingFollowers) || DoestTheTweetMatchAllConditions(tweet, quotedTweetMatchingTracks, quotedTweetMatchingLocations, quotedTweetMatchingFollowers))
+                if (DoestTheTweetMatchAllConditions(tweet, matchingTracks, matchingLocations, matchingFollowers) ||
+                    DoestTheTweetMatchAllConditions(tweet, retweetMatchingTracks, retweetMatchingLocations, retweetMatchingFollowers) ||
+                    DoestTheTweetMatchAllConditions(tweet, quotedTweetMatchingTracks, quotedTweetMatchingLocations, quotedTweetMatchingFollowers))
                 {
                     RaiseMatchingTweetReceived(matchingTracksEvenArgs);
                 }
@@ -368,8 +379,6 @@ namespace Tweetinvi.Streams
         {
             Locations.Clear();
         }
-
-
 
         #endregion
     }
