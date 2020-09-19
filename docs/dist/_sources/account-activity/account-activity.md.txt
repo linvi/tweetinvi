@@ -177,7 +177,7 @@ In the case of the sandbox environment this is limited 1 unique url.
 To remove a webhook from Twitter:
 
 ``` c#
-await userClient.AccountActivity.DeleteAccountActivityWebhookAsync("WEBHOOK_ENVIRONMENT", "WEBHOOK_ID");
+await appClient.AccountActivity.DeleteAccountActivityWebhookAsync("WEBHOOK_ENVIRONMENT", "WEBHOOK_ID");
 ```
 
 ``` c#
@@ -185,6 +185,6 @@ await userClient.AccountActivity.DeleteAccountActivityWebhookAsync("WEBHOOK_ENVI
 var webhooks = await appClient.AccountActivity.GetAccountActivityEnvironmentWebhooksAsync("sandbox");
 if (webhooks.Length > 0)
 {
-    await userClient.AccountActivity.DeleteAccountActivityWebhookAsync("sandbox", webhooks[0]);
+    await appClient.AccountActivity.DeleteAccountActivityWebhookAsync("sandbox", webhooks[0]);
 }
 ```

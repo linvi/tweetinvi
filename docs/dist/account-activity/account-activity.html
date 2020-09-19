@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Account Activity &mdash; Tweetinvi 5.0.0-alpha-8 documentation</title>
+  <title>Account Activity &mdash; Tweetinvi 5.0.0 documentation</title>
   
 
   
@@ -365,14 +365,14 @@
 <h2>Webhooks - Delete<a class="headerlink" href="#webhooks-delete" title="Permalink to this headline">¶</a></h2>
 <p>Twitter restricts the number of webhooks url to which it will send the events.<br />In the case of the sandbox environment this is limited 1 unique url.</p>
 <p>To remove a webhook from Twitter:</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">DeleteAccountActivityWebhookAsync</span><span class="p">(</span><span class="s">&quot;WEBHOOK_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s">&quot;WEBHOOK_ID&quot;</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">DeleteAccountActivityWebhookAsync</span><span class="p">(</span><span class="s">&quot;WEBHOOK_ENVIRONMENT&quot;</span><span class="p">,</span> <span class="s">&quot;WEBHOOK_ID&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// quick solution to clean your sandbox environment</span>
 <span class="kt">var</span> <span class="n">webhooks</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">GetAccountActivityEnvironmentWebhooksAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">webhooks</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">DeleteAccountActivityWebhookAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">,</span> <span class="n">webhooks</span><span class="p">[</span><span class="m">0</span><span class="p">]);</span>
+    <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">AccountActivity</span><span class="p">.</span><span class="n">DeleteAccountActivityWebhookAsync</span><span class="p">(</span><span class="s">&quot;sandbox&quot;</span><span class="p">,</span> <span class="n">webhooks</span><span class="p">[</span><span class="m">0</span><span class="p">]);</span>
 <span class="p">}</span>
 </pre></div>
 </div>

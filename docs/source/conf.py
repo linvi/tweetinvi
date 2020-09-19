@@ -24,7 +24,7 @@ copyright = '2020, linvi'
 author = 'linvi'
 
 # The full version, including alpha/beta/rc tags
-release = '5.0.0-alpha-8'  # may also be an URL
+release = '5.0.0'  # may also be an URL
 
 # -- General configuration ---------------------------------------------------
 

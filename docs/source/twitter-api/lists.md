@@ -17,6 +17,12 @@ var updatedList = await userClient.Lists.UpdateListAsync(new UpdateListParameter
 await userClient.Lists.DestroyListAsync(list);
 ```
 
+## Get List Tweets
+
+``` c#
+var tweets = await userClient.Lists.GetTweetsFromListAsync(list);
+```
+
 ## Memberships
 
 > Members of a lists are users whose tweets will be part of the list feed
@@ -25,6 +31,9 @@ await userClient.Lists.DestroyListAsync(list);
 // Add members
 var updatedList = await userClient.Lists.AddMemberToListAsync(list, "tweetinviapi");
 var updatedList = await userClient.Lists.AddMembersToListAsync(list, new [] { "tweetinviapi", "twitter" });
+
+// Check if a user is a member
+var isMember = await userClient.Lists.CheckIfUserIsMemberOfListAsync(list, "tweetinviapi");
 
 // Remove members
 await userClient.Lists.RemoveMemberFromListAsync(list, "twitter");
@@ -54,6 +63,9 @@ var lists = await userClient.Lists.GetUserListMembershipsAsync("tweetinviapi");
 // Subscribe to a list
 await userClient.Lists.SubscribeToListAsync(list);
 
+// Is Subscribed
+var isSubscribed = await userClient.Lists.CheckIfUserIsSubscriberOfListAsync(list, user);
+
 // Unsubscribe from a list
 await userClient.Lists.UnsubscribeFromListAsync(list);
 ```
@@ -65,10 +77,10 @@ await userClient.Lists.UnsubscribeFromListAsync(list);
 var subsribers = await userClient.Lists.GetListSubscribersAsync(lists[0])
 
 // Get the lists the authenticated user is subscribed to
-var subscriptionLists = await userClient.Lists.GetUserListMembershipsAsync("tweetinviapi");
+var accountListSubscriptions = await userClient.Lists.GetAccountListSubscriptionsAsync();
 
 // Get the lists a user is subscribed to
-var subscriptionLists = await userClient.Lists.GetUserListMembershipsAsync("tweetinviapi");
+var userListSubscriptions = await userClient.Lists.GetUserListSubscriptionsAsync(user);
 ```
 
 </div>

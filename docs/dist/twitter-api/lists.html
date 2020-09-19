@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lists &mdash; Tweetinvi 5.0.0-alpha-8 documentation</title>
+  <title>Lists &mdash; Tweetinvi 5.0.0 documentation</title>
   
 
   
@@ -105,6 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Lists</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#create-read-update-delete">Create, Read, Update, Delete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-list-tweets">Get List Tweets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#memberships">Memberships</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#subscriptions">Subscriptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ownerships">Ownerships</a></li>
@@ -238,6 +239,12 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="get-list-tweets">
+<h2>Get List Tweets<a class="headerlink" href="#get-list-tweets" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetTweetsFromListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="memberships">
 <h2>Memberships<a class="headerlink" href="#memberships" title="Permalink to this headline">¶</a></h2>
 <blockquote>
@@ -246,6 +253,9 @@
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add members</span>
 <span class="kt">var</span> <span class="n">updatedList</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">AddMemberToListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 <span class="kt">var</span> <span class="n">updatedList</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">AddMembersToListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="k">new</span> <span class="p">[]</span> <span class="p">{</span> <span class="s">&quot;tweetinviapi&quot;</span><span class="p">,</span> <span class="s">&quot;twitter&quot;</span> <span class="p">});</span>
+
+<span class="c1">// Check if a user is a member</span>
+<span class="kt">var</span> <span class="n">isMember</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">CheckIfUserIsMemberOfListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 
 <span class="c1">// Remove members</span>
 <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">RemoveMemberFromListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="s">&quot;twitter&quot;</span><span class="p">);</span>
@@ -271,6 +281,9 @@
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Subscribe to a list</span>
 <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">SubscribeToListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
 
+<span class="c1">// Is Subscribed</span>
+<span class="kt">var</span> <span class="n">isSubscribed</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">CheckIfUserIsSubscriberOfListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">user</span><span class="p">);</span>
+
 <span class="c1">// Unsubscribe from a list</span>
 <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">UnsubscribeFromListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
 </pre></div>
@@ -279,10 +292,10 @@
 <span class="kt">var</span> <span class="n">subsribers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetListSubscribersAsync</span><span class="p">(</span><span class="n">lists</span><span class="p">[</span><span class="m">0</span><span class="p">])</span>
 
 <span class="c1">// Get the lists the authenticated user is subscribed to</span>
-<span class="kt">var</span> <span class="n">subscriptionLists</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetUserListMembershipsAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">accountListSubscriptions</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetAccountListSubscriptionsAsync</span><span class="p">();</span>
 
 <span class="c1">// Get the lists a user is subscribed to</span>
-<span class="kt">var</span> <span class="n">subscriptionLists</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetUserListMembershipsAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">userListSubscriptions</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetUserListSubscriptionsAsync</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
 </pre></div>
 </div>
 </div></div>
