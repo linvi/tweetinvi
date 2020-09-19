@@ -17,7 +17,7 @@ namespace Tweetinvi.Core.Models
             CredentialsRateLimitsDTO = credentialsRateLimitsDTO;
         }
 
-        public DateTime CreatedAt { get; }
+        public DateTimeOffset CreatedAt { get; }
 
         public string RateLimitContext
         {

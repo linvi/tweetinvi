@@ -37,7 +37,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// DateTime when the rate limit lifecycle reset.
         /// </summary>
-        DateTime ResetDateTime { get; }
+        DateTimeOffset ResetDateTime { get; }
 
         bool IsCustomHeaderRateLimit { get; set; }
     }

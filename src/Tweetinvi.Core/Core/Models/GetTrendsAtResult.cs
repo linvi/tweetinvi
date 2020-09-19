@@ -9,11 +9,11 @@ namespace Tweetinvi.Core.Models
     {
         [JsonProperty("as_of")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public DateTime AsOf { get; set; }
+        public DateTimeOffset AsOf { get; set; }
 
         [JsonProperty("created_at")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
 
         [JsonProperty("locations")]
         public IWoeIdLocation[] WoeIdLocations { get; set; }

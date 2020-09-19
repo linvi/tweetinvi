@@ -99,7 +99,7 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             // act
-            var authenticationClient = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
+            var authenticationClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
             var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrlAsync();
             var authUrl = authenticationRequest.AuthorizationURL;
 
@@ -191,7 +191,7 @@ namespace xUnitinvi.EndToEnd
         {
             var expectAuthRequestTask = AExtensions.HttpRequest(new AssertHttpRequestConfig(_logger.WriteLine))
                 .OnPort(8042)
-                .WithATimeoutOf(TimeSpan.FromSeconds(30))
+                .WithATimeoutOf(TimeSpan.FromSeconds(40))
                 .Matching(request => { return request.Url.AbsoluteUri.Contains(authRequest.AuthorizationKey); })
                 .MustHaveHappenedAsync();
 
@@ -265,17 +265,28 @@ namespace xUnitinvi.EndToEnd
 
             Task.Delay(2000).Wait();
 
-            var emailTextFields = webDriver.FindElementsByClassName("js-username-field");
-            // var emailTextFields = webDriver.FindElements(By.Name("session[username_or_email]"));
+            // var emailTextFields = webDriver.FindElementsByClassName("js-username-field");
+
+            var emailTextFields = webDriver.FindElements(By.Name("session[username_or_email]"));
             var isTwitterPromptingForSecondAuthentication = emailTextFields.Count == 1;
+
+            // NOTE : If this appears to redirect to twitter.com instead of the redirect page
+            // It means that Twitter detected strange action. Need to authenticate and share access code
 
             if (isTwitterPromptingForSecondAuthentication)
             {
-                var secondPasswordTextField = webDriver.FindElementByClassName("js-password-field");
-                // var secondPasswordTextField = webDriver.FindElement(By.Name("session[password]"));
+                // var secondPasswordTextField = webDriver.FindElementByClassName("js-password-field");
+                var secondPasswordTextField = webDriver.FindElement(By.Name("session[password]"));
                 emailTextFields[0].SendKeys(Environment.GetEnvironmentVariable("TWEETINVI_EMAIL"));
                 secondPasswordTextField.SendKeys(Environment.GetEnvironmentVariable("TWEETINVI_PASS"));
                 secondPasswordTextField.Submit();
+                new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor) d).ExecuteScript("return document.readyState").Equals("complete"));
+            }
+
+            var currentUrl = webDriver.Url;
+            if (currentUrl.Contains("twitter"))
+            {
+                webDriver.Url = authUrl;
                 new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor) d).ExecuteScript("return document.readyState").Equals("complete"));
             }
 

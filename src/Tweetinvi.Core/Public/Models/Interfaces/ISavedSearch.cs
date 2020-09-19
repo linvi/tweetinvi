@@ -36,6 +36,6 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Creation date.
         /// </summary>
-        DateTime CreatedAt { get; }
+        DateTimeOffset CreatedAt { get; }
     }
 }

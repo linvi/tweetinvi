@@ -45,7 +45,7 @@ namespace Tweetinvi.Core.Models
 
         public long Id => MessageEventDTO.Id;
 
-        public DateTime CreatedAt => MessageEventDTO.CreatedAt;
+        public DateTimeOffset CreatedAt => MessageEventDTO.CreatedAt;
 
         public long SenderId => MessageEventDTO.MessageCreate.SenderId;
 

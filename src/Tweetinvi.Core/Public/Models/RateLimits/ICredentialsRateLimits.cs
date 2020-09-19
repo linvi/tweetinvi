@@ -21,7 +21,7 @@ namespace Tweetinvi.Models
         // ADD https://api.twitter.com/1.1/friendships/destroy.json
         // ADD https://api.twitter.com/1.1/friendships/update.json
 
-        DateTime CreatedAt { get; }
+        DateTimeOffset CreatedAt { get; }
         string RateLimitContext { get; }
         bool IsApplicationOnlyCredentials { get; }
         CredentialsRateLimitsDTO CredentialsRateLimitsDTO { get; }

@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
@@ -85,6 +86,7 @@ namespace Tweetinvi.Controllers.Messages
                 MessageEvent = new MessageEventDTO
                 {
                     Type = EventType.MessageCreate,
+                    CreatedAt = new DateTimeOffset(2000, 11, 22, 0,0,0, TimeSpan.Zero),
                     MessageCreate = new MessageCreateDTO
                     {
                         Target = new MessageCreateTargetDTO

@@ -6,7 +6,7 @@ namespace Tweetinvi.Models.DTO.Events
     {
         EventType Type { get; set; }
         long Id { get; set; }
-        DateTime CreatedAt { get; set; }
+        DateTimeOffset CreatedAt { get; set; }
         IEventInitiatedViaDTO InitiatedVia { get; set; }
         IMessageCreateDTO MessageCreate { get; set; }
     }

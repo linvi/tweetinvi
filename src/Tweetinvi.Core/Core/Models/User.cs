@@ -51,7 +51,7 @@ namespace Tweetinvi.Core.Models
 
         public ITweetDTO Status => UserDTO.Status;
 
-        public DateTime CreatedAt => UserDTO.CreatedAt;
+        public DateTimeOffset CreatedAt => UserDTO.CreatedAt;
 
         public string Location => UserDTO.Location;
 

@@ -21,6 +21,6 @@ namespace Tweetinvi.Core.DTO
 
         [JsonProperty("created_at")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
     }
 }

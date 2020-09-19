@@ -29,7 +29,7 @@ namespace Tweetinvi.Core.DTO.Webhooks
         public bool Valid { get; set; }
 
         [JsonProperty("created_timestamp")]
-        [JsonConverter(typeof(JsonTwitterDateTimeConverter), "yyyy-MM-dd HH:mm:ss zzzz")]
-        public DateTime CreatedAt { get; set; }
+        [JsonConverter(typeof(JsonTwitterDateTimeOffsetConverter), "yyyy-MM-dd HH:mm:ss zzzz")]
+        public DateTimeOffset CreatedAt { get; set; }
     }
 }

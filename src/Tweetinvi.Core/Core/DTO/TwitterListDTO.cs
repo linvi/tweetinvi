@@ -34,8 +34,8 @@ namespace Tweetinvi.Core.DTO
         public IUserDTO Owner { get; set; }
 
         [JsonProperty("created_at")]
-        [JsonConverter(typeof(JsonTwitterDateTimeConverter))]
-        public DateTime CreatedAt { get; set; }
+        [JsonConverter(typeof(JsonTwitterDateTimeOffsetConverter))]
+        public DateTimeOffset CreatedAt { get; set; }
 
         [JsonProperty("uri")]
         public string Uri { get; set; }

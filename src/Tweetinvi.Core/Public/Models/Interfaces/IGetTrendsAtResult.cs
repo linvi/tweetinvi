@@ -5,8 +5,8 @@ namespace Tweetinvi.Models
 {
     public interface IGetTrendsAtResult
     {
-        DateTime AsOf { get; set; }
-        DateTime CreatedAt { get; set; }
+        DateTimeOffset AsOf { get; set; }
+        DateTimeOffset CreatedAt { get; set; }
         IWoeIdLocation[] WoeIdLocations { get; set; }
         ITrend[] Trends { get; set; }
     }

@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.DTO.Events
 
         [JsonProperty("created_timestamp")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
 
         [JsonProperty("initiated_via")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]

@@ -151,7 +151,7 @@ namespace xUnitinvi.EndToEnd
             }
 
             Assert.Equal(matchedTweetEvent.MatchOn, MatchOn.URLEntities);
-            Assert.True(matchedTweetEvent.MatchOn == MatchOn.URLEntities|| matchedTweetEvent.QuotedTweetMatchOn == MatchOn.URLEntities);
+            Assert.True(matchedTweetEvent.MatchOn == MatchOn.URLEntities || matchedTweetEvent.QuotedTweetMatchOn == MatchOn.URLEntities);
 
             await Task.Delay(TimeSpan.FromSeconds(10)); // this is for preventing Enhance Your Calm message from Twitter
         }
@@ -191,7 +191,7 @@ namespace xUnitinvi.EndToEnd
                 throw new TimeoutException();
             }
 
-            Assert.True(matchedTweetEvent.MatchOn == (MatchOn.TweetText | MatchOn.UserMentionEntities) || matchedTweetEvent.QuotedTweetMatchOn == (MatchOn.TweetText | MatchOn.UserMentionEntities));
+            Assert.Equal(matchedTweetEvent.MatchOn | matchedTweetEvent.QuotedTweetMatchOn | matchedTweetEvent.RetweetMatchOn, MatchOn.TweetText | MatchOn.UserMentionEntities);
 
             await Task.Delay(TimeSpan.FromSeconds(20)); // this is for preventing Enhance Your Calm message from Twitter
         }
@@ -232,7 +232,7 @@ namespace xUnitinvi.EndToEnd
                 throw new TimeoutException();
             }
 
-            Assert.True(matchedTweetEvent.MatchOn == (MatchOn.TweetText | MatchOn.HashTagEntities) || matchedTweetEvent.QuotedTweetMatchOn == (MatchOn.TweetText | MatchOn.HashTagEntities));
+            Assert.Equal(matchedTweetEvent.MatchOn | matchedTweetEvent.QuotedTweetMatchOn | matchedTweetEvent.RetweetMatchOn, MatchOn.TweetText | MatchOn.HashTagEntities);
 
             await Task.Delay(TimeSpan.FromSeconds(10)); // this is for preventing Enhance Your Calm message from Twitter
         }
@@ -274,7 +274,7 @@ namespace xUnitinvi.EndToEnd
                 throw new TimeoutException();
             }
 
-            Assert.Equal(matchedTweetEvent.MatchOn, MatchOn.TweetText | MatchOn.SymbolEntities);
+            Assert.Equal(matchedTweetEvent.MatchOn | matchedTweetEvent.RetweetMatchOn, MatchOn.TweetText | MatchOn.SymbolEntities);
 
             await Task.Delay(TimeSpan.FromSeconds(10)); // this is for preventing Enhance Your Calm message from Twitter
         }

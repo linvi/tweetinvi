@@ -28,7 +28,7 @@ namespace Tweetinvi.Models.DTO
 
         ITweetEntities LegacyEntities { get; set; }
 
-        DateTime CreatedAt { get; set; }
+        DateTimeOffset CreatedAt { get; set; }
 
         bool Truncated { get; set; }
 

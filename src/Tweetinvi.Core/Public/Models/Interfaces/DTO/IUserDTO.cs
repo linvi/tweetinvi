@@ -12,7 +12,7 @@ namespace Tweetinvi.Models.DTO
 
         string Description { get; set; }
 
-        DateTime CreatedAt { get; set; }
+        DateTimeOffset CreatedAt { get; set; }
 
         string Location { get; set; }
 

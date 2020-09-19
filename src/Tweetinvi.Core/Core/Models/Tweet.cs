@@ -145,7 +145,7 @@ namespace Tweetinvi.Core.Models
 
         public ITweetIdentifier CurrentUserRetweetIdentifier => _tweetDTO.CurrentUserRetweetIdentifier;
 
-        public DateTime CreatedAt => _tweetDTO.CreatedAt;
+        public DateTimeOffset CreatedAt => _tweetDTO.CreatedAt;
 
         public string Source
         {

@@ -22,8 +22,8 @@ namespace Tweetinvi.Core.DTO
         public string Description { get; set; }
 
         [JsonProperty("created_at")]
-        [JsonConverter(typeof(JsonTwitterDateTimeConverter))]
-        public DateTime CreatedAt { get; set; }
+        [JsonConverter(typeof(JsonTwitterDateTimeOffsetConverter))]
+        public DateTimeOffset CreatedAt { get; set; }
 
         [JsonProperty("location")]
         public string Location { get; set; }

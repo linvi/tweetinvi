@@ -23,7 +23,7 @@ namespace Tweetinvi.Events
         public string Query => _query;
         public IEndpointRateLimit QueryRateLimit => _queryRateLimit;
         public IReadOnlyTwitterCredentials Credentials => _twitterCredentials;
-        public DateTime ResetDateTime => _queryRateLimit.ResetDateTime;
+        public DateTimeOffset ResetDateTime => _queryRateLimit.ResetDateTime;
         public int ResetInMilliseconds => (int)_queryRateLimit.ResetDateTimeInMilliseconds;
     }
 }

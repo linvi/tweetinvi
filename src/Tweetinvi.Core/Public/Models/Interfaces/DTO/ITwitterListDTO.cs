@@ -10,7 +10,7 @@ namespace Tweetinvi.Models.DTO
         string FullName { get; set; }
 
         IUserDTO Owner { get; set; }
-        DateTime CreatedAt { get; set; }
+        DateTimeOffset CreatedAt { get; set; }
         string Uri { get; set; }
         string Description { get; set; }
         bool Following { get; set; }

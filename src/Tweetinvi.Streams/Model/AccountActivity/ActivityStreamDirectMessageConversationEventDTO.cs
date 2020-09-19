@@ -14,7 +14,7 @@ namespace Tweetinvi.Streams.Model.AccountActivity
     {
         [JsonProperty("created_timestamp")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
 
         [JsonProperty("sender_id")]
         public long SenderId { get; set; }

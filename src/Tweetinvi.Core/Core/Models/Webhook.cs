@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.Models
         public string Id => WebhookDTO.Id;
         public string Url => WebhookDTO.Url;
         public bool Valid => WebhookDTO.Valid;
-        public DateTime CreatedAt => WebhookDTO.CreatedAt;
+        public DateTimeOffset CreatedAt => WebhookDTO.CreatedAt;
         public Uri Uri => WebhookDTO.Uri;
     }
 }

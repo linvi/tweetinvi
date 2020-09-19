@@ -43,7 +43,7 @@ namespace Tweetinvi.Core.Models
         public string Name => _twitterListDTO.Name;
         public string FullName => _twitterListDTO.FullName;
         public IUser Owner => _owner;
-        public DateTime CreatedAt => _twitterListDTO.CreatedAt;
+        public DateTimeOffset CreatedAt => _twitterListDTO.CreatedAt;
         public string Uri => _twitterListDTO.Uri;
         public string Description => _twitterListDTO.Description;
         public bool Following => _twitterListDTO.Following;

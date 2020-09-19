@@ -4,7 +4,7 @@ namespace Tweetinvi.Models.DTO
 {
     public interface IUploadedMediaInfo
     {
-        DateTime CreatedDate { get; }
+        DateTimeOffset CreatedDate { get; }
 
         long MediaId { get; set; }
         string MediaIdStr { get; set; }

@@ -25,7 +25,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Registration date
         /// </summary>
-        DateTime CreatedAt { get; }
+        DateTimeOffset CreatedAt { get; }
 
         /// <summary>
         /// Registered Uri

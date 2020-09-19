@@ -60,7 +60,7 @@ namespace Tweetinvi.Exceptions
         public string URL { get; }
         public int StatusCode { get; protected set; }
         public string TwitterDescription { get; protected set; }
-        public DateTime CreationDate { get; }
+        public DateTimeOffset CreationDate { get; }
         public ITwitterExceptionInfo[] TwitterExceptionInfos { get; protected set; }
         public ITwitterQuery TwitterQuery { get; }
         public ITwitterRequest Request { get; }

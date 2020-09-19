@@ -46,6 +46,7 @@ namespace Tweetinvi.Core.JsonConverters
             var nullableIntegerConverter = new JsonTwitterNullableConverter<int>();
             var nullableDoubleConverter = new JsonTwitterNullableConverter<double>();
             var dateTimeConverter = new JsonTwitterDateTimeConverter();
+            var dateTimeOffsetConverter = new JsonTwitterDateTimeOffsetConverter();
 
             JsonConverters.Add(typeof(bool), nullableBoolConverter);
             JsonConverters.Add(typeof(long), nullableLongConverter);
@@ -53,6 +54,7 @@ namespace Tweetinvi.Core.JsonConverters
             JsonConverters.Add(typeof(int), nullableIntegerConverter);
             JsonConverters.Add(typeof(double), nullableDoubleConverter);
             JsonConverters.Add(typeof(DateTime), dateTimeConverter);
+            JsonConverters.Add(typeof(DateTimeOffset), dateTimeOffsetConverter);
         }
 
         private static void InitializeTweetinviObjectConverters()

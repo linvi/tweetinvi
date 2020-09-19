@@ -13,7 +13,7 @@ namespace Tweetinvi.Core.DTO
         }
 
         [JsonIgnore]
-        public DateTime CreatedDate { get; }
+        public DateTimeOffset CreatedDate { get; }
 
         [JsonProperty("media_id")]
         public long MediaId { get; set; }

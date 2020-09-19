@@ -80,7 +80,7 @@ namespace xUnitinvi.Streams
             Assert.Equal(eventsReceived[0].UserId, 3198576760);
             Assert.Equal(eventsReceived[0].TweetId, 601430178305220608);
             var time = TimeSpan.FromMilliseconds(1432228155593);
-            Assert.Equal(eventsReceived[0].EventDate, new DateTime(1970, 1, 1) + time);
+            Assert.Equal(eventsReceived[0].EventDate, new DateTime(1970, 1, 1, 0, 0, 0 , DateTimeKind.Utc) + time);
         }
 
         [Fact]

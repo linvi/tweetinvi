@@ -6,7 +6,7 @@ namespace Tweetinvi.Streams.Model.AccountActivity
     public class ActivityStreamUserRevokedAppPermissionsDTO
     {
         [JsonProperty("date_time")]
-        public DateTime DateTime { get; set; }
+        public DateTimeOffset DateTime { get; set; }
 
         [JsonProperty("target")]
         public ActivityStreamAppIdentifierDTO Target { get; set; }

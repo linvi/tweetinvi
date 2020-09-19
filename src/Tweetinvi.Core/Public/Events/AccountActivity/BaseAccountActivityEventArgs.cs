@@ -19,7 +19,7 @@ namespace Tweetinvi.Events
         /// <summary>
         /// The date when the event has occurred
         /// </summary>
-        public DateTime EventDate { get; }
+        public DateTimeOffset EventDate { get; }
 
         /// <summary>
         /// The full json message from which this event has been extracted out.

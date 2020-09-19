@@ -35,6 +35,6 @@ namespace Tweetinvi.Core.Models
             set => _savedSearchDTO.Query = value;
         }
 
-        public DateTime CreatedAt => _savedSearchDTO.CreatedAt;
+        public DateTimeOffset CreatedAt => _savedSearchDTO.CreatedAt;
     }
 }

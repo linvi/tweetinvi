@@ -35,7 +35,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Date when the list was created.
         /// </summary>
-        DateTime CreatedAt { get; }
+        DateTimeOffset CreatedAt { get; }
 
         string Uri { get; }
 

@@ -46,7 +46,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Date when the user account was created on Twitter.
         /// </summary>
-        DateTime CreatedAt { get; }
+        DateTimeOffset CreatedAt { get; }
 
         /// <summary>
         /// The user-defined location for this account’s profile.

@@ -34,7 +34,7 @@ namespace Tweetinvi.Events
         /// <summary>
         /// Exact DateTime when the request completed.
         /// </summary>
-        public DateTime CompletedDateTime { get; set; }
+        public DateTimeOffset CompletedDateTime { get; set; }
 
         /// <summary>
         /// Whether the request has been successful.

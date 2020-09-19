@@ -23,7 +23,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Creation date of the Tweet
         /// </summary>
-        DateTime CreatedAt { get; }
+        DateTimeOffset CreatedAt { get; }
 
         /// <summary>
         /// Formatted text of the tweet.

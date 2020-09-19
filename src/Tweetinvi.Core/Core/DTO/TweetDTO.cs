@@ -57,8 +57,8 @@ namespace Tweetinvi.Core.DTO
         public ITweetEntities Entities { get; set; }
 
         [JsonProperty("created_at")]
-        [JsonConverter(typeof(JsonTwitterDateTimeConverter))]
-        public DateTime CreatedAt { get; set; }
+        [JsonConverter(typeof(JsonTwitterDateTimeOffsetConverter))]
+        public DateTimeOffset CreatedAt { get; set; }
 
         [JsonProperty("truncated")]
         public bool Truncated { get; set; }

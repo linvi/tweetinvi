@@ -40,7 +40,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Creation date of the message.
         /// </summary>
-        DateTime CreatedAt { get; }
+        DateTimeOffset CreatedAt { get; }
 
         /// <summary>
         /// Id of the user who sent the message.
