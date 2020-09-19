@@ -105,7 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Lists</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#create-read-update-delete">Create, Read, Update, Delete</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#get-list-tweets">Get List Tweets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-tweets-from-a-list">Get tweets from a list</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#memberships">Memberships</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#subscriptions">Subscriptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ownerships">Ownerships</a></li>
@@ -239,8 +239,11 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="get-list-tweets">
-<h2>Get List Tweets<a class="headerlink" href="#get-list-tweets" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="get-tweets-from-a-list">
+<h2>Get tweets from a list<a class="headerlink" href="#get-tweets-from-a-list" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>List contains the tweets of its members. Here is how to retrieve the tweets.</p>
+</div></blockquote>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Lists</span><span class="p">.</span><span class="n">GetTweetsFromListAsync</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
 </pre></div>
 </div>

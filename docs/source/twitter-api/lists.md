@@ -17,7 +17,9 @@ var updatedList = await userClient.Lists.UpdateListAsync(new UpdateListParameter
 await userClient.Lists.DestroyListAsync(list);
 ```
 
-## Get List Tweets
+## Get tweets from a list
+
+> List contains the tweets of its members. Here is how to retrieve the tweets.
 
 ``` c#
 var tweets = await userClient.Lists.GetTweetsFromListAsync(list);
