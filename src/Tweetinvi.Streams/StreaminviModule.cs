@@ -2,6 +2,7 @@
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Events;
+using Tweetinvi.Streaming.V2;
 using Tweetinvi.Streaming.Webhooks;
 using Tweetinvi.Streams.Helpers;
 using Tweetinvi.Streams.Model;
@@ -35,6 +36,8 @@ namespace Tweetinvi.Streams
 
             container.RegisterType<IWebhookDispatcher, WebhookDispatcher>();
             container.RegisterType<IStreamTaskFactory, StreamTaskFactory>(RegistrationLifetime.InstancePerApplication);
+
+            container.RegisterType<ISampleStreamV2, SampleStreamV2>();
         }
     }
 }

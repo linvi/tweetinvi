@@ -1,6 +1,7 @@
 ﻿using Tweetinvi.Client;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Client.Tools;
+using Tweetinvi.Client.V2;
 using Tweetinvi.Core.Injectinvi;
 
 namespace Tweetinvi
@@ -58,6 +59,9 @@ namespace Tweetinvi
             container.RegisterType<ITwitterClientFactories, TwitterClientFactories>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IJsonClient, JsonClient>(RegistrationLifetime.InstancePerApplication);
+
+            // v2
+            container.RegisterType<IStreamsV2Client, StreamsV2Client>(RegistrationLifetime.InstancePerApplication);
         }
     }
 }

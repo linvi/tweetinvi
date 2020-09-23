@@ -1,6 +1,7 @@
 ﻿using System;
 using Tweetinvi.Client;
 using Tweetinvi.Client.Tools;
+using Tweetinvi.Client.V2;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Events;
@@ -132,6 +133,8 @@ namespace Tweetinvi
             Users = _tweetinviContainer.Resolve<IUsersClient>();
             AccountActivity = _tweetinviContainer.Resolve<IAccountActivityClient>();
 
+            StreamsV2 = _tweetinviContainer.Resolve<IStreamsV2Client>();
+
             _tweetinviContainer.AssociatedClient = this;
 
             _twitterClientEvents = _tweetinviContainer.Resolve<ITwitterClientEvents>();
@@ -172,6 +175,11 @@ namespace Tweetinvi
         public IUsersClient Users { get; }
         /// <inheritdoc/>
         public IAccountActivityClient AccountActivity { get; }
+
+
+        /// <inheritdoc/>
+        public IStreamsV2Client StreamsV2 { get; }
+
 
         /// <inheritdoc/>
         public IExternalClientEvents Events => _twitterClientEvents;
