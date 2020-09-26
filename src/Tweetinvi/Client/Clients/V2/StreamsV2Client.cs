@@ -1,5 +1,5 @@
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Parameters.StreamsV2Client;
+using Tweetinvi.Parameters.V2;
 using Tweetinvi.Streaming.V2;
 
 namespace Tweetinvi.Client.V2

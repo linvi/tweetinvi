@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Tweetinvi.Events.V2;
-using Tweetinvi.Parameters.StreamsV2Client;
+using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Streaming.V2
 {

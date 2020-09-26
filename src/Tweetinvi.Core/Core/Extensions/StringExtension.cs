@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Tweetinvi.Core.Helpers;
@@ -314,6 +316,11 @@ namespace Tweetinvi.Core.Extensions
             else
             {
                 var stringValue = parameterValue.ToString();
+
+                if (parameterValue is HashSet<string> hashsetValue)
+                {
+                    stringValue = string.Join(",", hashsetValue);
+                }
 
                 if (parameterValue is double)
                 {

@@ -1,4 +1,4 @@
-namespace Tweetinvi.Parameters.StreamsV2Client
+namespace Tweetinvi.Parameters.V2
 {
     public interface IStartSampleStreamV2Parameters : ICustomRequestParameters
     {

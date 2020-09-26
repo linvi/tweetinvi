@@ -33,7 +33,7 @@ namespace Tweetinvi.Models.V2
 
         [JsonProperty("public_metrics")] public TweetPublicMetricsDTO public_metrics { get; set; }
 
-        [JsonProperty("referenced_tweets")] public ReferencedTweetDTO referenced_tweets { get; set; }
+        [JsonProperty("referenced_tweets")] public ReferencedTweetDTO[] referenced_tweets { get; set; }
 
         [JsonProperty("source")] public string source { get; set; }
 

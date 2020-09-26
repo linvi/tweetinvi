@@ -11,6 +11,7 @@ using Tweetinvi.Controllers.TwitterLists;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Controllers.V2;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Upload;
@@ -44,6 +45,9 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IAccountActivityController, AccountActivityController>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IChunkedUploader, ChunkedUploader>();
+
+            // v2
+            container.RegisterType<ITweetsV2Controller, TweetsV2Controller>(RegistrationLifetime.InstancePerApplication);
         }
 
         private void InitializeQueryExecutors(ITweetinviContainer container)
@@ -62,6 +66,9 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ISearchQueryExecutor, SearchQueryExecutor>();
             container.RegisterType<IUploadQueryExecutor, UploadQueryExecutor>();
             container.RegisterType<IUploadMediaStatusQueryExecutor, UploadMediaStatusQueryExecutor>();
+
+            // v2
+            container.RegisterType<ITweetsV2QueryExecutor, TweetsV2QueryExecutor>();
         }
 
         private void InitializeQueryGenerators(ITweetinviContainer container)
@@ -85,11 +92,13 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ISearchQueryParameterGenerator, SearchQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IUploadQueryGenerator, UploadQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+
+            // v2
+            container.RegisterType<ITweetsV2QueryGenerator, TweetsV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
         }
 
         private void InitializeHelpers(ITweetinviContainer container)
         {
-            container.RegisterType<ITweetHelper, TweetHelper>();
             container.RegisterType<IUploadHelper, UploadHelper>(RegistrationLifetime.InstancePerApplication);
         }
     }

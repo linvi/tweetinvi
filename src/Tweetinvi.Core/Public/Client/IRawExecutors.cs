@@ -1,4 +1,5 @@
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Client.Requesters.V2;
 
 namespace Tweetinvi.Client
 {
@@ -58,5 +59,10 @@ namespace Tweetinvi.Client
         /// Client to execute all actions related with users
         /// </summary>
         IUsersRequester Users { get; }
+
+        /// <summary>
+        /// Client to execute all actions related with tweets in API v2
+        /// </summary>
+        ITweetsV2Requester TweetsV2 { get; }
     }
 }

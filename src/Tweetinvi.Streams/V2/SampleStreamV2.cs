@@ -9,7 +9,7 @@ using Tweetinvi.Events;
 using Tweetinvi.Events.V2;
 using Tweetinvi.Models;
 using Tweetinvi.Models.V2.Responses;
-using Tweetinvi.Parameters.StreamsV2Client;
+using Tweetinvi.Parameters.V2;
 using Tweetinvi.Streaming.V2;
 using Tweetinvi.Streams.V2;
 
