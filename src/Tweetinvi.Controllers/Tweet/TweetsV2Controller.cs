@@ -21,5 +21,10 @@ namespace Tweetinvi.Controllers.Tweet
         {
             return _queryExecutor.GetTweetAsync(parameters, request);
         }
+
+        public Task<ITwitterResult<TweetsResponseDTO>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request)
+        {
+            return _queryExecutor.GetTweetsAsync(parameters, request);
+        }
     }
 }

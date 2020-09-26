@@ -9,6 +9,7 @@ namespace Tweetinvi.Controllers.Tweet
     public interface ITweetsV2QueryExecutor
     {
         Task<ITwitterResult<TweetResponseDTO>> GetTweetAsync(IGetTweetV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<TweetsResponseDTO>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request);
     }
 
     public class TweetsV2QueryExecutor : ITweetsV2QueryExecutor
@@ -28,6 +29,12 @@ namespace Tweetinvi.Controllers.Tweet
         {
             request.Query.Url = _tweetQueryGenerator.GetTweetQuery(parameters);
             return _twitterAccessor.ExecuteRequestAsync<TweetResponseDTO>(request);
+        }
+
+        public Task<ITwitterResult<TweetsResponseDTO>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _tweetQueryGenerator.GetTweetsQuery(parameters);
+            return _twitterAccessor.ExecuteRequestAsync<TweetsResponseDTO>(request);
         }
     }
 }
