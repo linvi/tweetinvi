@@ -8,24 +8,43 @@ namespace Tweetinvi.Controllers.User
 {
     public interface IUsersV2QueryGenerator
     {
-        string GetUserQuery(IGetUserV2Parameters parameters);
-        string GetUsersQuery(IGetUsersV2Parameters parameters);
+        string GetUserQuery(IGetUserByIdV2Parameters parameters);
+        string GetUsersQuery(IGetUsersByIdV2Parameters parameters);
+
+        string GetUserQuery(IGetUserByUsernameV2Parameters parameters);
+        string GetUsersQuery(IGetUsersByUsernameV2Parameters parameters);
     }
 
     public class UsersV2QueryGenerator : IUsersV2QueryGenerator
     {
-        public string GetUserQuery(IGetUserV2Parameters parameters)
+        public string GetUserQuery(IGetUserByIdV2Parameters parameters)
         {
             var query = new StringBuilder($"{Resources.UserV2_Get}/{parameters.UserId}");
             AddTweetFieldsParameters(parameters, query);
             return query.ToString();
         }
 
-        public string GetUsersQuery(IGetUsersV2Parameters parameters)
+        public string GetUsersQuery(IGetUsersByIdV2Parameters parameters)
         {
             var userIds = string.Join(",", parameters.UserIds);
             var query = new StringBuilder($"{Resources.UserV2_Get}");
             query.AddParameterToQuery("ids", userIds);
+            AddTweetFieldsParameters(parameters, query);
+            return query.ToString();
+        }
+
+        public string GetUserQuery(IGetUserByUsernameV2Parameters parameters)
+        {
+            var query = new StringBuilder($"{Resources.UserV2_GetBy}/{parameters.By}/{parameters.Username}");
+            AddTweetFieldsParameters(parameters, query);
+            return query.ToString();
+        }
+
+        public string GetUsersQuery(IGetUsersByUsernameV2Parameters parameters)
+        {
+            var userIds = string.Join(",", parameters.Usernames);
+            var query = new StringBuilder($"{Resources.UserV2_GetBy}");
+            query.AddParameterToQuery($"{parameters.By}s", userIds);
             AddTweetFieldsParameters(parameters, query);
             return query.ToString();
         }

@@ -12,6 +12,7 @@ namespace Tweetinvi.Parameters.V2
         public GetTweetsV2Parameters(params long[] tweetIds)
         {
             TweetIds = tweetIds;
+            this.WithAllFields();
         }
 
         public long[] TweetIds { get; set; }

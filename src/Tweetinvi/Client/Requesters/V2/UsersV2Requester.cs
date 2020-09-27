@@ -19,12 +19,22 @@ namespace Tweetinvi.Client.Requesters.V2
             _usersV2Controller = usersV2Controller;
         }
 
-        public Task<ITwitterResult<UserResponseDTO>> GetUser(IGetUserV2Parameters parameters)
+        public Task<ITwitterResult<UserResponseDTO>> GetUser(IGetUserByIdV2Parameters parameters)
         {
             return ExecuteRequestAsync(request => _usersV2Controller.GetUserAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<UsersResponseDTO>> GetUsers(IGetUsersV2Parameters parameters)
+        public Task<ITwitterResult<UsersResponseDTO>> GetUsers(IGetUsersByIdV2Parameters parameters)
+        {
+            return ExecuteRequestAsync(request => _usersV2Controller.GetUsersAsync(parameters, request));
+        }
+
+        public Task<ITwitterResult<UserResponseDTO>> GetUser(IGetUserByUsernameV2Parameters parameters)
+        {
+            return ExecuteRequestAsync(request => _usersV2Controller.GetUserAsync(parameters, request));
+        }
+
+        public Task<ITwitterResult<UsersResponseDTO>> GetUsers(IGetUsersByUsernameV2Parameters parameters)
         {
             return ExecuteRequestAsync(request => _usersV2Controller.GetUsersAsync(parameters, request));
         }

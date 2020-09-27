@@ -8,7 +8,10 @@ namespace Tweetinvi.Core.Controllers.V2
 {
     public interface IUsersV2Controller
     {
-        Task<ITwitterResult<UserResponseDTO>> GetUserAsync(IGetUserV2Parameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<UsersResponseDTO>> GetUsersAsync(IGetUsersV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<UserResponseDTO>> GetUserAsync(IGetUserByIdV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<UserResponseDTO>> GetUserAsync(IGetUserByUsernameV2Parameters parameters, ITwitterRequest request);
+
+        Task<ITwitterResult<UsersResponseDTO>> GetUsersAsync(IGetUsersByIdV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<UsersResponseDTO>> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters, ITwitterRequest request);
     }
 }

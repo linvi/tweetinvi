@@ -16,12 +16,22 @@ namespace Tweetinvi.Controllers.User
             _queryExecutor = queryExecutor;
         }
 
-        public Task<ITwitterResult<UserResponseDTO>> GetUserAsync(IGetUserV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<UserResponseDTO>> GetUserAsync(IGetUserByIdV2Parameters parameters, ITwitterRequest request)
         {
             return _queryExecutor.GetUserAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<UsersResponseDTO>> GetUsersAsync(IGetUsersV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<UsersResponseDTO>> GetUsersAsync(IGetUsersByIdV2Parameters parameters, ITwitterRequest request)
+        {
+            return _queryExecutor.GetUsersAsync(parameters, request);
+        }
+
+        public Task<ITwitterResult<UserResponseDTO>> GetUserAsync(IGetUserByUsernameV2Parameters parameters, ITwitterRequest request)
+        {
+            return _queryExecutor.GetUserAsync(parameters, request);
+        }
+
+        public Task<ITwitterResult<UsersResponseDTO>> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters, ITwitterRequest request)
         {
             return _queryExecutor.GetUsersAsync(parameters, request);
         }
