@@ -494,6 +494,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string User_GetUser = "https://api.twitter.com/1.1/users/show.json?";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/show.json?.
+        /// </summary>
+        public static string UserV2_Get = "https://api.twitter.com/2/users";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/lookup.json?.
         /// </summary>
         public static string User_GetUsers = "https://api.twitter.com/1.1/users/lookup.json?";

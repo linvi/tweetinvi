@@ -48,6 +48,7 @@ namespace Tweetinvi.Controllers
 
             // v2
             container.RegisterType<ITweetsV2Controller, TweetsV2Controller>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IUsersV2Controller, UsersV2Controller>(RegistrationLifetime.InstancePerApplication);
         }
 
         private void InitializeQueryExecutors(ITweetinviContainer container)
@@ -69,6 +70,7 @@ namespace Tweetinvi.Controllers
 
             // v2
             container.RegisterType<ITweetsV2QueryExecutor, TweetsV2QueryExecutor>();
+            container.RegisterType<IUsersV2QueryExecutor, UsersV2QueryExecutor>();
         }
 
         private void InitializeQueryGenerators(ITweetinviContainer container)
@@ -95,6 +97,7 @@ namespace Tweetinvi.Controllers
 
             // v2
             container.RegisterType<ITweetsV2QueryGenerator, TweetsV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IUsersV2QueryGenerator, UsersV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
         }
 
         private void InitializeHelpers(ITweetinviContainer container)

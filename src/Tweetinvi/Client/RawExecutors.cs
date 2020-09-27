@@ -15,8 +15,10 @@ namespace Tweetinvi.Client
         private readonly ITweetsRequester _tweetsRequester;
         private readonly IUploadRequester _uploadRequester;
         private readonly IUsersRequester _usersRequester;
-        private readonly ITweetsV2Requester _tweetsV2Requester;
         private readonly IAccountActivityRequester _accountActivityRequester;
+
+        private readonly ITweetsV2Requester _tweetsV2Requester;
+        private readonly IUsersV2Requester _usersV2Requester;
 
         public RawExecutors(
             IAccountActivityRequester accountActivityRequester,
@@ -30,7 +32,8 @@ namespace Tweetinvi.Client
             ITweetsRequester tweetsRequester,
             IUploadRequester uploadRequester,
             IUsersRequester usersRequester,
-            ITweetsV2Requester tweetsV2Requester)
+            ITweetsV2Requester tweetsV2Requester,
+            IUsersV2Requester usersV2Requester)
         {
             _accountActivityRequester = accountActivityRequester;
             _authRequester = authRequester;
@@ -44,6 +47,7 @@ namespace Tweetinvi.Client
             _uploadRequester = uploadRequester;
             _usersRequester = usersRequester;
             _tweetsV2Requester = tweetsV2Requester;
+            _usersV2Requester = usersV2Requester;
         }
 
         public IAuthRequester Auth => _authRequester;
@@ -59,5 +63,6 @@ namespace Tweetinvi.Client
         public IAccountActivityRequester AccountActivity => _accountActivityRequester;
 
         public ITweetsV2Requester TweetsV2 => _tweetsV2Requester;
+        public IUsersV2Requester UsersV2 => _usersV2Requester;
     }
 }

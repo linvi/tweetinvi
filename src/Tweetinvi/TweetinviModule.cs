@@ -62,8 +62,9 @@ namespace Tweetinvi
             container.RegisterType<IJsonClient, JsonClient>(RegistrationLifetime.InstancePerApplication);
 
             // v2
-            container.RegisterType<ITweetsV2Requester, TweetsV2Requester>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IStreamsV2Client, StreamsV2Client>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITweetsV2Requester, TweetsV2Requester>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IUsersV2Requester, UsersV2Requester>(RegistrationLifetime.InstancePerApplication);
         }
     }
 }

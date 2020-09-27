@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Parameters.V2
 {
-    public static class TweetFields
+    public static class TweetResponseFields
     {
         public static class Expansions
         {
@@ -104,94 +105,7 @@ namespace Tweetinvi.Parameters.V2
             public const string VotingStatus = "voting_status";
         }
 
-        public static class Tweet
-        {
-            public static HashSet<string> ALL => new HashSet<string>
-            {
-                Attachments,
-                AuthorId,
-                ContextAnnotations,
-                ConversationId,
-                CreatedAt,
-                Entities,
-                Geo,
-                Id,
-                InReplyToUserId,
-                Lang,
-                PossiblySensitive,
-                ReferencedTweets,
-                Source,
-                Text,
-                Withheld
-            };
-
-            public static HashSet<string> ALL_METRICS => new HashSet<string>
-            {
-                NonPublicMetrics,
-                PublicMetrics,
-                OrganicMetrics,
-                PromotedMetrics,
-            };
-
-            public const string Attachments = "attachments";
-            public const string AuthorId = "author_id";
-            public const string ContextAnnotations = "context_annotations";
-            public const string ConversationId = "conversation_id";
-            public const string CreatedAt = "created_at";
-            public const string Entities = "entities";
-            public const string Geo = "geo";
-            public const string Id = "id";
-            public const string InReplyToUserId = "in_reply_to_user_id";
-            public const string Lang = "lang";
-            public const string NonPublicMetrics = "non_public_metrics";
-            public const string PublicMetrics = "public_metrics";
-            public const string OrganicMetrics = "organic_metrics";
-            public const string PromotedMetrics = "promoted_metrics";
-            public const string PossiblySensitive = "possibly_sensitive";
-            public const string ReferencedTweets = "referenced_tweets";
-            public const string Source = "source";
-            public const string Text = "text";
-            public const string Withheld = "withheld";
-        }
-
-        public static class User
-        {
-            public static HashSet<string> ALL => new HashSet<string>
-            {
-                CreatedAt,
-                Description,
-                Entities,
-                Id,
-                Location,
-                Name,
-                PinnedTweetId,
-                ProfileImageUrl,
-                Protected,
-                Url,
-                Username,
-                Verified,
-                Withheld
-            };
-
-            public static HashSet<string> ALL_METRICS => new HashSet<string>
-            {
-                PublicMetrics,
-            };
-
-            public const string CreatedAt = "created_at";
-            public const string Description = "description";
-            public const string Entities = "entities";
-            public const string Id = "id";
-            public const string Location = "location";
-            public const string Name = "name";
-            public const string PinnedTweetId = "pinned_tweet_id";
-            public const string ProfileImageUrl = "profile_image_url";
-            public const string Protected = "protected";
-            public const string PublicMetrics = "public_metrics";
-            public const string Url = "url";
-            public const string Username = "username";
-            public const string Verified = "verified";
-            public const string Withheld = "withheld";
-        }
+        public static readonly TweetFields Tweet = new TweetFields();
+        public static readonly UserFields User = new UserFields();
     }
 }

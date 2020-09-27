@@ -60,9 +60,16 @@ namespace Tweetinvi.Client
         /// </summary>
         IUsersRequester Users { get; }
 
+        // ------------ V2 ----------------- //
+
         /// <summary>
         /// Client to execute all actions related with tweets in API v2
         /// </summary>
         ITweetsV2Requester TweetsV2 { get; }
+
+        /// <summary>
+        /// Client to execute all actions related with users in API v2
+        /// </summary>
+        IUsersV2Requester UsersV2 { get; }
     }
 }
