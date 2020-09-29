@@ -63,6 +63,8 @@ namespace Tweetinvi
 
             // v2
             container.RegisterType<IStreamsV2Client, StreamsV2Client>(RegistrationLifetime.InstancePerApplication);
+
+            container.RegisterType<ISearchV2Requester, SearchsV2Requester>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetsV2Requester, TweetsV2Requester>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUsersV2Requester, UsersV2Requester>(RegistrationLifetime.InstancePerApplication);
         }

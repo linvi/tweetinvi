@@ -19,12 +19,12 @@ namespace Tweetinvi.Client.Requesters.V2
             _tweetsV2Controller = tweetsV2Controller;
         }
 
-        public Task<ITwitterResult<TweetResponseDTO>> GetTweet(IGetTweetV2Parameters parameters)
+        public Task<ITwitterResult<TweetResponseDTO>> GetTweetAsync(IGetTweetV2Parameters parameters)
         {
             return ExecuteRequestAsync(request => _tweetsV2Controller.GetTweetAsync(parameters, request));
         }
 
-        public Task<ITwitterResult<TweetsResponseDTO>> GetTweets(IGetTweetsV2Parameters parameters)
+        public Task<ITwitterResult<TweetsResponseDTO>> GetTweetsAsync(IGetTweetsV2Parameters parameters)
         {
             return ExecuteRequestAsync(request => _tweetsV2Controller.GetTweetsAsync(parameters, request));
         }

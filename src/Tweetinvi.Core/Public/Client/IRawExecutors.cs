@@ -63,6 +63,11 @@ namespace Tweetinvi.Client
         // ------------ V2 ----------------- //
 
         /// <summary>
+        /// Client to execute all actions related with search in API v2
+        /// </summary>
+        ISearchV2Requester SearchV2 { get; }
+
+        /// <summary>
         /// Client to execute all actions related with tweets in API v2
         /// </summary>
         ITweetsV2Requester TweetsV2 { get; }

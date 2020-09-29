@@ -17,6 +17,7 @@ namespace Tweetinvi.Client
         private readonly IUsersRequester _usersRequester;
         private readonly IAccountActivityRequester _accountActivityRequester;
 
+        private readonly ISearchV2Requester _searchV2Requester;
         private readonly ITweetsV2Requester _tweetsV2Requester;
         private readonly IUsersV2Requester _usersV2Requester;
 
@@ -32,6 +33,7 @@ namespace Tweetinvi.Client
             ITweetsRequester tweetsRequester,
             IUploadRequester uploadRequester,
             IUsersRequester usersRequester,
+            ISearchV2Requester searchV2Requester,
             ITweetsV2Requester tweetsV2Requester,
             IUsersV2Requester usersV2Requester)
         {
@@ -46,6 +48,8 @@ namespace Tweetinvi.Client
             _tweetsRequester = tweetsRequester;
             _uploadRequester = uploadRequester;
             _usersRequester = usersRequester;
+
+            _searchV2Requester = searchV2Requester;
             _tweetsV2Requester = tweetsV2Requester;
             _usersV2Requester = usersV2Requester;
         }
@@ -62,6 +66,8 @@ namespace Tweetinvi.Client
         public IUsersRequester Users => _usersRequester;
         public IAccountActivityRequester AccountActivity => _accountActivityRequester;
 
+
+        public ISearchV2Requester SearchV2 => _searchV2Requester;
         public ITweetsV2Requester TweetsV2 => _tweetsV2Requester;
         public IUsersV2Requester UsersV2 => _usersV2Requester;
     }

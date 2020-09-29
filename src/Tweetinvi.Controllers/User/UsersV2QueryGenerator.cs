@@ -21,6 +21,7 @@ namespace Tweetinvi.Controllers.User
         {
             var query = new StringBuilder($"{Resources.UserV2_Get}/{parameters.UserId}");
             AddTweetFieldsParameters(parameters, query);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
             return query.ToString();
         }
 
@@ -30,6 +31,7 @@ namespace Tweetinvi.Controllers.User
             var query = new StringBuilder($"{Resources.UserV2_Get}");
             query.AddParameterToQuery("ids", userIds);
             AddTweetFieldsParameters(parameters, query);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
             return query.ToString();
         }
 
@@ -37,6 +39,7 @@ namespace Tweetinvi.Controllers.User
         {
             var query = new StringBuilder($"{Resources.UserV2_GetBy}/{parameters.By}/{parameters.Username}");
             AddTweetFieldsParameters(parameters, query);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
             return query.ToString();
         }
 
@@ -46,6 +49,7 @@ namespace Tweetinvi.Controllers.User
             var query = new StringBuilder($"{Resources.UserV2_GetBy}");
             query.AddParameterToQuery($"{parameters.By}s", userIds);
             AddTweetFieldsParameters(parameters, query);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
             return query.ToString();
         }
 

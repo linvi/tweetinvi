@@ -7,7 +7,7 @@ namespace Tweetinvi.Client.Requesters.V2
 {
     public interface ITweetsV2Requester
     {
-        Task<ITwitterResult<TweetResponseDTO>> GetTweet(IGetTweetV2Parameters parameters);
-        Task<ITwitterResult<TweetsResponseDTO>> GetTweets(IGetTweetsV2Parameters parameters);
+        Task<ITwitterResult<TweetResponseDTO>> GetTweetAsync(IGetTweetV2Parameters parameters);
+        Task<ITwitterResult<TweetsResponseDTO>> GetTweetsAsync(IGetTweetsV2Parameters parameters);
     }
 }

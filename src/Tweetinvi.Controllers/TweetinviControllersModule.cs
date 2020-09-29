@@ -47,6 +47,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IChunkedUploader, ChunkedUploader>();
 
             // v2
+            container.RegisterType<ISearchV2Controller, SearchV2Controller>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetsV2Controller, TweetsV2Controller>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUsersV2Controller, UsersV2Controller>(RegistrationLifetime.InstancePerApplication);
         }
@@ -69,6 +70,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IUploadMediaStatusQueryExecutor, UploadMediaStatusQueryExecutor>();
 
             // v2
+            container.RegisterType<ISearchV2QueryExecutor, SearchV2QueryExecutor>();
             container.RegisterType<ITweetsV2QueryExecutor, TweetsV2QueryExecutor>();
             container.RegisterType<IUsersV2QueryExecutor, UsersV2QueryExecutor>();
         }
@@ -96,6 +98,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IUploadQueryGenerator, UploadQueryGenerator>(RegistrationLifetime.InstancePerApplication);
 
             // v2
+            container.RegisterType<ISearchV2QueryGenerator, SearchV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetsV2QueryGenerator, TweetsV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUsersV2QueryGenerator, UsersV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
         }

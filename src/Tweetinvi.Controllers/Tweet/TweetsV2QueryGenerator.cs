@@ -18,6 +18,7 @@ namespace Tweetinvi.Controllers.Tweet
         {
             var query = new StringBuilder($"{Resources.TweetV2_Get}/{parameters.TweetId}");
             AddTweetFieldsParameters(parameters, query);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
             return query.ToString();
         }
 
@@ -27,10 +28,11 @@ namespace Tweetinvi.Controllers.Tweet
             var query = new StringBuilder($"{Resources.TweetV2_Get}");
             query.AddParameterToQuery("ids", tweetIds);
             AddTweetFieldsParameters(parameters, query);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
             return query.ToString();
         }
 
-        private static void AddTweetFieldsParameters(IBaseTweetsV2Parameters parameters, StringBuilder query)
+        public static void AddTweetFieldsParameters(IBaseTweetsV2Parameters parameters, StringBuilder query)
         {
             query.AddParameterToQuery("expansions", parameters.Expansions);
             query.AddParameterToQuery("media.fields", parameters.MediaFields);
