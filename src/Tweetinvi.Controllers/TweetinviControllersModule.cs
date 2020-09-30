@@ -15,6 +15,7 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Controllers.V2;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Core.QueryGenerators.V2;
 using Tweetinvi.Core.Upload;
 
 namespace Tweetinvi.Controllers

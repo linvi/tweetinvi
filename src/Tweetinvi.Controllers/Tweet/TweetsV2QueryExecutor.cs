@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.QueryGenerators.V2;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.V2.Responses;

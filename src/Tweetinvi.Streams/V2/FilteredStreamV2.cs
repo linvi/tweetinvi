@@ -11,15 +11,16 @@ using Tweetinvi.Streaming.V2;
 
 namespace Tweetinvi.Streams.V2
 {
-    public class SampleStreamV2 : TweetStreamV2<TweetV2ReceivedEventArgs>, ISampleStreamV2
+    public class FilteredStreamV2 : TweetStreamV2<FilteredStreamTweetV2EventArgs>, IFilteredStreamV2
     {
         private readonly ITwitterClient _client;
         private readonly ITweetsV2QueryGenerator _tweetsV2QueryGenerator;
 
-        public SampleStreamV2(
+        public FilteredStreamV2(
             ITwitterClient client,
             IStreamResultGenerator streamResultGenerator,
-            ITweetsV2QueryGenerator tweetsV2QueryGenerator) : base(client, streamResultGenerator)
+            ITweetsV2QueryGenerator tweetsV2QueryGenerator)
+        : base(client, streamResultGenerator)
         {
             _client = client;
             _tweetsV2QueryGenerator = tweetsV2QueryGenerator;
@@ -27,21 +28,20 @@ namespace Tweetinvi.Streams.V2
 
         public Task StartAsync()
         {
-            return StartAsync(new StartSampleStreamV2Parameters());
+            return StartAsync(new StartFilteredStreamV2Parameters());
         }
 
-        public Task StartAsync(IStartSampleStreamV2Parameters parameters)
+        public Task StartAsync(IStartFilteredStreamV2Parameters parameters)
         {
-            var query = new StringBuilder("https://api.twitter.com/2/tweets/sample/stream");
+            var query = new StringBuilder("https://api.twitter.com/2/tweets/search/stream");
             _tweetsV2QueryGenerator.AddTweetFieldsParameters(parameters, query);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
-
             return base.StartAsync(query.ToString(), json =>
             {
                 try
                 {
-                    var response = _client.Json.Deserialize<TweetResponseDTO>(json);
-                    return new TweetV2ReceivedEventArgs(response, json);
+                    var response = _client.Json.Deserialize<FilteredStreamTweetResponseDTO>(json);
+                    return new FilteredStreamTweetV2EventArgs(response, json);
                 }
                 catch (Exception)
                 {

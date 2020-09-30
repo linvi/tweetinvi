@@ -1,4 +1,5 @@
 using System.Linq;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Models.V2.Responses;
 
 namespace Tweetinvi.Parameters.V2

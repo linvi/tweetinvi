@@ -5,14 +5,14 @@ using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Streaming.V2
 {
-    public interface ISampleStreamV2 : ITweetStreamV2<TweetV2ReceivedEventArgs>
+    public interface IFilteredStreamV2 : ITweetStreamV2<FilteredStreamTweetV2EventArgs>
     {
-        /// <inheritdoc cref="StartAsync(IStartSampleStreamV2Parameters)"/>
+        /// <inheritdoc cref="StartAsync(IStartFilteredStreamV2Parameters)"/>
         Task StartAsync();
 
         /// <summary>
         /// Start the stream asynchronously. The task will complete when the stream stops.
         /// </summary>
-        Task StartAsync(IStartSampleStreamV2Parameters parameters);
+        Task StartAsync(IStartFilteredStreamV2Parameters parameters);
     }
 }

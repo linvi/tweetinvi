@@ -1,6 +1,3 @@
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Web;
@@ -11,12 +8,6 @@ using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Controllers.Streams
 {
-    public class FilteredStreamOperations
-    {
-        [JsonProperty("add")] public FilteredStreamRuleConfig[] add { get; set; }
-        [JsonProperty("delete")] public FilteredStreamDeleteOperation delete { get; set; }
-    }
-
     public interface IStreamsV2QueryExecutor
     {
         Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> GetRulesForFilteredStreamV2Async(IGetRulesForFilteredStreamV2Parameters parameters, ITwitterRequest request);
@@ -64,6 +55,22 @@ namespace Tweetinvi.Controllers.Streams
             request.Query.HttpMethod = HttpMethod.POST;
             request.Query.HttpContent = _jsonContentFactory.Create(content);
             return _twitterAccessor.ExecuteRequestAsync<FilteredStreamRulesV2ResponseDTO>(request);
+        }
+
+        private class FilteredStreamDeleteOperation
+        {
+            public FilteredStreamDeleteOperation(string[] ids)
+            {
+                this.ids = ids;
+            }
+            [JsonProperty("ids")] public string[] ids { get; set; }
+        }
+
+
+        private class FilteredStreamOperations
+        {
+            [JsonProperty("add")] public FilteredStreamRuleConfig[] add { get; set; }
+            [JsonProperty("delete")] public FilteredStreamDeleteOperation delete { get; set; }
         }
     }
 }

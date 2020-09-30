@@ -2,16 +2,11 @@ using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.QueryGenerators.V2;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Controllers.Tweet
 {
-    public interface ITweetsV2QueryGenerator
-    {
-        string GetTweetQuery(IGetTweetV2Parameters parameters);
-        string GetTweetsQuery(IGetTweetsV2Parameters parameters);
-    }
-
     public class TweetsV2QueryGenerator : ITweetsV2QueryGenerator
     {
         public string GetTweetQuery(IGetTweetV2Parameters parameters)
@@ -32,7 +27,7 @@ namespace Tweetinvi.Controllers.Tweet
             return query.ToString();
         }
 
-        public static void AddTweetFieldsParameters(IBaseTweetsV2Parameters parameters, StringBuilder query)
+        public void AddTweetFieldsParameters(IBaseTweetsV2Parameters parameters, StringBuilder query)
         {
             query.AddParameterToQuery("expansions", parameters.Expansions);
             query.AddParameterToQuery("media.fields", parameters.MediaFields);

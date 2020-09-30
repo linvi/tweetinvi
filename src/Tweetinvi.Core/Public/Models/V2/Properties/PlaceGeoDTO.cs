@@ -7,7 +7,7 @@ namespace Tweetinvi.Models.V2
     {
         [JsonProperty("type")] public string type { get; set; }
 
-        [JsonProperty("bbox")] public int[] bbox { get; set; }
+        [JsonProperty("bbox")] public string[] bbox { get; set; }
 
         [JsonProperty("properties")] public Dictionary<string, dynamic> properties { get; set; }
     }
