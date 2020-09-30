@@ -12,6 +12,7 @@ namespace Tweetinvi.Core.Exceptions
         int StatusCode { get; }
         string TwitterDescription { get; }
         DateTimeOffset CreationDate { get; }
+        string Content { get; set; }
         ITwitterExceptionInfo[] TwitterExceptionInfos { get; }
         ITwitterQuery TwitterQuery { get; }
     }

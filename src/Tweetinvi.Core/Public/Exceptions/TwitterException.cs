@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Web;
@@ -61,6 +62,8 @@ namespace Tweetinvi.Exceptions
         public int StatusCode { get; protected set; }
         public string TwitterDescription { get; protected set; }
         public DateTimeOffset CreationDate { get; }
+
+        public string Content { get; set; }
         public ITwitterExceptionInfo[] TwitterExceptionInfos { get; protected set; }
         public ITwitterQuery TwitterQuery { get; }
         public ITwitterRequest Request { get; }
@@ -98,7 +101,15 @@ namespace Tweetinvi.Exceptions
             : this(request)
         {
             StatusCode = twitterResponse.StatusCode;
-            TwitterExceptionInfos = webExceptionInfoExtractor.GetTwitterExceptionInfosFromStream(twitterResponse.ResultStream);
+            if (twitterResponse.ResultStream != null)
+            {
+                using (var reader = new StreamReader(twitterResponse.ResultStream))
+                {
+                    Content = reader.ReadToEnd();
+                    TwitterExceptionInfos = webExceptionInfoExtractor.GetTwitterExceptionInfos(Content);
+                }
+            }
+
             TwitterDescription = webExceptionInfoExtractor.GetStatusCodeDescription(StatusCode);
         }
 
@@ -110,7 +121,7 @@ namespace Tweetinvi.Exceptions
         {
             WebException = webException;
             StatusCode = webExceptionInfoExtractor.GetWebExceptionStatusNumber(webException);
-            TwitterExceptionInfos = webExceptionInfoExtractor.GetTwitterExceptionInfo(webException);
+            TwitterExceptionInfos = webExceptionInfoExtractor.GetTwitterExceptionInfos(webException);
             TwitterDescription = webExceptionInfoExtractor.GetStatusCodeDescription(StatusCode);
         }
 
@@ -123,7 +134,7 @@ namespace Tweetinvi.Exceptions
         {
             WebException = webException;
             StatusCode = webExceptionInfoExtractor.GetWebExceptionStatusNumber(webException, statusCode);
-            TwitterExceptionInfos = webExceptionInfoExtractor.GetTwitterExceptionInfo(webException);
+            TwitterExceptionInfos = webExceptionInfoExtractor.GetTwitterExceptionInfos(webException);
             TwitterDescription = webExceptionInfoExtractor.GetStatusCodeDescription(StatusCode);
         }
 

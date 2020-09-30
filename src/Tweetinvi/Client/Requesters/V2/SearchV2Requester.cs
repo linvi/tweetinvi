@@ -1,20 +1,18 @@
 using System.Threading.Tasks;
 using Tweetinvi.Controllers.Search;
-using Tweetinvi.Core.Controllers.V2;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models.V2.Responses;
 using Tweetinvi.Parameters.V2;
-using Tweetinvi.Parameters.V2.SearchesClientV2;
 
 namespace Tweetinvi.Client.Requesters.V2
 {
-    public class SearchsV2Requester : BaseRequester, ISearchV2Requester
+    public class SearchV2Requester : BaseRequester, ISearchV2Requester
     {
         private readonly ISearchV2Controller _searchV2Controller;
 
-        public SearchsV2Requester(
+        public SearchV2Requester(
             ITwitterClient client,
             ITwitterClientEvents twitterClientEvents,
             ISearchV2Controller searchV2Controller) : base(client, twitterClientEvents)

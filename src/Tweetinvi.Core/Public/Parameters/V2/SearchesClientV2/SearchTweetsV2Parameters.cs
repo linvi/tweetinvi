@@ -1,7 +1,7 @@
 using System;
 using Tweetinvi.Core.Parameters;
 
-namespace Tweetinvi.Parameters.V2.SearchesClientV2
+namespace Tweetinvi.Parameters.V2
 {
     public interface ISearchTweetsV2Parameters : IBaseTweetsV2Parameters
     {

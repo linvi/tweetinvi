@@ -1,7 +1,7 @@
 using System.Text;
 using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Parameters.V2.SearchesClientV2;
+using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Controllers.Search
 {

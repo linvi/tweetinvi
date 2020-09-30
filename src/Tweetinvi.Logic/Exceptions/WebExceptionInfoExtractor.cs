@@ -30,7 +30,7 @@ namespace Tweetinvi.Logic.Exceptions
         {
             if (wex.Response is HttpWebResponse wexResponse)
             {
-                return (int)wexResponse.StatusCode;
+                return (int) wexResponse.StatusCode;
             }
 
             return defaultStatusCode;
@@ -41,7 +41,22 @@ namespace Tweetinvi.Logic.Exceptions
             return Resources.GetResourceByName($"ExceptionDescription_{statusCode}");
         }
 
-        public ITwitterExceptionInfo[] GetTwitterExceptionInfo(WebException wex)
+        public ITwitterExceptionInfo[] GetTwitterExceptionInfos(string content)
+        {
+            try
+            {
+                var jObject = _jObjectStaticWrapper.GetJobjectFromJson(content);
+                return _jObjectStaticWrapper.ToObject<ITwitterExceptionInfo[]>(jObject["errors"]);
+            }
+            catch (Exception)
+            {
+                var twitterInfo = _twitterExceptionInfoUnityFactory.Create();
+                twitterInfo.Message = content;
+                return new[] {twitterInfo};
+            }
+        }
+
+        public ITwitterExceptionInfo[] GetTwitterExceptionInfos(WebException wex)
         {
             var wexResponse = wex.Response as HttpWebResponse;
 
@@ -54,7 +69,9 @@ namespace Tweetinvi.Logic.Exceptions
             {
                 return GetStreamInfo(wexResponse);
             }
-            catch (WebException) { }
+            catch (WebException)
+            {
+            }
 
             return new ITwitterExceptionInfo[0];
         }
@@ -74,21 +91,10 @@ namespace Tweetinvi.Logic.Exceptions
                 return null;
             }
 
-            string twitterExceptionInfo = null;
-            try
+            using (var reader = new StreamReader(stream))
             {
-                using (var reader = new StreamReader(stream))
-                {
-                    twitterExceptionInfo = reader.ReadToEnd();
-                    var jObject = _jObjectStaticWrapper.GetJobjectFromJson(twitterExceptionInfo);
-                    return _jObjectStaticWrapper.ToObject<ITwitterExceptionInfo[]>(jObject["errors"]);
-                }
-            }
-            catch (Exception)
-            {
-                var twitterInfo = _twitterExceptionInfoUnityFactory.Create();
-                twitterInfo.Message = twitterExceptionInfo;
-                return new[] {twitterInfo};
+                var content = reader.ReadToEnd();
+                return GetTwitterExceptionInfos(content);
             }
         }
     }

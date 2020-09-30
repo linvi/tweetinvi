@@ -44,14 +44,12 @@ namespace Tweetinvi.WebLogic
                     httpResponseMessage = await _httpClientWebHelper.GetHttpResponseAsync(request.Query, handler).ConfigureAwait(false);
 
                     var result = GetWebResultFromResponse(request.Query.Url, httpResponseMessage);
-
                     if (!result.IsSuccessStatusCode)
                     {
                         throw _twitterExceptionFactory.Create(result, request);
                     }
 
                     var stream = result.ResultStream;
-
                     if (stream != null)
                     {
                         result.Binary = StreamToBinary(stream);
@@ -71,7 +69,7 @@ namespace Tweetinvi.WebLogic
 
         // Multipart
 
-        private static byte[] StreamToBinary(Stream stream)
+        public static byte[] StreamToBinary(Stream stream)
         {
             if (stream == null)
             {

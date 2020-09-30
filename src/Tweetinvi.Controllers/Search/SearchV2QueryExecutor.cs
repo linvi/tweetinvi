@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.V2.Responses;
-using Tweetinvi.Parameters.V2.SearchesClientV2;
+using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Controllers.Search
 {

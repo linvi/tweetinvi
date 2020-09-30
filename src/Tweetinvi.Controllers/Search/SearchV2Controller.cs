@@ -1,12 +1,10 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.V2.Responses;
-using Tweetinvi.Parameters;
-using Tweetinvi.Parameters.V2.SearchesClientV2;
+using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Controllers.Search
 {
@@ -20,7 +18,7 @@ namespace Tweetinvi.Controllers.Search
     {
         private readonly ISearchV2QueryExecutor _searchQueryExecutor;
 
-        public SearchV2Controller(ISearchV2QueryExecutor searchQueryExecutor, IPageCursorIteratorFactories pageCursorIteratorFactories)
+        public SearchV2Controller(ISearchV2QueryExecutor searchQueryExecutor)
         {
             _searchQueryExecutor = searchQueryExecutor;
         }

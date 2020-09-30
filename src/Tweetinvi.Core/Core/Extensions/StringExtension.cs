@@ -317,7 +317,7 @@ namespace Tweetinvi.Core.Extensions
             {
                 var stringValue = parameterValue.ToString();
 
-                if (parameterValue is HashSet<string> hashsetValue)
+                if (parameterValue is IEnumerable<string> hashsetValue)
                 {
                     stringValue = string.Join(",", hashsetValue);
                 }
