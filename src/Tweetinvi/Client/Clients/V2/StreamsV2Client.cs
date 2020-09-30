@@ -78,5 +78,16 @@ namespace Tweetinvi.Client.V2
             var twitterResult = await _streamsV2Requester.DeleteRulesFromFilteredStreamAsync(parameters).ConfigureAwait(false);
             return twitterResult?.Model;
         }
+
+        public Task<FilteredStreamRulesV2ResponseDTO> TestFilteredStreamRulesV2Async(params FilteredStreamRuleConfig[] rulesToAdd)
+        {
+            return TestFilteredStreamRulesV2Async(new AddRulesToFilteredStreamV2Parameters(rulesToAdd));
+        }
+
+        public async Task<FilteredStreamRulesV2ResponseDTO> TestFilteredStreamRulesV2Async(IAddRulesToFilteredStreamV2Parameters parameters)
+        {
+            var twitterResult = await _streamsV2Requester.TestFilteredStreamRulesV2Async(parameters).ConfigureAwait(false);
+            return twitterResult?.Model;
+        }
     }
 }

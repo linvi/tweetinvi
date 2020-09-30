@@ -12,6 +12,7 @@ namespace Tweetinvi.Client.Requesters.V2
         Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> GetRulesForFilteredStreamV2Async(IGetRulesForFilteredStreamV2Parameters parameters);
         Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> AddRulesToFilteredStreamAsync(IAddRulesToFilteredStreamV2Parameters parameters);
         Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> DeleteRulesFromFilteredStreamAsync(IDeleteRulesFromFilteredStreamV2Parameters parameters);
+        Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> TestFilteredStreamRulesV2Async(IAddRulesToFilteredStreamV2Parameters parameters);
     }
 
     public class StreamsV2Requester : BaseRequester, IStreamsV2Requester
@@ -39,6 +40,11 @@ namespace Tweetinvi.Client.Requesters.V2
         public Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> DeleteRulesFromFilteredStreamAsync(IDeleteRulesFromFilteredStreamV2Parameters parameters)
         {
             return ExecuteRequestAsync(request => _streamsV2Controller.DeleteRulesFromFilteredStreamAsync(parameters, request));
+        }
+
+        public Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> TestFilteredStreamRulesV2Async(IAddRulesToFilteredStreamV2Parameters parameters)
+        {
+            return ExecuteRequestAsync(request => _streamsV2Controller.TestFilteredStreamRulesV2Async(parameters, request));
         }
     }
 }

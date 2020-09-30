@@ -21,5 +21,9 @@ namespace Tweetinvi.Client.V2
         Task<FilteredStreamRulesV2ResponseDTO> DeleteRulesFromFilteredStreamAsync(params string[] ruleIdsToDelete);
         Task<FilteredStreamRulesV2ResponseDTO> DeleteRulesFromFilteredStreamAsync(params FilteredStreamRuleDTO[] rulesToDelete);
         Task<FilteredStreamRulesV2ResponseDTO> DeleteRulesFromFilteredStreamAsync(IDeleteRulesFromFilteredStreamV2Parameters parameters);
+
+        Task<FilteredStreamRulesV2ResponseDTO> TestFilteredStreamRulesV2Async(params FilteredStreamRuleConfig[] rulesToAdd);
+        Task<FilteredStreamRulesV2ResponseDTO> TestFilteredStreamRulesV2Async(IAddRulesToFilteredStreamV2Parameters parameters);
+
     }
 }

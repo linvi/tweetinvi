@@ -13,6 +13,7 @@ namespace Tweetinvi.Controllers.Streams
         Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> GetRulesForFilteredStreamV2Async(IGetRulesForFilteredStreamV2Parameters parameters, ITwitterRequest request);
         Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> AddRulesToFilteredStreamAsync(IAddRulesToFilteredStreamV2Parameters parameters, ITwitterRequest request);
         Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> DeleteRulesFromFilteredStreamAsync(IDeleteRulesFromFilteredStreamV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> TestFilteredStreamRulesV2Async(IAddRulesToFilteredStreamV2Parameters parameters, ITwitterRequest request);
     }
 
     public class StreamsV2QueryExecutor : IStreamsV2QueryExecutor
@@ -52,6 +53,16 @@ namespace Tweetinvi.Controllers.Streams
             var content = new FilteredStreamOperations { delete = new FilteredStreamDeleteOperation(parameters.RuleIds)};
 
             request.Query.Url = _streamsV2QueryGenerator.GetDeleteRulesFromFilteredStreamQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.POST;
+            request.Query.HttpContent = _jsonContentFactory.Create(content);
+            return _twitterAccessor.ExecuteRequestAsync<FilteredStreamRulesV2ResponseDTO>(request);
+        }
+
+        public Task<ITwitterResult<FilteredStreamRulesV2ResponseDTO>> TestFilteredStreamRulesV2Async(IAddRulesToFilteredStreamV2Parameters parameters, ITwitterRequest request)
+        {
+            var content = new FilteredStreamOperations { add = parameters.Rules };
+
+            request.Query.Url = _streamsV2QueryGenerator.GetTestFilteredStreamRulesV2Query(parameters);
             request.Query.HttpMethod = HttpMethod.POST;
             request.Query.HttpContent = _jsonContentFactory.Create(content);
             return _twitterAccessor.ExecuteRequestAsync<FilteredStreamRulesV2ResponseDTO>(request);
