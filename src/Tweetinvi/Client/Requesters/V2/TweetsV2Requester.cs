@@ -28,5 +28,10 @@ namespace Tweetinvi.Client.Requesters.V2
         {
             return ExecuteRequestAsync(request => _tweetsV2Controller.GetTweetsAsync(parameters, request));
         }
+
+        public Task<ITwitterResult<TweetHideResponseDTO>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters)
+        {
+            return ExecuteRequestAsync(request => _tweetsV2Controller.ChangeTweetReplyVisibilityAsync(parameters, request));
+        }
     }
 }

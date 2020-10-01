@@ -8,6 +8,7 @@ namespace Tweetinvi.Core.QueryGenerators.V2
     {
         string GetTweetQuery(IGetTweetV2Parameters parameters);
         string GetTweetsQuery(IGetTweetsV2Parameters parameters);
+        string GetChangeTweetReplyVisibilityQuery(IChangeTweetReplyVisibilityParameters parameters);
         void AddTweetFieldsParameters(IBaseTweetsV2Parameters parameters, StringBuilder query);
     }
 }

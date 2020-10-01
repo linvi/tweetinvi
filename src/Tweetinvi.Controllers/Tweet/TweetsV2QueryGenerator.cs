@@ -27,6 +27,13 @@ namespace Tweetinvi.Controllers.Tweet
             return query.ToString();
         }
 
+        public string GetChangeTweetReplyVisibilityQuery(IChangeTweetReplyVisibilityParameters parameters)
+        {
+            var query = new StringBuilder($"https://api.twitter.com/2/tweets/{parameters.Id}/hidden");
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            return query.ToString();
+        }
+
         public void AddTweetFieldsParameters(IBaseTweetsV2Parameters parameters, StringBuilder query)
         {
             query.AddParameterToQuery("expansions", parameters.Expansions);

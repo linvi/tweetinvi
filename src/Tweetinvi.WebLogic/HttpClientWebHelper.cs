@@ -31,12 +31,17 @@ namespace Tweetinvi.WebLogic
                 }
                 else
                 {
-                    if (httpMethod != HttpMethod.Post)
+                    if (httpMethod == HttpMethod.Post)
                     {
-                        throw new ArgumentException("Cannot send HttpContent in a WebRequest that is not POST.");
+                        return await client.PostAsync(twitterQuery.Url, twitterQuery.HttpContent).ConfigureAwait(false);
                     }
 
-                    return await client.PostAsync(twitterQuery.Url, twitterQuery.HttpContent).ConfigureAwait(false);
+                    if (httpMethod == HttpMethod.Put)
+                    {
+                        return await client.PutAsync(twitterQuery.Url, twitterQuery.HttpContent).ConfigureAwait(false);
+                    }
+
+                    throw new ArgumentException("Cannot send HttpContent in a WebRequest that is not POST or PUT.");
                 }
             }
         }
