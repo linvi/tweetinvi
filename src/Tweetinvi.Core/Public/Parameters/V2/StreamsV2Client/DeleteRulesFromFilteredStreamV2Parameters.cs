@@ -18,7 +18,7 @@ namespace Tweetinvi.Parameters.V2
 
         public DeleteRulesFromFilteredStreamV2Parameters(FilteredStreamRuleDTO[] rules)
         {
-            RuleIds = rules.Select(x => x.id).ToArray();
+            RuleIds = rules.Select(x => x.Id).ToArray();
         }
 
         public string[] RuleIds { get; set; }

@@ -69,7 +69,7 @@ namespace Tweetinvi.Client.V2
 
         public Task<FilteredStreamRulesV2ResponseDTO> DeleteRulesFromFilteredStreamAsync(params FilteredStreamRuleDTO[] rulesToDelete)
         {
-            var ruleIds = rulesToDelete.Select(x => x.id).ToArray();
+            var ruleIds = rulesToDelete.Select(x => x.Id).ToArray();
             return DeleteRulesFromFilteredStreamAsync(new DeleteRulesFromFilteredStreamV2Parameters(ruleIds));
         }
 

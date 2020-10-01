@@ -45,21 +45,21 @@ namespace Tweetinvi.Controllers.Search
                 getNext,
                 page =>
                 {
-                    if (page.Model.data.Length == 0)
+                    if (page.Model.Tweets.Length == 0)
                     {
                         return null;
                     }
 
-                    return page.Model.meta.next_token;
+                    return page.Model.SearchMetadata.NextToken;
                 },
                 page =>
                 {
-                    if (page.Model.data.Length == 0)
+                    if (page.Model.Tweets.Length == 0)
                     {
                         return true;
                     }
 
-                    return page.Model.meta.next_token == null;
+                    return page.Model.SearchMetadata.NextToken == null;
                 });
 
             return twitterCursorResult;

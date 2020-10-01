@@ -7,7 +7,7 @@ namespace Tweetinvi.Events.V2
     {
         public FilteredStreamTweetV2EventArgs(FilteredStreamTweetResponseDTO response, string json) : base(response, json)
         {
-            MatchingRules = response.matching_rules;
+            MatchingRules = response.MatchingRules;
         }
 
         public FilteredStreamTweetV2EventArgs(TweetDTO tweet, TweetIncludesDTO includes, FilteredStreamMatchingRuleDTO[] matchingRules, string json) : base(tweet, includes, json)

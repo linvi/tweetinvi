@@ -5,6 +5,6 @@ namespace Tweetinvi.Models.V2
 {
     public class FilteredStreamRuleMetadataDTO
     {
-        [JsonProperty("sent")] public DateTimeOffset sent { get; set; }
+        [JsonProperty("sent")] public DateTimeOffset SentDate { get; set; }
     }
 }

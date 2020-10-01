@@ -5,7 +5,7 @@ namespace Tweetinvi.Events.V2
 {
     public class TweetV2EventArgs
     {
-        public TweetV2EventArgs(TweetResponseDTO response, string json) : this(response.data, response.includes, json)
+        public TweetV2EventArgs(TweetResponseDTO response, string json) : this(response.Tweet, response.Includes, json)
         {
         }
 

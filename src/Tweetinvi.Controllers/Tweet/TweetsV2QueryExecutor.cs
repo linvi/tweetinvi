@@ -45,9 +45,9 @@ namespace Tweetinvi.Controllers.Tweet
 
         public Task<ITwitterResult<TweetHideResponseDTO>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters, ITwitterRequest request)
         {
-            var content = new TweetHiddenStateDTO
+            var content = new TweetHideStateDTO
             {
-                hidden = parameters.Visibility == 0
+                Hidden = parameters.Visibility == 0
             };
 
             request.Query.Url = _tweetQueryGenerator.GetChangeTweetReplyVisibilityQuery(parameters);

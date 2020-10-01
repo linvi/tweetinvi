@@ -4,7 +4,7 @@ namespace Tweetinvi.Models.V2
 {
     public class FilteredStreamMatchingRuleDTO
     {
-        [JsonProperty("id")] public string id { get; set; }
-        [JsonProperty("tag")] public string tag { get; set; }
+        [JsonProperty("id")] public string Id { get; set; }
+        [JsonProperty("tag")] public string Tag { get; set; }
     }
 }
