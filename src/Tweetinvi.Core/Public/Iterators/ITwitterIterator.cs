@@ -16,6 +16,19 @@ namespace Tweetinvi.Iterators
     {
         TCursor NextCursor { get; }
         bool Completed { get; }
-        Task<ITwitterIteratorPage<TItem, TCursor>> NextPageAsync();
+        Task<ITwitterIteratorEnumerablePage<TItem, TCursor>> NextPageAsync();
+    }
+
+    public interface ITwitterSimpleIteratorResult<TCursor>
+    {
+        TCursor NextCursor { get; }
+        bool Completed { get; }
+    }
+
+    public interface ITwitterSimpleIterator<TItem, TCursor> where TItem : ITwitterSimpleIteratorResult<TCursor>
+    {
+        TCursor NextCursor { get; }
+        bool Completed { get; }
+        Task<TItem> NextPageAsync();
     }
 }

@@ -4,14 +4,14 @@ using Tweetinvi.Iterators;
 
 namespace Tweetinvi.Core.Iterators
 {
-    public class TwitterIteratorPage<TItemCollection, TItem, TCursor> : ITwitterIteratorPage<TItem, TCursor> where TItemCollection : IEnumerable<TItem>
+    public class TwitterIteratorEnumerableEnumerablePage<TItemCollection, TItem, TCursor> : ITwitterIteratorEnumerablePage<TItem, TCursor> where TItemCollection : IEnumerable<TItem>
     {
         private readonly TItemCollection _items;
 
-        public TwitterIteratorPage(TItemCollection items, TCursor nextCursor, bool isLastPage)
+        public TwitterIteratorEnumerableEnumerablePage(TItemCollection items, TCursor nextCursor, bool isLastPage)
         {
             _items = items;
-            
+
             NextCursor = nextCursor;
             IsLastPage = isLastPage;
         }
@@ -21,7 +21,7 @@ namespace Tweetinvi.Core.Iterators
 
         public IEnumerator<TItem> GetEnumerator()
         {
-            return ((IEnumerable<TItem>) _items).GetEnumerator();    
+            return ((IEnumerable<TItem>) _items).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

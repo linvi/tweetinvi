@@ -33,7 +33,7 @@ namespace Tweetinvi.Core.Iterators
         public TCursor NextCursor { get; private set; }
         public bool Completed { get; private set; }
 
-        public async Task<ITwitterIteratorPage<TOutput, TCursor>> NextPageAsync()
+        public async Task<ITwitterIteratorEnumerablePage<TOutput, TCursor>> NextPageAsync()
         {
             var page = await _source.NextPageAsync().ConfigureAwait(false);
             var items = _transform(page.Content);
@@ -41,7 +41,7 @@ namespace Tweetinvi.Core.Iterators
             NextCursor = page.NextCursor;
             Completed = page.IsLastPage;
 
-            return new TwitterIteratorPage<TOutput[], TOutput, TCursor>(items, NextCursor, Completed);
+            return new TwitterIteratorEnumerableEnumerablePage<TOutput[], TOutput, TCursor>(items, NextCursor, Completed);
         }
     }
 }

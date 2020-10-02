@@ -133,6 +133,8 @@ namespace Tweetinvi
             Users = _tweetinviContainer.Resolve<IUsersClient>();
             AccountActivity = _tweetinviContainer.Resolve<IAccountActivityClient>();
 
+            TweetsV2 = _tweetinviContainer.Resolve<ITweetsV2Client>();
+            UsersV2 = _tweetinviContainer.Resolve<IUsersV2Client>();
             StreamsV2 = _tweetinviContainer.Resolve<IStreamsV2Client>();
 
             _tweetinviContainer.AssociatedClient = this;
@@ -176,6 +178,10 @@ namespace Tweetinvi
         /// <inheritdoc/>
         public IAccountActivityClient AccountActivity { get; }
 
+        /// <inheritdoc/>
+        public ITweetsV2Client TweetsV2 { get; }
+
+        public IUsersV2Client UsersV2 { get; }
 
         /// <inheritdoc/>
         public IStreamsV2Client StreamsV2 { get; }

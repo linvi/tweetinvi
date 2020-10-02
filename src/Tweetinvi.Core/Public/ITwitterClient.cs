@@ -1,5 +1,6 @@
 ﻿using Tweetinvi.Client;
 using Tweetinvi.Client.Tools;
+using Tweetinvi.Client.V2;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Events;
@@ -84,6 +85,14 @@ namespace Tweetinvi
         /// Client to execute all the actions related with webhooks
         /// </summary>
         IAccountActivityClient AccountActivity { get; }
+
+        // ---------- V2 ------------- //
+
+        ITweetsV2Client TweetsV2 { get; }
+        IUsersV2Client UsersV2 { get; }
+        IStreamsV2Client StreamsV2 { get; }
+
+        // ---------- Others --------- //
 
         /// <summary>
         /// Execute Request and receive request results
