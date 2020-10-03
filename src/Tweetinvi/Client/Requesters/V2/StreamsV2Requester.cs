@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Controllers.Streams;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Client.Requesters.V2

@@ -1,6 +1,6 @@
 namespace Tweetinvi.Parameters.V2
 {
-    public interface IChangeTweetReplyVisibilityParameters : ICustomRequestParameters
+    public interface IChangeTweetReplyVisibilityV2Parameters : ICustomRequestParameters
     {
         long Id { get; set; }
         TweetReplyVisibility Visibility { get; set; }
@@ -12,9 +12,9 @@ namespace Tweetinvi.Parameters.V2
         Visible = 1
     }
 
-    public class ChangeTweetReplyVisibilityParameters : CustomRequestParameters, IChangeTweetReplyVisibilityParameters
+    public class ChangeTweetReplyVisibilityV2Parameters : CustomRequestParameters, IChangeTweetReplyVisibilityV2Parameters
     {
-        public ChangeTweetReplyVisibilityParameters(long tweetId, TweetReplyVisibility visibility)
+        public ChangeTweetReplyVisibilityV2Parameters(long tweetId, TweetReplyVisibility visibility)
         {
             Id = tweetId;
             Visibility = visibility;

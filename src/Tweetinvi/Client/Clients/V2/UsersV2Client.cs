@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters.V2;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Client.V2

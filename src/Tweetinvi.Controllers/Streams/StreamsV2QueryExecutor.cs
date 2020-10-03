@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Parameters.V2;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 

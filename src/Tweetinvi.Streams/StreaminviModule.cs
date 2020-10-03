@@ -6,7 +6,6 @@ using Tweetinvi.Streaming.V2;
 using Tweetinvi.Streaming.Webhooks;
 using Tweetinvi.Streams.Helpers;
 using Tweetinvi.Streams.Model;
-using Tweetinvi.Streams.V2;
 using Tweetinvi.Streams.Webhooks;
 
 namespace Tweetinvi.Streams

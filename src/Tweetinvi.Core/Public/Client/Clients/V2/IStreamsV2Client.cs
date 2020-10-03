@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Parameters.V2;
 using Tweetinvi.Streaming.V2;
 

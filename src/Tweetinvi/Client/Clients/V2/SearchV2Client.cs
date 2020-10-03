@@ -3,7 +3,7 @@ using Tweetinvi.Client.Requesters.V2;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Client.V2

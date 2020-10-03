@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers.V2;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Controllers.Tweet
@@ -26,7 +26,7 @@ namespace Tweetinvi.Controllers.Tweet
             return _queryExecutor.GetTweetsAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityV2Parameters parameters, ITwitterRequest request)
         {
             return _queryExecutor.ChangeTweetReplyVisibilityAsync(parameters, request);
         }

@@ -3,7 +3,7 @@ using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Parameters.V2
 {
-    public static class TweetResponseFields
+    public static class TweetV2ResponseFields
     {
         public static class Expansions
         {

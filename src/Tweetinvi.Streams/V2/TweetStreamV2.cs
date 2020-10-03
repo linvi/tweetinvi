@@ -6,7 +6,7 @@ using Tweetinvi.Core.Streaming.V2;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Streams.V2
+namespace Tweetinvi.Streams
 {
     public class TweetStreamV2<T> : ITweetStreamV2<T>
     {

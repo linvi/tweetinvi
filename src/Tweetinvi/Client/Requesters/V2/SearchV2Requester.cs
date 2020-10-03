@@ -3,7 +3,7 @@ using Tweetinvi.Controllers.Search;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Client.Requesters.V2

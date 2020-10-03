@@ -5,11 +5,11 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators.V2;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Events.V2;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Parameters.V2;
 using Tweetinvi.Streaming.V2;
 
-namespace Tweetinvi.Streams.V2
+namespace Tweetinvi.Streams
 {
     public class SampleStreamV2 : TweetStreamV2<TweetV2ReceivedEventArgs>, ISampleStreamV2
     {

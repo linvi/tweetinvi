@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.QueryGenerators.V2;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Controllers.Tweet
@@ -11,7 +11,7 @@ namespace Tweetinvi.Controllers.Tweet
     {
         Task<ITwitterResult<TweetV2Response>> GetTweetAsync(IGetTweetV2Parameters parameters, ITwitterRequest request);
         Task<ITwitterResult<TweetsV2Response>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityV2Parameters parameters, ITwitterRequest request);
     }
 
     public class TweetsV2QueryExecutor : ITweetsV2QueryExecutor
@@ -42,7 +42,7 @@ namespace Tweetinvi.Controllers.Tweet
             return _twitterAccessor.ExecuteRequestAsync<TweetsV2Response>(request);
         }
 
-        public Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityV2Parameters parameters, ITwitterRequest request)
         {
             var content = new TweetHideStateV2
             {

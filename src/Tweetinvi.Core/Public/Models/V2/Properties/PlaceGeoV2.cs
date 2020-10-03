@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Tweetinvi.Models
+namespace Tweetinvi.Models.V2
 {
     public class PlaceGeoV2
     {

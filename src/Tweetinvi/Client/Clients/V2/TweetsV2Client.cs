@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters.V2;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Client.V2
@@ -38,10 +38,10 @@ namespace Tweetinvi.Client.V2
 
         public Task<TweetHideV2Response> ChangeTweetReplyVisibilityAsync(long tweetId, TweetReplyVisibility visibility)
         {
-            return ChangeTweetReplyVisibilityAsync(new ChangeTweetReplyVisibilityParameters(tweetId, visibility));
+            return ChangeTweetReplyVisibilityAsync(new ChangeTweetReplyVisibilityV2Parameters(tweetId, visibility));
         }
 
-        public async Task<TweetHideV2Response> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters)
+        public async Task<TweetHideV2Response> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityV2Parameters parameters)
         {
             var twitterResponse = await _tweetsV2Requester.ChangeTweetReplyVisibilityAsync(parameters).ConfigureAwait(false);
             return twitterResponse?.Model;

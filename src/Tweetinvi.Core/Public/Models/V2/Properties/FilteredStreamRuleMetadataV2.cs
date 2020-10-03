@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Tweetinvi.Models
+namespace Tweetinvi.Models.V2
 {
     public class FilteredStreamRuleMetadataV2
     {

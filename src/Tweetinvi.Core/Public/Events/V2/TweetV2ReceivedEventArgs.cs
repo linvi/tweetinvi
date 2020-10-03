@@ -1,5 +1,5 @@
 using Tweetinvi.Models;
-using Tweetinvi.Models.Responses;
+using Tweetinvi.Models.V2;
 
 namespace Tweetinvi.Events.V2
 {
