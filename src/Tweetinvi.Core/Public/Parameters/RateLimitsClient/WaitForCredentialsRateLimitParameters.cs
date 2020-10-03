@@ -1,5 +1,5 @@
 using Tweetinvi.Core.Client;
-using Tweetinvi.Core.Models.Authentication;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters.RateLimitsClient
 {

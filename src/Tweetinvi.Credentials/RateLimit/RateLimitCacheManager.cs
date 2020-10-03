@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Tweetinvi.Client;
-using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;

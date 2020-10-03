@@ -1,4 +1,4 @@
-namespace Tweetinvi.Core.Models.Authentication
+namespace Tweetinvi.Models
 {
     public interface IReadOnlyTwitterCredentials : IReadOnlyConsumerCredentials
     {

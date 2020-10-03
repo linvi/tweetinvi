@@ -1,4 +1,3 @@
-using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Helpers

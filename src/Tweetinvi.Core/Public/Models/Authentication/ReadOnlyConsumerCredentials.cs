@@ -1,6 +1,6 @@
 using Tweetinvi.Core.Helpers;
 
-namespace Tweetinvi.Core.Models.Authentication
+namespace Tweetinvi.Models
 {
     public interface IReadOnlyConsumerCredentialsWithoutBearer
     {

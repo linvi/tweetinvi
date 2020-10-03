@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
 

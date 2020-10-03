@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 

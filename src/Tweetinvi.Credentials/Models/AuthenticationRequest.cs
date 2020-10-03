@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Core.Models.Authentication;
-using Tweetinvi.Models;
+﻿using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials.Models
 {

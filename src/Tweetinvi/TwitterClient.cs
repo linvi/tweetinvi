@@ -6,7 +6,6 @@ using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Models.Authentication;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Events;
 using Tweetinvi.Models;

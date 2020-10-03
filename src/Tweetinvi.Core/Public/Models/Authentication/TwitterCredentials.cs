@@ -1,5 +1,4 @@
 ﻿using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Models.Authentication;
 
 namespace Tweetinvi.Models
 {
