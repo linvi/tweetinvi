@@ -3,15 +3,15 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.V2.Responses;
+using Tweetinvi.Models.Responses;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Controllers.Search
 {
     public interface ISearchV2Controller
     {
-        Task<ITwitterResult<SearchTweetsResponseDTO>> SearchTweetsAsync(ISearchTweetsV2Parameters parameters, ITwitterRequest request);
-        ITwitterPageIterator<ITwitterResult<SearchTweetsResponseDTO>, string> GetSearchTweetsV2Iterator(ISearchTweetsV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<SearchTweetsV2Response>> SearchTweetsAsync(ISearchTweetsV2Parameters parameters, ITwitterRequest request);
+        ITwitterPageIterator<ITwitterResult<SearchTweetsV2Response>, string> GetSearchTweetsV2Iterator(ISearchTweetsV2Parameters parameters, ITwitterRequest request);
     }
 
     public class SearchV2Controller : ISearchV2Controller
@@ -23,14 +23,14 @@ namespace Tweetinvi.Controllers.Search
             _searchQueryExecutor = searchQueryExecutor;
         }
 
-        public Task<ITwitterResult<SearchTweetsResponseDTO>> SearchTweetsAsync(ISearchTweetsV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<SearchTweetsV2Response>> SearchTweetsAsync(ISearchTweetsV2Parameters parameters, ITwitterRequest request)
         {
             return _searchQueryExecutor.SearchTweetsAsync(parameters, request);
         }
 
-        public ITwitterPageIterator<ITwitterResult<SearchTweetsResponseDTO>, string> GetSearchTweetsV2Iterator(ISearchTweetsV2Parameters parameters, ITwitterRequest request)
+        public ITwitterPageIterator<ITwitterResult<SearchTweetsV2Response>, string> GetSearchTweetsV2Iterator(ISearchTweetsV2Parameters parameters, ITwitterRequest request)
         {
-            Func<string, Task<ITwitterResult<SearchTweetsResponseDTO>>> getNext = nextToken =>
+            Func<string, Task<ITwitterResult<SearchTweetsV2Response>>> getNext = nextToken =>
             {
                 var cursoredParameters = new SearchTweetsV2Parameters(parameters)
                 {
@@ -40,7 +40,7 @@ namespace Tweetinvi.Controllers.Search
                 return _searchQueryExecutor.SearchTweetsAsync(cursoredParameters, new TwitterRequest(request));
             };
 
-            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<SearchTweetsResponseDTO>, string>(
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<SearchTweetsV2Response>, string>(
                 parameters.NextToken,
                 getNext,
                 page =>

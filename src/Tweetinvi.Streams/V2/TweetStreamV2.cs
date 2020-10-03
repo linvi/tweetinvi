@@ -4,9 +4,7 @@ using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Streaming.V2;
 using Tweetinvi.Events;
-using Tweetinvi.Events.V2;
 using Tweetinvi.Models;
-using Tweetinvi.Models.V2.Responses;
 
 namespace Tweetinvi.Streams.V2
 {

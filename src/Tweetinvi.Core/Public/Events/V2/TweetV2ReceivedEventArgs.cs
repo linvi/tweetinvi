@@ -1,23 +1,23 @@
-using Tweetinvi.Models.V2;
-using Tweetinvi.Models.V2.Responses;
+using Tweetinvi.Models;
+using Tweetinvi.Models.Responses;
 
 namespace Tweetinvi.Events.V2
 {
     public class TweetV2EventArgs
     {
-        public TweetV2EventArgs(TweetResponseDTO response, string json) : this(response.Tweet, response.Includes, json)
+        public TweetV2EventArgs(TweetV2Response response, string json) : this(response.Tweet, response.Includes, json)
         {
         }
 
-        public TweetV2EventArgs(TweetDTO tweet, TweetIncludesDTO includes, string json)
+        public TweetV2EventArgs(TweetV2 tweet, TweetIncludesV2 includes, string json)
         {
             Tweet = tweet;
             Includes = includes;
             Json = json;
         }
 
-        public TweetDTO Tweet { get; }
-        public TweetIncludesDTO Includes { get; }
+        public TweetV2 Tweet { get; }
+        public TweetIncludesV2 Includes { get; }
         public string Json { get; }
     }
 
@@ -26,7 +26,7 @@ namespace Tweetinvi.Events.V2
     /// </summary>
     public class TweetV2ReceivedEventArgs : TweetV2EventArgs
     {
-        public TweetV2ReceivedEventArgs(TweetResponseDTO response, string json) : base(response, json)
+        public TweetV2ReceivedEventArgs(TweetV2Response response, string json) : base(response, json)
         {
         }
     }

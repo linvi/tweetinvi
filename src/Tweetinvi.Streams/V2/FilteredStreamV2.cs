@@ -5,7 +5,7 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators.V2;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Events.V2;
-using Tweetinvi.Models.V2.Responses;
+using Tweetinvi.Models.Responses;
 using Tweetinvi.Parameters.V2;
 using Tweetinvi.Streaming.V2;
 
@@ -40,7 +40,7 @@ namespace Tweetinvi.Streams.V2
             {
                 try
                 {
-                    var response = _client.Json.Deserialize<FilteredStreamTweetResponseDTO>(json);
+                    var response = _client.Json.Deserialize<FilteredStreamTweetV2Response>(json);
                     return new FilteredStreamTweetV2EventArgs(response, json);
                 }
                 catch (Exception)

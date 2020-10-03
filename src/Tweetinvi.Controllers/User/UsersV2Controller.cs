@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers.V2;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.V2.Responses;
+using Tweetinvi.Models.Responses;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Controllers.User
@@ -16,22 +16,22 @@ namespace Tweetinvi.Controllers.User
             _queryExecutor = queryExecutor;
         }
 
-        public Task<ITwitterResult<UserResponseDTO>> GetUserAsync(IGetUserByIdV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByIdV2Parameters parameters, ITwitterRequest request)
         {
             return _queryExecutor.GetUserAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<UsersResponseDTO>> GetUsersAsync(IGetUsersByIdV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByIdV2Parameters parameters, ITwitterRequest request)
         {
             return _queryExecutor.GetUsersAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<UserResponseDTO>> GetUserAsync(IGetUserByUsernameV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByUsernameV2Parameters parameters, ITwitterRequest request)
         {
             return _queryExecutor.GetUserAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<UsersResponseDTO>> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters, ITwitterRequest request)
         {
             return _queryExecutor.GetUsersAsync(parameters, request);
         }

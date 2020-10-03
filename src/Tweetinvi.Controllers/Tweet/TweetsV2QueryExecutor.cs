@@ -2,17 +2,16 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.QueryGenerators.V2;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.V2;
-using Tweetinvi.Models.V2.Responses;
+using Tweetinvi.Models.Responses;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Controllers.Tweet
 {
     public interface ITweetsV2QueryExecutor
     {
-        Task<ITwitterResult<TweetResponseDTO>> GetTweetAsync(IGetTweetV2Parameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<TweetsResponseDTO>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<TweetHideResponseDTO>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<TweetV2Response>> GetTweetAsync(IGetTweetV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<TweetsV2Response>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters, ITwitterRequest request);
     }
 
     public class TweetsV2QueryExecutor : ITweetsV2QueryExecutor
@@ -31,21 +30,21 @@ namespace Tweetinvi.Controllers.Tweet
             _twitterAccessor = twitterAccessor;
         }
 
-        public Task<ITwitterResult<TweetResponseDTO>> GetTweetAsync(IGetTweetV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<TweetV2Response>> GetTweetAsync(IGetTweetV2Parameters parameters, ITwitterRequest request)
         {
             request.Query.Url = _tweetQueryGenerator.GetTweetQuery(parameters);
-            return _twitterAccessor.ExecuteRequestAsync<TweetResponseDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<TweetV2Response>(request);
         }
 
-        public Task<ITwitterResult<TweetsResponseDTO>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<TweetsV2Response>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request)
         {
             request.Query.Url = _tweetQueryGenerator.GetTweetsQuery(parameters);
-            return _twitterAccessor.ExecuteRequestAsync<TweetsResponseDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<TweetsV2Response>(request);
         }
 
-        public Task<ITwitterResult<TweetHideResponseDTO>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters, ITwitterRequest request)
         {
-            var content = new TweetHideStateDTO
+            var content = new TweetHideStateV2
             {
                 Hidden = parameters.Visibility == 0
             };
@@ -53,7 +52,7 @@ namespace Tweetinvi.Controllers.Tweet
             request.Query.Url = _tweetQueryGenerator.GetChangeTweetReplyVisibilityQuery(parameters);
             request.Query.HttpMethod = HttpMethod.PUT;
             request.Query.HttpContent = _jsonContentFactory.Create(content);
-            return _twitterAccessor.ExecuteRequestAsync<TweetHideResponseDTO>(request);
+            return _twitterAccessor.ExecuteRequestAsync<TweetHideV2Response>(request);
         }
     }
 }

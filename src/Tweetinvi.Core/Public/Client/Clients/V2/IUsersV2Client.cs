@@ -1,19 +1,19 @@
 using System.Threading.Tasks;
-using Tweetinvi.Models.V2.Responses;
+using Tweetinvi.Models.Responses;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Client.V2
 {
     public interface IUsersV2Client
     {
-        Task<UserResponseDTO> GetUserAsync(long userId);
-        Task<UserResponseDTO> GetUserAsync(string username);
-        Task<UserResponseDTO> GetUserAsync(IGetUserByIdV2Parameters parameters);
-        Task<UserResponseDTO> GetUserAsync(IGetUserByUsernameV2Parameters parameters);
+        Task<UserV2Response> GetUserAsync(long userId);
+        Task<UserV2Response> GetUserAsync(string username);
+        Task<UserV2Response> GetUserAsync(IGetUserByIdV2Parameters parameters);
+        Task<UserV2Response> GetUserAsync(IGetUserByUsernameV2Parameters parameters);
 
-        Task<UsersResponseDTO> GetUsersAsync(long[] userIds);
-        Task<UsersResponseDTO> GetUsersAsync(string[] usernames);
-        Task<UsersResponseDTO> GetUsersAsync(IGetUsersByIdV2Parameters parameters);
-        Task<UsersResponseDTO> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters);
+        Task<UsersV2Response> GetUsersAsync(long[] userIds);
+        Task<UsersV2Response> GetUsersAsync(string[] usernames);
+        Task<UsersV2Response> GetUsersAsync(IGetUsersByIdV2Parameters parameters);
+        Task<UsersV2Response> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters);
     }
 }

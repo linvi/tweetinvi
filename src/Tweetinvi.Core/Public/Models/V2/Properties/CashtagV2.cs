@@ -1,0 +1,16 @@
+using Newtonsoft.Json;
+
+namespace Tweetinvi.Models
+{
+    public class CashtagV2
+    {
+        [JsonProperty("start")] public int Start { get; set; }
+        [JsonProperty("end")] public int End { get; set; }
+        [JsonProperty("tag")] public string Tag { get; set; }
+
+        [JsonProperty("cashtag")] private string Cashtag
+        {
+            set => Tag = value;
+        }
+    }
+}

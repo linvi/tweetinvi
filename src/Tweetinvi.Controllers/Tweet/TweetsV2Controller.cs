@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers.V2;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.V2.Responses;
+using Tweetinvi.Models.Responses;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Controllers.Tweet
@@ -16,17 +16,17 @@ namespace Tweetinvi.Controllers.Tweet
             _queryExecutor = queryExecutor;
         }
 
-        public Task<ITwitterResult<TweetResponseDTO>> GetTweetAsync(IGetTweetV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<TweetV2Response>> GetTweetAsync(IGetTweetV2Parameters parameters, ITwitterRequest request)
         {
             return _queryExecutor.GetTweetAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<TweetsResponseDTO>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<TweetsV2Response>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request)
         {
             return _queryExecutor.GetTweetsAsync(parameters, request);
         }
 
-        public Task<ITwitterResult<TweetHideResponseDTO>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityParameters parameters, ITwitterRequest request)
         {
             return _queryExecutor.ChangeTweetReplyVisibilityAsync(parameters, request);
         }

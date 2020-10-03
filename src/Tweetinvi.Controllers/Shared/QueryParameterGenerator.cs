@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;

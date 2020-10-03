@@ -3,7 +3,6 @@ using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.TwitterLists

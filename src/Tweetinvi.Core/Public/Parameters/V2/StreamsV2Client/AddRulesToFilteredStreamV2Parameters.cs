@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using Tweetinvi.Models.V2.Responses;
 
 namespace Tweetinvi.Parameters.V2
 {

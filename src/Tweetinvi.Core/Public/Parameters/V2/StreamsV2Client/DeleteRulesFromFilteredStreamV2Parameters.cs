@@ -1,6 +1,5 @@
 using System.Linq;
-using Tweetinvi.Models.V2;
-using Tweetinvi.Models.V2.Responses;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters.V2
 {
@@ -16,7 +15,7 @@ namespace Tweetinvi.Parameters.V2
             RuleIds = ruleIds;
         }
 
-        public DeleteRulesFromFilteredStreamV2Parameters(FilteredStreamRuleDTO[] rules)
+        public DeleteRulesFromFilteredStreamV2Parameters(FilteredStreamRuleV2[] rules)
         {
             RuleIds = rules.Select(x => x.Id).ToArray();
         }
