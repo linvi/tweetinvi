@@ -7,12 +7,11 @@ namespace Tweetinvi.Parameters.V2
     {
         DateTime? EndTime { get; set; }
         string Query { get; set; }
-        int? MaxResults { get; set; }
+        int? PageSize { get; set; }
         string NextToken { get; set; }
         string SinceId { get; set; }
         DateTime? StartTime { get; set; }
         string UntilId { get; set; }
-
     }
 
     public class SearchTweetsV2Parameters : BaseTweetsV2Parameters, ISearchTweetsV2Parameters
@@ -20,14 +19,14 @@ namespace Tweetinvi.Parameters.V2
         public SearchTweetsV2Parameters(string query)
         {
             Query = query;
-            MaxResults = 100;
+            PageSize = 100;
         }
 
         public SearchTweetsV2Parameters(ISearchTweetsV2Parameters parameters)
         {
             EndTime = parameters?.EndTime;
             Query = parameters?.Query;
-            MaxResults = parameters?.MaxResults;
+            PageSize = parameters?.PageSize;
             NextToken = parameters?.NextToken;
             SinceId = parameters?.SinceId;
             StartTime = parameters?.StartTime;
@@ -36,7 +35,7 @@ namespace Tweetinvi.Parameters.V2
 
         public DateTime? EndTime { get; set; }
         public string Query { get; set; }
-        public int? MaxResults { get; set; }
+        public int? PageSize { get; set; }
         public string NextToken { get; set; }
         public string SinceId { get; set; }
         public DateTime? StartTime { get; set; }
