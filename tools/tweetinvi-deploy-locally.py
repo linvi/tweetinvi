@@ -41,6 +41,8 @@ if args.uninstall:
     os.popen('nuget sources remove -Name tweetinvi -ConfigFile ~/.nuget/NuGet/NuGet.Config').read()
     os.popen('rm /usr/local/bin/tweetinvi-deploy-locally.py').read()
     os.popen('rm /usr/local/bin/tweetinvi-builder.py').read()
+    os.popen('rm -rf ~/.nuget/packages/tweetinviapi/*')
+    os.popen('rm -rf ~/.nuget/packages/tweetinviapi.aspnetplugin/*')
     sys.exit(0)
 
 tweetinviNugetSourceInstalled = len(os.popen('nuget sources | grep tweetinvi').readlines()) == 0
