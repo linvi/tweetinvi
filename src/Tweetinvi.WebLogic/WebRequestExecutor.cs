@@ -61,7 +61,6 @@ namespace Tweetinvi.WebLogic
                 catch (Exception)
                 {
                     httpResponseMessage?.Dispose();
-
                     throw;
                 }
             });
@@ -99,37 +98,6 @@ namespace Tweetinvi.WebLogic
             return binary;
         }
 
-        public Task<ITwitterResponse> ExecuteMultipartQueryAsync(ITwitterRequest request)
-        {
-            return ExecuteTwitterQuerySafelyAsync(request, async () =>
-            {
-                HttpResponseMessage httpResponseMessage = null;
-
-                try
-                {
-                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponseAsync(request.Query).ConfigureAwait(false);
-
-                    var result = CreateTwitterResponseFromHttpResponse(request.Query.Url, httpResponseMessage);
-
-                    var stream = result.ResultStream;
-
-                    if (stream != null)
-                    {
-                        result.Binary = StreamToBinary(stream);
-                        result.Content = Encoding.UTF8.GetString(result.Binary);
-                    }
-
-                    return result;
-                }
-                catch (Exception)
-                {
-                    httpResponseMessage?.Dispose();
-
-                    throw;
-                }
-            });
-        }
-
         // Helpers
         private ITwitterResponse CreateTwitterResponseFromHttpResponse(string url, HttpResponseMessage httpResponseMessage)
         {
@@ -160,13 +128,20 @@ namespace Tweetinvi.WebLogic
             {
                 return await action().ConfigureAwait(false);
             }
+            catch (HttpRequestException e)
+            {
+                if (e.InnerException is WebException webException)
+                {
+                    throw _twitterExceptionFactory.Create(webException, request);
+                }
+
+                throw;
+            }
             catch (AggregateException aex)
             {
                 var webException = aex.InnerException as WebException;
-                var httpRequestMessageException = aex.InnerException as HttpRequestException;
-                var taskCanceledException = aex.InnerException as TaskCanceledException;
 
-                if (httpRequestMessageException != null)
+                if (aex.InnerException is HttpRequestException httpRequestMessageException)
                 {
                     webException = httpRequestMessageException.InnerException as WebException;
                 }
@@ -176,9 +151,24 @@ namespace Tweetinvi.WebLogic
                     throw _twitterExceptionFactory.Create(webException, request);
                 }
 
-                if (taskCanceledException != null)
+                if (aex.InnerException is TaskCanceledException ||
+                    aex.InnerException is OperationCanceledException ||
+                    aex.InnerException is TimeoutException)
                 {
-                    throw new TwitterTimeoutException(request);
+                    throw new TwitterTimeoutException(request, aex.InnerException);
+                }
+
+                throw;
+            }
+            catch (Exception e)
+            {
+                // old version of HttpClient did not throw TimeoutException
+                // https://github.com/dotnet/runtime/issues/21965
+                if (e is TaskCanceledException ||
+                    e is OperationCanceledException ||
+                    e is TimeoutException)
+                {
+                    throw new TwitterTimeoutException(request, e);
                 }
 
                 throw;

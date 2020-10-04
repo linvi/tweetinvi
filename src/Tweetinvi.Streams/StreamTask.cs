@@ -269,8 +269,7 @@ namespace Tweetinvi.Streams
                     // so that no scheduler actually receive any exception received.
                 }, TaskContinuationOptions.OnlyOnFaulted);
 
-                var twitterTimeoutException = new TwitterTimeoutException(request);
-                throw twitterTimeoutException;
+                throw new TwitterTimeoutException(request, null);
             }
 
             var jsonResponse = await requestTask.ConfigureAwait(false);

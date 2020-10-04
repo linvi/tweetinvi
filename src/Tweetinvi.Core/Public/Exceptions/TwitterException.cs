@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using Tweetinvi.Core.Exceptions;
+using Tweetinvi.Core.Models.TwitterEntities;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 
@@ -10,6 +11,7 @@ namespace Tweetinvi.Exceptions
     public interface ITwitterExceptionFactory
     {
         TwitterException Create(ITwitterResponse twitterResponse, ITwitterRequest request);
+        TwitterException Create(Exception exception, ITwitterRequest request);
         TwitterException Create(WebException webException, ITwitterRequest request);
     }
 
@@ -27,6 +29,11 @@ namespace Tweetinvi.Exceptions
             return new TwitterException(_webExceptionInfoExtractor, twitterResponse, request);
         }
 
+        public TwitterException Create(Exception exception, ITwitterRequest request)
+        {
+            return new TwitterException(request, exception);
+        }
+
         public TwitterException Create(WebException webException, ITwitterRequest request)
         {
             return new TwitterException(_webExceptionInfoExtractor, webException, request);
@@ -40,7 +47,7 @@ namespace Tweetinvi.Exceptions
     {
         public WebException WebException { get; protected set; }
         public string URL { get; }
-        public int StatusCode { get; protected set; }
+        public int StatusCode { get; protected set; } = -1;
         public string TwitterDescription { get; protected set; }
         public DateTimeOffset CreationDate { get; }
 
@@ -52,13 +59,21 @@ namespace Tweetinvi.Exceptions
         private string _message { get; }
         public override string Message => ToString();
 
-        protected TwitterException(ITwitterRequest request, string message)
+        public TwitterException(ITwitterRequest request, string message, Exception innerException) : base(message, innerException)
         {
             _message = message;
             Request = request;
-            CreationDate = DateTime.Now;
             URL = request.Query.Url;
+            CreationDate = DateTime.Now;
             TwitterQuery = request.Query;
+        }
+
+        protected TwitterException(ITwitterRequest request, string message) : this(request, message, null)
+        {
+        }
+
+        public TwitterException(ITwitterRequest request, Exception innerException) : this(request, innerException?.Message, innerException)
+        {
         }
 
         public TwitterException(
@@ -110,7 +125,7 @@ namespace Tweetinvi.Exceptions
                 }
             }
 
-            return $"{exceptionMessage}{exceptionInfos}{url}{code}{date}{twitterDescription}";
+            return $"{exceptionMessage}{exceptionInfos}{code}{date}{url}{twitterDescription}";
         }
     }
 }

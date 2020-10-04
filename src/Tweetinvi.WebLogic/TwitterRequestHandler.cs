@@ -61,7 +61,7 @@ namespace Tweetinvi.WebLogic
                 }
                 else
                 {
-                    twitterResponse = await _webRequestExecutor.ExecuteMultipartQueryAsync(request).ConfigureAwait(false);
+                    twitterResponse = await _webRequestExecutor.ExecuteQueryAsync(request).ConfigureAwait(false);
                 }
 
                 QueryCompleted(request, twitterResponse, rateLimitUpdater);
