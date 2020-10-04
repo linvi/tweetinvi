@@ -6,7 +6,7 @@ namespace Tweetinvi.Core.Parameters
     {
         /// <summary>
         /// All the fields available on all tweets.
-        /// This only includes the `PublicMetrics`
+        /// This only includes the `PublicMetrics` (which is not dependent on the user context).
         /// </summary>
         public HashSet<string> ALL => new HashSet<string>
         {
