@@ -85,7 +85,6 @@ namespace Tweetinvi.Streams
         private ITwitterRequest _twitterRequest;
         private StreamReader _currentStreamReader;
         private HttpClient _currentHttpClient;
-        private int _currentResponseHttpStatusCode = -1;
 
         public StreamTask(
             Func<string, bool> onJsonReceivedCallback,
@@ -201,7 +200,6 @@ namespace Tweetinvi.Streams
             request.Query.Timeout = Timeout.InfiniteTimeSpan;
 
             var queryBeforeExecuteEventArgs = new BeforeExecutingRequestEventArgs(request.Query);
-            request.ExecutionContext.Events.RaiseBeforeWaitingForQueryRateLimits(queryBeforeExecuteEventArgs);
             request.ExecutionContext.Events.RaiseBeforeExecutingQuery(queryBeforeExecuteEventArgs);
 
             if (queryBeforeExecuteEventArgs.Cancel)
@@ -315,7 +313,7 @@ namespace Tweetinvi.Streams
 
             if (ex is WebException webException)
             {
-                return _twitterExceptionFactory.Create(webException, _twitterRequest, _currentResponseHttpStatusCode);
+                return _twitterExceptionFactory.Create(webException, _twitterRequest);
             }
 
             var exceptionThrownBecauseStreamIsBeingStoppedByUser = ex is IOException && StreamState == StreamState.Stop;

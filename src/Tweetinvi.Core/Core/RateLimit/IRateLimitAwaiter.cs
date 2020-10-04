@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Client;
-using Tweetinvi.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters.RateLimitsClient;
 
@@ -12,12 +11,6 @@ namespace Tweetinvi.Core.RateLimit
     /// </summary>
     public interface IRateLimitAwaiter
     {
-        /// <summary>
-        /// Inform that a query is currently waiting in the RateLimitAwaiter
-        /// for the appropriate RateLimits to be refreshed before being executed.
-        /// </summary>
-        event EventHandler<QueryAwaitingEventArgs> QueryAwaitingForRateLimit;
-
         /// <summary>
         /// Wait for the credentials' rate limits to be available for the specified query.
         /// </summary>

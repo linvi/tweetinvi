@@ -18,6 +18,7 @@ namespace Tweetinvi.Core.Events
             client.Events.BeforeExecutingRequest += RaiseBeforeExecutingQuery;
             client.Events.AfterExecutingRequest += RaiseAfterExecutingQuery;
             client.Events.OnTwitterException += RaiseOnTwitterException;
+            client.Events.WaitingForRateLimit += RaiseWaitingForRateLimit;
         }
 
         public void UnsubscribeFromClientEvents(ITwitterClient client)
@@ -26,11 +27,17 @@ namespace Tweetinvi.Core.Events
             client.Events.BeforeExecutingRequest -= RaiseBeforeExecutingQuery;
             client.Events.AfterExecutingRequest -= RaiseAfterExecutingQuery;
             client.Events.OnTwitterException -= RaiseOnTwitterException;
+            client.Events.WaitingForRateLimit -= RaiseWaitingForRateLimit;
         }
     }
 
     public interface IExternalClientEvents
     {
+        /// <summary>
+        /// The query is awaiting for rate limits
+        /// </summary>
+        event EventHandler<WaitingForRateLimitEventArgs> WaitingForRateLimit;
+
         /// <summary>
         /// This is the first event raised. This event is raised before executing a request when the rate limits for the query have been retrieved.
         /// At that stage you have the information regarding how many requests can be performed and how long you have to wait if no more request are available.
@@ -58,6 +65,7 @@ namespace Tweetinvi.Core.Events
 
     public interface ITwitterClientEvents : IExternalClientEvents
     {
+        void RaiseWaitingForRateLimit(WaitingForRateLimitEventArgs eventArgs);
         void RaiseBeforeWaitingForQueryRateLimits(BeforeExecutingRequestEventArgs beforeExecutingRequestExecutedEventArgs);
         void RaiseBeforeExecutingQuery(BeforeExecutingRequestEventArgs beforeExecutingRequestExecutedEventArgs);
         void RaiseAfterExecutingQuery(AfterExecutingQueryEventArgs afterExecutingQueryEventArgs);
@@ -66,6 +74,16 @@ namespace Tweetinvi.Core.Events
 
     public class TwitterClientEvents : ITwitterClientEvents
     {
+        public event EventHandler<WaitingForRateLimitEventArgs> WaitingForRateLimit;
+        protected void RaiseWaitingForRateLimit(object sender, WaitingForRateLimitEventArgs eventArgs)
+        {
+            WaitingForRateLimit?.Invoke(sender, eventArgs);
+        }
+        public void RaiseWaitingForRateLimit(WaitingForRateLimitEventArgs eventArgs)
+        {
+            this.Raise(WaitingForRateLimit, eventArgs);
+        }
+
         public event EventHandler<BeforeExecutingRequestEventArgs> BeforeWaitingForRequestRateLimits;
         protected void RaiseBeforeWaitingForQueryRateLimits(object sender, BeforeExecutingRequestEventArgs beforeExecutingRequestAfterExecuteEventArgs)
         {

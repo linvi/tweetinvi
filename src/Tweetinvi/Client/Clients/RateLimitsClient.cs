@@ -15,14 +15,15 @@ namespace Tweetinvi.Client
         private readonly IRateLimitAwaiter _rateLimitAwaiter;
         private readonly IHelpRequester _helpRequester;
 
-        public RateLimitsClient(ITwitterClient client)
+        public RateLimitsClient(
+            ITwitterClient client,
+            IRateLimitCacheManager rateLimitCacheManager,
+            IRateLimitAwaiter rateLimitAwaiter)
         {
-            var executionContext = client.CreateTwitterExecutionContext();
-
             _client = client;
+            _rateLimitCacheManager = rateLimitCacheManager;
+            _rateLimitAwaiter = rateLimitAwaiter;
             _helpRequester = client.Raw.Help;
-            _rateLimitCacheManager = executionContext.Container.Resolve<IRateLimitCacheManager>();
-            _rateLimitAwaiter = executionContext.Container.Resolve<IRateLimitAwaiter>();
         }
 
         public async Task InitializeRateLimitsManagerAsync()

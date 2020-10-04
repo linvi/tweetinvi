@@ -62,7 +62,7 @@ namespace Tweetinvi.Core.Models
         /// DateTime when the endpoint rate limit will be reset.
         /// </summary>
         [JsonIgnore]
-        public DateTimeOffset ResetDateTime { get; private set; }
+        public DateTime ResetDateTime { get; private set; }
 
         public bool IsCustomHeaderRateLimit { get; set; }
 

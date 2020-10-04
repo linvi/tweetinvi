@@ -43,7 +43,7 @@ namespace Tweetinvi.WebLogic
                 {
                     httpResponseMessage = await _httpClientWebHelper.GetHttpResponseAsync(request.Query, handler).ConfigureAwait(false);
 
-                    var result = GetWebResultFromResponse(request.Query.Url, httpResponseMessage);
+                    var result = CreateTwitterResponseFromHttpResponse(request.Query.Url, httpResponseMessage);
                     if (!result.IsSuccessStatusCode)
                     {
                         throw _twitterExceptionFactory.Create(result, request);
@@ -109,7 +109,7 @@ namespace Tweetinvi.WebLogic
                 {
                     httpResponseMessage = await _httpClientWebHelper.GetHttpResponseAsync(request.Query).ConfigureAwait(false);
 
-                    var result = GetWebResultFromResponse(request.Query.Url, httpResponseMessage);
+                    var result = CreateTwitterResponseFromHttpResponse(request.Query.Url, httpResponseMessage);
 
                     var stream = result.ResultStream;
 
@@ -131,26 +131,27 @@ namespace Tweetinvi.WebLogic
         }
 
         // Helpers
-        private ITwitterResponse GetWebResultFromResponse(string url, HttpResponseMessage httpResponseMessage)
+        private ITwitterResponse CreateTwitterResponseFromHttpResponse(string url, HttpResponseMessage httpResponseMessage)
         {
             var stream = httpResponseMessage.Content.ReadAsStreamAsync().Result;
 
-            var webRequestResult = _webRequestResultFactory.Create();
+            var twitterResponse = _webRequestResultFactory.Create();
 
-            webRequestResult.ResultStream = stream;
-            webRequestResult.StatusCode = (int)httpResponseMessage.StatusCode;
+            twitterResponse.ResultStream = stream;
+            twitterResponse.StatusCode = (int)httpResponseMessage.StatusCode;
+            twitterResponse.ReasonPhrase = httpResponseMessage.ReasonPhrase;
 
             const int TON_API_SUCCESS_STATUS_CODE = 308;
 
             var isTonApiRequest = url.StartsWith("https://ton.twitter.com");
             var isTonApiRequestSuccess = (int) httpResponseMessage.StatusCode == TON_API_SUCCESS_STATUS_CODE;
 
-            webRequestResult.IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode || (isTonApiRequest && isTonApiRequestSuccess);
+            twitterResponse.IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode || (isTonApiRequest && isTonApiRequestSuccess);
 
-            webRequestResult.URL = url;
-            webRequestResult.Headers = httpResponseMessage.Headers.ToDictionary(x => x.Key, x => x.Value);
+            twitterResponse.URL = url;
+            twitterResponse.Headers = httpResponseMessage.Headers.ToDictionary(x => x.Key, x => x.Value);
 
-            return webRequestResult;
+            return twitterResponse;
         }
 
         private async Task<T> ExecuteTwitterQuerySafelyAsync<T>(ITwitterRequest request, Func<Task<T>> action)

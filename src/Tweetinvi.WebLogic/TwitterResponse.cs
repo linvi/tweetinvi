@@ -11,6 +11,7 @@ namespace Tweetinvi.WebLogic
         public int StatusCode { get; set; }
         public bool IsSuccessStatusCode { get; set; }
         public Dictionary<string, IEnumerable<string>> Headers { get; set; }
+        public string ReasonPhrase { get; set; }
         public byte[] Binary { get; set; }
         public string Content { get; set; }
     }

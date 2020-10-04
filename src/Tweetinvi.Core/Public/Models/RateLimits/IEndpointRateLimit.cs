@@ -19,7 +19,7 @@ namespace Tweetinvi.Models
         long Reset { get; set; }
 
         /// <summary>
-        /// Maximum number of query execution authorized in a 
+        /// Maximum number of query execution authorized in a
         /// rate limit lifecycle (usually 15 minutes).
         /// </summary>
         int Limit { get; set; }
@@ -37,7 +37,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// DateTime when the rate limit lifecycle reset.
         /// </summary>
-        DateTimeOffset ResetDateTime { get; }
+        DateTime ResetDateTime { get; }
 
         bool IsCustomHeaderRateLimit { get; set; }
     }

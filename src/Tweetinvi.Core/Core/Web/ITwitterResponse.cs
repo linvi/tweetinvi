@@ -78,6 +78,11 @@ namespace Tweetinvi.Core.Web
         /// </summary>
         Dictionary<string, IEnumerable<string>> Headers { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reason phrase which typically is sent by servers together with the status code
+        /// </summary>
+        string ReasonPhrase { get; set; }
+
         byte[] Binary { get; set; }
         string Content { get; set; }
     }

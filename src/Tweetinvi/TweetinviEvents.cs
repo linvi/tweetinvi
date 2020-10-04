@@ -27,6 +27,13 @@ namespace Tweetinvi
             _tweetinviEvents.UnsubscribeFromClientEvents(client);
         }
 
+        /// <inheritdoc cref="IExternalClientEvents.WaitingForRateLimit" />
+        public static event EventHandler<WaitingForRateLimitEventArgs> WaitingForRateLimit
+        {
+            add => _tweetinviEvents.WaitingForRateLimit += value;
+            remove => _tweetinviEvents.WaitingForRateLimit -= value;
+        }
+
         /// <inheritdoc cref="IExternalClientEvents.BeforeWaitingForRequestRateLimits" />
         public static event EventHandler<BeforeExecutingRequestEventArgs> BeforeWaitingForRequestRateLimits
         {

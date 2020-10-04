@@ -41,18 +41,15 @@ namespace Tweetinvi.WebLogic
             var rateLimitUpdater = _rateLimitUpdaterFactory.Create(_rateLimitCacheManager);
 
             await PrepareTwitterRequestAsync(request).ConfigureAwait(false);
+            await WaitBeforeExecutingQueryAsync(request).ConfigureAwait(false);
 
             var beforeQueryExecuteEventArgs = new BeforeExecutingRequestEventArgs(request.Query);
-            request.ExecutionContext.Events.RaiseBeforeWaitingForQueryRateLimits(beforeQueryExecuteEventArgs);
+            request.ExecutionContext.Events.RaiseBeforeExecutingQuery(beforeQueryExecuteEventArgs);
 
             if (beforeQueryExecuteEventArgs.Cancel)
             {
                 throw new OperationCanceledException("Operation was cancelled intentionally.");
             }
-
-            await WaitBeforeExecutingQueryAsync(request).ConfigureAwait(false);
-
-            request.ExecutionContext.Events.RaiseBeforeExecutingQuery(beforeQueryExecuteEventArgs);
 
             try
             {
@@ -109,17 +106,25 @@ namespace Tweetinvi.WebLogic
             twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits = DateTime.UtcNow.Add(timeToWait);
         }
 
-        private async Task WaitBeforeExecutingQueryAsync(ITwitterRequest twitterRequest)
+        private async Task WaitBeforeExecutingQueryAsync(ITwitterRequest request)
         {
-            var twitterQuery = twitterRequest.Query;
+            var twitterQuery = request.Query;
             if (twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits == null)
             {
                 return;
             }
 
-            if (twitterRequest.ExecutionContext.RateLimitTrackerMode == RateLimitTrackerMode.TrackAndAwait)
+            if (request.ExecutionContext.RateLimitTrackerMode == RateLimitTrackerMode.TrackAndAwait)
             {
-                await _rateLimitAwaiter.WaitForCredentialsRateLimitAsync(twitterRequest).ConfigureAwait(false);
+                var beforeQueryExecuteEventArgs = new BeforeExecutingRequestEventArgs(request.Query);
+                request.ExecutionContext.Events.RaiseBeforeWaitingForQueryRateLimits(beforeQueryExecuteEventArgs);
+
+                if (beforeQueryExecuteEventArgs.Cancel)
+                {
+                    throw new OperationCanceledException("Operation was cancelled intentionally.");
+                }
+
+                await _rateLimitAwaiter.WaitForCredentialsRateLimitAsync(request).ConfigureAwait(false);
             }
         }
 

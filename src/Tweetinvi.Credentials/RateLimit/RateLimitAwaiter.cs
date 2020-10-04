@@ -15,30 +15,19 @@ namespace Tweetinvi.Credentials.RateLimit
     {
         private readonly IRateLimitCacheManager _rateLimitCacheManager;
         private readonly ITaskDelayer _taskDelayer;
-        private readonly IWeakEvent<EventHandler<QueryAwaitingEventArgs>> _queryAwaitingForRateLimitWeakEvent;
 
         public RateLimitAwaiter(
             IRateLimitCacheManager rateLimitCacheManager,
-            ITaskDelayer taskDelayer,
-            IWeakEvent<EventHandler<QueryAwaitingEventArgs>> queryAwaitingForRateLimitWeakEvent)
+            ITaskDelayer taskDelayer)
         {
             _rateLimitCacheManager = rateLimitCacheManager;
             _taskDelayer = taskDelayer;
-            _queryAwaitingForRateLimitWeakEvent = queryAwaitingForRateLimitWeakEvent;
-        }
-
-        public event EventHandler<QueryAwaitingEventArgs> QueryAwaitingForRateLimit
-        {
-            add => _queryAwaitingForRateLimitWeakEvent.AddHandler(value);
-            remove => _queryAwaitingForRateLimitWeakEvent.RemoveHandler(value);
         }
 
         public Task WaitForCredentialsRateLimitAsync(ITwitterRequest request)
         {
-            var credentialsRateLimitParameters = new WaitForCredentialsRateLimitParameters(request.Query.Url)
+            var credentialsRateLimitParameters = new WaitForCredentialsRateLimitParameters(request)
             {
-                Credentials = request.Query.TwitterCredentials,
-                ExecutionContext = request.ExecutionContext,
                 From = RateLimitsSource.CacheOnly
             };
 
@@ -56,7 +45,15 @@ namespace Tweetinvi.Credentials.RateLimit
             var timeToWait = GetTimeToWaitFromQueryRateLimit(queryRateLimit, parameters.ExecutionContext);
             if (timeToWait > TimeSpan.Zero)
             {
-                _queryAwaitingForRateLimitWeakEvent.Raise(this, new QueryAwaitingEventArgs(parameters.Url, queryRateLimit, parameters.Credentials));
+                if (parameters.Request != null)
+                {
+                    parameters.ExecutionContext.Events.RaiseWaitingForRateLimit(new WaitingForRateLimitEventArgs(parameters.Request, queryRateLimit));
+                }
+                else
+                {
+                    parameters.ExecutionContext.Events.RaiseWaitingForRateLimit(new WaitingForRateLimitEventArgs(parameters.Request, queryRateLimit));
+                }
+
                 await _taskDelayer.Delay(timeToWait).ConfigureAwait(false);
             }
         }
@@ -66,7 +63,7 @@ namespace Tweetinvi.Credentials.RateLimit
             var timeToWait = GetTimeToWaitFromQueryRateLimit(queryRateLimit, executionContext);
             if (timeToWait > TimeSpan.Zero)
             {
-                _queryAwaitingForRateLimitWeakEvent.Raise(this, new QueryAwaitingEventArgs(null, queryRateLimit, credentials));
+                executionContext.Events.RaiseWaitingForRateLimit(new WaitingForRateLimitEventArgs(null, queryRateLimit, credentials));
                 await _taskDelayer.Delay(timeToWait).ConfigureAwait(false);
             }
         }
