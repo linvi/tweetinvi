@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Introduction to Authentication" href="../authentication/authentication.html" />
-    <link rel="prev" title="Help" href="../twitter-api-v1.1/help.html" /> 
+    <link rel="prev" title="Tweets V2" href="tweets.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -112,9 +112,9 @@
 </ul>
 <p class="caption"><span class="caption-text">Twitter API - v2</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets V2</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Users V2</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#get-users">Get users</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#get-multiple-users">Get multiple users</a></li>
 </ul>
 </li>
 </ul>
@@ -228,23 +228,20 @@
 <h1>Users V2<a class="headerlink" href="#users-v2" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="get-users">
 <h2>Get users<a class="headerlink" href="#get-users" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// By id</span>
+<p>Retrieving users from the Twitter API v2 support both application and user credentials.<br />Note that the value of some properties might differ between the 2 types of authentication.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get single user by id</span>
 <span class="kt">var</span> <span class="n">userResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">UsersV2</span><span class="p">.</span><span class="n">GetUserByIdAsync</span><span class="p">(</span><span class="m">1577389800</span><span class="p">);</span>
 <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="n">userResponse</span><span class="p">.</span><span class="n">User</span><span class="p">;</span>
 
-<span class="c1">// By username</span>
+<span class="c1">// Get single user by username</span>
 <span class="kt">var</span> <span class="n">userResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">UsersV2</span><span class="p">.</span><span class="n">GetUserByNameAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="n">userResponse</span><span class="p">.</span><span class="n">User</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="get-multiple-users">
-<h2>Get multiple users<a class="headerlink" href="#get-multiple-users" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// By ids</span>
+
+<span class="c1">// Get multiple users by id</span>
 <span class="kt">var</span> <span class="n">usersResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">UsersV2</span><span class="p">.</span><span class="n">GetUsersByIdAsync</span><span class="p">(</span><span class="m">1577389800</span><span class="p">,</span> <span class="m">1693649419</span><span class="p">);</span>
 <span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="n">usersResponse</span><span class="p">.</span><span class="n">Users</span><span class="p">;</span>
 
-<span class="c1">// By usernames</span>
+<span class="c1">// Get multiple users by username</span>
 <span class="kt">var</span> <span class="n">usersResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">UsersV2</span><span class="p">.</span><span class="n">GetUsersByNameAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">,</span> <span class="s">&quot;tweetinvitest&quot;</span><span class="p">);</span>
 <span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="n">usersResponse</span><span class="p">.</span><span class="n">Users</span><span class="p">;</span>
 </pre></div>
@@ -263,7 +260,7 @@
         <a href="../authentication/authentication.html" class="btn btn-neutral float-right" title="Introduction to Authentication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../twitter-api-v1.1/help.html" class="btn btn-neutral float-left" title="Help" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tweets.html" class="btn btn-neutral float-left" title="Tweets V2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
