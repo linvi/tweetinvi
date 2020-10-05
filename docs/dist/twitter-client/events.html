@@ -240,16 +240,20 @@
 <td>1st event to be triggered. It is triggered as soon as a request is received.<br/>If you use a <a href="../credentials/rate-limits-handler">Rate Limit handler</a>, this event will be invoked before the handler has been invoked.</td>
 </tr>
 <tr>
+<td>WaitingForRateLimit</td>
+<td>2nd event. It informs that you exhausted the rate limits for the query and Tweetinvi will wait for the rate limits to be refreshed.<br/>If you use a <a href="../credentials/rate-limits-handler">Rate Limit handler</a>, this event will be invoked before the handler has been invoked.</td>
+</tr>
+<tr>
 <td>BeforeExecutingRequest</td>
-<td>2nd event. It informs that the request is about to be performed.<br/>If you use a <a href="../credentials/rate-limits-handler">Rate Limit Handlers</a>, this event will be invoked after the necessary rate limits allowance has become available.</td>
+<td>3rd event. It informs that the request is about to be performed.<br/>If you use a <a href="../credentials/rate-limits-handler">Rate Limit Handlers</a>, this event will be invoked after the necessary rate limits allowance have become available.</td>
 </tr>
 <tr>
 <td>AfterExecutingRequest</td>
-<td>3rd event. It informs that the request has completed (successfully or not).</td>
+<td>4th event. It informs that the request has completed (successfully or not).</td>
 </tr>
 <tr>
 <td>OnTwitterException</td>
-<td>4th event. It informs that the request resulted in an exception.</td>
+<td>5th event. It informs that the request resulted in an exception.</td>
 </tr>
 </tbody>
 </table><div class="section" id="client-level-events">

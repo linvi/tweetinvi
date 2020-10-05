@@ -4,12 +4,13 @@ Events are here to help developers manage the lifecycle of requests but also for
 Each client will trigger its own events.
 
 
-| Event                             | Description                                                                                                                                                                                                                             |
-|-----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| BeforeWaitingForRequestRateLimits | 1st event to be triggered. It is triggered as soon as a request is received.<br/>If you use a [Rate Limit handler](../credentials/rate-limits-handler), this event will be invoked before the handler has been invoked.                 |
-| BeforeExecutingRequest            | 2nd event. It informs that the request is about to be performed.<br/>If you use a [Rate Limit Handlers](../credentials/rate-limits-handler), this event will be invoked after the necessary rate limits allowance has become available. |
-| AfterExecutingRequest             | 3rd event. It informs that the request has completed (successfully or not).                                                                                                                                                             |
-| OnTwitterException                | 4th event. It informs that the request resulted in an exception.                                                                                                                                                                        |
+| Event                             | Description                                                                                                                                                                                                                                                                    |
+|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| BeforeWaitingForRequestRateLimits | 1st event to be triggered. It is triggered as soon as a request is received.<br/>If you use a [Rate Limit handler](../credentials/rate-limits-handler), this event will be invoked before the handler has been invoked.                                                        |
+| WaitingForRateLimit               | 2nd event. It informs that you exhausted the rate limits for the query and Tweetinvi will wait for the rate limits to be refreshed.<br/>If you use a [Rate Limit handler](../credentials/rate-limits-handler), this event will be invoked before the handler has been invoked. |
+| BeforeExecutingRequest            | 3rd event. It informs that the request is about to be performed.<br/>If you use a [Rate Limit Handlers](../credentials/rate-limits-handler), this event will be invoked after the necessary rate limits allowance have become available.                                       |
+| AfterExecutingRequest             | 4th event. It informs that the request has completed (successfully or not).                                                                                                                                                                                                    |
+| OnTwitterException                | 5th event. It informs that the request resulted in an exception.                                                                                                                                                                                                               |
 
 ## Client level events
 
