@@ -87,3 +87,30 @@ Working with expansions can be difficult at the current stage. In future release
 * Objects to easily find the information like `Dictionary<TweetV2, UserV2> UsersByTweet`.
 * Compacted Responses will reshape de data in new comprehensive models. Such model will move the expansions within the objects. For example having a property "Author" in a Tweet object.
 </div>
+
+## Errors
+
+API v2 changed the way it takes care of errors. `TwitterException` are still raised when the request go wrong but successful responses can carry a different type of errors.\
+These are errors imply that the main resource has been successfully retrieved but some expansions might have failed to be retrieved. 
+
+Let's assume a "tweet A" referenced another "tweet B". "Tweet B" got deleted.
+
+Making a request to get the "tweet A", the request will be successful but the "referenced_tweet" expansion will fail with an error like the following:
+
+``` json
+{
+    "detail": "Could not find tweet with referenced_tweets.id: [1313138609168551937].",
+    "title": "Not Found Error",
+    "resource_type": "tweet",
+    "parameter": "referenced_tweets.id",
+    "value": "1313138609168551937",
+    "type": "https://api.twitter.com/2/problems/resource-not-found"
+}
+```
+
+These errors are listed in a collection that can be found in the "Errors" property of the response.
+
+``` c#
+var tweetResponse = await userClient.TweetsV2.GetTweetAsync(1313034609437880320);
+var errors = tweetResponse.Errors;
+```

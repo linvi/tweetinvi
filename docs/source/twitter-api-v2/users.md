@@ -22,3 +22,5 @@ var users = usersResponse.Users;
 var usersResponse = await client.UsersV2.GetUsersByNameAsync("tweetinviapi", "tweetinvitest");
 var users = usersResponse.Users;
 ```
+
+[Expansions and custom fields](./basics) can be found in the class `UserResponseFields`.

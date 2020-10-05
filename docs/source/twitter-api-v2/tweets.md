@@ -14,3 +14,5 @@ var tweet = tweetResponse.Tweet;
 var tweetsResponse = await client.TweetsV2.GetTweetsAsync(1313034609437880320, 1312922108993957888);
 var tweets = tweetsResponse.Tweets;
 ```
+
+[Expansions and custom fields](./basics) can be found in the class `TweetResponseFields`.

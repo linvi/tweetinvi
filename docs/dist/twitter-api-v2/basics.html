@@ -115,6 +115,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Basics of API V2</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#fields">Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#expansion-and-responses">Expansion and Responses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#errors">Errors</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets V2</a></li>
@@ -296,6 +297,27 @@
 <li><p>Compacted Responses will reshape de data in new comprehensive models. Such model will move the expansions within the objects. For example having a property “Author” in a Tweet object.</p></li>
 </ul>
 </div></div>
+<div class="section" id="errors">
+<h2>Errors<a class="headerlink" href="#errors" title="Permalink to this headline">¶</a></h2>
+<p>API v2 changed the way it takes care of errors. <code class="docutils literal notranslate"><span class="pre">TwitterException</span></code> are still raised when the request go wrong but successful responses can carry a different type of errors.<br />These are errors imply that the main resource has been successfully retrieved but some expansions might have failed to be retrieved.</p>
+<p>Let’s assume a “tweet A” referenced another “tweet B”. “Tweet B” got deleted.</p>
+<p>Making a request to get the “tweet A”, the request will be successful but the “referenced_tweet” expansion will fail with an error like the following:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;Could not find tweet with referenced_tweets.id: [1313138609168551937].&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Not Found Error&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;resource_type&quot;</span><span class="p">:</span> <span class="s2">&quot;tweet&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;parameter&quot;</span><span class="p">:</span> <span class="s2">&quot;referenced_tweets.id&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;1313138609168551937&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;https://api.twitter.com/2/problems/resource-not-found&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>These errors are listed in a collection that can be found in the “Errors” property of the response.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">TweetsV2</span><span class="p">.</span><span class="n">GetTweetAsync</span><span class="p">(</span><span class="m">1313034609437880320</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">errors</span> <span class="p">=</span> <span class="n">tweetResponse</span><span class="p">.</span><span class="n">Errors</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
