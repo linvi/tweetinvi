@@ -1,6 +1,7 @@
 # Basics of API V2
 
-This page explain the basic concepts of Twitter API V2 and how Tweetinvi works.
+Twitter API v2 has a lot of changes compared to API v1.1.\
+This page explains the new concepts and how to work with these concepts with Tweetinvi.
 
 ## Fields
 
@@ -49,3 +50,40 @@ var userResponse = userClient.UsersV2.GetUserByNameAsync(new GetUserByNameV2Para
     UserFields = UserResponseFields.User.ALL
 });
 ```
+
+## Expansion and Responses
+
+[Official Doc Link](https://developer.twitter.com/en/docs/twitter-api/expansions)
+
+Twitter API v2 reponses differ from API v1.1. In API v2, the objects are expanded in the `"Includes"` property of a response.
+
+For example a Tweet no longer have a `CreatedBy` field. It now has an `AuthorId`.\
+In a single query, you can request to retrieve the `Author` of the tweet, this is called an expansion as we are expanding the tweet and retrieving additional objects.\
+Twitter response will contain the author in the property `Include.Users`.
+
+``` c#
+var tweetResponse = await userClient.TweetsV2.GetTweetAsync(1313034609437880320);
+var tweet = tweetResponse.Tweet;
+var tweetAuthor = tweetResponse.Includes.Users[0];
+```
+
+The type of objects that can be expanded depend on the type of request, they include users, tweets, geo, polls...\
+By default all the expansions are set. If needed, expansions can be set in the parameters. 
+
+``` c#
+var tweetResponse = await userClient.TweetsV2.GetTweetAsync(new GetTweetV2Parameters(1313034609437880320)
+{
+    Expansions =
+    {
+        TweetResponseFields.Expansions.AuthorId
+    }
+});
+```
+
+<div class="note">
+
+Working with expansions can be difficult at the current stage. In future releases, Tweetinvi will offer:
+
+* Objects to easily find the information like `Dictionary<TweetV2, UserV2> UsersByTweet`.
+* Compacted Responses will reshape de data in new comprehensive models. Such model will move the expansions within the objects. For example having a property "Author" in a Tweet object.
+</div>
