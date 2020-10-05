@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PIN based Authentication &mdash; Tweetinvi 5.0.0 documentation</title>
+  <title>Basics of API V2 &mdash; Tweetinvi 5.0.0 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Account Activity" href="../account-activity/account-activity.html" />
-    <link rel="prev" title="URL Redirect Authentication" href="authentication-url-redirect.html" /> 
+    <link rel="next" title="Tweets V2" href="tweets.html" />
+    <link rel="prev" title="Help" href="../twitter-api-v1.1/help.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -111,20 +111,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../twitter-api-v1.1/help.html">Help</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter API - v2</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api-v2/basics.html">Basics of API V2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api-v2/tweets.html">Tweets V2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../twitter-api-v2/users.html">Users V2</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Authentication</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="authentication.html">Introduction to Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">URL Redirect Authentication</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">PIN based Authentication</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-flow">The flow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#authenticate-with-tweetinvi">Authenticate with Tweetinvi</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basics of API V2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fields">Fields</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets V2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Users V2</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Authentication</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Account Activity</span></p>
 <ul>
@@ -209,7 +208,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>PIN based Authentication</li>
+      <li>Basics of API V2</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -226,47 +225,47 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pin-based-authentication">
-<h1>PIN based Authentication<a class="headerlink" href="#pin-based-authentication" title="Permalink to this headline">¶</a></h1>
-<p><strong>PIN based authentication</strong> is better suited for desktop applications.<br />If you are writing a web application I suggest that you use the <a class="reference internal" href="authentication-url-redirect.html"><span class="doc">URL redirect authentication</span></a>.</p>
-<div class="section" id="the-flow">
-<h2>The flow<a class="headerlink" href="#the-flow" title="Permalink to this headline">¶</a></h2>
-<p>The PIN based authentication process is quite simple.</p>
-<ol class="simple">
-<li><p>Request Twitter to provide a unique URL that enables a user to authenticate and retrieve a captcha.</p></li>
-<li><p>Ask the user to go to this URL.</p></li>
-<li><p>Twitter will ask the user to authenticate and accept the permissions requested by your Twitter application.</p></li>
-<li><p>If the user accepts, Twitter generates a PIN Code and gives it to the user.</p></li>
-<li><p>With this code, Twitter can now issue a new OAuth Token available from a WebRequest.</p></li>
-</ol>
-<p>Now let’s see how Tweetinvi simplifies this process.</p>
-</div>
-<div class="section" id="authenticate-with-tweetinvi">
-<h2>Authenticate with Tweetinvi<a class="headerlink" href="#authenticate-with-tweetinvi" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a client for your app</span>
-<span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">);</span>
-
-<span class="c1">// Start the authentication process</span>
-<span class="kt">var</span> <span class="n">authenticationRequest</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestAuthenticationUrlAsync</span><span class="p">();</span>
-
-<span class="c1">// Go to the URL so that Twitter authenticates the user and gives him a PIN code.</span>
-<span class="n">Process</span><span class="p">.</span><span class="n">Start</span><span class="p">(</span><span class="k">new</span> <span class="n">ProcessStartInfo</span><span class="p">(</span><span class="n">authenticationRequest</span><span class="p">.</span><span class="n">AuthorizationURL</span><span class="p">)</span>
+  <div class="section" id="basics-of-api-v2">
+<h1>Basics of API V2<a class="headerlink" href="#basics-of-api-v2" title="Permalink to this headline">¶</a></h1>
+<p>This page explain the basic concepts of Twitter API V2 and how Tweetinvi works.</p>
+<div class="section" id="fields">
+<h2>Fields<a class="headerlink" href="#fields" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/twitter-api/fields">Official Doc Link</a></p>
+<blockquote>
+<div><p>The Twitter API v2 allows to specify which fields a query should return.</p>
+</div></blockquote>
+<div class="note"><p>By default Tweetinvi will request all the fields that are not subject to change from the user context.<br />It means all the fields apart from some metric fields (non_public_metrics, organic_metrics and promoted_metrics).</p>
+</div><p>In Tweetinvi, you can add/remove fields by specifying them in the request parameters.<br />Tweetinvi list the fields available for each type of request in an associated <code class="docutils literal notranslate"><span class="pre">ResponseFields</span></code> class.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// For a TweetQuery, you can find the fields in TweetResponseFields</span>
+<span class="kt">var</span> <span class="n">tweetResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">TweetsV2</span><span class="p">.</span><span class="n">GetTweetAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">GetTweetV2Parameters</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">UseShellExecute</span> <span class="p">=</span> <span class="k">true</span>
+    <span class="n">Expansions</span> <span class="p">=</span>
+    <span class="p">{</span>
+        <span class="n">TweetResponseFields</span><span class="p">.</span><span class="n">Expansions</span><span class="p">.</span><span class="n">AuthorId</span><span class="p">,</span>
+        <span class="n">TweetResponseFields</span><span class="p">.</span><span class="n">Expansions</span><span class="p">.</span><span class="n">ReferencedTweetsId</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">TweetFields</span> <span class="p">=</span>
+    <span class="p">{</span>
+        <span class="n">TweetResponseFields</span><span class="p">.</span><span class="n">Tweet</span><span class="p">.</span><span class="n">Attachments</span><span class="p">,</span>
+        <span class="n">TweetResponseFields</span><span class="p">.</span><span class="n">Tweet</span><span class="p">.</span><span class="n">Entities</span>
+    <span class="p">},</span>
+    <span class="n">UserFields</span> <span class="p">=</span> <span class="n">TweetResponseFields</span><span class="p">.</span><span class="n">User</span><span class="p">.</span><span class="n">ALL</span>
 <span class="p">});</span>
 
-<span class="c1">// Ask the user to enter the pin code given by Twitter</span>
-<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Please enter the code and press enter.&quot;</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">pinCode</span> <span class="p">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
-
-<span class="c1">// With this pin code it is now possible to get the credentials back from Twitter</span>
-<span class="kt">var</span> <span class="n">userCredentials</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestCredentialsFromVerifierCodeAsync</span><span class="p">(</span><span class="n">pinCode</span><span class="p">,</span> <span class="n">authenticationRequest</span><span class="p">);</span>
-
-<span class="c1">// You can now save those credentials or use them as followed</span>
-<span class="kt">var</span> <span class="n">userClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">userCredentials</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUserAsync</span><span class="p">();</span>
-
-<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Congratulation you have authenticated the user: &quot;</span> <span class="p">+</span> <span class="n">user</span><span class="p">);</span>
+<span class="c1">// For a User query</span>
+<span class="kt">var</span> <span class="n">userResponse</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">UsersV2</span><span class="p">.</span><span class="n">GetUserByNameAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">GetUserByNameV2Parameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Expansions</span> <span class="p">=</span>
+    <span class="p">{</span>
+        <span class="n">UserResponseFields</span><span class="p">.</span><span class="n">Expansions</span><span class="p">.</span><span class="n">PinnedTweetId</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">TweetFields</span> <span class="p">=</span>
+    <span class="p">{</span>
+        <span class="n">UserResponseFields</span><span class="p">.</span><span class="n">Tweet</span><span class="p">.</span><span class="n">Attachments</span><span class="p">,</span>
+        <span class="n">UserResponseFields</span><span class="p">.</span><span class="n">Tweet</span><span class="p">.</span><span class="n">Entities</span>
+    <span class="p">},</span>
+    <span class="n">UserFields</span> <span class="p">=</span> <span class="n">UserResponseFields</span><span class="p">.</span><span class="n">User</span><span class="p">.</span><span class="n">ALL</span>
+<span class="p">});</span>
 </pre></div>
 </div>
 </div>
@@ -280,10 +279,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../account-activity/account-activity.html" class="btn btn-neutral float-right" title="Account Activity" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tweets.html" class="btn btn-neutral float-right" title="Tweets V2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="authentication-url-redirect.html" class="btn btn-neutral float-left" title="URL Redirect Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../twitter-api-v1.1/help.html" class="btn btn-neutral float-left" title="Help" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

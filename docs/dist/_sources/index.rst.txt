@@ -48,6 +48,7 @@ The goal of this library is to make life of developers as easy as possible.
    :hidden:
    :caption: Twitter API - v2
 
+   twitter-api-v2/basics
    twitter-api-v2/tweets
    twitter-api-v2/users
 
