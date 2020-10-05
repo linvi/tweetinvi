@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tweet Stream &mdash; Tweetinvi 5.0.0 documentation</title>
+  <title>Releases &mdash; Tweetinvi 5.0.0 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Sample Stream" href="sample-stream.html" />
-    <link rel="prev" title="Streams Introduction" href="streams-introduction.html" /> 
+    <link rel="next" title="Exceptions" href="exceptions.html" />
+    <link rel="prev" title="Json - Serialize/Deserialize" href="../twitter-client/json.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -125,14 +125,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../account-activity/account-activity-events.html">Account Activity - Stream/Events</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Streams</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Tweet Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filtered-stream.html">Filtered Streams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filtered-stream-filters.html">Filtered Stream - Filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="labs-sample-stream.html">Labs Sample Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="labs-filtered-stream.html">Labs Filtered Stream</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../streams/streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/tweet-stream.html">Tweet Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/filtered-stream-filters.html">Filtered Stream - Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-sample-stream.html">Labs Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams/labs-filtered-stream.html">Labs Filtered Stream</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter Client</span></p>
 <ul>
@@ -141,18 +141,21 @@
 <li class="toctree-l1"><a class="reference internal" href="../twitter-client/json.html">Json - Serialize/Deserialize</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Releases</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../more/releases.html">Releases</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Releases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">5.0</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../more/exceptions.html">Exceptions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/parameters-validators.html">Parameters Validators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/tweetinvi-container.html">Tweetinvi Container</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/help.html">Help and Feedback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twitter-labs.html">Twitter Labs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters-validators.html">Parameters Validators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tweetinvi-container.html">Tweetinvi Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Help and Feedback</a></li>
 </ul>
 
             
@@ -199,7 +202,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Tweet Stream</li>
+      <li>Releases</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -216,23 +219,103 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tweet-stream">
-<h1>Tweet Stream<a class="headerlink" href="#tweet-stream" title="Permalink to this headline">¶</a></h1>
-<blockquote>
-<div><p>The tweet stream track tweets from a specific url.</p>
-</div></blockquote>
-<p>This is a generic version of stream in the case Twitter decides to create a new type of stream.<br />Tweetinvi provides specific streams objects for each different streaming apis.</p>
+  <div class="section" id="releases">
+<h1>Releases<a class="headerlink" href="#releases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>5.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Tweetinvi 5.0 is a major refactor of Tweetinvi. The new version introduces the <code class="docutils literal notranslate"><span class="pre">TwitterClient</span></code> which lets you perform all operations based on a fixed set of credentials. The change let us resolved various core problematics that arised with the evolution of the .NET Framework including async/await and ASP.NETCore execution contexts.</p>
+<p>Here are some of the major changes.</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="sample-stream.html"><span class="doc">Sample Stream</span></a></p></li>
-<li><p><a class="reference internal" href="filtered-stream.html"><span class="doc">Filtered Stream</span></a></p></li>
+<li><p>Async/Await</p></li>
 </ul>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateTweetStream</span><span class="p">();</span>
-<span class="n">stream</span><span class="p">.</span><span class="n">EventReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
-<span class="p">};</span>
-<span class="k">await</span> <span class="n">stream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span>
-</pre></div>
+<blockquote>
+<div><p>Tweetinvi is now using the Async/Await pattern in its entire code base. This will help modern development and ease up ASPNET thread pool.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="https://linvi.github.io/tweetinvi/dist/intro/basic-concepts.html#twitterclient">TwitterClient</a></p></li>
+</ul>
+<blockquote>
+<div><p>The TwitterClient gives you better control over who is executing a request. Also it gives developers the ability to pass the client through the code.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Twitter API V2</p></li>
+</ul>
+<blockquote>
+<div><p>Support of all the endpoints of Twitter API V2!</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="https://linvi.github.io/tweetinvi/dist/intro/basic-concepts.html#parameters">Parameters</a></p></li>
+</ul>
+<blockquote>
+<div><p>Developers no longer have to search for endpoints available parameters. Tweetinvi contains all the parameters from the official documentation and all the parameters missing from the official documentation :D</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="https://linvi.github.io/tweetinvi/dist/twitter-api/iterators.html">Iterators</a></p></li>
+</ul>
+<blockquote>
+<div><p>Iterators are a new way to use paging in Twitter in a single and unique way. Developers no longer need to understand the 4 types of paging from Twitter API, Tweetinvi takes care of it for you!</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="https://linvi.github.io/tweetinvi/dist/index.html">Brand new documentation</a></p></li>
+</ul>
+<blockquote>
+<div><p>Tweetinvi documentation has been at the core of the new version.</p>
+<ul class="simple">
+<li><p>The new documentation should explain provide examples for all the bits and pieces you can find in the Tweetinvi library.</p></li>
+<li><p>All publicly available code has been annotated to explain what each method do and what they return.</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="https://linvi.github.io/tweetinvi/dist/account-activity/account-activity.html">Redesign of Account Activity</a></p></li>
+</ul>
+<blockquote>
+<div><p>A lot of work has been done to simplify the Account Activity process and make it as easy as possible for developers to start using it.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>.NET Compatibility</p></li>
+</ul>
+<blockquote>
+<div><p>Tweetinvi 5.0 has been built for .NETStandard 1.4 and .NETStandard 2.0 which should make it compatible for most of the existing .NET environments!</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Support for missing endpoints</p></li>
+</ul>
+<blockquote>
+<div><p>Some endpoints were missing from the library. All endpoints in the Twitter documentation are now officially supported.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="https://linvi.github.io/tweetinvi/dist/more/exceptions.html">Redesign of Error Management</a></p></li>
+</ul>
+<blockquote>
+<div><p>Exceptions have never been a strong part of Tweetinvi. This has changed and Tweetinvi is now throwing a very limited set of Exceptions.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Better support for special cases</p></li>
+</ul>
+<blockquote>
+<div><p>Twitter API endpoints are managing response formats, status codes, headers, response, error messages in different ways. Tweetinvi now takes care of all the special cases for you and handle these cases as you would expect hiding the complexity behind a simple API.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Bug Fixes</p></li>
+</ul>
+<blockquote>
+<div><p>5.0 was also a chance to fix a long list of bugs, including multithreading, missing data, unhandled cases, non matching criteria and many more…</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Integration Tests</p></li>
+</ul>
+<blockquote>
+<div><p>Tweetinvi 5.0 uses integration tests to verify that the code base is properly working. Not only does this give us a better view on the state of the library but also let you discover how to use the library!</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>And much more</p></li>
+</ul>
+<blockquote>
+<div><p>Performance improvements, upload support, parameters validation, namespaces/code cleanup, dependencies updates, .NETCore support…</p>
+</div></blockquote>
+<p>Tweetinvi 5.0 is the result of more than a year of work, countless hours and more than 350 commits so I hope you will appreciate using the new version.</p>
+<p>I take this opportunity to thanks &#64;JoshKeegan for his special contributions to the project.</p>
+<p>I look forward to hearing your feedback!</p>
 </div>
 </div>
 
@@ -244,10 +327,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="sample-stream.html" class="btn btn-neutral float-right" title="Sample Stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="exceptions.html" class="btn btn-neutral float-right" title="Exceptions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streams-introduction.html" class="btn btn-neutral float-left" title="Streams Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../twitter-client/json.html" class="btn btn-neutral float-left" title="Json - Serialize/Deserialize" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

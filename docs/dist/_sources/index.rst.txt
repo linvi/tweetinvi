@@ -89,6 +89,13 @@ The goal of this library is to make life of developers as easy as possible.
 .. toctree::
    :maxdepth: 1
    :hidden:
+   :caption: Releases
+
+   more/releases
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
    :caption: More
 
    more/exceptions
@@ -98,4 +105,4 @@ The goal of this library is to make life of developers as easy as possible.
    more/tweetinvi-container
    more/license
    more/help
-
+   
