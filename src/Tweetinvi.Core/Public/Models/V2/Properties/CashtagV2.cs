@@ -15,7 +15,7 @@ namespace Tweetinvi.Models.V2
         [JsonProperty("end")] public int End { get; set; }
 
         /// <summary>
-        /// Value of the cashtag
+        /// The text of the Cashtag.
         /// </summary>
         [JsonProperty("tag")] public string Tag { get; set; }
 
