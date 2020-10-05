@@ -28,20 +28,20 @@ The goal of this library is to make life of developers as easy as possible.
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Twitter API
+   :caption: Twitter API v1.1
 
-   twitter-api/tweets
-   twitter-api/timelines
-   twitter-api/users
-   twitter-api/users-followers-friends
-   twitter-api/messages
-   twitter-api/search
-   twitter-api/lists
-   twitter-api/direct-api-calls
-   twitter-api/upload-media
-   twitter-api/iterators
-   twitter-api/trends
-   twitter-api/help
+   twitter-api-v1.1/tweets
+   twitter-api-v1.1/timelines
+   twitter-api-v1.1/users
+   twitter-api-v1.1/users-followers-friends
+   twitter-api-v1.1/messages
+   twitter-api-v1.1/search
+   twitter-api-v1.1/lists
+   twitter-api-v1.1/direct-api-calls
+   twitter-api-v1.1/upload-media
+   twitter-api-v1.1/iterators
+   twitter-api-v1.1/trends
+   twitter-api-v1.1/help
 
 .. toctree::
    :maxdepth: 1

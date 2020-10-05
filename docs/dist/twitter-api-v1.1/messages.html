@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Timelines &mdash; Tweetinvi 5.0.0 documentation</title>
+  <title>Messages &mdash; Tweetinvi 5.0.0 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Users" href="users.html" />
-    <link rel="prev" title="Tweets" href="tweets.html" /> 
+    <link rel="next" title="Search" href="search.html" />
+    <link rel="prev" title="Followers, Friends and Relationships" href="users-followers-friends.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -95,19 +95,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits-handlers.html">Rate Limits Handlers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Twitter API</span></p>
+<p class="caption"><span class="caption-text">Twitter API v1.1</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Timelines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#home-timeline">Home Timeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#user-timeline">User Timeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mentions-timeline">Mentions Timeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#retweets-of-me-timeline">Retweets Of Me Timeline</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="timelines.html">Timelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
-<li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-read-delete">Create, Read, Delete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#publish-with-a-media">Publish with a Media</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-reply-options">Quick Reply Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-messages">List Messages</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lists.html">Lists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="direct-api-calls.html">Direct API calls</a></li>
@@ -205,7 +205,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Timelines</li>
+      <li>Messages</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -222,36 +222,59 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="timelines">
-<h1>Timelines<a class="headerlink" href="#timelines" title="Permalink to this headline">¶</a></h1>
-<p>Timelines represent a collection of tweets.</p>
-<div class="section" id="home-timeline">
-<h2>Home Timeline<a class="headerlink" href="#home-timeline" title="Permalink to this headline">¶</a></h2>
-<p>The Home timeline contains the tweets available on the authenticated user’s home page.</p>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get the tweets available on the user&#39;s home page</span>
-<span class="kt">var</span> <span class="n">homeTimelineTweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimelineAsync</span><span class="p">();</span>
+  <div class="section" id="messages">
+<h1>Messages<a class="headerlink" href="#messages" title="Permalink to this headline">¶</a></h1>
+<p>Messages allow private interactions between users.</p>
+<div class="section" id="create-read-delete">
+<h2>Create, Read, Delete<a class="headerlink" href="#create-read-delete" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessageAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">publishedMessage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessageAsync</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">DestroyMessageAsync</span><span class="p">(</span><span class="n">publishedMessage</span><span class="p">);</span>
 </pre></div>
 </div>
-</div></div>
-<div class="section" id="user-timeline">
-<h2>User Timeline<a class="headerlink" href="#user-timeline" title="Permalink to this headline">¶</a></h2>
-<p>A User timeline contains the tweets shown on a user’s page.</p>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get tweets from a specific user</span>
-<span class="kt">var</span> <span class="n">userTimelineTweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimelineAsync</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+</div>
+<div class="section" id="publish-with-a-media">
+<h2>Publish with a Media<a class="headerlink" href="#publish-with-a-media" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">media</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadMessageImageAsync</span><span class="p">(</span><span class="n">binary</span><span class="p">);</span>
+
+<span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessageAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishMessageParameters</span><span class="p">(</span><span class="s">&quot;piloupe&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">MediaId</span> <span class="p">=</span> <span class="n">media</span><span class="p">.</span><span class="n">Id</span>
+<span class="p">});</span>
 </pre></div>
 </div>
-</div></div>
-<div class="section" id="mentions-timeline">
-<h2>Mentions Timeline<a class="headerlink" href="#mentions-timeline" title="Permalink to this headline">¶</a></h2>
-<p>The Mentions timeline contains tweets where the authenticated user has recently been mentioned (tweet containing the <code class="docutils literal notranslate"><span class="pre">&#64;username</span></code>).</p>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">mentionsTimeline</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetMentionsTimelineAsync</span><span class="p">();</span>
+</div>
+<div class="section" id="quick-reply-options">
+<h2>Quick Reply Options<a class="headerlink" href="#quick-reply-options" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Quick replies let you send messages with multiple choice options</p>
+</div></blockquote>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessageAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishMessageParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">QuickReplyOptions</span> <span class="p">=</span> <span class="k">new</span> <span class="n">IQuickReplyOption</span><span class="p">[]</span>
+    <span class="p">{</span>
+        <span class="k">new</span> <span class="n">QuickReplyOption</span>
+        <span class="p">{</span>
+            <span class="n">Label</span> <span class="p">=</span> <span class="s">&quot;Superb&quot;</span>
+        <span class="p">},</span>
+        <span class="k">new</span> <span class="n">QuickReplyOption</span>
+        <span class="p">{</span>
+            <span class="n">Label</span> <span class="p">=</span> <span class="s">&quot;Cool&quot;</span>
+        <span class="p">},</span>
+        <span class="k">new</span> <span class="n">QuickReplyOption</span>
+        <span class="p">{</span>
+            <span class="n">Label</span> <span class="p">=</span> <span class="s">&quot;Hum&quot;</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">});</span>
 </pre></div>
 </div>
-</div></div>
-<div class="section" id="retweets-of-me-timeline">
-<h2>Retweets Of Me Timeline<a class="headerlink" href="#retweets-of-me-timeline" title="Permalink to this headline">¶</a></h2>
-<p>The RetweetsOfMe timeline contains the most recent Tweets authored by the authenticated user that have been retweeted by others.</p>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">retweetsOfMeTimeline</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetRetweetsOfMeTimelineAsync</span><span class="p">();</span>
+</div>
+<div class="section" id="list-messages">
+<h2>List Messages<a class="headerlink" href="#list-messages" title="Permalink to this headline">¶</a></h2>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">messages</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessagesAsync</span><span class="p">();</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">messagesIterator</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessagesIterator</span><span class="p">();</span>
 </pre></div>
 </div>
 </div></div>
@@ -265,10 +288,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="users.html" class="btn btn-neutral float-right" title="Users" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="search.html" class="btn btn-neutral float-right" title="Search" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="tweets.html" class="btn btn-neutral float-left" title="Tweets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="users-followers-friends.html" class="btn btn-neutral float-left" title="Followers, Friends and Relationships" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Trends &mdash; Tweetinvi 5.0.0 documentation</title>
+  <title>Search &mdash; Tweetinvi 5.0.0 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Help" href="help.html" />
-    <link rel="prev" title="Iterators" href="iterators.html" /> 
+    <link rel="next" title="Lists" href="lists.html" />
+    <link rel="prev" title="Messages" href="messages.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -95,23 +95,24 @@
 <li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits-handlers.html">Rate Limits Handlers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Twitter API</span></p>
+<p class="caption"><span class="caption-text">Twitter API v1.1</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timelines.html">Timelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
 <li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Search</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#user-search">User Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tweet-search">Tweet Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#saved-searches">Saved Searches</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="lists.html">Lists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="direct-api-calls.html">Direct API calls</a></li>
 <li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Trends</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#searches">Searches</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#locations">Locations</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="trends.html">Trends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
@@ -203,7 +204,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Trends</li>
+      <li>Search</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -220,30 +221,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="trends">
-<h1>Trends<a class="headerlink" href="#trends" title="Permalink to this headline">¶</a></h1>
-<p>Trends give you information about what is currently popular on Twitter.</p>
-<div class="section" id="searches">
-<h2>Searches<a class="headerlink" href="#searches" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><p>Get trending searches based on location defined via Woeid</p>
-</div></blockquote>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">worldwideWoeid</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
-<span class="kt">var</span> <span class="n">trendingSearches</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Trends</span><span class="p">.</span><span class="n">GetPlaceTrendsAtAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">GetTrendsAtParameters</span><span class="p">(</span><span class="n">worldwideWoeid</span><span class="p">));</span>
+  <div class="section" id="search">
+<h1>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="user-search">
+<h2>User Search<a class="headerlink" href="#user-search" title="Permalink to this headline">¶</a></h2>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchUsersAsync</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">);</span>
+
+<span class="c1">// or</span>
+
+<span class="kt">var</span> <span class="n">usersIterator</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">GetSearchUsersIterator</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="locations">
-<h2>Locations<a class="headerlink" href="#locations" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><p>Get the locations that Twitter has trending topic information for.</p>
-</div></blockquote>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get general trending locations</span>
-<span class="kt">var</span> <span class="n">trendingLocations</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Trends</span><span class="p">.</span><span class="n">GetTrendLocationsAsync</span><span class="p">();</span>
+</div><div class="warning" style="padding-bottom: 1px"><p>User search paging of Twitter API does not behave the same as other Twitter API endpoint (including tweet search).</p>
+<ul class="simple">
+<li><p>First search will run on page 1 (and not 0) - do not change this value to 0.</p></li>
+<li><p>Pages can return the same items multiple times (tweetinvi will filter these for you).</p></li>
+<li><p>Tweetinvi will need to perform 1 additional request to detect the completion of the iterator.</p></li>
+</ul>
+<details>
+<summary>Why?</summary><ul class="simple">
+<li><p>Twitter user search API always return results regardless of the page you request.</p></li>
+<li><p>Twitter user search API always return a number of items equal to count requested.</p></li>
+<li><p>Twitter can return multiple time the same results in different pages.</p></li>
+</ul>
+</details></div></div>
+<div class="section" id="tweet-search">
+<h2>Tweet Search<a class="headerlink" href="#tweet-search" title="Permalink to this headline">¶</a></h2>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweetsAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
 
-<span class="c1">// Get trending location close to a specific location</span>
-<span class="kt">var</span> <span class="n">newYorkCoordinates</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Coordinates</span><span class="p">(</span><span class="m">40.785091</span><span class="p">,</span> <span class="p">-</span><span class="m">73.968285</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">trendingLocations</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Trends</span><span class="p">.</span><span class="n">GetTrendsLocationCloseToAsync</span><span class="p">(</span><span class="n">newYorkCoordinates</span><span class="p">);</span>
+<span class="c1">//or</span>
+
+<span class="kt">var</span> <span class="n">tweetsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">GetSearchTweetsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">SearchTweetsParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div><div class="warning"><p>Tweet search paging of Twitter API does not inform of no more results available.<br />As a result Tweetinvi will need to perform 1 additional request to detect the completion of the iterator.</p>
+</div></div>
+<div class="section" id="saved-searches">
+<h2>Saved Searches<a class="headerlink" href="#saved-searches" title="Permalink to this headline">¶</a></h2>
+<p>Twitter API offers a way to interact with users’ saved searches.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">savedSearch</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">CreateSavedSearchAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">createdSavedSearch</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">GetSavedSearchAsync</span><span class="p">(</span><span class="n">savedSearch</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">mySavedSearches</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">ListSavedSearchesAsync</span><span class="p">();</span>
+<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">DestroySavedSearchAsync</span><span class="p">(</span><span class="n">savedSearch</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -257,10 +276,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="help.html" class="btn btn-neutral float-right" title="Help" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="lists.html" class="btn btn-neutral float-right" title="Lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="iterators.html" class="btn btn-neutral float-left" title="Iterators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="messages.html" class="btn btn-neutral float-left" title="Messages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

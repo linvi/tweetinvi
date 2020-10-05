@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Messages &mdash; Tweetinvi 5.0.0 documentation</title>
+  <title>Trends &mdash; Tweetinvi 5.0.0 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Search" href="search.html" />
-    <link rel="prev" title="Followers, Friends and Relationships" href="users-followers-friends.html" /> 
+    <link rel="next" title="Help" href="help.html" />
+    <link rel="prev" title="Iterators" href="iterators.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -95,25 +95,23 @@
 <li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits-handlers.html">Rate Limits Handlers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credentials/rate-limits.html">Rate Limits API</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Twitter API</span></p>
+<p class="caption"><span class="caption-text">Twitter API v1.1</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timelines.html">Timelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Messages</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#create-read-delete">Create, Read, Delete</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#publish-with-a-media">Publish with a Media</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#quick-reply-options">Quick Reply Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#list-messages">List Messages</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lists.html">Lists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="direct-api-calls.html">Direct API calls</a></li>
 <li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="trends.html">Trends</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Trends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#searches">Searches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#locations">Locations</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="help.html">Help</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
@@ -205,7 +203,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Messages</li>
+      <li>Trends</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -222,62 +220,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="messages">
-<h1>Messages<a class="headerlink" href="#messages" title="Permalink to this headline">¶</a></h1>
-<p>Messages allow private interactions between users.</p>
-<div class="section" id="create-read-delete">
-<h2>Create, Read, Delete<a class="headerlink" href="#create-read-delete" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessageAsync</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">publishedMessage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessageAsync</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
-<span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">DestroyMessageAsync</span><span class="p">(</span><span class="n">publishedMessage</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="publish-with-a-media">
-<h2>Publish with a Media<a class="headerlink" href="#publish-with-a-media" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">media</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadMessageImageAsync</span><span class="p">(</span><span class="n">binary</span><span class="p">);</span>
-
-<span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessageAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishMessageParameters</span><span class="p">(</span><span class="s">&quot;piloupe&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">.</span><span class="n">Id</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">MediaId</span> <span class="p">=</span> <span class="n">media</span><span class="p">.</span><span class="n">Id</span>
-<span class="p">});</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="quick-reply-options">
-<h2>Quick Reply Options<a class="headerlink" href="#quick-reply-options" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="trends">
+<h1>Trends<a class="headerlink" href="#trends" title="Permalink to this headline">¶</a></h1>
+<p>Trends give you information about what is currently popular on Twitter.</p>
+<div class="section" id="searches">
+<h2>Searches<a class="headerlink" href="#searches" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div><p>Quick replies let you send messages with multiple choice options</p>
+<div><p>Get trending searches based on location defined via Woeid</p>
 </div></blockquote>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">message</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">PublishMessageAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishMessageParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">,</span> <span class="n">recipient</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">QuickReplyOptions</span> <span class="p">=</span> <span class="k">new</span> <span class="n">IQuickReplyOption</span><span class="p">[]</span>
-    <span class="p">{</span>
-        <span class="k">new</span> <span class="n">QuickReplyOption</span>
-        <span class="p">{</span>
-            <span class="n">Label</span> <span class="p">=</span> <span class="s">&quot;Superb&quot;</span>
-        <span class="p">},</span>
-        <span class="k">new</span> <span class="n">QuickReplyOption</span>
-        <span class="p">{</span>
-            <span class="n">Label</span> <span class="p">=</span> <span class="s">&quot;Cool&quot;</span>
-        <span class="p">},</span>
-        <span class="k">new</span> <span class="n">QuickReplyOption</span>
-        <span class="p">{</span>
-            <span class="n">Label</span> <span class="p">=</span> <span class="s">&quot;Hum&quot;</span>
-        <span class="p">},</span>
-    <span class="p">}</span>
-<span class="p">});</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">worldwideWoeid</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">trendingSearches</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Trends</span><span class="p">.</span><span class="n">GetPlaceTrendsAtAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">GetTrendsAtParameters</span><span class="p">(</span><span class="n">worldwideWoeid</span><span class="p">));</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="list-messages">
-<h2>List Messages<a class="headerlink" href="#list-messages" title="Permalink to this headline">¶</a></h2>
-<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">messages</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessagesAsync</span><span class="p">();</span>
-<span class="c1">// or</span>
-<span class="kt">var</span> <span class="n">messagesIterator</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Messages</span><span class="p">.</span><span class="n">GetMessagesIterator</span><span class="p">();</span>
+<div class="section" id="locations">
+<h2>Locations<a class="headerlink" href="#locations" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Get the locations that Twitter has trending topic information for.</p>
+</div></blockquote>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get general trending locations</span>
+<span class="kt">var</span> <span class="n">trendingLocations</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Trends</span><span class="p">.</span><span class="n">GetTrendLocationsAsync</span><span class="p">();</span>
+
+<span class="c1">// Get trending location close to a specific location</span>
+<span class="kt">var</span> <span class="n">newYorkCoordinates</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Coordinates</span><span class="p">(</span><span class="m">40.785091</span><span class="p">,</span> <span class="p">-</span><span class="m">73.968285</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">trendingLocations</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Trends</span><span class="p">.</span><span class="n">GetTrendsLocationCloseToAsync</span><span class="p">(</span><span class="n">newYorkCoordinates</span><span class="p">);</span>
 </pre></div>
 </div>
-</div></div>
+</div>
 </div>
 
 
@@ -288,10 +257,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="search.html" class="btn btn-neutral float-right" title="Search" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="help.html" class="btn btn-neutral float-right" title="Help" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="users-followers-friends.html" class="btn btn-neutral float-left" title="Followers, Friends and Relationships" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="iterators.html" class="btn btn-neutral float-left" title="Iterators" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
