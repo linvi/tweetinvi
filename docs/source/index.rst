@@ -28,7 +28,7 @@ The goal of this library is to make life of developers as easy as possible.
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Twitter API v1.1
+   :caption: Twitter API - v1.1
 
    twitter-api-v1.1/tweets
    twitter-api-v1.1/timelines
@@ -42,6 +42,13 @@ The goal of this library is to make life of developers as easy as possible.
    twitter-api-v1.1/iterators
    twitter-api-v1.1/trends
    twitter-api-v1.1/help
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Twitter API - v2
+
+   twitter-api-v2/users
 
 .. toctree::
    :maxdepth: 1
