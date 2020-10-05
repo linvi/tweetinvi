@@ -10,8 +10,8 @@ namespace Tweetinvi.Controllers.User
     {
         Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByIdV2Parameters parameters, ITwitterRequest request);
         Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByIdV2Parameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByUsernameV2Parameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByNameV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByNameV2Parameters parameters, ITwitterRequest request);
     }
 
     public class UsersV2QueryExecutor : IUsersV2QueryExecutor
@@ -39,13 +39,13 @@ namespace Tweetinvi.Controllers.User
             return _twitterAccessor.ExecuteRequestAsync<UsersV2Response>(request);
         }
 
-        public Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByUsernameV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByNameV2Parameters parameters, ITwitterRequest request)
         {
             request.Query.Url = _tweetQueryGenerator.GetUserQuery(parameters);
             return _twitterAccessor.ExecuteRequestAsync<UserV2Response>(request);
         }
 
-        public Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByNameV2Parameters parameters, ITwitterRequest request)
         {
             request.Query.Url = _tweetQueryGenerator.GetUsersQuery(parameters);
             return _twitterAccessor.ExecuteRequestAsync<UsersV2Response>(request);

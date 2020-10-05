@@ -8,9 +8,9 @@ namespace Tweetinvi.Client.Requesters.V2
     public interface IUsersV2Requester
     {
         Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByIdV2Parameters parameters);
-        Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByUsernameV2Parameters parameters);
+        Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByNameV2Parameters parameters);
 
         Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByIdV2Parameters parameters);
-        Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters);
+        Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByNameV2Parameters parameters);
     }
 }

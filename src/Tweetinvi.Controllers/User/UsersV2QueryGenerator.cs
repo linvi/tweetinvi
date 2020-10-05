@@ -11,8 +11,8 @@ namespace Tweetinvi.Controllers.User
         string GetUserQuery(IGetUserByIdV2Parameters parameters);
         string GetUsersQuery(IGetUsersByIdV2Parameters parameters);
 
-        string GetUserQuery(IGetUserByUsernameV2Parameters parameters);
-        string GetUsersQuery(IGetUsersByUsernameV2Parameters parameters);
+        string GetUserQuery(IGetUserByNameV2Parameters parameters);
+        string GetUsersQuery(IGetUsersByNameV2Parameters parameters);
     }
 
     public class UsersV2QueryGenerator : IUsersV2QueryGenerator
@@ -35,7 +35,7 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-        public string GetUserQuery(IGetUserByUsernameV2Parameters parameters)
+        public string GetUserQuery(IGetUserByNameV2Parameters parameters)
         {
             var query = new StringBuilder($"{Resources.UserV2_GetBy}/{parameters.By}/{parameters.Username}");
             AddTweetFieldsParameters(parameters, query);
@@ -43,7 +43,7 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-        public string GetUsersQuery(IGetUsersByUsernameV2Parameters parameters)
+        public string GetUsersQuery(IGetUsersByNameV2Parameters parameters)
         {
             var userIds = string.Join(",", parameters.Usernames);
             var query = new StringBuilder($"{Resources.UserV2_GetBy}");

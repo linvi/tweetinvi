@@ -9,6 +9,9 @@ namespace Tweetinvi.Client.V2
         /// <inheritdoc cref="GetTweetAsync(IGetTweetV2Parameters)"/>
         Task<TweetV2Response> GetTweetAsync(long tweetId);
 
+        /// <inheritdoc cref="GetTweetAsync(IGetTweetV2Parameters)"/>
+        Task<TweetV2Response> GetTweetAsync(string tweetId);
+
         /// <summary>
         /// Get a tweet
         /// <para>Read more : https://developer.twitter.com/en/docs/twitter-api/tweets/lookup/api-reference/get-tweets-id </para>
@@ -17,7 +20,9 @@ namespace Tweetinvi.Client.V2
         Task<TweetV2Response> GetTweetAsync(IGetTweetV2Parameters parameters);
 
         /// <inheritdoc cref="GetTweetsAsync(IGetTweetsV2Parameters)"/>
-        Task<TweetsV2Response> GetTweetsAsync(long[] tweetIds);
+        Task<TweetsV2Response> GetTweetsAsync(params long[] tweetIds);
+        /// <inheritdoc cref="GetTweetsAsync(IGetTweetsV2Parameters)"/>
+        Task<TweetsV2Response> GetTweetsAsync(params string[] tweetIds);
 
         /// <summary>
         /// Get multiple tweets

@@ -14,45 +14,55 @@ namespace Tweetinvi.Client.V2
             _usersV2Requester = usersV2Requester;
         }
 
-        Task<UserV2Response> IUsersV2Client.GetUserAsync(long userId)
+        public Task<UserV2Response> GetUserByIdAsync(long userId)
         {
-            return GetUserAsync(new GetUserByIdV2Parameters(userId));
+            return GetUserByIdAsync(new GetUserByIdV2Parameters(userId));
         }
 
-        public Task<UserV2Response> GetUserAsync(string username)
+        public Task<UserV2Response> GetUserByIdAsync(string userId)
         {
-            return GetUserAsync(new GetUserByUsernameV2Parameters(username));
+            return GetUserByIdAsync(new GetUserByIdV2Parameters(userId));
         }
 
-        public async Task<UserV2Response> GetUserAsync(IGetUserByIdV2Parameters parameters)
+        public Task<UserV2Response> GetUserByNameAsync(string username)
+        {
+            return GetUserByNameAsync(new GetUserByNameV2Parameters(username));
+        }
+
+        public async Task<UserV2Response> GetUserByIdAsync(IGetUserByIdV2Parameters parameters)
         {
             var twitterResponse = await _usersV2Requester.GetUserAsync(parameters).ConfigureAwait(false);
             return twitterResponse?.Model;
         }
 
-        public async Task<UserV2Response> GetUserAsync(IGetUserByUsernameV2Parameters parameters)
+        public async Task<UserV2Response> GetUserByNameAsync(IGetUserByNameV2Parameters parameters)
         {
             var twitterResponse = await _usersV2Requester.GetUserAsync(parameters).ConfigureAwait(false);
             return twitterResponse?.Model;
         }
 
-        public Task<UsersV2Response> GetUsersAsync(long[] userIds)
+        public Task<UsersV2Response> GetUsersByIdAsync(long[] userIds)
         {
-            return GetUsersAsync(new GetUsersByIdV2Parameters(userIds));
+            return GetUsersByIdAsync(new GetUsersByIdV2Parameters(userIds));
         }
 
-        public Task<UsersV2Response> GetUsersAsync(string[] usernames)
+        public Task<UsersV2Response> GetUsersByIdAsync(string[] userIds)
         {
-            return GetUsersAsync(new GetUsersByUsernameV2Parameters(usernames));
+            return GetUsersByIdAsync(new GetUsersByIdV2Parameters(userIds));
         }
 
-        public async Task<UsersV2Response> GetUsersAsync(IGetUsersByIdV2Parameters parameters)
+        public Task<UsersV2Response> GetUsersByNameAsync(string[] usernames)
+        {
+            return GetUsersByNameAsync(new GetUsersByNameV2Parameters(usernames));
+        }
+
+        public async Task<UsersV2Response> GetUsersByIdAsync(IGetUsersByIdV2Parameters parameters)
         {
             var twitterResponse = await _usersV2Requester.GetUsersAsync(parameters).ConfigureAwait(false);
             return twitterResponse?.Model;
         }
 
-        public async Task<UsersV2Response> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters)
+        public async Task<UsersV2Response> GetUsersByNameAsync(IGetUsersByNameV2Parameters parameters)
         {
             var twitterResponse = await _usersV2Requester.GetUsersAsync(parameters).ConfigureAwait(false);
             return twitterResponse?.Model;

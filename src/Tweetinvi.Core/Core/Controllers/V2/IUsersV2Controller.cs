@@ -9,9 +9,9 @@ namespace Tweetinvi.Core.Controllers.V2
     public interface IUsersV2Controller
     {
         Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByIdV2Parameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByUsernameV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<UserV2Response>> GetUserAsync(IGetUserByNameV2Parameters parameters, ITwitterRequest request);
 
         Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByIdV2Parameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByUsernameV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<UsersV2Response>> GetUsersAsync(IGetUsersByNameV2Parameters parameters, ITwitterRequest request);
     }
 }

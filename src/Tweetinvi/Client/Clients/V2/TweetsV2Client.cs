@@ -19,6 +19,11 @@ namespace Tweetinvi.Client.V2
             return GetTweetAsync(new GetTweetV2Parameters(tweetId));
         }
 
+        public Task<TweetV2Response> GetTweetAsync(string tweetId)
+        {
+            return GetTweetAsync(new GetTweetV2Parameters(tweetId));
+        }
+
         public async Task<TweetV2Response> GetTweetAsync(IGetTweetV2Parameters parameters)
         {
             var twitterResponse = await _tweetsV2Requester.GetTweetAsync(parameters).ConfigureAwait(false);
@@ -26,6 +31,11 @@ namespace Tweetinvi.Client.V2
         }
 
         public Task<TweetsV2Response> GetTweetsAsync(long[] tweetIds)
+        {
+            return GetTweetsAsync(new GetTweetsV2Parameters(tweetIds));
+        }
+
+        public Task<TweetsV2Response> GetTweetsAsync(string[] tweetIds)
         {
             return GetTweetsAsync(new GetTweetsV2Parameters(tweetIds));
         }
