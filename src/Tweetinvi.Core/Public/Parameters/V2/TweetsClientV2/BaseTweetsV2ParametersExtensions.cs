@@ -7,12 +7,12 @@ namespace Tweetinvi.Parameters.V2
     {
         public static T WithAllFields<T>(this T parameters) where T : BaseTweetsV2Parameters
         {
-            parameters.Expansions = TweetV2ResponseFields.Expansions.ALL;
-            parameters.MediaFields = TweetV2ResponseFields.Media.ALL;
-            parameters.PlaceFields = TweetV2ResponseFields.Place.ALL;
-            parameters.PollFields = TweetV2ResponseFields.Polls.ALL;
-            parameters.TweetFields = TweetV2ResponseFields.Tweet.ALL;
-            parameters.UserFields = TweetV2ResponseFields.User.ALL;
+            parameters.Expansions = TweetResponseFields.Expansions.ALL;
+            parameters.MediaFields = TweetResponseFields.Media.ALL;
+            parameters.PlaceFields = TweetResponseFields.Place.ALL;
+            parameters.PollFields = TweetResponseFields.Polls.ALL;
+            parameters.TweetFields = TweetResponseFields.Tweet.ALL;
+            parameters.UserFields = TweetResponseFields.User.ALL;
             return parameters;
         }
 
