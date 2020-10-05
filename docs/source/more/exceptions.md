@@ -51,4 +51,8 @@ catch (TwitterException e)
 {
     Console.WriteLine(e.ToString());
 }
+catch (Exception e) 
+{
+    // Other system exceptions like SocketException if you do not have internet
+}
 ```
