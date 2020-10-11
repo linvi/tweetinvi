@@ -16,3 +16,13 @@ var tweets = tweetsResponse.Tweets;
 ```
 
 [Expansions and custom fields](./basics) can be found in the class `TweetResponseFields`.
+
+## Hide Replies
+
+A user can hide/unhide tweets that were published to reply to a tweet he published.
+
+``` c#
+var tweetId = 42;
+var hideResponse = await userClient.TweetsV2.ChangeTweetReplyVisibilityAsync(tweetId, TweetReplyVisibility.Hidden);
+var isRepliedNowHidden = hideResponse.TweetHideState.Hidden;
+```

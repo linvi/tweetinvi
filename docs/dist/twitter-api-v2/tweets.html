@@ -115,6 +115,7 @@
 <li class="toctree-l1"><a class="reference internal" href="basics.html">Basics of API V2</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tweets V2</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#get-tweets">Get Tweets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hide-replies">Hide Replies</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Users V2</a></li>
@@ -241,6 +242,15 @@
 </pre></div>
 </div>
 <p><a class="reference internal" href="basics.html"><span class="doc">Expansions and custom fields</span></a> can be found in the class <code class="docutils literal notranslate"><span class="pre">TweetResponseFields</span></code>.</p>
+</div>
+<div class="section" id="hide-replies">
+<h2>Hide Replies<a class="headerlink" href="#hide-replies" title="Permalink to this headline">¶</a></h2>
+<p>A user can hide/unhide tweets that were published to reply to a tweet he published.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetId</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">hideResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">TweetsV2</span><span class="p">.</span><span class="n">ChangeTweetReplyVisibilityAsync</span><span class="p">(</span><span class="n">tweetId</span><span class="p">,</span> <span class="n">TweetReplyVisibility</span><span class="p">.</span><span class="n">Hidden</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">isRepliedNowHidden</span> <span class="p">=</span> <span class="n">hideResponse</span><span class="p">.</span><span class="n">TweetHideState</span><span class="p">.</span><span class="n">Hidden</span><span class="p">;</span>
+</pre></div>
+</div>
 </div>
 </div>
 
