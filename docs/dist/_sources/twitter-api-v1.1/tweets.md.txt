@@ -51,7 +51,8 @@ var retweeterIdsIterator = client.Tweets.GetRetweeterIdsIterator(tweet);
 
 ``` c#
 // reply to a tweet
-var reply = await userClient.Tweets.PublishTweetAsync(new PublishTweetParameters("here is a great reply")
+var tweet = await userClient.Tweets.GetTweetAsync(1313034609437880320);
+var reply = await userClient.Tweets.PublishTweetAsync(new PublishTweetParameters("@" + tweet.CreatedBy + " here is a great reply")
 {
     InReplyToTweet = tweet
 });
@@ -59,6 +60,12 @@ var reply = await userClient.Tweets.PublishTweetAsync(new PublishTweetParameters
 // remove the same way as you would delete a tweet
 await userClient.Tweets.DestroyTweetAsync(reply);
 ```
+
+<div class="warning">
+
+To send a reply, you must prefix the tweet text with a `@username `.\
+Not doing so will result in the tweet to be sent as a normal tweet and not a reply.
+</div>
 
 ## Publish with Media
 

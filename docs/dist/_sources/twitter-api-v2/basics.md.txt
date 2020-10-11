@@ -90,6 +90,8 @@ Working with expansions can be difficult at the current stage. In future release
 
 ## Errors
 
+[Official Doc Link](https://developer.twitter.com/en/support/twitter-api/error-troubleshooting)
+
 API v2 changed the way it takes care of errors. `TwitterException` are still raised when the request go wrong but successful responses can carry a different type of errors.\
 These are errors imply that the main resource has been successfully retrieved but some expansions might have failed to be retrieved. 
 

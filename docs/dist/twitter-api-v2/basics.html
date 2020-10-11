@@ -299,6 +299,7 @@
 </div></div>
 <div class="section" id="errors">
 <h2>Errors<a class="headerlink" href="#errors" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://developer.twitter.com/en/support/twitter-api/error-troubleshooting">Official Doc Link</a></p>
 <p>API v2 changed the way it takes care of errors. <code class="docutils literal notranslate"><span class="pre">TwitterException</span></code> are still raised when the request go wrong but successful responses can carry a different type of errors.<br />These are errors imply that the main resource has been successfully retrieved but some expansions might have failed to be retrieved.</p>
 <p>Let’s assume a “tweet A” referenced another “tweet B”. “Tweet B” got deleted.</p>
 <p>Making a request to get the “tweet A”, the request will be successful but the “referenced_tweet” expansion will fail with an error like the following:</p>
