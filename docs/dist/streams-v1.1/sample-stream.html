@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Labs Sample Stream &mdash; Tweetinvi 5.0.1 documentation</title>
+  <title>Sample Stream &mdash; Tweetinvi 5.0.1 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Labs Filtered Stream" href="labs-filtered-stream.html" />
-    <link rel="prev" title="Filtered Stream - Filters" href="filtered-stream-filters.html" /> 
+    <link rel="next" title="Filtered Streams" href="filtered-stream.html" />
+    <link rel="prev" title="Tweet Stream" href="tweet-stream.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -131,15 +131,22 @@
 <li class="toctree-l1"><a class="reference internal" href="../account-activity/account-activity-subscriptions.html">Account Activity - Subscriptions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../account-activity/account-activity-events.html">Account Activity - Stream/Events</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Streams</span></p>
+<p class="caption"><span class="caption-text">Streams V1.1</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tweet-stream.html">Tweet Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sample Stream</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#events">Events</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="filtered-stream.html">Filtered Streams</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filtered-stream-filters.html">Filtered Stream - Filters</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Labs Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="labs-sample-stream.html">Labs Sample Stream</a></li>
 <li class="toctree-l1"><a class="reference internal" href="labs-filtered-stream.html">Labs Filtered Stream</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Streams V2</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../streams-v2/sample-stream.html">Sample Stream V2</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter Client</span></p>
 <ul>
@@ -206,7 +213,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Labs Sample Stream</li>
+      <li>Sample Stream</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -223,36 +230,39 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="labs-sample-stream">
-<h1>Labs Sample Stream<a class="headerlink" href="#labs-sample-stream" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="sample-stream">
+<h1>Sample Stream<a class="headerlink" href="#sample-stream" title="Permalink to this headline">¶</a></h1>
 <blockquote>
-<div><p>The labs sample stream is still in preview is likely to become a replacement of the current sample stream in the future. (<a class="reference external" href="https://developer.twitter.com/en/docs/labs/sampled-stream/overview">twitter doc</a>)</p>
+<div><p>The sample stream returns 1% of all the public tweets published on Twitter at any time. Twitter randomly selects one tweet for every 100 tweets and publishes this Tweet in the stream. (<a class="reference external" href="https://developer.twitter.com/en/docs/tweets/sample-realtime/overview/get_statuses_sample">twitter doc</a>)</p>
 </div></blockquote>
-<p>Tweetinvi does not properly support labs yet.<br />Here is a workaround to work with the labs sample stream v1.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// You need to use ConsumerOnly credentials to run a sample stream from labs</span>
-<span class="kt">var</span> <span class="n">appCredentials</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ConsumerOnlyCredentials</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">)</span>
+<p>The sample stream supports all the generic stream functionalities. <a class="reference internal" href="streams-introduction.html"><span class="doc">Read more about streams</span></a>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">sampleStream</span> <span class="p">=</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateSampleStream</span><span class="p">();</span>
+<span class="n">sampleStream</span><span class="p">.</span><span class="n">TweetReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventArgs</span><span class="p">)</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
-    <span class="n">BearerToken</span> <span class="p">=</span> <span class="s">&quot;APP_BEARER_TOKEN&quot;</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventArgs</span><span class="p">.</span><span class="n">Tweet</span><span class="p">);</span>
 <span class="p">};</span>
 
-<span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">appCredentials</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">sampleStream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">();</span>
 </pre></div>
 </div>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateTweetStream</span><span class="p">();</span>
-<span class="n">stream</span><span class="p">.</span><span class="n">StallWarnings</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span> <span class="c1">// this is required as this parameter does not exist for this endpoint</span>
-
-<span class="n">stream</span><span class="p">.</span><span class="n">EventReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
-<span class="p">};</span>
-
-<span class="k">await</span> <span class="n">stream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://api.twitter.com/labs/1/tweets/stream/sample&quot;</span><span class="p">);</span>
-</pre></div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<p>The sample stream supports all the <a class="reference external" href="./streams-introduction#stream-events">generic stream events</a>.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TweetReceived</td>
+<td>Indicates that a tweet was created</td>
+</tr>
+</tbody>
+</table></div>
 </div>
-<div class="warning">
-Labs sample stream only support application credentials (with a bearer token).<br/>
-<a href="../credentials/credentials.html#bearer-token">Learn more about Application Only Credentials</a>
-</div></div>
 
 
            </div>
@@ -262,10 +272,10 @@ Labs sample stream only support application credentials (with a bearer token).<b
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="labs-filtered-stream.html" class="btn btn-neutral float-right" title="Labs Filtered Stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="filtered-stream.html" class="btn btn-neutral float-right" title="Filtered Streams" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="filtered-stream-filters.html" class="btn btn-neutral float-left" title="Filtered Stream - Filters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tweet-stream.html" class="btn btn-neutral float-left" title="Tweet Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

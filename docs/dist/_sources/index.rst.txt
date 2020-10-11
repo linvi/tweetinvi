@@ -76,16 +76,23 @@ The goal of this library is to make life of developers as easy as possible.
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Streams
+   :caption: Streams V1.1
 
-   streams/streams-introduction
-   streams/tweet-stream
-   streams/sample-stream
-   streams/filtered-stream
-   streams/filtered-stream-filters
+   streams-v1.1/streams-introduction
+   streams-v1.1/tweet-stream
+   streams-v1.1/sample-stream
+   streams-v1.1/filtered-stream
+   streams-v1.1/filtered-stream-filters
 
-   streams/labs-sample-stream
-   streams/labs-filtered-stream
+   streams-v1.1/labs-sample-stream
+   streams-v1.1/labs-filtered-stream
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Streams V2
+
+   streams-v2/sample-stream
 
 .. toctree::
    :maxdepth: 1

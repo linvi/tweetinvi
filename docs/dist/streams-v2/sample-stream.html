@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tweet Stream &mdash; Tweetinvi 5.0.1 documentation</title>
+  <title>Sample Stream V2 &mdash; Tweetinvi 5.0.1 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Sample Stream" href="sample-stream.html" />
-    <link rel="prev" title="Streams Introduction" href="streams-introduction.html" /> 
+    <link rel="next" title="Twitter Client" href="../twitter-client/twitter-client.html" />
+    <link rel="prev" title="Labs Filtered Stream" href="../streams-v1.1/labs-filtered-stream.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -131,15 +131,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../account-activity/account-activity-subscriptions.html">Account Activity - Subscriptions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../account-activity/account-activity-events.html">Account Activity - Stream/Events</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Streams</span></p>
+<p class="caption"><span class="caption-text">Streams V1.1</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../streams-v1.1/streams-introduction.html">Streams Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams-v1.1/tweet-stream.html">Tweet Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams-v1.1/sample-stream.html">Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams-v1.1/filtered-stream.html">Filtered Streams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams-v1.1/filtered-stream-filters.html">Filtered Stream - Filters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams-v1.1/labs-sample-stream.html">Labs Sample Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../streams-v1.1/labs-filtered-stream.html">Labs Filtered Stream</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Streams V2</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="streams-introduction.html">Streams Introduction</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Tweet Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sample-stream.html">Sample Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filtered-stream.html">Filtered Streams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filtered-stream-filters.html">Filtered Stream - Filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="labs-sample-stream.html">Labs Sample Stream</a></li>
-<li class="toctree-l1"><a class="reference internal" href="labs-filtered-stream.html">Labs Filtered Stream</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sample Stream V2</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Twitter Client</span></p>
 <ul>
@@ -206,7 +210,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Tweet Stream</li>
+      <li>Sample Stream V2</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -223,22 +227,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tweet-stream">
-<h1>Tweet Stream<a class="headerlink" href="#tweet-stream" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="sample-stream-v2">
+<h1>Sample Stream V2<a class="headerlink" href="#sample-stream-v2" title="Permalink to this headline">¶</a></h1>
 <blockquote>
-<div><p>The tweet stream track tweets from a specific url.</p>
+<div><p>The sampled stream endpoint delivers a roughly 1% random sample of publicly available Tweets in real-time. With it, you can identify and track trends, monitor general sentiment, monitor global events, and much more.</p>
 </div></blockquote>
-<p>This is a generic version of stream in the case Twitter decides to create a new type of stream.<br />Tweetinvi provides specific streams objects for each different streaming apis.</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="sample-stream.html"><span class="doc">Sample Stream</span></a></p></li>
-<li><p><a class="reference internal" href="filtered-stream.html"><span class="doc">Filtered Stream</span></a></p></li>
-</ul>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Streams</span><span class="p">.</span><span class="n">CreateTweetStream</span><span class="p">();</span>
-<span class="n">stream</span><span class="p">.</span><span class="n">EventReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">eventReceived</span><span class="p">)</span> <span class="p">=&gt;</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">sampleStreamV2</span> <span class="p">=</span> <span class="n">appClient</span><span class="p">.</span><span class="n">StreamsV2</span><span class="p">.</span><span class="n">CreateSampleStream</span><span class="p">();</span>
+<span class="n">sampleStreamV2</span><span class="p">.</span><span class="n">TweetReceived</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">eventReceived</span><span class="p">.</span><span class="n">Json</span><span class="p">);</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Tweet</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
 <span class="p">};</span>
-<span class="k">await</span> <span class="n">stream</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">(</span><span class="s">&quot;https://stream.twitter.com/1.1/statuses/sample.json&quot;</span><span class="p">);</span>
+
+<span class="k">await</span> <span class="n">sampleStreamV2</span><span class="p">.</span><span class="n">StartAsync</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -251,10 +251,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="sample-stream.html" class="btn btn-neutral float-right" title="Sample Stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../twitter-client/twitter-client.html" class="btn btn-neutral float-right" title="Twitter Client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streams-introduction.html" class="btn btn-neutral float-left" title="Streams Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../streams-v1.1/labs-filtered-stream.html" class="btn btn-neutral float-left" title="Labs Filtered Stream" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
