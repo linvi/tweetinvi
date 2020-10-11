@@ -34,6 +34,9 @@ namespace Tweetinvi.Client.V2
         /// <inheritdoc cref="ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityV2Parameters)"/>
         Task<TweetHideV2Response> ChangeTweetReplyVisibilityAsync(long tweetId, TweetReplyVisibility visibility);
 
+        /// <inheritdoc cref="ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityV2Parameters)"/>
+        Task<TweetHideV2Response> ChangeTweetReplyVisibilityAsync(string tweetId, TweetReplyVisibility visibility);
+
         /// <summary>
         /// Set the visibility of a reply tweet
         /// <para>Read more : https://developer.twitter.com/en/docs/twitter-api/tweets/hide-replies/api-reference/put-tweets-id-hidden </para>

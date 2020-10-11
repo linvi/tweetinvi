@@ -51,6 +51,11 @@ namespace Tweetinvi.Client.V2
             return ChangeTweetReplyVisibilityAsync(new ChangeTweetReplyVisibilityV2Parameters(tweetId, visibility));
         }
 
+        public Task<TweetHideV2Response> ChangeTweetReplyVisibilityAsync(string tweetId, TweetReplyVisibility visibility)
+        {
+            return ChangeTweetReplyVisibilityAsync(new ChangeTweetReplyVisibilityV2Parameters(tweetId, visibility));
+        }
+
         public async Task<TweetHideV2Response> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityV2Parameters parameters)
         {
             var twitterResponse = await _tweetsV2Requester.ChangeTweetReplyVisibilityAsync(parameters).ConfigureAwait(false);

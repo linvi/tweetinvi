@@ -2,7 +2,7 @@ namespace Tweetinvi.Parameters.V2
 {
     public interface IChangeTweetReplyVisibilityV2Parameters : ICustomRequestParameters
     {
-        long Id { get; set; }
+        string Id { get; set; }
         TweetReplyVisibility Visibility { get; set; }
     }
 
@@ -16,11 +16,17 @@ namespace Tweetinvi.Parameters.V2
     {
         public ChangeTweetReplyVisibilityV2Parameters(long tweetId, TweetReplyVisibility visibility)
         {
+            Id = tweetId.ToString();
+            Visibility = visibility;
+        }
+
+        public ChangeTweetReplyVisibilityV2Parameters(string tweetId, TweetReplyVisibility visibility)
+        {
             Id = tweetId;
             Visibility = visibility;
         }
 
-        public long Id { get; set; }
+        public string Id { get; set; }
         public TweetReplyVisibility Visibility { get; set; }
     }
 }
