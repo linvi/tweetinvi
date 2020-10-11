@@ -51,6 +51,7 @@ The goal of this library is to make life of developers as easy as possible.
    twitter-api-v2/basics
    twitter-api-v2/tweets
    twitter-api-v2/users
+   twitter-api-v2/search
 
 .. toctree::
    :maxdepth: 1
