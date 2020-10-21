@@ -10,7 +10,7 @@ from shutil import copyfile, rmtree
 from pathlib import Path
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--version', nargs=1, default='5.0.1')
+parser.add_argument('--version', nargs=1, default='5.0.2')
 parser.add_argument('--pre', nargs=1, default='')
 parser.add_argument('--build-version', action='store_true')
 parser.add_argument('--nuget-push', action='store_true')
