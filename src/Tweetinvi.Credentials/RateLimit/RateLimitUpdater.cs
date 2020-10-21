@@ -2,6 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Attributes;
+using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -43,10 +46,19 @@ namespace Tweetinvi.Credentials.RateLimit
             {
                 var rateLimit = await _rateLimitCacheManager.GetQueryRateLimitAsync(new GetEndpointRateLimitsParameters(query), credentials).ConfigureAwait(false);
 
-                // If the user runs out of RateLimit requests
+
                 if (rateLimit == null)
                 {
-                    return;
+                    rateLimit = new EndpointRateLimit();
+                    var rateLimits = await _rateLimitCacheManager.GetCredentialsRateLimitsAsync(credentials).ConfigureAwait(false);
+                    if (rateLimits == null)
+                    {
+                        // If the user runs out of RateLimit requests
+                        return;
+                    }
+
+                    var endpointUrl = new Uri(query).GetEndpointURL();
+                    rateLimits.OtherEndpointRateLimits[new TwitterEndpointAttribute(endpointUrl)] = rateLimit;
                 }
 
                 IEnumerable<string> limitHeaders;
