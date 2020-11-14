@@ -13,6 +13,6 @@ namespace Tweetinvi.Models.V2
         /// A pair of decimal values representing the precise location of the user (latitude, longitude).
         /// This value be null unless the user explicitly shared their precise location.
         /// </summary>
-        [JsonProperty("coordinates")] public int[] Coordinates { get; set; }
+        [JsonProperty("coordinates")] public double[] Coordinates { get; set; }
     }
 }
