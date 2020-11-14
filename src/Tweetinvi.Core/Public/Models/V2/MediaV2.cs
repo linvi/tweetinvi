@@ -34,6 +34,11 @@ namespace Tweetinvi.Models.V2
         [JsonProperty("type")] public string Type { get; set; }
 
         /// <summary>
+        /// Url to access the media
+        /// </summary>
+        [JsonProperty("url")] public string Url { get; set; }
+
+        /// <summary>
         /// Width of this content in pixels.
         /// </summary>
         [JsonProperty("width")] public int Width { get; set; }
