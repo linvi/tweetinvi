@@ -68,8 +68,8 @@ If your project targets .NETCore version >= 3.0, your project will need to have 
 ``` xml
 <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="TweetinviAPI" Version="5.0.2" />
-    <PackageReference Include="TweetinviAPI.AspNetPlugin" Version="5.0.2" />
+    <PackageReference Include="TweetinviAPI" Version="5.0.3" />
+    <PackageReference Include="TweetinviAPI.AspNetPlugin" Version="5.0.3" />
 </ItemGroup>
 ```
 
@@ -87,8 +87,8 @@ If your project targets .NETCore version >= 3.0, your project will need to have 
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="TweetinviAPI" Version="5.0.2" />
-    <PackageReference Include="TweetinviAPI.AspNetPlugin" Version="5.0.2" />
+    <PackageReference Include="TweetinviAPI" Version="5.0.3" />
+    <PackageReference Include="TweetinviAPI.AspNetPlugin" Version="5.0.3" />
   </ItemGroup>
 
 </Project>
