@@ -111,6 +111,14 @@ var frenchTweets = await client.Search.SearchTweetsAsync(new SearchTweetsParamet
 });
 ```
 
+<div class="note">
+
+Methods are expecting an interface for example `ISearchTweetsParameters`.\
+Tweetinvi offers a default implementation for the parameters interfaces.\
+Remove the prefix `I` from the interface name and you will have the name of the class (`SearchTweetsParameters`).
+</div>
+
+
 ## Smart Objects
 
 Some objects like tweets expose methods.\
