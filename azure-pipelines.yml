@@ -4,8 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-  - master
-  - AsyncClient
+  - 5.0-patch
 
 pool:
   vmImage: "windows-latest"
