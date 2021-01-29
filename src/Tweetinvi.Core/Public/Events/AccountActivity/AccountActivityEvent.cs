@@ -9,7 +9,7 @@ namespace Tweetinvi.Events
     {
         public AccountActivityEvent()
         {
-            EventDate = new DateTime();
+            EventDate = DateTime.UtcNow;
         }
 
         public long AccountUserId { get; set; }
