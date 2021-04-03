@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>TweetinviAPI</id>
-        <version>5.0.3</version>
+        <version>5.0.4</version>
         <title>Tweetinvi</title>
         <authors>Linvi</authors>
         <owners>Linvi</owners>

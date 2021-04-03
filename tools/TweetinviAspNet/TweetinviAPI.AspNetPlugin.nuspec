@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
         <id>TweetinviAPI.AspNetPlugin</id>
-        <version>5.0.3</version>
+        <version>5.0.4</version>
         <title>Tweetinvi ASP.NET Plugin</title>
         <authors>Linvi</authors>
         <owners>Linvi</owners>
@@ -20,18 +20,18 @@
         <tags>twitter c# rest stream api 1.1 .net netcore netstandard core webhooks account_activity</tags>
         <dependencies>
             <group targetFramework="netstandard2.0">
-                <dependency id="TweetinviAPI" version="5.0.3" />
+                <dependency id="TweetinviAPI" version="5.0.4" />
                 <dependency id="Microsoft.AspNetCore.WebUtilities" version="2.2.0" />
                 <dependency id="System.Net.Http" version="4.3.4" />
             </group>
             <group targetFramework="netcoreapp2.1">
-                <dependency id="TweetinviAPI" version="5.0.3" />
+                <dependency id="TweetinviAPI" version="5.0.4" />
                 <dependency id="Microsoft.AspNetCore.Http" version="2.1" />
                 <dependency id="Microsoft.AspNetCore.Http.Abstractions" version="2.1" />
                 <dependency id="Microsoft.Extensions.Options" version="2.1" />
             </group>
             <group targetFramework="netcoreapp3.1">
-                <dependency id="TweetinviAPI" version="5.0.3" />
+                <dependency id="TweetinviAPI" version="5.0.4" />
             </group>
         </dependencies>
     </metadata>

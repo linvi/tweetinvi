@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>5.0.3</VersionPrefix>
+    <VersionPrefix>5.0.4</VersionPrefix>
     <Copyright>Tweetinvi 2020</Copyright>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>../tweetinvi.snk</AssemblyOriginatorKeyFile>
