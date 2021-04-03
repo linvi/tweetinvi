@@ -52,7 +52,9 @@ namespace Tweetinvi.Streams.Helpers
             if (_tracks.Count < MaxTracks)
             {
                 var lowerTrack = track.ToLowerInvariant();
-                var trackSplit = lowerTrack.Split(' ');
+                var trackSplit = lowerTrack.Split(' ')
+                    .Where(x => !x.IsNullOrEmpty())
+                    .ToArray();
 
                 lock (this) // Not allowed to add multiple at the same time
                 {
