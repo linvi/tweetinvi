@@ -137,17 +137,23 @@ namespace Tweetinvi.Controllers.Shared
 
         public void AddMinMaxQueryParameters(StringBuilder query, IMinMaxQueryParameters parameters)
         {
-            query.AddParameterToQuery("count", parameters.PageSize);
-            query.AddParameterToQuery("since_id", parameters.SinceId);
-            query.AddParameterToQuery("max_id", parameters.MaxId);
+            if (!parameters.CustomQueryParameters.Exists(x => x.Item1 == "count"))
+                query.AddParameterToQuery("count", parameters.PageSize);
+            if (!parameters.CustomQueryParameters.Exists(x => x.Item1 == "since_id"))
+                query.AddParameterToQuery("since_id", parameters.SinceId);
+            if (!parameters.CustomQueryParameters.Exists(x => x.Item1 == "max_id"))
+                query.AddParameterToQuery("max_id", parameters.MaxId);
         }
 
         public void AddTimelineParameters(StringBuilder query, ITimelineRequestParameters parameters, ComputedTweetMode tweetMode)
         {
             AddMinMaxQueryParameters(query, parameters);
-            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddParameterToQuery("trim_user", parameters.TrimUser);
-            query.AddParameterToQuery("tweet_mode", tweetMode);
+            if (!parameters.CustomQueryParameters.Exists(x => x.Item1 == "include_entities"))
+                query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            if (!parameters.CustomQueryParameters.Exists(x => x.Item1 == "trim_user"))
+                query.AddParameterToQuery("trim_user", parameters.TrimUser);
+            if (!parameters.CustomQueryParameters.Exists(x => x.Item1 == "tweet_mode"))
+                query.AddParameterToQuery("tweet_mode", tweetMode);
         }
 
         public string GenerateOEmbedAlignmentParameter(OEmbedTweetAlignment? alignment)
