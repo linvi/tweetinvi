@@ -35,7 +35,10 @@ namespace Tweetinvi.WebLogic
             {
                 foreach (Match variable in Regex.Matches(queryUrl, @"(?<varName>[^&?=]+)=(?<value>[^&?=]*)"))
                 {
-                    uriParameters.Add(variable.Groups["varName"].Value, variable.Groups["value"].Value);
+                    if (uriParameters.ContainsKey(variable.Groups["varName"].Value))
+                        uriParameters[variable.Groups["varName"].Value] = variable.Groups["value"].Value;
+                    else
+                        uriParameters.Add(variable.Groups["varName"].Value, variable.Groups["value"].Value);
                 }
             }
 
