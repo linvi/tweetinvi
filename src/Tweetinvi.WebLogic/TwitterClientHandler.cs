@@ -19,8 +19,11 @@ namespace Tweetinvi.WebLogic
 
         public TwitterClientHandler(IOAuthWebRequestGenerator oAuthWebRequestGenerator)
         {
-            UseCookies = false;
-            UseDefaultCredentials = false;
+            TryAssignHandlerProperty(handler =>
+            {
+                handler.UseCookies = false;
+                handler.UseDefaultCredentials = false;
+            }, this);
 
             WebRequestGenerator = oAuthWebRequestGenerator;
         }
@@ -42,20 +45,23 @@ namespace Tweetinvi.WebLogic
             {
                 _twitterQuery = value;
 
-                if (value != null)
+                TryAssignHandlerProperty(handler =>
                 {
-                    Proxy = value.ProxyConfig;
-
-                    if (Proxy != null)
+                    if (value != null)
                     {
-                        UseProxy = true;
+                        handler.Proxy = value.ProxyConfig;
+
+                        if (handler.Proxy != null)
+                        {
+                            handler.UseProxy = true;
+                        }
                     }
-                }
-                else
-                {
-                    Proxy = null;
-                    UseProxy = false;
-                }
+                    else
+                    {
+                        handler.Proxy = null;
+                        handler.UseProxy = false;
+                    }
+                }, this);
             }
         }
 
@@ -116,6 +122,20 @@ namespace Tweetinvi.WebLogic
             });
 
             return base.SendAsync(request, cancellationToken);
+        }
+        
+        private static void TryAssignHandlerProperty(Action<HttpClientHandler> assignHandlerProperty, HttpClientHandler handler)
+        {
+            try
+            {
+                assignHandlerProperty?.Invoke(handler);
+            }
+            catch (PlatformNotSupportedException)
+            {
+                // If the platform is not supported these two properties are already "off"
+                // An example where this is problematic, the mono runtime:
+                // https://github.com/mono/mono/blob/7791e4d94206dd63acff49268b56a01c0b69983c/mcs/class/System.Net.Http/System.Net.Http/HttpClientHandler.xi.cs#L43
+            }
         }
     }
 }
