@@ -79,7 +79,7 @@ User credentials consist of :
 
 ``` c#
 var userCredentials = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-var userClient = new TwitterClient(appCredentials);
+var userClient = new TwitterClient(userCredentials);
 ```
 
 To request user credentials, you need to ask this user to authenticate and authorise your application.\
