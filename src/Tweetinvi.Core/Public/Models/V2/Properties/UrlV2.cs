@@ -33,6 +33,17 @@ namespace Tweetinvi.Models.V2
         /// The full destination URL.
         /// </summary>
         [JsonProperty("unwound_url")] public string UnwoundUrl { get; set; }
+        
+        /// <summary>
+        /// Title of the URL
+        /// </summary>
+        [JsonProperty("title")] public string Title { get; set; }
+
+        /// <summary>
+        /// Description of the URL
+        /// </summary>
+        [JsonProperty("description")] public string Description { get; set; }
+
     }
 
     public class UrlsV2
