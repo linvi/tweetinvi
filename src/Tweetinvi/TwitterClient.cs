@@ -136,6 +136,7 @@ namespace Tweetinvi
             TweetsV2 = _tweetinviContainer.Resolve<ITweetsV2Client>();
             UsersV2 = _tweetinviContainer.Resolve<IUsersV2Client>();
             StreamsV2 = _tweetinviContainer.Resolve<IStreamsV2Client>();
+            TimelinesV2 = _tweetinviContainer.Resolve<ITimelinesV2Client>();
 
             _tweetinviContainer.AssociatedClient = this;
 
@@ -187,6 +188,9 @@ namespace Tweetinvi
         public IUsersV2Client UsersV2 { get; }
         /// <inheritdoc/>
         public IStreamsV2Client StreamsV2 { get; }
+
+        /// <inheritdoc/>
+        public ITimelinesV2Client TimelinesV2 { get; }
 
 
         /// <inheritdoc/>

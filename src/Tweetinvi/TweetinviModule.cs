@@ -76,6 +76,8 @@ namespace Tweetinvi
             container.RegisterType<IStreamsV2Client, StreamsV2Client>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IStreamsV2Requester, StreamsV2Requester>(RegistrationLifetime.InstancePerApplication);
 
+            container.RegisterType<ITimelinesV2Client, TimelinesV2Client>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITimelinesV2Requester, TimelinesV2Requester>(RegistrationLifetime.InstancePerApplication);
         }
     }
 }
