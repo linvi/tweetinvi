@@ -52,6 +52,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ISearchV2Controller, SearchV2Controller>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetsV2Controller, TweetsV2Controller>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUsersV2Controller, UsersV2Controller>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITimelinesV2Controller, TimelinesV2Controller>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IStreamsV2Controller, StreamsV2Controller>(RegistrationLifetime.InstancePerApplication);
         }
@@ -77,6 +78,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ISearchV2QueryExecutor, SearchV2QueryExecutor>();
             container.RegisterType<ITweetsV2QueryExecutor, TweetsV2QueryExecutor>();
             container.RegisterType<IUsersV2QueryExecutor, UsersV2QueryExecutor>();
+            container.RegisterType<ITimelinesV2QueryExecutor, TimelinesV2QueryExecutor>();
 
             container.RegisterType<IStreamsV2QueryExecutor, StreamsV2QueryExecutor>(RegistrationLifetime.InstancePerApplication);
         }
@@ -107,6 +109,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ISearchV2QueryGenerator, SearchV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetsV2QueryGenerator, TweetsV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUsersV2QueryGenerator, UsersV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITimelinesV2QueryGenerator, TimelinesV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IStreamsV2QueryGenerator, StreamsV2QueryGenerator>(RegistrationLifetime.InstancePerApplication);
         }

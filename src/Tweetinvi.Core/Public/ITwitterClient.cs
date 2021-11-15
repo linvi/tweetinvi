@@ -129,7 +129,6 @@ namespace Tweetinvi
         /// </summary>
         IParametersValidator ParametersValidator { get; }
 
-
         /// <summary>
         /// Creates skeleton request representing a request from the client
         /// </summary>
