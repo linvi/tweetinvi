@@ -35,7 +35,7 @@ function improveCodeBlocksColouring() {
 function improveIteratorCodeBlocks() {
     const iterableCodeBlocks = [...document.querySelectorAll(".iterator-available .highlight")];
     iterableCodeBlocks.forEach(element => {
-        element.insertAdjacentHTML("afterbegin", '<a class="iterator" href="../twitter-api/iterators.html"><b>iterators</b> <span class="fa fa-arrow-circle-right" style="margin-left: 10px;"></span></a>');
+        element.insertAdjacentHTML("afterbegin", '<a class="iterator" href="../twitter-api-v1.1/iterators.html"><b>iterators</b> <span class="fa fa-arrow-circle-right" style="margin-left: 10px;"></span></a>');
     });
 }
 
