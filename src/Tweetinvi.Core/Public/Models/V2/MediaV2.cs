@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
 
+using System.Diagnostics;
+
 using Tweetinvi.Core.Models.TwitterEntities.ExtendedEntities;
 
 namespace Tweetinvi.Models.V2
@@ -8,6 +10,7 @@ namespace Tweetinvi.Models.V2
     /// A media, video, image, gif...
     /// <para>Read more here : https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/media </para>
     /// </summary>
+    [DebuggerDisplay("Type: {Type} MediaKey: {MediaKey}")]
     public class MediaV2
     {
         /// <summary>
