@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <VersionPrefix>5.0.4</VersionPrefix>
@@ -7,7 +7,7 @@
     <AssemblyOriginatorKeyFile>../tweetinvi.snk</AssemblyOriginatorKeyFile>
     <AssemblyName>Tweetinvi.AspNet</AssemblyName>
     <RootNamespace>Tweetinvi.AspNet</RootNamespace>
-    <TargetFrameworks>netstandard2.0;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.1;netcoreapp3.1;net6.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
@@ -46,12 +46,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
-    <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-
+    <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
+    <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj" />
   </ItemGroup>
 
 </Project>
