@@ -1,11 +1,16 @@
 using Newtonsoft.Json;
 
+using System.Diagnostics;
+
+using Tweetinvi.Core.Models.TwitterEntities.ExtendedEntities;
+
 namespace Tweetinvi.Models.V2
 {
     /// <summary>
     /// A media, video, image, gif...
     /// <para>Read more here : https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/media </para>
     /// </summary>
+    [DebuggerDisplay("Type: {Type} MediaKey: {MediaKey}")]
     public class MediaV2
     {
         /// <summary>
@@ -42,6 +47,11 @@ namespace Tweetinvi.Models.V2
         /// Width of this content in pixels.
         /// </summary>
         [JsonProperty("width")] public int Width { get; set; }
+
+        /// <summary>
+        /// Each media object may have multiple display or playback variants, with different resolutions or formats
+        /// </summary>
+        [JsonProperty("variants")] public MediaEntityVariantV2[] Variants { get; set; }
 
         /************* METRICS ************/
 
