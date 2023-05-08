@@ -52,7 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
     <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj" />
   </ItemGroup>
 
