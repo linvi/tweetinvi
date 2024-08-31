@@ -43,5 +43,16 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("tweet.fields", parameters.TweetFields);
             query.AddParameterToQuery("user.fields", parameters.UserFields);
         }
+
+        /// <summary>
+        ///     Publish a tweet V2
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public string GetTweetQuery(IPublishTweetV2Parameters parameters)
+        {
+            var query = new StringBuilder($"{Resources.TweetV2_Get}");
+            return query.ToString();
+        }
     }
 }

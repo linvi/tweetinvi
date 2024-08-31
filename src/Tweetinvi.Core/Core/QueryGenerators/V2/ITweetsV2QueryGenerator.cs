@@ -10,5 +10,6 @@ namespace Tweetinvi.Core.QueryGenerators.V2
         string GetTweetsQuery(IGetTweetsV2Parameters parameters);
         string GetChangeTweetReplyVisibilityQuery(IChangeTweetReplyVisibilityV2Parameters parameters);
         void AddTweetFieldsParameters(IBaseTweetsV2Parameters parameters, StringBuilder query);
+        string GetTweetQuery(IPublishTweetV2Parameters parameters);
     }
 }

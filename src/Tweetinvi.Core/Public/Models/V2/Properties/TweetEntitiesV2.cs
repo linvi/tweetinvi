@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
 
+using Tweetinvi.Core.Models.TwitterEntities.ExtendedEntities;
+
 namespace Tweetinvi.Models.V2
 {
     public class TweetEntitiesV2
@@ -31,5 +33,7 @@ namespace Tweetinvi.Models.V2
         /// Urls found in the tweet.
         /// </summary>
         [JsonProperty("urls")] public UrlV2[] Urls { get; set; }
+
+        [JsonIgnore] public MediaV2[] Medias { get; set; }
     }
 }

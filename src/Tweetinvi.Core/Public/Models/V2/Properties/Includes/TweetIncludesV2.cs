@@ -7,7 +7,7 @@ namespace Tweetinvi.Models.V2
         /// <summary>
         /// Medias associated with the tweets, like the images attached.
         /// </summary>
-        [JsonProperty("media")] public MediaV2[] Media { get; set; }
+        [JsonProperty("media")] public MediaV2[] Medias { get; set; }
 
         /// <summary>
         /// Places associated with the tweets

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters.V2;
 using Tweetinvi.Models.V2;
+using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Client.V2
@@ -60,6 +61,12 @@ namespace Tweetinvi.Client.V2
         {
             var twitterResponse = await _tweetsV2Requester.ChangeTweetReplyVisibilityAsync(parameters).ConfigureAwait(false);
             return twitterResponse?.Model;
+        }
+
+        public async Task<TweetV2Response> PublishTweetAsync(IPublishTweetV2Parameters parameters)
+        {
+            var twitterResponse = await _tweetsV2Requester.PublishTweetAsync(parameters);
+            return twitterResponse.Model;
         }
     }
 }

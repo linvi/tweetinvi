@@ -3,11 +3,13 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.4;netstandard2.0</TargetFrameworks>
     <VersionPrefix>5.0.4</VersionPrefix>
-    <Copyright>Tweetinvi 2020</Copyright>
+    <Copyright>Tweetinvi 2024</Copyright>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>../tweetinvi.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>1591</NoWarn>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>TweetInvi.Api.Fixed</Title>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -24,7 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tweetinvi.Controllers\Tweetinvi.Controllers.csproj" />
-    <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
     <ProjectReference Include="..\Tweetinvi.Credentials\Tweetinvi.Credentials.csproj" />
     <ProjectReference Include="..\Tweetinvi.Streams\Tweetinvi.Streams.csproj" />
   </ItemGroup>

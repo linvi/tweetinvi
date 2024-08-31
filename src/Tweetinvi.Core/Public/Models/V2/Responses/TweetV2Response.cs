@@ -19,5 +19,10 @@ namespace Tweetinvi.Models.V2
         /// but which did not prevent the request to be resolved.
         /// </summary>
         [JsonProperty("errors")] public ErrorV2[] Errors { get; set; }
+
+        /// <summary>
+        ///     The Tweet referenced in the response.
+        /// </summary>
+        [JsonIgnore] public TweetV2 QuotedTweet { get; set; }
     }
 }

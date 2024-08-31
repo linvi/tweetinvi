@@ -30,5 +30,10 @@ namespace Tweetinvi.Controllers.Tweet
         {
             return _queryExecutor.ChangeTweetReplyVisibilityAsync(parameters, request);
         }
+
+        public Task<ITwitterResult<TweetV2Response>> PublishTweetAsync(IPublishTweetV2Parameters parameters, ITwitterRequest request)
+        {
+            return _queryExecutor.PublishTweetAsync(parameters, request);
+        }
     }
 }

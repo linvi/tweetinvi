@@ -51,6 +51,11 @@ namespace Tweetinvi.Models.V2
         [JsonProperty("profile_image_url")] public string ProfileImageUrl { get; set; }
 
         /// <summary>
+        ///     The URL to this user's profile banner.
+        /// </summary>
+        [JsonProperty("profile_banner_url")] public string ProfileBannerUrl { get; set; }
+
+        /// <summary>
         /// Indicates if this user has chosen to protect their Tweets (in other words, if this user's Tweets are private).
         /// </summary>
         [JsonProperty("protected")] public bool IsProtected { get; set; }

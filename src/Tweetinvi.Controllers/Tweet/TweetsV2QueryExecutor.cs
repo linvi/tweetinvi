@@ -12,6 +12,7 @@ namespace Tweetinvi.Controllers.Tweet
         Task<ITwitterResult<TweetV2Response>> GetTweetAsync(IGetTweetV2Parameters parameters, ITwitterRequest request);
         Task<ITwitterResult<TweetsV2Response>> GetTweetsAsync(IGetTweetsV2Parameters parameters, ITwitterRequest request);
         Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityV2Parameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<TweetV2Response>> PublishTweetAsync(IPublishTweetV2Parameters parameters, ITwitterRequest request);
     }
 
     public class TweetsV2QueryExecutor : ITweetsV2QueryExecutor
@@ -53,6 +54,15 @@ namespace Tweetinvi.Controllers.Tweet
             request.Query.HttpMethod = HttpMethod.PUT;
             request.Query.HttpContent = _jsonContentFactory.Create(content);
             return _twitterAccessor.ExecuteRequestAsync<TweetHideV2Response>(request);
+        }
+
+        public Task<ITwitterResult<TweetV2Response>> PublishTweetAsync(IPublishTweetV2Parameters parameters, ITwitterRequest request)
+        {
+            request.Query.HttpMethod = HttpMethod.POST;
+            request.Query.Url = _tweetQueryGenerator.GetTweetQuery(parameters);
+            request.Query.HttpContent = _jsonContentFactory.Create(parameters);
+            var stringContent = request.Query.HttpContent.ReadAsStringAsync().Result;
+            return _twitterAccessor.ExecuteRequestAsync<TweetV2Response>(request);
         }
     }
 }

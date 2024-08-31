@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Models.V2;
+using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Client.V2
@@ -11,6 +12,8 @@ namespace Tweetinvi.Client.V2
 
         /// <inheritdoc cref="GetTweetAsync(IGetTweetV2Parameters)"/>
         Task<TweetV2Response> GetTweetAsync(string tweetId);
+
+        Task<TweetV2Response> PublishTweetAsync(IPublishTweetV2Parameters parameters);
 
         /// <summary>
         /// Get a tweet

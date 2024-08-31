@@ -115,5 +115,10 @@ namespace Tweetinvi.Models.V2
         /// Public engagement metrics for the Tweet at the time of the request.
         /// </summary>
         [JsonProperty("public_metrics")] public TweetPublicMetricsV2 PublicMetrics { get; set; }
+
+        /// <summary>
+        ///     Author of the Tweet
+        /// </summary>
+        [JsonIgnore] public UserV2 TweetAuthor { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Tweetinvi.Core.Controllers.V2;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models.V2;
+using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.V2;
 
 namespace Tweetinvi.Client.Requesters.V2
@@ -32,6 +33,11 @@ namespace Tweetinvi.Client.Requesters.V2
         public Task<ITwitterResult<TweetHideV2Response>> ChangeTweetReplyVisibilityAsync(IChangeTweetReplyVisibilityV2Parameters parameters)
         {
             return ExecuteRequestAsync(request => _tweetsV2Controller.ChangeTweetReplyVisibilityAsync(parameters, request));
+        }
+
+        public Task<ITwitterResult<TweetV2Response>> PublishTweetAsync(IPublishTweetV2Parameters parameters)
+        {
+            return ExecuteRequestAsync(request => _tweetsV2Controller.PublishTweetAsync(parameters, request));
         }
     }
 }
